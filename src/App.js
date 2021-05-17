@@ -1,24 +1,32 @@
-import logo from "./logo.svg";
-import React, { useEffect } from "react";
-import "./App.less";
-import { Button } from "antd";
-import { Ajax } from "@/utils/request";
-function App() {
-  useEffect(() => {
-    const getData = async () => {
-      const res = await Ajax({ url: "/todos", method: "get" });
-      console.log(res);
-    };
-    getData();
-  }, []);
+import React from "react";
+import "@/less/main.less";
+import { authContext, useAuthProvider } from "@/provider/auth";
+
+import Login from "@/views/Login";
+import Home from "@/views/Home";
+import About from "@/views/About";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+const MainStacks = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{process.env.REACT_APP_API_URL}</p>
-        <Button type="primary">Button</Button>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+      </Switch>
+    </Router>
+  );
+};
+function App() {
+  const auth = useAuthProvider();
+  return (
+    <authContext.Provider value={auth}>
+      {auth.state.token ? <MainStacks /> : <Login />}
+    </authContext.Provider>
   );
 }
 
