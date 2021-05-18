@@ -17,6 +17,9 @@ const Home = () => {
       <h1>Home Home</h1>
       <Button onClick={handleLogout}>Logout</Button>
       <Button onClick={handleGotoAbout}>go to About</Button>
+      {[...Array(100).keys()].map(i => (
+        <p key={i}>pp</p>
+      ))}
     </div>
   );
 };
