@@ -2,16 +2,28 @@ import { createContext, useContext, useReducer } from "react";
 export const authContext = createContext();
 const authReducer = (prevState, action) => {
   switch (action.type) {
-    case "login":
+    case "login": {
+      action.user.remember &&
+        localStorage.setItem("user", JSON.stringify({ ...action.user }));
+      action.user.remember ||
+        sessionStorage.setItem("user", JSON.stringify({ ...action.user }));
       return {
         ...prevState,
-        token: action.token,
+        user: {
+          ...action.user,
+        },
       };
-    case "logout":
+    }
+    case "logout": {
+      localStorage.removeItem("user");
+      sessionStorage.removeItem("user");
       return {
         ...prevState,
-        token: null,
+        user: {
+          token: null,
+        },
       };
+    }
     default: {
       throw new Error(`unknow auth type ${action.type}`);
     }
@@ -19,7 +31,9 @@ const authReducer = (prevState, action) => {
 };
 export const useAuthProvider = () => {
   const [state, dispatch] = useReducer(authReducer, {
-    token: null,
+    user: JSON.parse(
+      localStorage.getItem("user") || sessionStorage.getItem("user") || "{}",
+    ),
   });
   return { state, dispatch };
 };

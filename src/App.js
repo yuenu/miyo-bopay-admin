@@ -9,7 +9,7 @@ function App() {
   const auth = useAuthProvider();
   return (
     <authContext.Provider value={auth}>
-      {auth.state.token ? <GlobalLayout /> : <Login />}
+      {auth.state.user.token ? <GlobalLayout /> : <Login />}
     </authContext.Provider>
   );
 }
