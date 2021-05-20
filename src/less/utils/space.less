@@ -1,0 +1,19 @@
+.sides() {
+  top: t;
+  bottom: b;
+  left: l;
+  right: r;
+}
+
+each(.sides(),.(@v, @k, @index){
+  .loop(@i) when (@i > 0) {
+    .loop(@i - 1);
+    .m@{v}-@{i} {
+      margin-@{k}: @i * 1rem !important;
+    }
+  }
+  .loop(5);
+});
+.ml-auto {
+  margin-left: auto !important;
+}

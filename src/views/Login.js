@@ -16,7 +16,9 @@ const Login = () => {
   return (
     <div className="login">
       <div className="login--box">
-        <Title level={2}>支付服務系統</Title>
+        <Title className="mb-2" level={2}>
+          支付服務系統
+        </Title>
         <Form
           form={form}
           className="login--box--form"
