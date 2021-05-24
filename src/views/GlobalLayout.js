@@ -21,7 +21,7 @@ const GlobalLayout = () => {
         <Sidebar />
         <Layout>
           <Header />
-          <Content>
+          <Content className="main">
             <Switch>
               {routes.map(i => (
                 <Route exact={i.exact} path={i.path} key={i.path}>
