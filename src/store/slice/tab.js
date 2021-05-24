@@ -3,8 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const tabSlice = createSlice({
   name: "tab",
   initialState: {
-    tabs: [{ name: "Home" }],
-    activeKey: "Home",
+    tabs: [{ name: "Employee" }],
+    activeKey: "Employee",
   },
   reducers: {
     addTab: (state, action) => {
