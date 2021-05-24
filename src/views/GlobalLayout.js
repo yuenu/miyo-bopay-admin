@@ -17,6 +17,10 @@ const GlobalLayout = () => {
   const handleRemoveTab = key => {
     dispatch(removeTab(key));
   };
+  const getComponent = name => {
+    let cpn = require(`@/views/${name}`);
+    return cpn.default();
+  };
   useEffect(() => {
     dispatch(setActiveKey(tabs.length > 0 ? tabs[tabs.length - 1].name : ""));
   }, [tabs, dispatch]);
@@ -40,7 +44,7 @@ const GlobalLayout = () => {
                 tab={i.name}
                 closable={true}
               >
-                {i.name}
+                {getComponent(i.name)}
               </TabPane>
             ))}
           </Tabs>
