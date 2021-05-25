@@ -1,20 +1,51 @@
-import { Card } from "antd";
-import { Row, Col, Form, Input, Button, DatePicker, Space, Table } from "antd";
+import { useState } from "react";
+import {
+  Row,
+  Col,
+  Form,
+  Input,
+  Button,
+  DatePicker,
+  Space,
+  Table,
+  Card,
+  Modal,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
-
 const Employee = () => {
   const [form] = Form.useForm();
   const columns = [
     { title: "Id", dataIndex: "id" },
     { title: "Name", dataIndex: "name" },
+    {
+      title: "動作",
+      dataIndex: "action",
+      render: (_, recore) => <Button type="primary">edit {recore.name}</Button>,
+    },
   ];
   const data = [
     { name: "JEsss", id: 1 },
     { name: "JEsss", id: 2 },
   ];
+
+  const [addStates, setAddStates] = useState({
+    visible: false,
+    liading: false,
+  });
+  const handleAddClick = () => {
+    setAddStates({ ...addStates, visible: true });
+  };
+  const handleCancelAdd = () => {
+    setAddStates({ ...addStates, visible: false });
+  };
+  const handleAddOk = () => {
+    setAddStates({ ...addStates, visible: false });
+  };
+
   return (
-    <>
-      <Card className="mb-1">
+    <Space direction="vertical" size="middle">
+      <Card>
         <Form form={form}>
           <Row gutter={24}>
             <Col xs={24} md={8}>
@@ -43,8 +74,24 @@ const Employee = () => {
           </Row>
         </Form>
       </Card>
+
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+        添加
+      </Button>
+
       <Table columns={columns} dataSource={data} rowKey="id" />
-    </>
+      <Modal
+        title="添加職員"
+        visible={addStates.visible}
+        onOk={handleAddOk}
+        confirmLoading={addStates.loading}
+        onCancel={handleCancelAdd}
+        cancelText="取消"
+        okText="送出"
+      >
+        <p>pppp</p>
+      </Modal>
+    </Space>
   );
 };
 export default Employee;

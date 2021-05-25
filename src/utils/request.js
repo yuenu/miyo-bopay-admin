@@ -1,20 +1,19 @@
 import axios from "axios";
 axios.interceptors.request.use(
-  (config) => {
+  config => {
     config = {
       ...config,
       baseURL: process.env.REACT_APP_API_URL,
     };
-    console.log(config.baseURL);
     return config;
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
-  (response) => {
+  response => {
     response = {
       ...response,
     };
@@ -22,7 +21,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 /**
@@ -30,7 +29,7 @@ axios.interceptors.response.use(
  * @param {url, method, data, params} config
  * data   --> post {}
  */
-export const Ajax = async (config) => {
+export const Ajax = async config => {
   const params = {
     url: config.url,
     method: config.method,
