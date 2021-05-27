@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -11,10 +11,16 @@ import {
   Card,
   Modal,
 } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, getUsers } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
 const { RangePicker } = DatePicker;
-const Employee = () => {
+const User = () => {
+  //search
   const [form] = Form.useForm();
+
+  //list
+  const dispatch = useDispatch();
   const columns = [
     { title: "Id", dataIndex: "id" },
     { title: "Name", dataIndex: "name" },
@@ -24,11 +30,13 @@ const Employee = () => {
       render: (_, recore) => <Button type="primary">edit {recore.name}</Button>,
     },
   ];
-  const data = [
-    { name: "JEsss", id: 1 },
-    { name: "JEsss", id: 2 },
-  ];
-
+  const { users } = useSelector(selectUser);
+  useEffect(() => {
+    const getList = () => {
+      dispatch(getUsers());
+    };
+    getList();
+  }, [dispatch]);
   const [addStates, setAddStates] = useState({
     visible: false,
     liading: false,
@@ -44,7 +52,7 @@ const Employee = () => {
   };
 
   return (
-    <Space direction="vertical" size="middle">
+    <Space direction="vertical" size="middle" className="w-100">
       <Card>
         <Form form={form}>
           <Row gutter={24}>
@@ -74,12 +82,10 @@ const Employee = () => {
           </Row>
         </Form>
       </Card>
-
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-
-      <Table columns={columns} dataSource={data} rowKey="id" />
+      <Table columns={columns} dataSource={users} rowKey="id" />
       <Modal
         title="添加職員"
         visible={addStates.visible}
@@ -94,4 +100,4 @@ const Employee = () => {
     </Space>
   );
 };
-export default Employee;
+export default User;

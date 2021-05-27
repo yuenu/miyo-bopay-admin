@@ -1,16 +1,13 @@
+import { useDispatch } from "react-redux";
 import { Typography, Button, Form, Input, Checkbox } from "antd";
-import { useAuth } from "@/provider/auth";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { login } from "@/store/slice/auth";
 const { Title } = Typography;
-
 const Login = () => {
+  const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { dispatch } = useAuth();
   const handleLogin = () => {
-    dispatch({
-      type: "login",
-      user: { ...form.getFieldValue(), token: "sdijwjwoeijfowe" },
-    });
+    dispatch(login({ ...form.getFieldValue() }));
   };
 
   return (

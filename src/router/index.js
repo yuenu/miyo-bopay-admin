@@ -1,44 +1,44 @@
 const routes = [
   {
-    path: "/User/Employee",
-    component: "Employee",
+    path: "/",
+    component: "User",
     exact: true,
   },
   //   {
-  //     path: "/User/Permission",
+  //     path: "/Permission",
   //     component: "Permission",
   //   },
   {
-    path: "/Merchant/Developer",
+    path: "/Developer",
     component: "Developer",
   },
+  {
+    path: "/AppUser",
+    component: "AppUser",
+  },
+  {
+    path: "/Order",
+    component: "Order",
+  },
+  {
+    path: "/CryptoWallet",
+    component: "CryptoWallet",
+  },
+  {
+    path: "/Card",
+    component: "Card",
+  },
+  {
+    path: "/Agent",
+    component: "Agent",
+  },
+  {
+    path: "/LoginLog",
+    component: "LoginLog",
+  },
   //   {
-  //     path: "/Merchant/AppUSer",
-  //     component: "AppUSer",
-  //   },
-  //   {
-  //     path: "/Order",
-  //     component: "Order",
-  //   },
-  //   {
-  //     path: "/Wallet",
-  //     component: "Wallet",
-  //   },
-  //   {
-  //     path: "/BankAccount",
-  //     component: "BankAccount",
-  //   },
-  //   {
-  //     path: "/Agent",
-  //     component: "Agent",
-  //   },
-  //   {
-  //     path: "/LoginLog",
-  //     component: "LoginLog",
-  //   },
-  //   {
-  //     path: "/Report",
-  //     component: "Report",
+  //     path: "/Audit",
+  //     component: "Audit",
   //   },
 ];
 export default routes;
