@@ -9,6 +9,7 @@ export const login = createAsyncThunk(
       method: "POST",
       data: params,
     });
+    res.username && localStorage.setItem("login", "true");
     return res;
   },
 );
@@ -17,6 +18,7 @@ export const slice = createSlice({
   name: "user",
   initialState: {
     user: {},
+    login: localStorage.getItem("login"),
   },
   reducers: {
     setUser: (state, action) => {

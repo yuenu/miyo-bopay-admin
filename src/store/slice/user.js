@@ -4,11 +4,11 @@ import request from "@/utils/request";
 export const getUsers = createAsyncThunk(
   "user/getList",
   async (userId, thunkAPI) => {
-    const { status, data } = await request({
+    const res = await request({
       url: "/api/users",
       method: "GET",
     });
-    return status === 200 ? data.data : [];
+    return typeof res !== "object" ? [] : res;
   },
 );
 

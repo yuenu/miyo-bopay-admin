@@ -9,7 +9,7 @@ import routes from "@/router";
 
 const { Content, Footer } = Layout;
 const GlobalLayout = () => {
-  const { user } = useSelector(selectAuth);
+  const { login } = useSelector(selectAuth);
   const getComponent = name => {
     try {
       let cpn = require(`@/views/${name}`);
@@ -21,7 +21,7 @@ const GlobalLayout = () => {
 
   return (
     <Route path="/">
-      {user.username ? (
+      {login ? (
         <Layout className="global-layout">
           <Sidebar />
           <Layout>

@@ -32,8 +32,8 @@ const User = () => {
   ];
   const { users } = useSelector(selectUser);
   useEffect(() => {
-    const getList = () => {
-      dispatch(getUsers());
+    const getList = async () => {
+      await dispatch(getUsers());
     };
     getList();
   }, [dispatch]);
