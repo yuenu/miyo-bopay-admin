@@ -2,7 +2,6 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 const poll = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  withCredentials: true,
 });
 poll.interceptors.request.use(
   config => {

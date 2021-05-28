@@ -1,4 +1,6 @@
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 import { Typography, Button, Form, Input, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { login } from "@/store/slice/auth";
@@ -6,8 +8,11 @@ const { Title } = Typography;
 const Login = () => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const handleLogin = () => {
-    dispatch(login({ ...form.getFieldValue() }));
+  const history = useHistory();
+
+  const handleLogin = async () => {
+    await dispatch(login({ ...form.getFieldValue() }));
+    history.push("/");
   };
 
   return (

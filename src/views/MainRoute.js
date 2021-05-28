@@ -1,11 +1,16 @@
-import { BrowserRouter as Router } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectAuth } from "@/store/slice/auth";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import GlobalLayout from "./GlobalLayout";
 import Login from "./Login";
 const MainRoute = () => {
-  const { user } = useSelector(selectAuth);
-  const isLogin = user.username;
-  return <Router> {isLogin ? <GlobalLayout /> : <Login />}</Router>;
+  return (
+    <Router>
+      <Switch>
+        <Route path="/Login">
+          <Login />
+        </Route>
+        <GlobalLayout />
+      </Switch>
+    </Router>
+  );
 };
 export default MainRoute;

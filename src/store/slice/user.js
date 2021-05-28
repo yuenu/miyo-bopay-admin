@@ -6,6 +6,7 @@ export const getUsers = createAsyncThunk(
   async (userId, thunkAPI) => {
     const { status, data } = await request({
       url: "/api/users",
+      method: "GET",
     });
     return status === 200 ? data.data : [];
   },
