@@ -10,15 +10,24 @@ import {
   Table,
   Card,
   Modal,
+  Tag,
+  message,
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, getUsers, getUser } from "@/store/slice/user";
-import { PlusOutlined } from "@ant-design/icons";
+import { selectUser, getUsers, getUser, deleteUser } from "@/store/slice/user";
+import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Detail from "./Detail";
+import Edit from "./Edit";
 const { RangePicker } = DatePicker;
 const User = () => {
   //search
   const [form] = Form.useForm();
+  const handleSearch = () => {
+    console.log(form.getFieldsValue());
+  };
+  const handleResetSearch = () => {
+    form.resetFields();
+  };
 
   //list
   const dispatch = useDispatch();
@@ -43,6 +52,7 @@ const User = () => {
 
   const [detailStates, setDetailStates] = useState({
     visible: false,
+    editVisible: false,
     current: null,
   });
   const handleDetailClick = async id => {
@@ -57,19 +67,59 @@ const User = () => {
     setDetailStates({ ...detailStates, visible: false, current: null });
   };
 
+  const handleEditClick = async id => {
+    const currentUser = await getUser(id);
+    setDetailStates({
+      ...detailStates,
+      editVisible: true,
+      current: currentUser,
+    });
+  };
+  const handleEditCancel = () => {
+    setDetailStates({ ...detailStates, editVisible: false, current: null });
+  };
+
+  const handleDeleteClick = async id => {
+    Modal.confirm({
+      title: "確認刪除",
+      icon: <ExclamationCircleOutlined />,
+      content: `即將刪除 ${id}，是否繼續？`,
+      okText: "確認",
+      cancelText: "取消",
+      onOk: close => handleDelete(close, id),
+    });
+  };
+  const handleDelete = async (close, id) => {
+    const res = await deleteUser(id);
+    res && message.success("刪除成功！");
+    await dispatch(getUsers());
+    close();
+  };
+
   const columns = [
+    { title: "id", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
     { title: "電話", dataIndex: "phone" },
     {
+      title: "is_active",
+      dataIndex: "is_active",
+      render: (_, recore) => (
+        <Tag color={_ ? "green" : "default"}>{_.toString()}</Tag>
+      ),
+    },
+    {
       title: "動作",
       dataIndex: "action",
+      align: "right",
       render: (_, recore) => (
         <Space>
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button>編輯</Button>
-          <Button type="danger">刪除</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
+            刪除
+          </Button>
         </Space>
       ),
     },
@@ -80,17 +130,17 @@ const User = () => {
         <Form form={form}>
           <Row gutter={24}>
             <Col xs={24} md={8}>
-              <Form.Item label="會員ID">
-                <Input placeholder="input placeholder" />
+              <Form.Item name="id" label="會員ID">
+                <Input />
               </Form.Item>
             </Col>
             <Col xs={24} md={8}>
-              <Form.Item label="會員姓名">
-                <Input placeholder="input placeholder" />
+              <Form.Item name="name" label="會員姓名">
+                <Input />
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item label="創建日期">
+              <Form.Item name="created" label="創建日期">
                 <RangePicker />
               </Form.Item>
             </Col>
@@ -98,8 +148,10 @@ const User = () => {
           <Row>
             <Col span={24} className="text-right">
               <Space size="small">
-                <Button>Clear</Button>
-                <Button type="primary">Submit</Button>
+                <Button onClick={handleResetSearch}>清除</Button>
+                <Button type="primary" onClick={handleSearch}>
+                  搜尋
+                </Button>
               </Space>
             </Col>
           </Row>
@@ -108,7 +160,12 @@ const User = () => {
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <Table columns={columns} dataSource={users} rowKey="id" />
+      <Table
+        columns={columns}
+        dataSource={users}
+        rowKey="id"
+        scroll={{ x: "auto" }}
+      />
       <Modal
         title="添加職員"
         visible={addStates.visible}
@@ -131,6 +188,15 @@ const User = () => {
         ]}
       >
         <Detail data={detailStates.current} />
+      </Modal>
+      <Modal
+        title="編輯職員"
+        visible={detailStates.editVisible}
+        onCancel={handleEditCancel}
+        okText="送出"
+        cancelText="取消"
+      >
+        <Edit />
       </Modal>
     </Space>
   );

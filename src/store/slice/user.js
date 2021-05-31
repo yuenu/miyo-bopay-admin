@@ -19,6 +19,15 @@ export const getUser = async id => {
   return isErr ? {} : data;
 };
 
+export const deleteUser = async id => {
+  const { status } = await request({
+    url: `/api/users/${id}`,
+    method: "DELETE",
+  });
+  const isErr = status !== 204;
+  return isErr;
+};
+
 export const slice = createSlice({
   name: "user",
   initialState: {
