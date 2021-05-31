@@ -18,7 +18,6 @@ const GlobalLayout = () => {
       console.log(e);
     }
   };
-
   return (
     <Route path="/">
       {login ? (
