@@ -18,6 +18,15 @@ export const getUser = async id => {
   const isErr = status !== 200;
   return isErr ? {} : data;
 };
+export const editUser = async params => {
+  const { status } = await request({
+    url: `/api/users/${params.id}`,
+    method: "POST",
+    data: params.formModel,
+  });
+  const isErr = status !== 204;
+  return isErr;
+};
 
 export const deleteUser = async id => {
   const { status } = await request({

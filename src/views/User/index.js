@@ -14,7 +14,13 @@ import {
   message,
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, getUsers, getUser, deleteUser } from "@/store/slice/user";
+import {
+  selectUser,
+  getUsers,
+  getUser,
+  editUser,
+  deleteUser,
+} from "@/store/slice/user";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Detail from "./Detail";
 import Edit from "./Edit";
@@ -53,7 +59,7 @@ const User = () => {
   const [detailStates, setDetailStates] = useState({
     visible: false,
     editVisible: false,
-    current: null,
+    current: {},
   });
   const handleDetailClick = async id => {
     const currentUser = await getUser(id);
@@ -64,7 +70,7 @@ const User = () => {
     });
   };
   const handleDetailCancel = () => {
-    setDetailStates({ ...detailStates, visible: false, current: null });
+    setDetailStates({ ...detailStates, visible: false, current: {} });
   };
 
   const handleEditClick = async id => {
@@ -76,7 +82,16 @@ const User = () => {
     });
   };
   const handleEditCancel = () => {
-    setDetailStates({ ...detailStates, editVisible: false, current: null });
+    setDetailStates({ ...detailStates, editVisible: false, current: {} });
+  };
+  const handleEdit = async formModel => {
+    const res = await editUser({
+      id: detailStates.current.id,
+      formModel: { ...detailStates.current, ...formModel },
+    });
+    res && message.success("更新成功！");
+    await dispatch(getUsers());
+    handleEditCancel();
   };
 
   const handleDeleteClick = async id => {
@@ -177,27 +192,17 @@ const User = () => {
       >
         <p>pppp</p>
       </Modal>
-      <Modal
-        title="職員明細"
+      <Detail
         visible={detailStates.visible}
+        data={detailStates.current}
         onCancel={handleDetailCancel}
-        footer={[
-          <Button key="close" type="primary" onClick={handleDetailCancel}>
-            關閉
-          </Button>,
-        ]}
-      >
-        <Detail data={detailStates.current} />
-      </Modal>
-      <Modal
-        title="編輯職員"
+      />
+      <Edit
         visible={detailStates.editVisible}
+        data={detailStates.current}
         onCancel={handleEditCancel}
-        okText="送出"
-        cancelText="取消"
-      >
-        <Edit />
-      </Modal>
+        onOk={handleEdit}
+      />
     </Space>
   );
 };
