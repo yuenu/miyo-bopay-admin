@@ -4,13 +4,14 @@ import request from "@/utils/request";
 export const login = createAsyncThunk(
   "auth/login",
   async (params, thunkAPI) => {
-    const res = await request({
+    const { status, data } = await request({
       url: "/auth/login",
       method: "POST",
       data: params,
     });
-    res.username && localStorage.setItem("login", "true");
-    return res;
+    if (status !== 200) return;
+    data.username && localStorage.setItem("login", "true");
+    return data;
   },
 );
 
@@ -24,6 +25,10 @@ export const slice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    logout: state => {
+      state.login = null;
+      localStorage.removeItem("login");
+    },
   },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
@@ -31,6 +36,6 @@ export const slice = createSlice({
     },
   },
 });
-export const { setUser } = slice.actions;
+export const { setUser, logout } = slice.actions;
 export const selectAuth = state => state.auth;
 export default slice.reducer;

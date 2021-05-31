@@ -1,16 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
 
-export const getUsers = createAsyncThunk(
-  "user/getList",
-  async (userId, thunkAPI) => {
-    const res = await request({
-      url: "/api/users",
-      method: "GET",
-    });
-    return typeof res !== "object" ? [] : res;
-  },
-);
+export const getUsers = createAsyncThunk("user/getList", async () => {
+  const { status, data } = await request({
+    url: "/api/users",
+    method: "GET",
+  });
+  const isErr = status !== 200;
+  return isErr ? [] : data;
+});
+
+export const getUser = async id => {
+  const { status, data } = await request({
+    url: `/api/users/${id}`,
+    method: "GET",
+  });
+  const isErr = status !== 200;
+  return isErr ? {} : data;
+};
 
 export const slice = createSlice({
   name: "user",

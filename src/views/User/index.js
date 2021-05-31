@@ -12,8 +12,9 @@ import {
   Modal,
 } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, getUsers } from "@/store/slice/user";
+import { selectUser, getUsers, getUser } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
+import Detail from "./Detail";
 const { RangePicker } = DatePicker;
 const User = () => {
   //search
@@ -21,25 +22,14 @@ const User = () => {
 
   //list
   const dispatch = useDispatch();
-  const columns = [
-    { title: "Id", dataIndex: "id" },
-    { title: "Name", dataIndex: "name" },
-    {
-      title: "動作",
-      dataIndex: "action",
-      render: (_, recore) => <Button type="primary">edit {recore.name}</Button>,
-    },
-  ];
   const { users } = useSelector(selectUser);
   useEffect(() => {
-    const getList = async () => {
-      await dispatch(getUsers());
-    };
-    getList();
+    dispatch(getUsers());
   }, [dispatch]);
+
   const [addStates, setAddStates] = useState({
     visible: false,
-    liading: false,
+    loading: false,
   });
   const handleAddClick = () => {
     setAddStates({ ...addStates, visible: true });
@@ -51,6 +41,39 @@ const User = () => {
     setAddStates({ ...addStates, visible: false });
   };
 
+  const [detailStates, setDetailStates] = useState({
+    visible: false,
+    current: null,
+  });
+  const handleDetailClick = async id => {
+    const currentUser = await getUser(id);
+    setDetailStates({
+      ...detailStates,
+      visible: true,
+      current: currentUser,
+    });
+  };
+  const handleDetailCancel = () => {
+    setDetailStates({ ...detailStates, visible: false, current: null });
+  };
+
+  const columns = [
+    { title: "姓名", dataIndex: "name" },
+    { title: "電話", dataIndex: "phone" },
+    {
+      title: "動作",
+      dataIndex: "action",
+      render: (_, recore) => (
+        <Space>
+          <Button onClick={() => handleDetailClick(recore.id)} type="primary">
+            查看
+          </Button>
+          <Button>編輯</Button>
+          <Button type="danger">刪除</Button>
+        </Space>
+      ),
+    },
+  ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <Card>
@@ -96,6 +119,18 @@ const User = () => {
         okText="送出"
       >
         <p>pppp</p>
+      </Modal>
+      <Modal
+        title="職員明細"
+        visible={detailStates.visible}
+        onCancel={handleDetailCancel}
+        footer={[
+          <Button key="close" type="primary" onClick={handleDetailCancel}>
+            關閉
+          </Button>,
+        ]}
+      >
+        <Detail data={detailStates.current} />
       </Modal>
     </Space>
   );
