@@ -1,9 +1,10 @@
-FROM node:14.13.1
-WORKDIR /usr/src/app
-RUN yarn global add serve
-COPY package.json yarn.lock ./
-RUN yarn install && yarn cache clean
-COPY . .
-RUN yarn build
-EXPOSE 8080
-CMD [ "yarn", "start" ]
+FROM node:lts-buster-slim AS builder
+ARG ENV
+WORKDIR /app
+COPY package.json yarn.lock /app/
+RUN yarn install -s --production=true --pure-lockfile --non-interactive
+COPY . /app/
+RUN yarn build:$ENV
+
+FROM spinach.azurecr.io/spinach/web/server:latest
+COPY --from=builder /app/build/ /usr/share/nginx/html
