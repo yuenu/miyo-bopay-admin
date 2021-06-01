@@ -1,6 +1,5 @@
-import { useEffect } from "react";
 import { Modal, Form, Input } from "antd";
-const Edit = props => {
+const Add = props => {
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
@@ -9,19 +8,17 @@ const Edit = props => {
   const handleOk = () => {
     props.onOk(form.getFieldsValue());
   };
-  useEffect(() => {
-    props.visible && form.setFieldsValue(props.data);
-  });
   return (
     <Modal
-      title="編輯職員"
+      title="添加職員"
       visible={props.visible}
       onOk={handleOk}
+      confirmLoading={props.confirmLoading}
       onCancel={props.onCancel}
-      okText="送出"
       cancelText="取消"
+      okText="送出"
     >
-      <Form {...layout} form={form} initialValues={props.data}>
+      <Form {...layout} form={form}>
         <Form.Item name="email" label="email">
           <Input />
         </Form.Item>
@@ -35,4 +32,4 @@ const Edit = props => {
     </Modal>
   );
 };
-export default Edit;
+export default Add;

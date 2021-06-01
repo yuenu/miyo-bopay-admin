@@ -1,12 +1,14 @@
 import { Layout, Menu, Dropdown, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { logout } from "@/store/slice/auth";
+import { selectAuth, logout } from "@/store/slice/auth";
 
 const { Header } = Layout;
 
 const HeaderView = () => {
+  const { user } = useSelector(selectAuth);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const handleLogout = async () => {
@@ -27,7 +29,7 @@ const HeaderView = () => {
     <Header className="header">
       <Dropdown overlay={UserMenu} trigger={["click"]}>
         <Button type="link">
-          jessica <DownOutlined />
+          {user.username} <DownOutlined />
         </Button>
       </Dropdown>
     </Header>

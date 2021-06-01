@@ -22,6 +22,8 @@ import {
   deleteUser,
 } from "@/store/slice/user";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { paginOptions } from "@/utils/enum";
+import Add from "./Add";
 import Detail from "./Detail";
 import Edit from "./Edit";
 const { RangePicker } = DatePicker;
@@ -178,20 +180,16 @@ const User = () => {
       <Table
         columns={columns}
         dataSource={users}
+        pagination={paginOptions}
         rowKey="id"
         scroll={{ x: "auto" }}
       />
-      <Modal
-        title="添加職員"
+      <Add
         visible={addStates.visible}
         onOk={handleAddOk}
         confirmLoading={addStates.loading}
         onCancel={handleCancelAdd}
-        cancelText="取消"
-        okText="送出"
-      >
-        <p>pppp</p>
-      </Modal>
+      />
       <Detail
         visible={detailStates.visible}
         data={detailStates.current}
