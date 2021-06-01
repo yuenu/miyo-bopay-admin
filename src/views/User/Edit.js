@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Modal, Form, Input } from "antd";
+import Spin from "@/components/Spin";
 const Edit = props => {
   const layout = {
     labelCol: { span: 4 },
@@ -21,17 +22,19 @@ const Edit = props => {
       okText="送出"
       cancelText="取消"
     >
-      <Form {...layout} form={form} initialValues={props.data}>
-        <Form.Item name="email" label="email">
-          <Input />
-        </Form.Item>
-        <Form.Item name="name" label="姓名">
-          <Input />
-        </Form.Item>
-        <Form.Item name="phone" label="電話">
-          <Input />
-        </Form.Item>
-      </Form>
+      <Spin spinning={props.loading}>
+        <Form {...layout} form={form} initialValues={props.data}>
+          <Form.Item name="email" label="email">
+            <Input />
+          </Form.Item>
+          <Form.Item name="name" label="姓名">
+            <Input />
+          </Form.Item>
+          <Form.Item name="phone" label="電話">
+            <Input />
+          </Form.Item>
+        </Form>
+      </Spin>
     </Modal>
   );
 };

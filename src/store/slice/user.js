@@ -10,14 +10,14 @@ export const getUsers = createAsyncThunk("user/getList", async () => {
   return isErr ? [] : data;
 });
 
-export const getUser = async id => {
+export const getUser = createAsyncThunk("user/getDetail", async id => {
   const { status, data } = await request({
     url: `/api/users/${id}`,
     method: "GET",
   });
   const isErr = status !== 200;
   return isErr ? {} : data;
-};
+});
 export const editUser = async params => {
   const { status } = await request({
     url: `/api/users/${params.id}`,
@@ -41,6 +41,7 @@ export const slice = createSlice({
   name: "user",
   initialState: {
     users: [],
+    currentUser: {},
   },
   reducers: {
     setUsers: (state, action) => {
@@ -50,6 +51,9 @@ export const slice = createSlice({
   extraReducers: {
     [getUsers.fulfilled]: (state, action) => {
       state.users = action.payload;
+    },
+    [getUser.fulfilled]: (state, action) => {
+      state.currentUser = action.payload;
     },
   },
 });

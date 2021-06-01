@@ -27,8 +27,10 @@ import Add from "./Add";
 import Detail from "./Detail";
 import Edit from "./Edit";
 const { RangePicker } = DatePicker;
+
 const User = () => {
-  //search
+  const dispatch = useDispatch();
+
   const [form] = Form.useForm();
   const handleSearch = () => {
     console.log(form.getFieldsValue());
@@ -37,63 +39,46 @@ const User = () => {
     form.resetFields();
   };
 
-  //list
-  const dispatch = useDispatch();
-  const { users } = useSelector(selectUser);
+  const { users, currentUser } = useSelector(selectUser);
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
-  const [addStates, setAddStates] = useState({
-    visible: false,
-    loading: false,
-  });
+  const [addVisible, setAddVisible] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
   const handleAddClick = () => {
-    setAddStates({ ...addStates, visible: true });
-  };
-  const handleCancelAdd = () => {
-    setAddStates({ ...addStates, visible: false });
+    setAddVisible(true);
   };
   const handleAddOk = () => {
-    setAddStates({ ...addStates, visible: false });
+    setAddLoading(true);
+    setAddVisible(false);
   };
 
-  const [detailStates, setDetailStates] = useState({
-    visible: false,
-    editVisible: false,
-    current: {},
-  });
+  const [detailVisible, setDetailVisible] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
-    const currentUser = await getUser(id);
-    setDetailStates({
-      ...detailStates,
-      visible: true,
-      current: currentUser,
-    });
-  };
-  const handleDetailCancel = () => {
-    setDetailStates({ ...detailStates, visible: false, current: {} });
+    setDetailVisible(true);
+    setDetailLoading(true);
+    await dispatch(getUser(id));
+    setDetailLoading(false);
   };
 
+  const [editVisible, setEditVisible] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
-    const currentUser = await getUser(id);
-    setDetailStates({
-      ...detailStates,
-      editVisible: true,
-      current: currentUser,
-    });
-  };
-  const handleEditCancel = () => {
-    setDetailStates({ ...detailStates, editVisible: false, current: {} });
+    setEditVisible(true);
+    setEditLoading(true);
+    await dispatch(getUser(id));
+    setEditLoading(false);
   };
   const handleEdit = async formModel => {
     const res = await editUser({
-      id: detailStates.current.id,
-      formModel: { ...detailStates.current, ...formModel },
+      id: currentUser.id,
+      formModel: { ...currentUser, ...formModel },
     });
     res && message.success("更新成功！");
     await dispatch(getUsers());
-    handleEditCancel();
+    setEditVisible(false);
   };
 
   const handleDeleteClick = async id => {
@@ -185,21 +170,23 @@ const User = () => {
         scroll={{ x: "auto" }}
       />
       <Add
-        visible={addStates.visible}
+        visible={addVisible}
         onOk={handleAddOk}
-        confirmLoading={addStates.loading}
-        onCancel={handleCancelAdd}
+        confirmLoading={addLoading}
+        onCancel={() => setAddVisible(false)}
       />
       <Detail
-        visible={detailStates.visible}
-        data={detailStates.current}
-        onCancel={handleDetailCancel}
+        visible={detailVisible}
+        data={currentUser}
+        onCancel={() => setDetailVisible(false)}
+        loading={detailLoading}
       />
       <Edit
-        visible={detailStates.editVisible}
-        data={detailStates.current}
-        onCancel={handleEditCancel}
+        visible={editVisible}
+        data={currentUser}
+        onCancel={() => setEditVisible(false)}
         onOk={handleEdit}
+        loading={editLoading}
       />
     </Space>
   );
