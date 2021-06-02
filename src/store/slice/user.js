@@ -1,46 +1,48 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
 
-export const getUsers = createAsyncThunk("user/getList", async () => {
-  const { status, data } = await request({
-    url: "/api/users",
-    method: "GET",
-  });
-  const isErr = status !== 200;
-  return isErr ? [] : data;
-});
+export const getUsers = createAsyncThunk(
+  "user/getList",
+  async (params = {}) => {
+    const res = await request({
+      url: "/api/users",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 
 export const getUser = createAsyncThunk("user/getDetail", async id => {
-  const { status, data } = await request({
+  const res = await request({
     url: `/api/users/${id}`,
-    method: "GET",
+    method: "get",
   });
-  const isErr = status !== 200;
-  return isErr ? {} : data;
+  return res;
 });
 export const editUser = async params => {
-  const { status } = await request({
+  const res = await request({
     url: `/api/users/${params.id}`,
-    method: "POST",
+    method: "post",
     data: params.formModel,
   });
-  const isErr = status !== 204;
-  return isErr;
+
+  return res;
 };
 
 export const deleteUser = async id => {
-  const { status } = await request({
+  const res = await request({
     url: `/api/users/${id}`,
-    method: "DELETE",
+    method: "delete",
   });
-  const isErr = status !== 204;
-  return isErr;
+  return res;
 };
 
 export const slice = createSlice({
   name: "user",
   initialState: {
     users: [],
+    meta: {},
     currentUser: {},
   },
   reducers: {
@@ -50,10 +52,19 @@ export const slice = createSlice({
   },
   extraReducers: {
     [getUsers.fulfilled]: (state, action) => {
-      state.users = action.payload;
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.users = data.data;
+      state.meta = {
+        pageSize: data.meta.per_page,
+        current: data.meta.page,
+        total: data.meta.total,
+      };
     },
     [getUser.fulfilled]: (state, action) => {
-      state.currentUser = action.payload;
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.currentUser = data;
     },
   },
 });

@@ -1,4 +1,4 @@
-import { Modal, Form, Input } from "antd";
+import { Modal, Form, Input, Spin } from "antd";
 const Add = props => {
   const layout = {
     labelCol: { span: 4 },
@@ -13,22 +13,24 @@ const Add = props => {
       title="添加職員"
       visible={props.visible}
       onOk={handleOk}
-      confirmLoading={props.confirmLoading}
       onCancel={props.onCancel}
       cancelText="取消"
       okText="送出"
+      confirmLoading={props.loading}
     >
-      <Form {...layout} form={form}>
-        <Form.Item name="email" label="email">
-          <Input />
-        </Form.Item>
-        <Form.Item name="name" label="姓名">
-          <Input />
-        </Form.Item>
-        <Form.Item name="phone" label="電話">
-          <Input />
-        </Form.Item>
-      </Form>
+      <Spin spinning={props.loading}>
+        <Form {...layout} form={form}>
+          <Form.Item name="email" label="email">
+            <Input />
+          </Form.Item>
+          <Form.Item name="name" label="姓名">
+            <Input />
+          </Form.Item>
+          <Form.Item name="phone" label="電話">
+            <Input />
+          </Form.Item>
+        </Form>
+      </Spin>
     </Modal>
   );
 };

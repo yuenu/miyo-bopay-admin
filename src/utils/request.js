@@ -1,14 +1,59 @@
-const request = async options => {
-  const res = await fetch(process.env.REACT_APP_API_URL + options.url, {
-    method: options.method,
-    body: JSON.stringify(options.data),
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+import axios from "axios";
+import { errorCodeMessage } from "@/utils/enum";
+import { message } from "antd";
+axios.interceptors.request.use(
+  config => {
+    config = {
+      ...config,
+      withCredentials: true,
+      baseURL: process.env.REACT_APP_API_URL,
+    };
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
+);
 
-  const resJson = await res.json();
-  return { status: res.status, data: resJson };
+axios.interceptors.response.use(
+  response => {
+    response = {
+      ...response,
+    };
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
+);
+
+/**
+ *
+ * @param {url, method, data, params} config
+ * data   --> post {}
+ */
+const request = async config => {
+  const params = {
+    url: config.url,
+    method: config.method,
+    ...(config.method === "get"
+      ? { params: config.params }
+      : { data: config.data }),
+  };
+  try {
+    const { data, status } = await axios(params);
+    return { data, status };
+  } catch (error) {
+    if (error.response) {
+      console.log("response", error.response);
+    } else if (error.request) {
+      console.log("request", error.request);
+    } else {
+      console.log("Error message", error.message);
+    }
+    message.error(errorCodeMessage[error.response.status] ?? "不明執行錯誤。");
+    return { status: error.response.status };
+  }
 };
+
 export default request;

@@ -12,7 +12,7 @@ const Edit = props => {
   };
   useEffect(() => {
     props.visible && form.setFieldsValue(props.data);
-  });
+  }, [props.visible, form, props.data]);
   return (
     <Modal
       title="編輯職員"
@@ -21,6 +21,7 @@ const Edit = props => {
       onCancel={props.onCancel}
       okText="送出"
       cancelText="取消"
+      confirmLoading={props.loading}
     >
       <Spin spinning={props.loading}>
         <Form {...layout} form={form} initialValues={props.data}>

@@ -1,18 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Button,
-  DatePicker,
-  Space,
-  Table,
-  Card,
-  Modal,
-  Tag,
-  message,
-} from "antd";
+import { Button, Space, Table, Modal, Tag, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectUser,
@@ -22,35 +9,41 @@ import {
   deleteUser,
 } from "@/store/slice/user";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { paginOptions } from "@/utils/enum";
+import Search from "./Search";
 import Add from "./Add";
 import Detail from "./Detail";
 import Edit from "./Edit";
-const { RangePicker } = DatePicker;
 
 const User = () => {
   const dispatch = useDispatch();
 
-  const [form] = Form.useForm();
-  const handleSearch = () => {
-    console.log(form.getFieldsValue());
-  };
-  const handleResetSearch = () => {
-    form.resetFields();
+  const handleSearch = formModel => {
+    handleGetList({ ...formModel });
   };
 
-  const { users, currentUser } = useSelector(selectUser);
+  const { users, currentUser, meta } = useSelector(selectUser);
+  const [listLoading, setListLoading] = useState(false);
+  const handleGetList = async (params = {}) => {
+    setListLoading(true);
+    await dispatch(getUsers(params));
+    setListLoading(false);
+  };
   useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+    handleGetList();
+  }, []);
+  const handleChangePage = (pagination, filters, sorter, extra) => {
+    handleGetList({ page: pagination.current });
+  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const handleAddClick = () => {
     setAddVisible(true);
   };
-  const handleAddOk = () => {
+  const handleAdd = formModel => {
     setAddLoading(true);
+    console.log(formModel);
+    setAddLoading(false);
     setAddVisible(false);
   };
 
@@ -72,13 +65,15 @@ const User = () => {
     setEditLoading(false);
   };
   const handleEdit = async formModel => {
-    const res = await editUser({
+    setEditLoading(true);
+    const { status } = await editUser({
       id: currentUser.id,
       formModel: { ...currentUser, ...formModel },
     });
-    res && message.success("更新成功！");
-    await dispatch(getUsers());
+    status === 204 && message.success("更新成功！");
+    await handleGetList({ page: meta.page });
     setEditVisible(false);
+    setEditLoading(false);
   };
 
   const handleDeleteClick = async id => {
@@ -92,10 +87,11 @@ const User = () => {
     });
   };
   const handleDelete = async (close, id) => {
-    const res = await deleteUser(id);
-    res && message.success("刪除成功！");
-    await dispatch(getUsers());
+    const { status } = await deleteUser(id);
     close();
+    if (status !== 204) return;
+    message.success("刪除成功！");
+    await handleGetList({ page: meta.page });
   };
 
   const columns = [
@@ -128,52 +124,24 @@ const User = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Card>
-        <Form form={form}>
-          <Row gutter={24}>
-            <Col xs={24} md={8}>
-              <Form.Item name="id" label="會員ID">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={8}>
-              <Form.Item name="name" label="會員姓名">
-                <Input />
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Form.Item name="created" label="創建日期">
-                <RangePicker />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className="text-right">
-              <Space size="small">
-                <Button onClick={handleResetSearch}>清除</Button>
-                <Button type="primary" onClick={handleSearch}>
-                  搜尋
-                </Button>
-              </Space>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
+      <Search onOk={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
       <Table
         columns={columns}
         dataSource={users}
-        pagination={paginOptions}
+        pagination={meta}
         rowKey="id"
         scroll={{ x: "auto" }}
+        onChange={handleChangePage}
+        loading={listLoading}
       />
       <Add
         visible={addVisible}
-        onOk={handleAddOk}
-        confirmLoading={addLoading}
+        onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
+        loading={addLoading}
       />
       <Detail
         visible={detailVisible}
