@@ -26,7 +26,6 @@ export const editUser = async params => {
     method: "post",
     data: params.formModel,
   });
-
   return res;
 };
 
@@ -41,20 +40,20 @@ export const deleteUser = async id => {
 export const slice = createSlice({
   name: "user",
   initialState: {
-    users: [],
+    list: [],
     meta: {},
-    currentUser: {},
+    currentRow: {},
   },
   reducers: {
     setUsers: (state, action) => {
-      state.users = action.payload;
+      state.list = action.payload;
     },
   },
   extraReducers: {
     [getUsers.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.users = data.data;
+      state.list = data.data;
       state.meta = {
         pageSize: data.meta.per_page,
         current: data.meta.page,
@@ -64,7 +63,7 @@ export const slice = createSlice({
     [getUser.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.currentUser = data;
+      state.currentRow = data;
     },
   },
 });

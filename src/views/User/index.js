@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button, Space, Table, Modal, Tag, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -21,16 +21,19 @@ const User = () => {
     handleGetList({ ...formModel });
   };
 
-  const { users, currentUser, meta } = useSelector(selectUser);
+  const { list, currentRow, meta } = useSelector(selectUser);
   const [listLoading, setListLoading] = useState(false);
-  const handleGetList = async (params = {}) => {
-    setListLoading(true);
-    await dispatch(getUsers(params));
-    setListLoading(false);
-  };
+  const handleGetList = useCallback(
+    async (params = {}) => {
+      setListLoading(true);
+      await dispatch(getUsers(params));
+      setListLoading(false);
+    },
+    [dispatch],
+  );
   useEffect(() => {
     handleGetList();
-  }, []);
+  }, [handleGetList]);
   const handleChangePage = (pagination, filters, sorter, extra) => {
     handleGetList({ page: pagination.current });
   };
@@ -47,12 +50,16 @@ const User = () => {
     setAddVisible(false);
   };
 
+  const handleGetDetail = async id => {
+    await dispatch(getUser(id));
+  };
+
   const [detailVisible, setDetailVisible] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
     setDetailVisible(true);
     setDetailLoading(true);
-    await dispatch(getUser(id));
+    await handleGetDetail(id);
     setDetailLoading(false);
   };
 
@@ -61,14 +68,14 @@ const User = () => {
   const handleEditClick = async id => {
     setEditVisible(true);
     setEditLoading(true);
-    await dispatch(getUser(id));
+    await handleGetDetail(id);
     setEditLoading(false);
   };
   const handleEdit = async formModel => {
     setEditLoading(true);
     const { status } = await editUser({
-      id: currentUser.id,
-      formModel: { ...currentUser, ...formModel },
+      id: currentRow.id,
+      formModel: { ...currentRow, ...formModel },
     });
     status === 204 && message.success("更新成功！");
     await handleGetList({ page: meta.page });
@@ -130,7 +137,7 @@ const User = () => {
       </Button>
       <Table
         columns={columns}
-        dataSource={users}
+        dataSource={list}
         pagination={meta}
         rowKey="id"
         scroll={{ x: "auto" }}
@@ -145,13 +152,13 @@ const User = () => {
       />
       <Detail
         visible={detailVisible}
-        data={currentUser}
+        data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
       />
       <Edit
         visible={editVisible}
-        data={currentUser}
+        data={currentRow}
         onCancel={() => setEditVisible(false)}
         onOk={handleEdit}
         loading={editLoading}

@@ -1,15 +1,19 @@
 import React from "react";
-
-import "@/less/main.less";
-import MainRoute from "@/views/MainRoute";
 import { Provider } from "react-redux";
+import { ConfigProvider } from "antd";
+import zhTW from "antd/lib/locale/zh_TW";
+
+import MainRoute from "@/views/MainRoute";
 import store from "@/store";
+import "@/less/main.less";
 
 function App() {
   return (
-    <Provider store={store}>
-      <MainRoute />
-    </Provider>
+    <ConfigProvider locale={zhTW}>
+      <Provider store={store}>
+        <MainRoute />
+      </Provider>
+    </ConfigProvider>
   );
 }
 
