@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Spin, Checkbox } from "antd";
-const Add = props => {
-  const layout = {
-    labelCol: { span: 4 },
-    wrapperCol: { span: 20 },
-  };
+import { formLayout, mode } from "@/utils/enum";
+const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     await props.onOk(form.getFieldsValue());
@@ -15,7 +12,7 @@ const Add = props => {
   });
   return (
     <Modal
-      title={`${props.mode === "add" ? "添加" : "編輯"}職員`}
+      title={`${mode[props.mode]}職員`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}
@@ -24,7 +21,7 @@ const Add = props => {
       confirmLoading={props.loading}
     >
       <Spin spinning={props.loading}>
-        <Form {...layout} form={form}>
+        <Form {...formLayout} form={form}>
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
@@ -80,4 +77,4 @@ const Add = props => {
     </Modal>
   );
 };
-export default Add;
+export default AddEdit;

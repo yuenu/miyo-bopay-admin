@@ -98,7 +98,7 @@ const CryptoWallet = () => {
   const handleDelete = async (close, id) => {
     const { status } = await deleteCryptoWallet(id);
     close();
-    if (status !== 204) return;
+    if (status !== 200) return;
     message.success("刪除成功！");
     await handleGetList({ page: meta.page });
   };
