@@ -25,13 +25,37 @@ const Edit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...layout} form={form} initialValues={props.data}>
+          <Form.Item name="name" label="name">
+            <Input />
+          </Form.Item>
           <Form.Item name="email" label="email">
             <Input />
           </Form.Item>
-          <Form.Item name="name" label="姓名">
+          <Form.Item name="phone" label="phone">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="電話">
+          <Form.Item name="info" label="info">
+            <Input />
+          </Form.Item>
+          <Form.Item name="note" label="note">
+            <Input />
+          </Form.Item>
+          <Form.Item name="org" label="org">
+            <Input />
+          </Form.Item>
+          <Form.Item name="site" label="site">
+            <Input />
+          </Form.Item>
+          <Form.Item name="status" label="status">
+            <Input />
+          </Form.Item>
+          <Form.Item name="telegram" label="telegram">
+            <Input />
+          </Form.Item>
+          <Form.Item name="user_id" label="user_id">
+            <Input />
+          </Form.Item>
+          <Form.Item name="username" label="username">
             <Input />
           </Form.Item>
         </Form>

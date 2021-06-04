@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Button, Space, Table, Modal, Tag, message } from "antd";
+import { Button, Space, Table, Modal, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDeveloper,
@@ -13,6 +13,7 @@ import Search from "./Search";
 import Add from "./Add";
 import Detail from "./Detail";
 import Edit from "./Edit";
+import { dateFormat } from "@/utils/format";
 
 const Developer = () => {
   const dispatch = useDispatch();
@@ -31,9 +32,9 @@ const Developer = () => {
     },
     [dispatch],
   );
-  // useEffect(() => {
-  //   handleGetList();
-  // }, [handleGetList]);
+  useEffect(() => {
+    handleGetList();
+  }, [handleGetList]);
   const handleChangePage = (pagination, filters, sorter, extra) => {
     handleGetList({ page: pagination.current });
   };
@@ -103,15 +104,23 @@ const Developer = () => {
 
   const columns = [
     { title: "id", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
+    { title: "name", dataIndex: "name" },
+    { title: "email", dataIndex: "email" },
+    { title: "phone", dataIndex: "phone" },
     {
-      title: "is_active",
-      dataIndex: "is_active",
-      render: (_, recore) => (
-        <Tag color={_ ? "green" : "default"}>{_.toString()}</Tag>
-      ),
+      title: "created",
+      dataIndex: "created",
+      render: text => dateFormat(text),
     },
+    // { title: "info", dataIndex: "info" },
+    // { title: "note", dataIndex: "note" },
+    // { title: "org", dataIndex: "org" },
+    // { title: "site", dataIndex: "site" },
+    // { title: "status", dataIndex: "status" },
+    // { title: "telegram", dataIndex: "telegram" },
+    // { title: "updated", dataIndex: "updated" },
+    // { title: "user_id", dataIndex: "user_id" },
+    // { title: "username", dataIndex: "username" },
     {
       title: "動作",
       dataIndex: "action",

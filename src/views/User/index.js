@@ -10,9 +10,8 @@ import {
 } from "@/store/slice/user";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
-import Add from "./Add";
+import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import Edit from "./Edit";
 
 const User = () => {
   const dispatch = useDispatch();
@@ -144,11 +143,12 @@ const User = () => {
         onChange={handleChangePage}
         loading={listLoading}
       />
-      <Add
+      <AddEdit
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
         loading={addLoading}
+        mode="add"
       />
       <Detail
         visible={detailVisible}
@@ -156,12 +156,13 @@ const User = () => {
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
       />
-      <Edit
+      <AddEdit
         visible={editVisible}
-        data={currentRow}
-        onCancel={() => setEditVisible(false)}
         onOk={handleEdit}
+        onCancel={() => setEditVisible(false)}
         loading={editLoading}
+        data={currentRow}
+        mode="edit"
       />
     </Space>
   );
