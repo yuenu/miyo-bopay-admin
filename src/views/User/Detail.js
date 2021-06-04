@@ -3,8 +3,20 @@ import { dateFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
 
 const Detail = props => {
-  const { id, name, phone, email, created, updated, is_active, username } =
-    props.data;
+  const {
+    id,
+    name,
+    phone,
+    email,
+    created,
+    updated,
+    is_active,
+    is_admin,
+    is_agent,
+    is_developer,
+    is_staff,
+    username,
+  } = props.data;
   return (
     <Modal
       title="職員明細"
@@ -31,6 +43,21 @@ const Detail = props => {
           <Descriptions.Item label="is_active">
             <Tag color={is_active ? "green" : "default"}>
               {is_active?.toString()}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="is_admin">
+            <Tag color={is_admin ? "green" : "default"}>
+              {is_admin?.toString()}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="is_agent">
+            <Tag color={is_agent ? "green" : "default"}>
+              {is_agent?.toString()}
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="is_staff">
+            <Tag color={is_staff ? "green" : "default"}>
+              {is_staff?.toString()}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="帳號">{username}</Descriptions.Item>

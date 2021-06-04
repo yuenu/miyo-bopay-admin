@@ -20,6 +20,14 @@ export const getUser = createAsyncThunk("user/getDetail", async id => {
   });
   return res;
 });
+export const addUser = async params => {
+  const res = await request({
+    url: `/api/users`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editUser = async params => {
   const res = await request({
     url: `/api/users/${params.id}`,

@@ -5,6 +5,7 @@ import {
   selectUser,
   getUsers,
   getUser,
+  addUser,
   editUser,
   deleteUser,
 } from "@/store/slice/user";
@@ -42,9 +43,11 @@ const User = () => {
   const handleAddClick = () => {
     setAddVisible(true);
   };
-  const handleAdd = formModel => {
+  const handleAdd = async formModel => {
     setAddLoading(true);
-    console.log(formModel);
+    const { status } = await addUser(formModel);
+    status === 200 && message.success("新增成功！");
+    await handleGetList({ page: meta.page });
     setAddLoading(false);
     setAddVisible(false);
   };
@@ -76,7 +79,7 @@ const User = () => {
       id: currentRow.id,
       formModel: { ...currentRow, ...formModel },
     });
-    status === 204 && message.success("更新成功！");
+    status === 200 && message.success("更新成功！");
     await handleGetList({ page: meta.page });
     setEditVisible(false);
     setEditLoading(false);

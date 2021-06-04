@@ -6,8 +6,9 @@ const Add = props => {
     wrapperCol: { span: 20 },
   };
   const [form] = Form.useForm();
-  const handleOk = () => {
-    props.onOk(form.getFieldsValue());
+  const handleOk = async () => {
+    await props.onOk(form.getFieldsValue());
+    form.resetFields();
   };
   useEffect(() => {
     props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
