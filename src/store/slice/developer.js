@@ -23,6 +23,14 @@ export const getDeveloper = createAsyncThunk(
     return res;
   },
 );
+export const addDeveloper = async params => {
+  const res = await request({
+    url: `/api/developers`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editDeveloper = async params => {
   const res = await request({
     url: `/api/developers/${params.id}`,

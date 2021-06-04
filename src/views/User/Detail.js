@@ -55,6 +55,11 @@ const Detail = props => {
               {is_agent?.toString()}
             </Tag>
           </Descriptions.Item>
+          <Descriptions.Item label="is_developer">
+            <Tag color={is_developer ? "green" : "default"}>
+              {is_developer?.toString()}
+            </Tag>
+          </Descriptions.Item>
           <Descriptions.Item label="is_staff">
             <Tag color={is_staff ? "green" : "default"}>
               {is_staff?.toString()}

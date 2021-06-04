@@ -1,16 +1,22 @@
-import { Modal, Form, Input, Spin } from "antd";
+import { useEffect } from "react";
+import { Modal, Form, Input, Spin, Switch } from "antd";
 const Add = props => {
   const layout = {
     labelCol: { span: 4 },
     wrapperCol: { span: 20 },
   };
   const [form] = Form.useForm();
-  const handleOk = () => {
-    props.onOk(form.getFieldsValue());
+  const handleOk = async () => {
+    const formModel = form.getFieldsValue();
+    await props.onOk({ ...formModel, status: formModel.status ? 1 : 0 });
+    form.resetFields();
   };
+  useEffect(() => {
+    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+  });
   return (
     <Modal
-      title="添加開發者"
+      title={`${props.mode === "add" ? "添加" : "編輯"}職員`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}
@@ -20,13 +26,16 @@ const Add = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...layout} form={form}>
-          <Form.Item name="name" label="name">
+          <Form.Item name="name" label="姓名">
+            <Input />
+          </Form.Item>
+          <Form.Item name="phone" label="電話">
             <Input />
           </Form.Item>
           <Form.Item name="email" label="email">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="phone">
+          <Form.Item name="username" label="username">
             <Input />
           </Form.Item>
           <Form.Item name="info" label="info">
@@ -41,16 +50,13 @@ const Add = props => {
           <Form.Item name="site" label="site">
             <Input />
           </Form.Item>
-          <Form.Item name="status" label="status">
-            <Input />
+          <Form.Item name="status" label="status" valuePropName="checked">
+            <Switch />
           </Form.Item>
           <Form.Item name="telegram" label="telegram">
             <Input />
           </Form.Item>
           <Form.Item name="user_id" label="user_id">
-            <Input />
-          </Form.Item>
-          <Form.Item name="username" label="username">
             <Input />
           </Form.Item>
         </Form>

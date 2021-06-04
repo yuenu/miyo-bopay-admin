@@ -5,17 +5,16 @@ import {
   selectDeveloper,
   getDevelopers,
   getDeveloper,
+  addDeveloper,
   editDeveloper,
   deleteDeveloper,
 } from "@/store/slice/developer";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
-import Add from "./Add";
+import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import Edit from "./Edit";
-import { dateFormat } from "@/utils/format";
 
-const Developer = () => {
+const User = () => {
   const dispatch = useDispatch();
 
   const handleSearch = formModel => {
@@ -44,9 +43,11 @@ const Developer = () => {
   const handleAddClick = () => {
     setAddVisible(true);
   };
-  const handleAdd = formModel => {
+  const handleAdd = async formModel => {
     setAddLoading(true);
-    console.log(formModel);
+    const { status } = await addDeveloper(formModel);
+    status === 200 && message.success("新增成功！");
+    await handleGetList({ page: meta.page });
     setAddLoading(false);
     setAddVisible(false);
   };
@@ -78,7 +79,7 @@ const Developer = () => {
       id: currentRow.id,
       formModel: { ...currentRow, ...formModel },
     });
-    status === 204 && message.success("更新成功！");
+    status === 200 && message.success("更新成功！");
     await handleGetList({ page: meta.page });
     setEditVisible(false);
     setEditLoading(false);
@@ -104,23 +105,9 @@ const Developer = () => {
 
   const columns = [
     { title: "id", dataIndex: "id" },
-    { title: "name", dataIndex: "name" },
+    { title: "姓名", dataIndex: "name" },
+    { title: "電話", dataIndex: "phone" },
     { title: "email", dataIndex: "email" },
-    { title: "phone", dataIndex: "phone" },
-    {
-      title: "created",
-      dataIndex: "created",
-      render: text => dateFormat(text),
-    },
-    // { title: "info", dataIndex: "info" },
-    // { title: "note", dataIndex: "note" },
-    // { title: "org", dataIndex: "org" },
-    // { title: "site", dataIndex: "site" },
-    // { title: "status", dataIndex: "status" },
-    // { title: "telegram", dataIndex: "telegram" },
-    // { title: "updated", dataIndex: "updated" },
-    // { title: "user_id", dataIndex: "user_id" },
-    // { title: "username", dataIndex: "username" },
     {
       title: "動作",
       dataIndex: "action",
@@ -153,11 +140,12 @@ const Developer = () => {
         onChange={handleChangePage}
         loading={listLoading}
       />
-      <Add
+      <AddEdit
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
         loading={addLoading}
+        mode="add"
       />
       <Detail
         visible={detailVisible}
@@ -165,14 +153,15 @@ const Developer = () => {
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
       />
-      <Edit
+      <AddEdit
         visible={editVisible}
-        data={currentRow}
-        onCancel={() => setEditVisible(false)}
         onOk={handleEdit}
+        onCancel={() => setEditVisible(false)}
         loading={editLoading}
+        data={currentRow}
+        mode="edit"
       />
     </Space>
   );
 };
-export default Developer;
+export default User;
