@@ -12,7 +12,6 @@ export const getOrders = createAsyncThunk(
     return res;
   },
 );
-
 export const getOrder = createAsyncThunk("order/getDetail", async id => {
   const res = await request({
     url: `/api/orders/${id}`,
@@ -20,6 +19,14 @@ export const getOrder = createAsyncThunk("order/getDetail", async id => {
   });
   return res;
 });
+export const addOrder = async params => {
+  const res = await request({
+    url: `/api/orders`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editOrder = async params => {
   const res = await request({
     url: `/api/orders/${params.id}`,

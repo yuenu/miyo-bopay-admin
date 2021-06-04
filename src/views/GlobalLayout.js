@@ -6,18 +6,9 @@ import Sidebar from "@/components/Sidebar";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import routes from "@/router";
-
 const { Content, Footer } = Layout;
 const GlobalLayout = () => {
   const { user } = useSelector(selectAuth);
-  const getComponent = name => {
-    try {
-      let cpn = require(`@/views/${name}`);
-      return cpn.default();
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
     <Route path="/">
       {user !== null ? (
@@ -28,9 +19,12 @@ const GlobalLayout = () => {
             <Content className="main">
               <Switch>
                 {routes.map(i => (
-                  <Route exact={i.exact} path={i.path} key={i.path}>
-                    {getComponent(i.component)}
-                  </Route>
+                  <Route
+                    exact={i.exact}
+                    path={i.path}
+                    key={i.path}
+                    children={<i.component />}
+                  />
                 ))}
               </Switch>
             </Content>

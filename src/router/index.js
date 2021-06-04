@@ -1,7 +1,15 @@
+const getComponent = name => {
+  try {
+    let cpn = require(`@/views/${name}`);
+    return cpn.default();
+  } catch (e) {
+    console.log(e);
+  }
+};
 const routes = [
   {
     path: "/",
-    component: "User",
+    component: () => getComponent("User"),
     exact: true,
   },
   //   {
@@ -10,32 +18,32 @@ const routes = [
   //   },
   {
     path: "/Developer",
-    component: "Developer",
+    component: () => getComponent("Developer"),
   },
-  {
-    path: "/AppUser",
-    component: "AppUser",
-  },
+  // {
+  //   path: "/AppUser",
+  //   component: "AppUser",
+  // },
   {
     path: "/Order",
-    component: "Order",
+    component: () => getComponent("Order"),
   },
   {
     path: "/CryptoWallet",
-    component: "CryptoWallet",
+    component: () => getComponent("CryptoWallet"),
   },
-  {
-    path: "/Card",
-    component: "Card",
-  },
-  {
-    path: "/Agent",
-    component: "Agent",
-  },
-  {
-    path: "/LoginLog",
-    component: "LoginLog",
-  },
+  // {
+  //   path: "/Card",
+  //   component: "Card",
+  // },
+  // {
+  //   path: "/Agent",
+  //   component: "Agent",
+  // },
+  // {
+  //   path: "/LoginLog",
+  //   component: "LoginLog",
+  // },
   //   {
   //     path: "/Audit",
   //     component: "Audit",

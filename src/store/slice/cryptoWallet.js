@@ -23,6 +23,14 @@ export const getCryptoWallet = createAsyncThunk(
     return res;
   },
 );
+export const addCryptoWallet = async params => {
+  const res = await request({
+    url: `/api/crypto_wallets`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editCryptoWallet = async params => {
   const res = await request({
     url: `/api/crypto_wallets/${params.id}`,
