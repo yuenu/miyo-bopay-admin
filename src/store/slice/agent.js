@@ -12,7 +12,6 @@ export const getAgents = createAsyncThunk(
     return res;
   },
 );
-
 export const getAgent = createAsyncThunk("agent/getDetail", async id => {
   const res = await request({
     url: `/api/agents/${id}`,
@@ -20,6 +19,14 @@ export const getAgent = createAsyncThunk("agent/getDetail", async id => {
   });
   return res;
 });
+export const addAgent = async params => {
+  const res = await request({
+    url: `/api/agents`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editAgent = async params => {
   const res = await request({
     url: `/api/agents/${params.id}`,

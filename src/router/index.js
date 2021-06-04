@@ -20,10 +20,10 @@ const routes = [
     path: "/Developer",
     component: () => getComponent("Developer"),
   },
-  // {
-  //   path: "/AppUser",
-  //   component: "AppUser",
-  // },
+  {
+    path: "/AppUser",
+    component: () => getComponent("AppUser"),
+  },
   {
     path: "/Order",
     component: () => getComponent("Order"),
@@ -32,18 +32,18 @@ const routes = [
     path: "/CryptoWallet",
     component: () => getComponent("CryptoWallet"),
   },
-  // {
-  //   path: "/Card",
-  //   component: "Card",
-  // },
-  // {
-  //   path: "/Agent",
-  //   component: "Agent",
-  // },
-  // {
-  //   path: "/LoginLog",
-  //   component: "LoginLog",
-  // },
+  {
+    path: "/Card",
+    component: () => getComponent("Card"),
+  },
+  {
+    path: "/Agent",
+    component: () => getComponent("Agent"),
+  },
+  {
+    path: "/LoginLog",
+    component: () => getComponent("LoginLog"),
+  },
   //   {
   //     path: "/Audit",
   //     component: "Audit",

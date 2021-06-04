@@ -2,31 +2,31 @@ import { useState, useEffect, useCallback } from "react";
 import { Button, Space, Table, Modal, Tag, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectLoginLog,
-  getLoginLogs,
-  getLoginLog,
-  addLoginLog,
-  editLoginLog,
-  deleteLoginLog,
-} from "@/store/slice/loginLog";
+  selectAppUser,
+  getAppUsers,
+  getAppUser,
+  addAppUser,
+  editAppUser,
+  deleteAppUser,
+} from "@/store/slice/appUser";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
-const LoginLog = () => {
+const AppUser = () => {
   const dispatch = useDispatch();
 
   const handleSearch = formModel => {
     handleGetList({ ...formModel });
   };
 
-  const { list, currentRow, meta } = useSelector(selectLoginLog);
+  const { list, currentRow, meta } = useSelector(selectAppUser);
   const [listLoading, setListLoading] = useState(false);
   const handleGetList = useCallback(
     async (params = {}) => {
       setListLoading(true);
-      await dispatch(getLoginLogs(params));
+      await dispatch(getAppUsers(params));
       setListLoading(false);
     },
     [dispatch],
@@ -45,7 +45,7 @@ const LoginLog = () => {
   };
   const handleAdd = async formModel => {
     setAddLoading(true);
-    const { status } = await addLoginLog(formModel);
+    const { status } = await addAppUser(formModel);
     status === 200 && message.success("新增成功！");
     await handleGetList({ page: meta.page });
     setAddLoading(false);
@@ -53,7 +53,7 @@ const LoginLog = () => {
   };
 
   const handleGetDetail = async id => {
-    await dispatch(getLoginLog(id));
+    await dispatch(getAppUser(id));
   };
 
   const [detailVisible, setDetailVisible] = useState(false);
@@ -75,7 +75,7 @@ const LoginLog = () => {
   };
   const handleEdit = async formModel => {
     setEditLoading(true);
-    const { status } = await editLoginLog({
+    const { status } = await editAppUser({
       id: currentRow.id,
       formModel: { ...currentRow, ...formModel },
     });
@@ -96,7 +96,7 @@ const LoginLog = () => {
     });
   };
   const handleDelete = async (close, id) => {
-    const { status } = await deleteLoginLog(id);
+    const { status } = await deleteAppUser(id);
     close();
     if (status !== 200) return;
     message.success("刪除成功！");
@@ -170,4 +170,4 @@ const LoginLog = () => {
     </Space>
   );
 };
-export default LoginLog;
+export default AppUser;

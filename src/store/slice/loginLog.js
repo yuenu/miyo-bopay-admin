@@ -12,7 +12,6 @@ export const getLoginLogs = createAsyncThunk(
     return res;
   },
 );
-
 export const getLoginLog = createAsyncThunk("loginLog/getDetail", async id => {
   const res = await request({
     url: `/api/login_logs/${id}`,
@@ -20,6 +19,14 @@ export const getLoginLog = createAsyncThunk("loginLog/getDetail", async id => {
   });
   return res;
 });
+export const addLoginLog = async params => {
+  const res = await request({
+    url: `/api/login_logs`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editLoginLog = async params => {
   const res = await request({
     url: `/api/login_logs/${params.id}`,
@@ -28,7 +35,6 @@ export const editLoginLog = async params => {
   });
   return res;
 };
-
 export const deleteLoginLog = async id => {
   const res = await request({
     url: `/api/login_logs/${id}`,

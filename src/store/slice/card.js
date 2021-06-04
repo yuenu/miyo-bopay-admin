@@ -12,7 +12,6 @@ export const getCards = createAsyncThunk(
     return res;
   },
 );
-
 export const getCard = createAsyncThunk("card/getDetail", async id => {
   const res = await request({
     url: `/api/cards/${id}`,
@@ -20,6 +19,14 @@ export const getCard = createAsyncThunk("card/getDetail", async id => {
   });
   return res;
 });
+export const addCard = async params => {
+  const res = await request({
+    url: `/api/cards`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const editCard = async params => {
   const res = await request({
     url: `/api/cards/${params.id}`,
@@ -53,12 +60,13 @@ export const slice = createSlice({
     [getCards.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.list = data.data;
-      state.meta = {
-        pageSize: data.meta.per_page,
-        current: data.meta.page,
-        total: data.meta.total,
-      };
+      state.list = data;
+      // state.list = data.data;
+      // state.meta = {
+      //   pageSize: data.meta.per_page,
+      //   current: data.meta.page,
+      //   total: data.meta.total,
+      // };
     },
     [getCard.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
