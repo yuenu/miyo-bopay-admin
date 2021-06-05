@@ -1,0 +1,123 @@
+@host = https://bopay.iyes.dev
+@contentType = application/json
+@superuser="admin002"
+
+
+### Register an user
+
+POST {{ host }}/auth/register HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "username": "admin002",
+    "password": "123321"
+}
+
+
+### Login
+
+POST {{ host }}/auth/login HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "username": "admin002",
+    "password": "123321"
+}
+
+
+### UserList
+GET {{ host }}/api/users HTTP/1.1
+
+### UserDetail
+GET {{ host }}/api/users/10001 HTTP/1.1
+
+### UserUpdate
+POST {{ host }}/api/users/10001 HTTP/1.1
+
+{
+    "email":"new@aaa.com",
+    "name":"鲑鱼",
+    "phone":"1111111"
+}
+
+### UserDelete
+DELETE {{ host }}/api/users/10001 HTTP/1.1
+
+
+### OrderList
+GET {{ host }}/api/orders?page=2&per_page=3 HTTP/1.1
+
+
+### DeveloperCreate
+
+POST http://{{ host }}/api/developers HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "user_id": 10003,
+    "username": "dev001",
+    "is_active": true,
+    "name": "开发者测试000",
+    "org": "YLCorp",
+    "email": "yl@iyes.dev",
+    "note": "测试用途"
+}
+
+### RegisterDeveloper
+
+POST http://{{ host }}/auth/register/developer HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "username": "dev002",
+    "password": "123321",
+    "org": "测试公司",
+    "info": "伟大的公司",
+    "phone": "181818181",
+    "email": "aqwefq@qq.com",
+    "site": "www.baidu.com",
+    "telegram": "@f88xxq"
+}
+
+
+### AppCreate
+
+POST http://{{ host }}/api/apps/new HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "name": "vns2",
+    "name_cn": "威尼斯人8888",
+    "info": "",
+    "callback_url": "http://nx.iyes.dev/payment/bopay"
+}
+
+
+### Crypto Search API
+GET http://{{ host }}/api/cryptowallets?page=1 HTTP/1.1
+
+### CryptoAccts Search API
+GET http://{{ host }}/api/cryptoaccts?page=1 HTTP/1.1
+
+### LoginLogs Search API
+GET http://{{ host }}/api/loginlogs?page=1 HTTP/1.1
+
+### 加密钱包 List API
+GET http://{{ host }}/api/cryptowallets?page=1 HTTP/1.1
+
+### 加密钱包账号 List API
+GET http://{{ host }}/api/cryptoaccts?wallet_id=101&page=1 HTTP/1.1
+
+### 新增加密账号 Create API
+POST http://{{ host }}/api/cryptoaccts HTTP/1.1
+Content-Type: application/json
+
+{
+    "wallet_id": 101,
+    "name": "钱包1的地址",
+    "seq": 1,
+    "w": 0,
+    "note": "备注",
+    "address": "0x10100110",
+    "currency": 1
+}
