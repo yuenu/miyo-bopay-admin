@@ -5,7 +5,7 @@ export const getAppUsers = createAsyncThunk(
   "appUser/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/app_users",
+      url: "/api/appusers",
       method: "get",
       params,
     });
@@ -14,14 +14,14 @@ export const getAppUsers = createAsyncThunk(
 );
 export const getAppUser = createAsyncThunk("appUser/getDetail", async id => {
   const res = await request({
-    url: `/api/app_users/${id}`,
+    url: `/api/appusers/${id}`,
     method: "get",
   });
   return res;
 });
 export const addAppUser = async params => {
   const res = await request({
-    url: `/api/app_users`,
+    url: `/api/appusers`,
     method: "post",
     data: params,
   });
@@ -29,7 +29,7 @@ export const addAppUser = async params => {
 };
 export const editAppUser = async params => {
   const res = await request({
-    url: `/api/app_users/${params.id}`,
+    url: `/api/appusers/${params.id}`,
     method: "post",
     data: params.formModel,
   });
@@ -37,7 +37,7 @@ export const editAppUser = async params => {
 };
 export const deleteAppUser = async id => {
   const res = await request({
-    url: `/api/app_users/${id}`,
+    url: `/api/appusers/${id}`,
     method: "delete",
   });
   return res;

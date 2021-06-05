@@ -5,7 +5,7 @@ export const getCryptoWallets = createAsyncThunk(
   "cryptoWallet/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/crypto_wallets",
+      url: "/api/cryptowallets",
       method: "get",
       params,
     });
@@ -17,7 +17,7 @@ export const getCryptoWallet = createAsyncThunk(
   "cryptoWallet/getDetail",
   async id => {
     const res = await request({
-      url: `/api/crypto_wallets/${id}`,
+      url: `/api/cryptowallets/${id}`,
       method: "get",
     });
     return res;
@@ -25,7 +25,7 @@ export const getCryptoWallet = createAsyncThunk(
 );
 export const addCryptoWallet = async params => {
   const res = await request({
-    url: `/api/crypto_wallets`,
+    url: `/api/cryptowallets`,
     method: "post",
     data: params,
   });
@@ -33,7 +33,7 @@ export const addCryptoWallet = async params => {
 };
 export const editCryptoWallet = async params => {
   const res = await request({
-    url: `/api/crypto_wallets/${params.id}`,
+    url: `/api/cryptowallets/${params.id}`,
     method: "post",
     data: params.formModel,
   });
@@ -42,7 +42,7 @@ export const editCryptoWallet = async params => {
 
 export const deleteCryptoWallet = async id => {
   const res = await request({
-    url: `/api/crypto_wallets/${id}`,
+    url: `/api/cryptowallets/${id}`,
     method: "delete",
   });
   return res;

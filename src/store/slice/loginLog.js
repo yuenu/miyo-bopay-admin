@@ -5,7 +5,7 @@ export const getLoginLogs = createAsyncThunk(
   "loginLog/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/login_logs",
+      url: "/api/loginlogs",
       method: "get",
       params,
     });
