@@ -58,6 +58,13 @@ export const cancelOrder = async params => {
   });
   return res;
 };
+export const notifyOrder = async params => {
+  const res = await request({
+    url: `/api/orders/notify`,
+    method: "post",
+  });
+  return res;
+};
 export const deleteOrder = async id => {
   const res = await request({
     url: `/api/orders/${id}`,

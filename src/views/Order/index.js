@@ -9,6 +9,7 @@ import {
   approveOrder,
   denyOrder,
   cancelOrder,
+  notifyOrder,
   deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -121,6 +122,24 @@ const User = () => {
     await handleGetList({ page: meta.page });
   };
 
+  const handleNotifyClick = async id => {
+    Modal.confirm({
+      title: "是否通知訂單",
+      icon: <ExclamationCircleOutlined />,
+      content: `即將通知訂單 ${id}，是否繼續？`,
+      okText: "確認",
+      cancelText: "取消",
+      onOk: close => handleNotify(close, id),
+    });
+  };
+  const handleNotify = async (close, id) => {
+    const { status } = await notifyOrder(id);
+    close();
+    if (status !== 200) return;
+    message.success("訂單已通知！");
+    await handleGetList({ page: meta.page });
+  };
+
   const handleDeleteClick = async id => {
     Modal.confirm({
       title: "確認刪除",
@@ -183,7 +202,7 @@ const User = () => {
           </Button>
           <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
           <Button onClick={() => handleCancelClick(recore.id)}>取消</Button>
-          {/* <Button onClick={() => handleEditClick(recore.id)}>通知</Button> */}
+          <Button onClick={() => handleNotifyClick(recore.id)}>通知</Button>
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
             刪除
           </Button>
