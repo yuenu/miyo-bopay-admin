@@ -35,6 +35,14 @@ export const editOrder = async params => {
   });
   return res;
 };
+export const approveOrder = async params => {
+  const res = await request({
+    url: `/api/orders/approve`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 
 export const deleteOrder = async id => {
   const res = await request({

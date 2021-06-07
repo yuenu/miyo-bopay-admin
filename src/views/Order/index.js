@@ -6,12 +6,13 @@ import {
   getOrders,
   getOrder,
   addOrder,
-  editOrder,
+  approveOrder,
   deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
+import Edit from "./Edit";
 import Detail from "./Detail";
 
 const User = () => {
@@ -67,17 +68,16 @@ const User = () => {
 
   const [editVisible, setEditVisible] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
-  const handleEditClick = async id => {
+  const [editRecord, setEditRecord] = useState(false);
+  const handleApproveClick = async record => {
     setEditVisible(true);
-    setEditLoading(true);
-    await handleGetDetail(id);
-    setEditLoading(false);
+    setEditRecord(record);
   };
-  const handleEdit = async formModel => {
+  const handleApprove = async formModel => {
     setEditLoading(true);
-    const { status } = await editOrder({
-      id: currentRow.id,
-      formModel: { ...currentRow, ...formModel },
+    const { status } = await approveOrder({
+      id: editRecord.id,
+      ...formModel,
     });
     status === 200 && message.success("更新成功！");
     await handleGetList({ page: meta.page });
@@ -142,10 +142,10 @@ const User = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>審核</Button>
-          <Button onClick={() => handleEditClick(recore.id)}>拒絕</Button>
-          <Button onClick={() => handleEditClick(recore.id)}>取消</Button>
-          <Button onClick={() => handleEditClick(recore.id)}>通知</Button>
+          <Button onClick={() => handleApproveClick(recore)}>審核</Button>
+          {/* <Button onClick={() => handleEditClick(recore.id)}>拒絕</Button> */}
+          {/* <Button onClick={() => handleEditClick(recore.id)}>取消</Button> */}
+          {/* <Button onClick={() => handleEditClick(recore.id)}>通知</Button> */}
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
             刪除
           </Button>
@@ -193,13 +193,13 @@ const User = () => {
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
       />
-      <AddEdit
+      <Edit
         visible={editVisible}
-        onOk={handleEdit}
+        onOk={handleApprove}
         onCancel={() => setEditVisible(false)}
         loading={editLoading}
-        data={currentRow}
-        mode="edit"
+        data={editRecord}
+        mode="approve"
       />
     </Space>
   );
