@@ -9,8 +9,8 @@ export const login = createAsyncThunk(
       method: "POST",
       data: params,
     });
+    console.log({ status, data });
     if (status !== 200) return;
-    localStorage.setItem("login", "true");
     return data;
   },
 );
@@ -31,8 +31,9 @@ export const slice = createSlice({
   },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
-      state.user = action.payload;
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      action.payload && (state.user = action.payload);
+      action.payload &&
+        localStorage.setItem("user", JSON.stringify(action.payload));
     },
   },
 });

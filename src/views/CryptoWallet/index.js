@@ -6,15 +6,18 @@ import {
   getCryptoWallets,
   getCryptoWallet,
   addCryptoWallet,
-  editCryptoWallet,
   deleteCryptoWallet,
 } from "@/store/slice/cryptoWallet";
+import { isActiveLang } from "@/utils/enum";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import { useHistory, generatePath } from "react-router-dom";
 
 const CryptoWallet = () => {
+  const history = useHistory();
+
   const dispatch = useDispatch();
 
   const handleSearch = formModel => {
@@ -65,25 +68,22 @@ const CryptoWallet = () => {
     setDetailLoading(false);
   };
 
-  const [editVisible, setEditVisible] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
+  // const [editVisible, setEditVisible] = useState(false);
+  // const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
-    setEditVisible(true);
-    setEditLoading(true);
-    await handleGetDetail(id);
-    setEditLoading(false);
+    history.push(generatePath("/CryptoWalletEdit/:id", { id }));
   };
-  const handleEdit = async formModel => {
-    setEditLoading(true);
-    const { status } = await editCryptoWallet({
-      id: currentRow.id,
-      formModel: { ...currentRow, ...formModel },
-    });
-    status === 200 && message.success("更新成功！");
-    await handleGetList({ page: meta.page });
-    setEditVisible(false);
-    setEditLoading(false);
-  };
+  // const handleEdit = async formModel => {
+  //   setEditLoading(true);
+  //   const { status } = await editCryptoWallet({
+  //     id: currentRow.id,
+  //     formModel: { ...currentRow, ...formModel },
+  //   });
+  //   status === 200 && message.success("更新成功！");
+  //   await handleGetList({ page: meta.page });
+  //   setEditVisible(false);
+  //   setEditLoading(false);
+  // };
 
   const handleDeleteClick = async id => {
     Modal.confirm({
@@ -104,16 +104,20 @@ const CryptoWallet = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
+    { title: "ID", dataIndex: "id" },
+    { title: "钱包名", dataIndex: "name", width: "150px" },
+    { title: "钱包所有者", dataIndex: "owner" },
+    { title: "货币", dataIndex: "currency" },
+    { title: "余额", dataIndex: "balance" },
+    { title: "区块链", dataIndex: "network" },
     {
-      title: "is_active",
+      title: "是否启用",
       dataIndex: "is_active",
       render: (_, recore) => (
-        <Tag color={_ ? "green" : "default"}>{_.toString()}</Tag>
+        <Tag color={_ ? "green" : "default"}>{isActiveLang(_)}</Tag>
       ),
     },
+    { title: "备注", dataIndex: "note" },
     {
       title: "動作",
       dataIndex: "action",
@@ -124,6 +128,7 @@ const CryptoWallet = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button>禁用</Button>
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
             刪除
           </Button>
@@ -158,14 +163,6 @@ const CryptoWallet = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
-      />
-      <AddEdit
-        visible={editVisible}
-        onOk={handleEdit}
-        onCancel={() => setEditVisible(false)}
-        loading={editLoading}
-        data={currentRow}
-        mode="edit"
       />
     </Space>
   );

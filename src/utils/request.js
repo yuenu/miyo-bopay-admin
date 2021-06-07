@@ -51,8 +51,12 @@ const request = async config => {
     } else {
       console.log("Error message", error.message);
     }
-    message.error(errorCodeMessage[error.response.status] ?? "不明執行錯誤。");
-    return { status: error.response.status };
+    message.error(
+      error.response.data.message ??
+        errorCodeMessage[error.response.status] ??
+        "不明原因錯誤",
+    );
+    return { status: error.response.status, data: error.response.data };
   }
 };
 

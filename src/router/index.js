@@ -33,6 +33,10 @@ const routes = [
     component: () => getComponent("CryptoWallet"),
   },
   {
+    path: "/CryptoWalletEdit/:id",
+    component: () => getComponent("CryptoWallet/Edit"),
+  },
+  {
     path: "/Card",
     component: () => getComponent("Card"),
   },
