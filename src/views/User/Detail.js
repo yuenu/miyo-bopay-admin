@@ -19,7 +19,7 @@ const Detail = props => {
   } = props.data;
   return (
     <Modal
-      title="職員明細"
+      title="訂單明細"
       visible={props.visible}
       onCancel={props.onCancel}
       footer={[

@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import layoutReducer from "./slice/layout";
 import authReducer from "./slice/auth";
 import userReducer from "./slice/user";
 import developerReducer from "./slice/developer";
@@ -11,6 +12,7 @@ import loginLogReducer from "./slice/loginLog";
 
 export default configureStore({
   reducer: {
+    layout: layoutReducer,
     auth: authReducer,
     user: userReducer,
     developer: developerReducer,

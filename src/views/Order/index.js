@@ -104,11 +104,35 @@ const User = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
-    { title: "order_no", dataIndex: "order_no" },
-    { title: "trans_no", dataIndex: "trans_no" },
-    { title: "amount", dataIndex: "amount" },
-    { title: "amount_paid", dataIndex: "amount_paid" },
+    { title: "ID", dataIndex: "id" },
+    { title: "訂單號", dataIndex: "order_no" },
+    { title: "第三方訂單號", dataIndex: "trans_no" },
+    { title: "AppID", dataIndex: "app_id" },
+    { title: "商戶ID", dataIndex: "developer_id" },
+    { title: "會員ID", dataIndex: "userid" },
+    { title: "會員姓名", dataIndex: "name" },
+    { title: "訂單狀態", dataIndex: "status" },
+    { title: "支付類別", dataIndex: "pay_type" },
+    { title: "付款方式", dataIndex: "pay_method" },
+    { title: "付款人姓名", dataIndex: "payer_name" },
+    { title: "設備類型", dataIndex: "device_type" },
+    { title: "支付狀態", dataIndex: "pay_status" },
+    { title: "支付時間", dataIndex: "paid_at" },
+    { title: "審核狀態", dataIndex: "approval_status" },
+    { title: "通知狀態", dataIndex: "notify_status" },
+    { title: "通知時間", dataIndex: "notified_at" },
+    { title: "IP", dataIndex: "client_ip" },
+    { title: "錯誤代碼", dataIndex: "failure_code" },
+    { title: "錯誤信息", dataIndex: "failure_msg" },
+    { title: "訂單金額", dataIndex: "amount" },
+    { title: "實際付款金額", dataIndex: "amount_paid" },
+    { title: "贈送金額", dataIndex: "bonus" },
+    { title: "貨幣類型", dataIndex: "currency" },
+    { title: "付款成功", dataIndex: "paid" },
+    { title: "審核通過", dataIndex: "approved" },
+    { title: "是否加密貨幣", dataIndex: "is_crypto" },
+    { title: "是否在線訂單", dataIndex: "is_online" },
+    { title: "清算成功", dataIndex: "settled" },
     {
       title: "動作",
       dataIndex: "action",
@@ -118,7 +142,10 @@ const User = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>審核</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>拒絕</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>取消</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>通知</Button>
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
             刪除
           </Button>
@@ -126,6 +153,13 @@ const User = () => {
       ),
     },
   ];
+  const payerCredExpandedRowRender = record => {
+    const columns = [
+      { title: "name", dataIndex: "name", width: "200px" },
+      { title: "residency", dataIndex: "residency" },
+    ];
+    return <Table columns={columns} dataSource={record} pagination={false} />;
+  };
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <Search onOk={handleSearch} />
@@ -140,6 +174,11 @@ const User = () => {
         scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
+        expandable={{
+          rowExpandable: record => true,
+          expandedRowRender: record =>
+            payerCredExpandedRowRender(JSON.parse(record.payer_cred)),
+        }}
       />
       <AddEdit
         visible={addVisible}

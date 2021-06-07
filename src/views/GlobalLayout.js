@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Layout } from "antd";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
+import { setModalDiscSpan } from "@/store/slice/layout";
 import routes from "@/router";
 const { Content, Footer } = Layout;
 const GlobalLayout = () => {
   const { user } = useSelector(selectAuth);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const handleWindowResize = e => {
+      dispatch(setModalDiscSpan(e.target.innerWidth));
+    };
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  });
   return (
     <Route path="/">
       {user !== null ? (
