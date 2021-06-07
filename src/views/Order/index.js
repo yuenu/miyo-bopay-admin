@@ -7,6 +7,7 @@ import {
   getOrder,
   addOrder,
   approveOrder,
+  denyOrder,
   deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -69,13 +70,30 @@ const User = () => {
   const [editVisible, setEditVisible] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [editRecord, setEditRecord] = useState(false);
-  const handleApproveClick = async record => {
+  const [editMode, setEditMode] = useState(false);
+  const handleEditClick = async (record, mode) => {
     setEditVisible(true);
     setEditRecord(record);
+    setEditMode(mode);
+  };
+  const handleEditOk = formModel => {
+    editMode === "approve" && handleApprove(formModel);
+    editMode === "deny" && handleDeny(formModel);
   };
   const handleApprove = async formModel => {
     setEditLoading(true);
     const { status } = await approveOrder({
+      id: editRecord.id,
+      ...formModel,
+    });
+    status === 200 && message.success("更新成功！");
+    await handleGetList({ page: meta.page });
+    setEditVisible(false);
+    setEditLoading(false);
+  };
+  const handleDeny = async formModel => {
+    setEditLoading(true);
+    const { status } = await denyOrder({
       id: editRecord.id,
       ...formModel,
     });
@@ -142,8 +160,10 @@ const User = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleApproveClick(recore)}>審核</Button>
-          {/* <Button onClick={() => handleEditClick(recore.id)}>拒絕</Button> */}
+          <Button onClick={() => handleEditClick(recore, "approve")}>
+            審核
+          </Button>
+          <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
           {/* <Button onClick={() => handleEditClick(recore.id)}>取消</Button> */}
           {/* <Button onClick={() => handleEditClick(recore.id)}>通知</Button> */}
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
@@ -195,11 +215,11 @@ const User = () => {
       />
       <Edit
         visible={editVisible}
-        onOk={handleApprove}
+        onOk={handleEditOk}
         onCancel={() => setEditVisible(false)}
         loading={editLoading}
         data={editRecord}
-        mode="approve"
+        mode={editMode}
       />
     </Space>
   );

@@ -43,6 +43,14 @@ export const approveOrder = async params => {
   });
   return res;
 };
+export const denyOrder = async params => {
+  const res = await request({
+    url: `/api/orders/deny`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 
 export const deleteOrder = async id => {
   const res = await request({
