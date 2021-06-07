@@ -54,7 +54,7 @@ const request = async config => {
     message.error(
       error.response.data.message ??
         errorCodeMessage[error.response.status] ??
-        "不明原因錯誤",
+        error.message,
     );
     return { status: error.response.status, data: error.response.data };
   }
