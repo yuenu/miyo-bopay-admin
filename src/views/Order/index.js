@@ -105,9 +105,10 @@ const User = () => {
 
   const columns = [
     { title: "id", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
-    { title: "email", dataIndex: "email" },
+    { title: "order_no", dataIndex: "order_no" },
+    { title: "trans_no", dataIndex: "trans_no" },
+    { title: "amount", dataIndex: "amount" },
+    { title: "amount_paid", dataIndex: "amount_paid" },
     {
       title: "動作",
       dataIndex: "action",
