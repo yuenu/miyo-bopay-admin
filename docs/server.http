@@ -121,3 +121,29 @@ Content-Type: application/json
     "address": "0x10100110",
     "currency": 1
 }
+
+### 审核订单
+POST http://{{ host }}/api/orders/approve HTTP/1.1
+
+{
+    "id": 103,
+    "amount_paid": 10003,
+    "comments": "审核已到账"
+}
+
+
+### 拒绝订单
+POST http://{{ host }}/api/orders/deny HTTP/1.1
+
+{
+    "id": 100,
+    "comments": "欺诈订单"
+}
+
+### 取消订单
+POST http://{{ host }}/api/orders/100/cancel HTTP/1.1
+
+
+### 订单通知
+POST http://{{ host }}/api/orders/100/notify HTTP/1.1
+
