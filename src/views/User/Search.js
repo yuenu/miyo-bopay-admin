@@ -7,7 +7,11 @@ const Search = props => {
     form.resetFields();
   };
   const handleSubmit = () => {
-    props.onOk(form.getFieldsValue());
+    const { id, name, created } = form.getFieldsValue();
+    const params = { id__eq: id, name__k: name };
+    created &&
+      (params.created__btw = `${created[0].toISOString()}~${created[1].toISOString()}`);
+    props.onOk(params);
   };
   return (
     <Card>
