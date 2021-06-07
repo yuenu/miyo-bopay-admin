@@ -8,6 +8,7 @@ import {
   addOrder,
   approveOrder,
   denyOrder,
+  cancelOrder,
   deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -86,7 +87,7 @@ const User = () => {
       id: editRecord.id,
       ...formModel,
     });
-    status === 200 && message.success("更新成功！");
+    status === 200 && message.success("審核成功！");
     await handleGetList({ page: meta.page });
     setEditVisible(false);
     setEditLoading(false);
@@ -97,10 +98,27 @@ const User = () => {
       id: editRecord.id,
       ...formModel,
     });
-    status === 200 && message.success("更新成功！");
+    status === 200 && message.success("已拒絕訂單！");
     await handleGetList({ page: meta.page });
     setEditVisible(false);
     setEditLoading(false);
+  };
+  const handleCancelClick = id => {
+    Modal.confirm({
+      title: "是否取消訂單",
+      icon: <ExclamationCircleOutlined />,
+      content: `即將取消訂單 ${id}，是否繼續？`,
+      okText: "確認",
+      cancelText: "取消",
+      onOk: close => handleCancel(close, id),
+    });
+  };
+  const handleCancel = async (close, id) => {
+    const { status } = await cancelOrder(id);
+    close();
+    if (status !== 200) return;
+    message.success("訂單已取消！");
+    await handleGetList({ page: meta.page });
   };
 
   const handleDeleteClick = async id => {
@@ -164,7 +182,7 @@ const User = () => {
             審核
           </Button>
           <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
-          {/* <Button onClick={() => handleEditClick(recore.id)}>取消</Button> */}
+          <Button onClick={() => handleCancelClick(recore.id)}>取消</Button>
           {/* <Button onClick={() => handleEditClick(recore.id)}>通知</Button> */}
           <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
             刪除
