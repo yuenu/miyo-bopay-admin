@@ -19,7 +19,7 @@ const SidebarView = () => {
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
       <div className="logo">支付服務後台</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={["User"]}>
+      <Menu theme="dark" mode="inline">
         <SubMenu key="Users" icon={<UserOutlined />} title="用戶管理">
           <Menu.Item key="User">
             <Link to="/">職員管理</Link>
