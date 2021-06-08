@@ -16,8 +16,50 @@ export const errorCodeMessage = {
   503: "服务不可用，服务器暂时过载或维护。",
   504: "网关超时。",
 };
-export const formLayout = { labelCol: { span: 4 }, wrapperCol: { span: 20 } };
+export const formLayout = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
 export const mode = { add: "添加", edit: "編輯", approve: "審核" };
 export const isActiveLang = val => {
   return val ? "是" : "否";
+};
+
+export const OrderStatus = {
+  0: "初始化",
+  1: "新订单",
+  2: "待处理",
+  3: "待付款",
+  4: "已支付",
+  5: "失败",
+  6: "过期",
+  7: "取消",
+  8: "待审核",
+  9: "审核通过",
+  10: "审核拒绝",
+  11: "待通知",
+  12: "通知中",
+  13: "通知成功",
+  14: "通知失败",
+  15: "成功",
+};
+
+export const WXPayType = {
+  0: "微信",
+  1: "支付宝",
+  2: "网银转账",
+  3: "银行卡转账",
+  4: "加密货币",
+};
+
+export const PayMethod = {
+  0: "redirect 跳转收银台",
+  1: "qrcode 二维码",
+  2: "转账 ",
+};
+
+export const Currency = {
+  0: "iota",
+  1: "USDT_ERC20",
+  2: "USDT_TRC20",
+  3: "USDT_OMNI",
+  4: "BTC",
+  5: "ETH",
 };

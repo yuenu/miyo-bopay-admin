@@ -1,5 +1,13 @@
 import { Modal, Descriptions, Tag, Button } from "antd";
 import { dateFormat } from "@/utils/format";
+import {
+  isActiveLang,
+  OrderStatus,
+  WXPayType,
+  PayMethod,
+  Currency,
+} from "@/utils/enum";
+
 import Spin from "@/components/Spin";
 const Detail = props => {
   const {
@@ -56,9 +64,15 @@ const Detail = props => {
           <Descriptions.Item label="商戶ID">{developer_id}</Descriptions.Item>
           <Descriptions.Item label="會員ID">{userid}</Descriptions.Item>
           <Descriptions.Item label="會員姓名">{name || ""}</Descriptions.Item>
-          <Descriptions.Item label="訂單狀態">{status}</Descriptions.Item>
-          <Descriptions.Item label="支付類別">{pay_type}</Descriptions.Item>
-          <Descriptions.Item label="付款方式">{pay_method}</Descriptions.Item>
+          <Descriptions.Item label="訂單狀態">
+            {OrderStatus[status]}
+          </Descriptions.Item>
+          <Descriptions.Item label="支付類別">
+            {WXPayType[pay_type]}
+          </Descriptions.Item>
+          <Descriptions.Item label="付款方式">
+            {PayMethod[pay_method]}
+          </Descriptions.Item>
           <Descriptions.Item label="付款人姓名" span={2}>
             {payer_name}
           </Descriptions.Item>
@@ -93,28 +107,30 @@ const Detail = props => {
             {amount_paid}
           </Descriptions.Item>
           <Descriptions.Item label="贈送金額">{bonus}</Descriptions.Item>
-          <Descriptions.Item label="貨幣類型">{currency}</Descriptions.Item>
+          <Descriptions.Item label="貨幣類型">
+            {Currency[currency]}
+          </Descriptions.Item>
           <Descriptions.Item label="付款成功">
-            <Tag color={paid ? "green" : "default"}>{paid?.toString()}</Tag>
+            <Tag color={paid ? "green" : "default"}>{isActiveLang(paid)}</Tag>
           </Descriptions.Item>
           <Descriptions.Item label="審核通過">
             <Tag color={approved ? "green" : "default"}>
-              {approved?.toString()}
+              {isActiveLang(approved)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="是否加密貨幣">
             <Tag color={is_crypto ? "green" : "default"}>
-              {is_crypto?.toString()}
+              {isActiveLang(is_crypto)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="是否在線訂單">
             <Tag color={is_online ? "green" : "default"}>
-              {is_online?.toString()}
+              {isActiveLang(is_online)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="清算成功">
             <Tag color={settled ? "green" : "default"}>
-              {settled?.toString()}
+              {isActiveLang(settled)}
             </Tag>
           </Descriptions.Item>
         </Descriptions>

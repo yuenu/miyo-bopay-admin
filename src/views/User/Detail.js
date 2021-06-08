@@ -1,5 +1,6 @@
 import { Modal, Descriptions, Tag, Button } from "antd";
 import { dateFormat } from "@/utils/format";
+import { isActiveLang } from "@/utils/enum";
 import Spin from "@/components/Spin";
 
 const Detail = props => {
@@ -40,29 +41,29 @@ const Detail = props => {
           <Descriptions.Item label="更新日期">
             {dateFormat(updated)}
           </Descriptions.Item>
-          <Descriptions.Item label="is_active">
+          <Descriptions.Item label="是否启用">
             <Tag color={is_active ? "green" : "default"}>
-              {is_active?.toString()}
+              {isActiveLang(is_active)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="is_admin">
             <Tag color={is_admin ? "green" : "default"}>
-              {is_admin?.toString()}
+              {isActiveLang(is_admin)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="is_agent">
             <Tag color={is_agent ? "green" : "default"}>
-              {is_agent?.toString()}
+              {isActiveLang(is_agent)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="is_developer">
             <Tag color={is_developer ? "green" : "default"}>
-              {is_developer?.toString()}
+              {isActiveLang(is_developer)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="is_staff">
             <Tag color={is_staff ? "green" : "default"}>
-              {is_staff?.toString()}
+              {isActiveLang(is_staff)}
             </Tag>
           </Descriptions.Item>
           <Descriptions.Item label="帳號">{username}</Descriptions.Item>

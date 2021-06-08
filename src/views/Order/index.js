@@ -13,6 +13,7 @@ import {
   deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -166,9 +167,22 @@ const User = () => {
     { title: "商戶ID", dataIndex: "developer_id" },
     { title: "會員ID", dataIndex: "userid" },
     { title: "會員姓名", dataIndex: "name" },
-    { title: "訂單狀態", dataIndex: "status" },
-    { title: "支付類別", dataIndex: "pay_type" },
-    { title: "付款方式", dataIndex: "pay_method" },
+    {
+      title: "訂單狀態",
+      dataIndex: "status",
+      render: val => OrderStatus[val] || "",
+    },
+    {
+      title: "支付類別",
+      dataIndex: "pay_type",
+      render: val => WXPayType[val] || "",
+    },
+    {
+      title: "付款方式",
+      dataIndex: "pay_method",
+      width: 170,
+      render: val => PayMethod[val] || "",
+    },
     { title: "付款人姓名", dataIndex: "payer_name" },
     { title: "設備類型", dataIndex: "device_type" },
     { title: "支付狀態", dataIndex: "pay_status" },
@@ -182,7 +196,11 @@ const User = () => {
     { title: "訂單金額", dataIndex: "amount" },
     { title: "實際付款金額", dataIndex: "amount_paid" },
     { title: "贈送金額", dataIndex: "bonus" },
-    { title: "貨幣類型", dataIndex: "currency" },
+    {
+      title: "貨幣類型",
+      dataIndex: "currency",
+      render: val => Currency[val] || "",
+    },
     { title: "付款成功", dataIndex: "paid" },
     { title: "審核通過", dataIndex: "approved" },
     { title: "是否加密貨幣", dataIndex: "is_crypto" },

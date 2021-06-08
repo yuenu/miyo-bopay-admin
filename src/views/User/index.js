@@ -10,6 +10,7 @@ import {
   deleteUser,
 } from "@/store/slice/user";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { isActiveLang } from "@/utils/enum";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -108,10 +109,10 @@ const User = () => {
     { title: "姓名", dataIndex: "name" },
     { title: "電話", dataIndex: "phone" },
     {
-      title: "is_active",
+      title: "启用",
       dataIndex: "is_active",
-      render: (_, recore) => (
-        <Tag color={_ ? "green" : "default"}>{_.toString()}</Tag>
+      render: (val, recore) => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
       ),
     },
     {
