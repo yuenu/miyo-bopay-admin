@@ -8,6 +8,7 @@ import {
   addCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import { isActiveLang, Currency } from "@/utils/enum";
+import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
@@ -80,7 +81,11 @@ const CryptoWallet = () => {
       dataIndex: "currency",
       render: val => Currency[val] || "",
     },
-    { title: "余额", dataIndex: "balance" },
+    {
+      title: "余额",
+      dataIndex: "balance",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
     { title: "区块链", dataIndex: "network" },
     {
       title: "是否启用",

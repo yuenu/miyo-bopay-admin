@@ -56,10 +56,18 @@ export const PayMethod = {
 };
 
 export const Currency = {
-  0: "iota",
+  0: "RMB",
   1: "USDT_ERC20",
   2: "USDT_TRC20",
   3: "USDT_OMNI",
   4: "BTC",
   5: "ETH",
 };
+export const CurrencyFormat = [
+  { key: 0, unit: "¥", rate: 100, tofix: 2 },
+  { key: 1, unit: "$", rate: 1000000, tofix: 6 },
+  { key: 2, unit: "$", rate: 1000000, tofix: 6 },
+  { key: 3, unit: "$", rate: 1000000, tofix: 6 },
+  { key: 4, unit: "", rate: 0, tofix: 0 },
+  { key: 5, unit: "", rate: 0, tofix: 0 },
+];

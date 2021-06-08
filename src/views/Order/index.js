@@ -13,6 +13,7 @@ import {
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
+import { priceFormat } from "@/utils/format";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -174,9 +175,21 @@ const User = () => {
     { title: "IP", dataIndex: "client_ip" },
     { title: "錯誤代碼", dataIndex: "failure_code" },
     { title: "錯誤信息", dataIndex: "failure_msg" },
-    { title: "訂單金額", dataIndex: "amount" },
-    { title: "實際付款金額", dataIndex: "amount_paid" },
-    { title: "贈送金額", dataIndex: "bonus" },
+    {
+      title: "訂單金額",
+      dataIndex: "amount",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
+    {
+      title: "實際付款金額",
+      dataIndex: "amount_paid",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
+    {
+      title: "贈送金額",
+      dataIndex: "bonus",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
     {
       title: "貨幣類型",
       dataIndex: "currency",

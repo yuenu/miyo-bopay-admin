@@ -23,6 +23,7 @@ import {
   Table,
 } from "antd";
 import { formLayout, Currency } from "@/utils/enum";
+import { priceFormat } from "@/utils/format";
 const EditableContext = React.createContext(null);
 const { Option } = Select;
 
@@ -160,8 +161,11 @@ const Edit = () => {
             <Form.Item label="钱包名" name="name">
               <Input />
             </Form.Item>
-            <Form.Item label="余额" name="name">
-              {currentRow.balance}
+            <Form.Item label="余额">
+              {priceFormat({
+                val: currentRow.balance,
+                currency: currentRow.currency,
+              })}
             </Form.Item>
             <Form.Item label="钱包所有者" name="owner">
               <Input />
@@ -178,7 +182,9 @@ const Edit = () => {
             <Form.Item label="货币" name="currency">
               <Select>
                 {Object.keys(Currency).map(i => (
-                  <Option value={Number(i)}>{Currency[i]}</Option>
+                  <Option value={Number(i)} key={i}>
+                    {Currency[i]}
+                  </Option>
                 ))}
               </Select>
             </Form.Item>
