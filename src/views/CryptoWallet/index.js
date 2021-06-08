@@ -8,7 +8,7 @@ import {
   addCryptoWallet,
   deleteCryptoWallet,
 } from "@/store/slice/cryptoWallet";
-import { isActiveLang } from "@/utils/enum";
+import { isActiveLang, Currency } from "@/utils/enum";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
@@ -107,7 +107,11 @@ const CryptoWallet = () => {
     { title: "ID", dataIndex: "id" },
     { title: "钱包名", dataIndex: "name", width: "150px" },
     { title: "钱包所有者", dataIndex: "owner" },
-    { title: "货币", dataIndex: "currency" },
+    {
+      title: "货币",
+      dataIndex: "currency",
+      render: val => Currency[val] || "",
+    },
     { title: "余额", dataIndex: "balance" },
     { title: "区块链", dataIndex: "network" },
     {

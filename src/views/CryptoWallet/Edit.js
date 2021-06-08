@@ -22,8 +22,7 @@ import {
   Switch,
   Table,
 } from "antd";
-
-import { formLayout } from "@/utils/enum";
+import { formLayout, Currency } from "@/utils/enum";
 const EditableContext = React.createContext(null);
 const { Option } = Select;
 
@@ -161,6 +160,9 @@ const Edit = () => {
             <Form.Item label="钱包名" name="name">
               <Input />
             </Form.Item>
+            <Form.Item label="余额" name="name">
+              {currentRow.balance}
+            </Form.Item>
             <Form.Item label="钱包所有者" name="owner">
               <Input />
             </Form.Item>
@@ -171,6 +173,13 @@ const Edit = () => {
               <Select>
                 <Option value="jack">Jack</Option>
                 <Option value="lucy">Lucy</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item label="货币" name="currency">
+              <Select>
+                {Object.keys(Currency).map(i => (
+                  <Option value={Number(i)}>{Currency[i]}</Option>
+                ))}
               </Select>
             </Form.Item>
             <Form.Item label="启用" name="is_active" valuePropName="checked">

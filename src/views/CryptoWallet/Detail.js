@@ -1,6 +1,6 @@
 import { Modal, Descriptions, Tag, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import { isActiveLang } from "@/utils/enum";
+import { isActiveLang, Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
 
 const Detail = props => {
@@ -20,7 +20,7 @@ const Detail = props => {
   } = props.data;
   return (
     <Modal
-      title="職員明細"
+      title="钱包明細"
       visible={props.visible}
       onCancel={props.onCancel}
       footer={[
@@ -32,16 +32,18 @@ const Detail = props => {
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
           <Descriptions.Item label="id">{id}</Descriptions.Item>
-          <Descriptions.Item label="姓名">{name}</Descriptions.Item>
-          <Descriptions.Item label="balance">{balance}</Descriptions.Item>
-          <Descriptions.Item label="is_active">
+          <Descriptions.Item label="钱包名">{name}</Descriptions.Item>
+          <Descriptions.Item label="钱包所有者">{owner}</Descriptions.Item>
+          <Descriptions.Item label="货币">
+            {Currency[currency]}
+          </Descriptions.Item>
+          <Descriptions.Item label="余额">{balance}</Descriptions.Item>
+          <Descriptions.Item label="区块链">{network}</Descriptions.Item>
+          <Descriptions.Item label="是否启用">
             <Tag color={is_active ? "green" : "default"}>
               {isActiveLang(is_active)}
             </Tag>
           </Descriptions.Item>
-          <Descriptions.Item label="currency">{currency}</Descriptions.Item>
-          <Descriptions.Item label="network">{network}</Descriptions.Item>
-          <Descriptions.Item label="owner">{owner}</Descriptions.Item>
           <Descriptions.Item label="token">{token}</Descriptions.Item>
           <Descriptions.Item label="創建日期">
             {dateFormat(created)}
@@ -50,7 +52,7 @@ const Detail = props => {
             {dateFormat(updated)}
           </Descriptions.Item>
           <Descriptions.Item label="收款地址">{address}</Descriptions.Item>
-          <Descriptions.Item label="note">{note}</Descriptions.Item>
+          <Descriptions.Item label="备注">{note}</Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>
