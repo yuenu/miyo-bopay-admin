@@ -10,7 +10,6 @@ import {
   denyOrder,
   cancelOrder,
   notifyOrder,
-  deleteOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
@@ -141,24 +140,6 @@ const User = () => {
     await handleGetList({ page: meta.page });
   };
 
-  const handleDeleteClick = async id => {
-    Modal.confirm({
-      title: "確認刪除",
-      icon: <ExclamationCircleOutlined />,
-      content: `即將刪除 ${id}，是否繼續？`,
-      okText: "確認",
-      cancelText: "取消",
-      onOk: close => handleDelete(close, id),
-    });
-  };
-  const handleDelete = async (close, id) => {
-    const { status } = await deleteOrder(id);
-    close();
-    if (status !== 200) return;
-    message.success("刪除成功！");
-    await handleGetList({ page: meta.page });
-  };
-
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "訂單號", dataIndex: "order_no" },
@@ -221,9 +202,6 @@ const User = () => {
           <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
           <Button onClick={() => handleCancelClick(recore.id)}>取消</Button>
           <Button onClick={() => handleNotifyClick(recore.id)}>通知</Button>
-          <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
-            刪除
-          </Button>
         </Space>
       ),
     },

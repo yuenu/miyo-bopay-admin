@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Button, Space, Table, Modal, message } from "antd";
+import { Button, Space, Table, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectDeveloper,
@@ -7,9 +7,8 @@ import {
   getDeveloper,
   addDeveloper,
   editDeveloper,
-  deleteDeveloper,
 } from "@/store/slice/developer";
-import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -85,24 +84,6 @@ const User = () => {
     setEditLoading(false);
   };
 
-  const handleDeleteClick = async id => {
-    Modal.confirm({
-      title: "確認刪除",
-      icon: <ExclamationCircleOutlined />,
-      content: `即將刪除 ${id}，是否繼續？`,
-      okText: "確認",
-      cancelText: "取消",
-      onOk: close => handleDelete(close, id),
-    });
-  };
-  const handleDelete = async (close, id) => {
-    const { status } = await deleteDeveloper(id);
-    close();
-    if (status !== 200) return;
-    message.success("刪除成功！");
-    await handleGetList({ page: meta.page });
-  };
-
   const columns = [
     { title: "id", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
@@ -118,9 +99,6 @@ const User = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
-          <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
-            刪除
-          </Button>
         </Space>
       ),
     },

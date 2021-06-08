@@ -1,15 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
-import { Button, Space, Table, Modal, Tag, message } from "antd";
+import { Button, Space, Table, Tag, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectCryptoWallet,
   getCryptoWallets,
   getCryptoWallet,
   addCryptoWallet,
-  deleteCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import { isActiveLang, Currency } from "@/utils/enum";
-import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -68,39 +67,8 @@ const CryptoWallet = () => {
     setDetailLoading(false);
   };
 
-  // const [editVisible, setEditVisible] = useState(false);
-  // const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
     history.push(generatePath("/CryptoWalletEdit/:id", { id }));
-  };
-  // const handleEdit = async formModel => {
-  //   setEditLoading(true);
-  //   const { status } = await editCryptoWallet({
-  //     id: currentRow.id,
-  //     formModel: { ...currentRow, ...formModel },
-  //   });
-  //   status === 200 && message.success("更新成功！");
-  //   await handleGetList({ page: meta.page });
-  //   setEditVisible(false);
-  //   setEditLoading(false);
-  // };
-
-  const handleDeleteClick = async id => {
-    Modal.confirm({
-      title: "確認刪除",
-      icon: <ExclamationCircleOutlined />,
-      content: `即將刪除 ${id}，是否繼續？`,
-      okText: "確認",
-      cancelText: "取消",
-      onOk: close => handleDelete(close, id),
-    });
-  };
-  const handleDelete = async (close, id) => {
-    const { status } = await deleteCryptoWallet(id);
-    close();
-    if (status !== 200) return;
-    message.success("刪除成功！");
-    await handleGetList({ page: meta.page });
   };
 
   const columns = [
@@ -133,9 +101,6 @@ const CryptoWallet = () => {
           </Button>
           <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
           <Button>禁用</Button>
-          <Button onClick={() => handleDeleteClick(recore.id)} type="danger">
-            刪除
-          </Button>
         </Space>
       ),
     },
