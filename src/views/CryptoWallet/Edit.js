@@ -64,11 +64,6 @@ const Edit = () => {
     { title: "地址", dataIndex: "address" },
     { title: "备注", dataIndex: "note" },
     { title: "排序", dataIndex: "order" },
-    {
-      title: "",
-      dataIndex: "action",
-      width: "120px",
-    },
   ];
   const columnsCell = columns.map(i => {
     return {
@@ -76,10 +71,21 @@ const Edit = () => {
       onCell: record => ({ ...i, record, dataIndex: i.dataIndex }),
     };
   });
-  const data = [
-    { id: 10, no: 10, is_active: true, address: "add", note: "", order: 0 },
-    { id: 11, no: 11, is_active: false, address: "add", note: "", order: 1 },
-  ];
+  const [addrs, setAddrs] = useState([
+    { id: 10, no: 100, is_active: true, address: "add", note: "", order: 0 },
+    { id: 11, no: 110, is_active: false, address: "add", note: "", order: 1 },
+  ]);
+
+  const EditableRow = ({ index, ...props }) => {
+    const [form] = Form.useForm();
+    return (
+      <Form form={form} component={false}>
+        <EditableContext.Provider value={form}>
+          <tr {...props} />
+        </EditableContext.Provider>
+      </Form>
+    );
+  };
   const EditableCell = ({
     title,
     children,
@@ -91,7 +97,7 @@ const Edit = () => {
     const inputRef = useRef(null);
     const save = async () => {
       try {
-        const values = await form.getFieldsValue();
+        const values = await form.validateFields();
         console.log(values);
       } catch (errInfo) {
         console.log("Save failed:", errInfo);
@@ -105,44 +111,46 @@ const Edit = () => {
       dataIndex === "id" ? (
         <div>{record.id}</div>
       ) : dataIndex === "is_active" ? (
-        <Form.Item
-          style={{
-            margin: 0,
-          }}
-          name={dataIndex}
-          valuePropName="checked"
-        >
+        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
           <Switch ref={inputRef} />
         </Form.Item>
       ) : (
         <Form.Item
-          style={{
-            margin: 0,
-          }}
           name={dataIndex}
-          key={record.id}
+          rules={
+            dataIndex === "no" || dataIndex === "address"
+              ? [
+                  {
+                    required: true,
+                  },
+                ]
+              : null
+          }
+          noStyle
         >
           <Input ref={inputRef} onPressEnter={save} onBlur={save} />
         </Form.Item>
       );
     return <td {...restProps}>{childNode}</td>;
   };
-
-  const EditableRow = ({ index, ...props }) => {
-    const [form] = Form.useForm();
-    return (
-      <Form form={form} component={false}>
-        <EditableContext.Provider value={form}>
-          <tr {...props} />
-        </EditableContext.Provider>
-      </Form>
-    );
-  };
   const components = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
+  };
+  const handleAddAddrClick = () => {
+    setAddrs([
+      ...addrs,
+      {
+        id: null,
+        no: null,
+        is_active: false,
+        address: null,
+        note: "",
+        order: null,
+      },
+    ]);
   };
   return (
     <Spin spinning={loading}>
@@ -179,10 +187,16 @@ const Edit = () => {
         <Card title="加密钱包收款帐号">
           <Table
             columns={columnsCell}
-            dataSource={data}
+            dataSource={addrs}
             rowKey="id"
             components={components}
+            pagination={false}
           />
+          <div className="text-right mt-1">
+            <Button type="primary" onClick={handleAddAddrClick}>
+              新增地址
+            </Button>
+          </div>
         </Card>
       </Space>
     </Spin>
