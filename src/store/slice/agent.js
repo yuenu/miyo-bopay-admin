@@ -60,12 +60,12 @@ export const slice = createSlice({
     [getAgents.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.list = data.data;
-      state.meta = {
-        pageSize: data.meta.per_page,
-        current: data.meta.page,
-        total: data.meta.total,
-      };
+      // state.list = data.data;
+      // state.meta = {
+      //   pageSize: data.meta.per_page,
+      //   current: data.meta.page,
+      //   total: data.meta.total,
+      // };
     },
     [getAgent.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
