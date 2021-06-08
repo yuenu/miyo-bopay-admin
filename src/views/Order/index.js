@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Button, Space, Table, Modal, message } from "antd";
+import { Button, Space, Table, Modal, message, Tag } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectOrder,
@@ -12,8 +12,14 @@ import {
   notifyOrder,
 } from "@/store/slice/order";
 import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
-import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
-import { priceFormat } from "@/utils/format";
+import {
+  OrderStatus,
+  WXPayType,
+  PayMethod,
+  Currency,
+  isActiveLang,
+} from "@/utils/enum";
+import { priceFormat, dateFormat } from "@/utils/format";
 import Search from "./Search";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -168,10 +174,20 @@ const User = () => {
     { title: "付款人姓名", dataIndex: "payer_name" },
     { title: "設備類型", dataIndex: "device_type" },
     { title: "支付狀態", dataIndex: "pay_status" },
-    { title: "支付時間", dataIndex: "paid_at" },
+    {
+      title: "支付時間",
+      dataIndex: "paid_at",
+      width: 170,
+      render: val => dateFormat(val.Time),
+    },
     { title: "審核狀態", dataIndex: "approval_status" },
     { title: "通知狀態", dataIndex: "notify_status" },
-    { title: "通知時間", dataIndex: "notified_at" },
+    {
+      title: "通知時間",
+      dataIndex: "notified_at",
+      width: 170,
+      render: val => dateFormat(val.Time),
+    },
     { title: "IP", dataIndex: "client_ip" },
     { title: "錯誤代碼", dataIndex: "failure_code" },
     { title: "錯誤信息", dataIndex: "failure_msg" },
@@ -195,15 +211,45 @@ const User = () => {
       dataIndex: "currency",
       render: val => Currency[val] || "",
     },
-    { title: "付款成功", dataIndex: "paid" },
-    { title: "審核通過", dataIndex: "approved" },
-    { title: "是否加密貨幣", dataIndex: "is_crypto" },
-    { title: "是否在線訂單", dataIndex: "is_online" },
-    { title: "清算成功", dataIndex: "settled" },
+    {
+      title: "付款成功",
+      dataIndex: "paid",
+      render: val => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
+      ),
+    },
+    {
+      title: "審核通過",
+      dataIndex: "approved",
+      render: val => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
+      ),
+    },
+    {
+      title: "是否加密貨幣",
+      dataIndex: "is_crypto",
+      render: val => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
+      ),
+    },
+    {
+      title: "是否在線訂單",
+      dataIndex: "is_online",
+      render: val => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
+      ),
+    },
+    {
+      title: "清算成功",
+      dataIndex: "settled",
+      render: val => (
+        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
+      ),
+    },
     {
       title: "動作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
       render: (_, recore) => (
         <Space>
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
@@ -224,7 +270,14 @@ const User = () => {
       { title: "name", dataIndex: "name", width: "200px" },
       { title: "residency", dataIndex: "residency" },
     ];
-    return <Table columns={columns} dataSource={record} pagination={false} />;
+    return (
+      <Table
+        columns={columns}
+        dataSource={record}
+        rowKey="name"
+        pagination={false}
+      />
+    );
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
