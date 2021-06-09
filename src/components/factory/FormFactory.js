@@ -16,21 +16,29 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
     form.resetFields();
   };
   const handleSearchClick = () => {
-    handleSubmit(form.getFieldsValue());
+    const params = form.getFieldsValue();
+    Object.keys(params).forEach(i => {
+      params[i] === undefined && delete params[i];
+    });
+    handleSubmit(params);
   };
+  const valuePropName = type =>
+    type === "checkbox" || type === "switch" ? "checked" : "value";
   return (
     <Card>
       <Form form={form}>
         <Row gutter={24}>
           {Object.keys(fields).map(i => {
             const mdCol = fields[i].type === "rangeDate" ? 16 : 8;
+            const inputFactoryProps = fields[i];
             return (
               <Col xs={24} md={mdCol} key={i}>
-                <Form.Item name={i} label={fields[i].lang}>
-                  <InputFactory
-                    type={fields[i].type}
-                    options={fields[i].options}
-                  />
+                <Form.Item
+                  name={i}
+                  label={fields[i].lang}
+                  valuePropName={valuePropName(fields[i].type)}
+                >
+                  <InputFactory {...inputFactoryProps} />
                 </Form.Item>
               </Col>
             );

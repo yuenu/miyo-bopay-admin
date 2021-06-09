@@ -72,3 +72,7 @@ export const CurrencyFormat = [
   { key: 4, unit: "", rate: 0, tofix: 0 },
   { key: 5, unit: "", rate: 0, tofix: 0 },
 ];
+export const isModule = {
+  1: "是",
+  0: "否",
+};

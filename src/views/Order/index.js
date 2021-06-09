@@ -18,6 +18,7 @@ import {
   PayMethod,
   Currency,
   isActiveLang,
+  isModule,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -35,14 +36,21 @@ const User = () => {
     currency: { type: "select", lang: "货币类型", options: Currency },
     userid: { type: "string", lang: "会员ID" },
     app_id: { type: "string", lang: "AppID" },
-    paid: { type: "switch", lang: "付款成功" },
+    paid: {
+      type: "select",
+      lang: "付款成功",
+      options: isModule,
+      isModule: true,
+    },
     approved: { type: "switch", lang: "审核通过" },
     developer_id: { type: "string", lang: "商户ID" },
     created_btw: { type: "rangeDate", lang: "created" },
     paid_btw: { type: "rangeDate", lang: "支付时间" },
   };
   const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+    const params = { ...formModel };
+    console.log(params);
+    // handleGetList({ ...formModel });
   };
 
   const { list, currentRow, meta } = useSelector(selectOrder);

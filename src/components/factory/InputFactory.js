@@ -3,23 +3,25 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const InputFactory = props => {
-  const { type, options } = props;
-  const SelectC = () => (
-    <Select>
-      {options &&
-        Object.keys(options).map(i => (
-          <Option value={Number(i)} key={i}>
-            {options[i]}
-          </Option>
-        ))}
-    </Select>
-  );
+  const { type, options, isModule, ...rest } = props;
+  const SelectC = () => {
+    return (
+      <Select {...rest} allowClear>
+        {options &&
+          Object.keys(options).map(i => (
+            <Option value={isModule ? !!Number(i) : Number(i)} key={i}>
+              {options[i]}
+            </Option>
+          ))}
+      </Select>
+    );
+  };
   const types = {
-    string: <Input />,
+    string: <Input {...rest} />,
     select: <SelectC />,
-    switch: <Switch />,
-    checkbox: <Checkbox />,
-    rangeDate: <RangePicker />,
+    switch: <Switch {...rest} />,
+    checkbox: <Checkbox {...rest} />,
+    rangeDate: <RangePicker {...rest} />,
   };
   return types[type] || types.string;
 };
