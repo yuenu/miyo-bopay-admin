@@ -6,7 +6,8 @@ import zhTW from "antd/lib/locale/zh_TW";
 import MainRoute from "@/views/MainRoute";
 import store from "@/store";
 import "@/less/main.less";
-
+import { interceptor } from "@/utils/request";
+interceptor(store);
 function App() {
   return (
     <ConfigProvider locale={zhTW}>

@@ -1,32 +1,45 @@
 import axios from "axios";
 import { errorCodeMessage } from "@/utils/enum";
 import { message } from "antd";
-axios.interceptors.request.use(
-  config => {
-    config = {
-      ...config,
-      withCredentials: true,
-      baseURL: process.env.REACT_APP_API_URL,
-    };
-    return config;
-  },
-  function (error) {
-    return Promise.reject(error);
-  },
-);
+import { logout } from "@/store/slice/auth";
+export const interceptor = store => {
+  axios.interceptors.request.use(
+    config => {
+      config = {
+        ...config,
+        withCredentials: true,
+        baseURL: process.env.REACT_APP_API_URL,
+      };
+      return config;
+    },
+    function (error) {
+      return Promise.reject(error);
+    },
+  );
 
-axios.interceptors.response.use(
-  response => {
-    response = {
-      ...response,
-    };
-    return response;
-  },
-  function (error) {
-    return Promise.reject(error);
-  },
-);
-
+  axios.interceptors.response.use(
+    response => {
+      response = {
+        ...response,
+      };
+      return response;
+    },
+    function (error) {
+      const status = error.response.status;
+      if (status === 401) {
+        store.dispatch(logout());
+        message.error(errorCodeMessage[status] ?? error.message);
+      } else {
+        message.error(
+          error.response.data.message ??
+            errorCodeMessage[status] ??
+            error.message,
+        );
+      }
+      return Promise.reject(error);
+    },
+  );
+};
 /**
  *
  * @param {url, method, data, params} config
@@ -51,11 +64,6 @@ const request = async config => {
     } else {
       console.log("Error message", error.message);
     }
-    message.error(
-      error.response.data.message ??
-        errorCodeMessage[error.response.status] ??
-        error.message,
-    );
     return { status: error.response.status, data: error.response.data };
   }
 };

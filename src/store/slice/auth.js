@@ -9,7 +9,6 @@ export const login = createAsyncThunk(
       method: "POST",
       data: params,
     });
-    console.log({ status, data });
     if (status !== 200) return;
     return data;
   },
@@ -18,7 +17,7 @@ export const login = createAsyncThunk(
 export const slice = createSlice({
   name: "user",
   initialState: {
-    user: JSON.parse(localStorage.getItem("user")),
+    user: JSON.parse(localStorage.getItem("user")) || null,
   },
   reducers: {
     setUser: (state, action) => {
