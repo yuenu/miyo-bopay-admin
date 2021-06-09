@@ -20,7 +20,7 @@ import {
   isActiveLang,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
-import Search from "./Search";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
 import Detail from "./Detail";
@@ -28,6 +28,19 @@ import Detail from "./Detail";
 const User = () => {
   const dispatch = useDispatch();
 
+  const searchFields = {
+    id: { type: "string", lang: "ID" },
+    order_no: { type: "string", lang: "订单号" },
+    trans_no: { type: "string", lang: "第三方订单号" },
+    currency: { type: "select", lang: "货币类型", options: Currency },
+    userid: { type: "string", lang: "会员ID" },
+    app_id: { type: "string", lang: "AppID" },
+    paid: { type: "switch", lang: "付款成功" },
+    approved: { type: "switch", lang: "审核通过" },
+    developer_id: { type: "string", lang: "商户ID" },
+    created_btw: { type: "rangeDate", lang: "created" },
+    paid_btw: { type: "rangeDate", lang: "支付时间" },
+  };
   const handleSearch = formModel => {
     handleGetList({ ...formModel });
   };
@@ -143,17 +156,17 @@ const User = () => {
     const { status } = await notifyOrder(id);
     close();
     if (status !== 200) return;
-    message.success("訂單已通知！");
+    message.success("订单已通知！");
     await handleGetList({ page: meta.page });
   };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "訂單號", dataIndex: "order_no" },
-    { title: "第三方訂單號", dataIndex: "trans_no" },
+    { title: "订单号", dataIndex: "order_no" },
+    { title: "第三方订单号", dataIndex: "trans_no" },
     { title: "AppID", dataIndex: "app_id" },
     { title: "商戶ID", dataIndex: "developer_id" },
-    { title: "會員ID", dataIndex: "userid" },
+    { title: "会员ID", dataIndex: "userid" },
     { title: "會員姓名", dataIndex: "name" },
     {
       title: "訂單狀態",
@@ -175,7 +188,7 @@ const User = () => {
     { title: "設備類型", dataIndex: "device_type" },
     { title: "支付狀態", dataIndex: "pay_status" },
     {
-      title: "支付時間",
+      title: "支付时间",
       dataIndex: "paid_at",
       width: 170,
       render: val => dateFormat(val),
@@ -207,7 +220,7 @@ const User = () => {
       render: (val, record) => priceFormat({ val, currency: record.currency }),
     },
     {
-      title: "貨幣類型",
+      title: "货币类型",
       dataIndex: "currency",
       render: val => Currency[val] || "",
     },
@@ -219,7 +232,7 @@ const User = () => {
       ),
     },
     {
-      title: "審核通過",
+      title: "审核通过",
       dataIndex: "approved",
       render: val => (
         <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
@@ -281,7 +294,7 @@ const User = () => {
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
