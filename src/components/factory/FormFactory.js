@@ -1,5 +1,6 @@
 import { Card, Form, Row, Col, Space, Button } from "antd";
 import InputFactory from "./InputFactory";
+import { formLayout } from "@/utils/enum";
 /**
  * fields
  * @param {object} fields
@@ -26,13 +27,12 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
     type === "checkbox" || type === "switch" ? "checked" : "value";
   return (
     <Card>
-      <Form form={form}>
+      <Form form={form} {...formLayout}>
         <Row gutter={24}>
           {Object.keys(fields).map(i => {
-            const mdCol = fields[i].type === "rangeDate" ? 16 : 8;
             const inputFactoryProps = fields[i];
             return (
-              <Col xs={24} md={mdCol} key={i}>
+              <Col xs={24} sm={12} md={8} key={i}>
                 <Form.Item
                   name={i}
                   label={fields[i].lang}

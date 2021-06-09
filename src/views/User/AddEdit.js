@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { Modal, Form, Input, Spin, Checkbox, Switch } from "antd";
 import { formLayout, mode } from "@/utils/enum";
 const AddEdit = props => {
-  const wrapperCol = { offset: 6, span: 18 };
+  const wrapperCol = {
+    offset: formLayout.labelCol.span,
+    span: formLayout.wrapperCol.span,
+  };
   const [form] = Form.useForm();
   const handleOk = async () => {
     await props.onOk(form.getFieldsValue());

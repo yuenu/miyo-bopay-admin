@@ -17,7 +17,7 @@ export const errorCodeMessage = {
   503: "服务不可用，服务器暂时过载或维护。",
   504: "网关超时。",
 };
-export const formLayout = { labelCol: { span: 6 }, wrapperCol: { span: 18 } };
+export const formLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
 export const mode = { add: "添加", edit: "編輯", approve: "審核" };
 export const isActiveLang = val => {
   return val ? "是" : "否";

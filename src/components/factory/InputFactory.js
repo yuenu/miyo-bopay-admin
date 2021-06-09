@@ -6,7 +6,7 @@ const InputFactory = props => {
   const { type, options, isModule, ...rest } = props;
   const SelectC = () => {
     return (
-      <Select {...rest} allowClear>
+      <Select {...rest} allowClear placeholder="请选择">
         {options &&
           Object.keys(options).map(i => (
             <Option value={isModule ? !!Number(i) : Number(i)} key={i}>

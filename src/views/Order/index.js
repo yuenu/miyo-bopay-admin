@@ -42,7 +42,12 @@ const User = () => {
       options: isModule,
       isModule: true,
     },
-    approved: { type: "switch", lang: "审核通过" },
+    approved: {
+      type: "select",
+      lang: "审核通过",
+      options: isModule,
+      isModule: true,
+    },
     developer_id: { type: "string", lang: "商户ID" },
     created_btw: { type: "rangeDate", lang: "created" },
     paid_btw: { type: "rangeDate", lang: "支付时间" },
