@@ -20,7 +20,7 @@ import {
   isActiveLang,
   isModule,
 } from "@/utils/enum";
-import { priceFormat, dateFormat } from "@/utils/format";
+import { priceFormat, dateFormat, searchFieldsFormat } from "@/utils/format";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -53,9 +53,8 @@ const User = () => {
     paid_btw: { type: "rangeDate", lang: "支付时间" },
   };
   const handleSearch = formModel => {
-    const params = { ...formModel };
-    console.log(params);
-    // handleGetList({ ...formModel });
+    const params = searchFieldsFormat({ searchFields, formModel });
+    handleGetList(params);
   };
 
   const { list, currentRow, meta } = useSelector(selectOrder);

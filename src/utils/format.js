@@ -16,3 +16,20 @@ export const priceFormat = ({ val, currency }) => {
     return "";
   }
 };
+
+export const rangeDateFormat = val => {
+  if (!val) return;
+  return `${val[0]._d.toISOString()}~${val[1]._d.toISOString()}`;
+};
+
+export const searchFieldsFormat = ({ searchFields, formModel }) => {
+  let params = {};
+  Object.keys(searchFields).forEach(i => {
+    if (searchFields[i].type === "rangeDate") {
+      formModel[i] && (params[i] = rangeDateFormat(formModel[i]));
+    } else {
+      formModel[i] && (params[i] = formModel[i]);
+    }
+  });
+  return params;
+};
