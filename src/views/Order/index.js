@@ -50,7 +50,7 @@ const User = () => {
     },
     developer_id: { type: "string", lang: "商户ID" },
     created__btw: { type: "rangeDate", lang: "created" },
-    paid__btw: { type: "rangeDate", lang: "支付时间" },
+    paid_at__btw: { type: "rangeDate", lang: "支付时间" },
   };
   const handleSearch = formModel => {
     const params = searchFieldsFormat({ searchFields, formModel });
