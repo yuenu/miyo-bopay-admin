@@ -58,7 +58,7 @@ export const slice = createSlice({
   },
   extraReducers: {
     [getAgents.fulfilled]: (state, action) => {
-      const { status, data } = action.payload;
+      const { status } = action.payload;
       if (status !== 200) return;
       // state.list = data.data;
       // state.meta = {

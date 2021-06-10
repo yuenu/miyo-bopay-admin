@@ -31,7 +31,6 @@ const CryptoWallet = () => {
       options: isBoolEnum,
       isBool: true,
     },
-    login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
 
   const {

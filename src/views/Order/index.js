@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Space, Table, Modal, message, Tag } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   selectOrder,
   getOrders,
