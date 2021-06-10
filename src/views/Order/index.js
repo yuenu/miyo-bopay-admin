@@ -49,8 +49,8 @@ const User = () => {
       isModule: true,
     },
     developer_id: { type: "string", lang: "商户ID" },
-    created_btw: { type: "rangeDate", lang: "created" },
-    paid_btw: { type: "rangeDate", lang: "支付时间" },
+    created__btw: { type: "rangeDate", lang: "created" },
+    paid__btw: { type: "rangeDate", lang: "支付时间" },
   };
   const handleSearch = formModel => {
     const params = searchFieldsFormat({ searchFields, formModel });

@@ -10,15 +10,22 @@ import {
 } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
 import { isActiveLang } from "@/utils/enum";
-import Search from "./Search";
+import { searchFieldsFormat } from "@/utils/format";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const User = () => {
   const dispatch = useDispatch();
 
+  const searchFields = {
+    id: { type: "string", lang: "會員ID" },
+    name: { type: "string", lang: "會員姓名" },
+    created__btw: { type: "rangeDate", lang: "創建日期" },
+  };
   const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+    const params = searchFieldsFormat({ searchFields, formModel });
+    handleGetList(params);
   };
 
   const { list, currentRow, meta } = useSelector(selectUser);
@@ -112,7 +119,7 @@ const User = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>

@@ -32,7 +32,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
           {Object.keys(fields).map(i => {
             const inputFactoryProps = fields[i];
             return (
-              <Col xs={24} sm={12} md={8} key={i}>
+              <Col xs={24} md={12} xl={8} key={i}>
                 <Form.Item
                   name={i}
                   label={fields[i].lang}
