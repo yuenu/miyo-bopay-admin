@@ -1,6 +1,7 @@
 import { Card, Form, Row, Col, Space, Button } from "antd";
 import InputFactory from "./InputFactory";
 import { formLayout } from "@/utils/enum";
+import { searchFieldsFormat } from "@/utils/format";
 /**
  * fields
  * @param {object} fields
@@ -9,7 +10,6 @@ import { formLayout } from "@/utils/enum";
  * @param {string} fields.name.lang - form label
  * @param {string} fields.name.options - when type === 'select', pass options.
  * @function handleSubmit  - 送出表單
- * @function handleReset - 清除表單
  */
 export const SearchFormFactory = ({ fields, handleSubmit }) => {
   const [form] = Form.useForm();
@@ -17,10 +17,11 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
     form.resetFields();
   };
   const handleSearchClick = () => {
-    const params = form.getFieldsValue();
-    Object.keys(params).forEach(i => {
-      params[i] === undefined && delete params[i];
+    const formModel = form.getFieldsValue();
+    Object.keys(formModel).forEach(i => {
+      formModel[i] === undefined && delete formModel[i];
     });
+    const params = searchFieldsFormat({ fields, formModel });
     handleSubmit(params);
   };
   const valuePropName = type =>

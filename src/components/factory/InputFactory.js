@@ -3,13 +3,13 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const InputFactory = props => {
-  const { type, options, isModule, ...rest } = props;
+  const { type, options, isBool, ...rest } = props;
   const SelectC = () => {
     return (
       <Select {...rest} allowClear placeholder="请选择">
         {options &&
           Object.keys(options).map(i => (
-            <Option value={isModule ? !!Number(i) : Number(i)} key={i}>
+            <Option value={isBool ? !!Number(i) : Number(i)} key={i}>
               {options[i]}
             </Option>
           ))}

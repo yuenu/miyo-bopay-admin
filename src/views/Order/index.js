@@ -18,9 +18,9 @@ import {
   PayMethod,
   Currency,
   isActiveLang,
-  isModule,
+  isBoolEnum,
 } from "@/utils/enum";
-import { priceFormat, dateFormat, searchFieldsFormat } from "@/utils/format";
+import { priceFormat, dateFormat } from "@/utils/format";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -39,22 +39,18 @@ const User = () => {
     paid: {
       type: "select",
       lang: "付款成功",
-      options: isModule,
-      isModule: true,
+      options: isBoolEnum,
+      isBool: true,
     },
     approved: {
       type: "select",
       lang: "审核通过",
-      options: isModule,
-      isModule: true,
+      options: isBoolEnum,
+      isBool: true,
     },
     developer_id: { type: "string", lang: "商户ID" },
     created__btw: { type: "rangeDate", lang: "created" },
     paid_at__btw: { type: "rangeDate", lang: "支付时间" },
-  };
-  const handleSearch = formModel => {
-    const params = searchFieldsFormat({ searchFields, formModel });
-    handleGetList(params);
   };
 
   const { list, currentRow, meta } = useSelector(selectOrder);
@@ -306,7 +302,7 @@ const User = () => {
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>

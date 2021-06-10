@@ -2,13 +2,15 @@ import { useState, useEffect, useCallback } from "react";
 import { Space, Table } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { selectLoginLog, getLoginLogs } from "@/store/slice/loginLog";
-import Search from "./Search";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 
 const LoginLog = () => {
   const dispatch = useDispatch();
 
-  const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+  const searchFields = {
+    id: { type: "string", lang: "ID" },
+    name: { type: "string", lang: "username" },
+    login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
 
   const { list, meta } = useSelector(selectLoginLog);
@@ -39,7 +41,7 @@ const LoginLog = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Table
         columns={columns}
         dataSource={list}

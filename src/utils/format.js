@@ -22,10 +22,10 @@ export const rangeDateFormat = val => {
   return `${val[0]._d.toISOString()}~${val[1]._d.toISOString()}`;
 };
 
-export const searchFieldsFormat = ({ searchFields, formModel }) => {
+export const searchFieldsFormat = ({ fields, formModel }) => {
   let params = {};
-  Object.keys(searchFields).forEach(i => {
-    if (searchFields[i].type === "rangeDate") {
+  Object.keys(fields).forEach(i => {
+    if (fields[i].type === "rangeDate") {
       formModel[i] && (params[i] = rangeDateFormat(formModel[i]));
     } else {
       formModel[i] && (params[i] = formModel[i]);

@@ -9,15 +9,17 @@ import {
   editAgent,
 } from "@/store/slice/agent";
 import { PlusOutlined } from "@ant-design/icons";
-import Search from "./Search";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const Agent = () => {
   const dispatch = useDispatch();
 
-  const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+  const searchFields = {
+    id: { type: "string", lang: "會員ID" },
+    name: { type: "string", lang: "會員姓名" },
+    created__btw: { type: "rangeDate", lang: "創建日期" },
   };
 
   const { list, currentRow, meta } = useSelector(selectAgent);
@@ -111,7 +113,7 @@ const Agent = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>

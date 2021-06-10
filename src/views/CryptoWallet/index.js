@@ -7,10 +7,10 @@ import {
   getCryptoWallet,
   addCryptoWallet,
 } from "@/store/slice/cryptoWallet";
-import { isActiveLang, Currency } from "@/utils/enum";
+import { isActiveLang, Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
-import Search from "./Search";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { useHistory, generatePath } from "react-router-dom";
@@ -20,8 +20,17 @@ const CryptoWallet = () => {
 
   const dispatch = useDispatch();
 
-  const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+  const searchFields = {
+    id: { type: "string", lang: "ID" },
+    name: { type: "string", lang: "钱包名" },
+    currency: { type: "select", lang: "货币", options: Currency },
+    is_active: {
+      type: "select",
+      lang: "是否启用",
+      options: isBoolEnum,
+      isBool: true,
+    },
+    login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
 
   const { list, currentRow, meta } = useSelector(selectCryptoWallet);
@@ -112,7 +121,7 @@ const CryptoWallet = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
