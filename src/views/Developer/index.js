@@ -8,34 +8,29 @@ import {
   addDeveloper,
   editDeveloper,
 } from "@/store/slice/developer";
+import { useGetList } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
-import Search from "./Search";
+import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const User = () => {
   const dispatch = useDispatch();
-
-  const handleSearch = formModel => {
-    handleGetList({ ...formModel });
+  const searchFields = {
+    id: { type: "string", lang: "ID" },
+    name: { type: "string", lang: "username" },
+    login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
+  const {
+    res: { list, currentRow, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getDevelopers, selectDeveloper);
 
-  const { list, currentRow, meta } = useSelector(selectDeveloper);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getDevelopers(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -105,7 +100,8 @@ const User = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <Search onOk={handleSearch} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>

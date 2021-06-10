@@ -1,7 +1,9 @@
+import React from "react";
 import { Card, Form, Row, Col, Space, Button } from "antd";
 import InputFactory from "./InputFactory";
 import { formLayout } from "@/utils/enum";
 import { searchFieldsFormat } from "@/utils/format";
+
 /**
  * fields
  * @param {object} fields

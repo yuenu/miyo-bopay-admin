@@ -8,6 +8,7 @@ import {
   addAgent,
   editAgent,
 } from "@/store/slice/agent";
+import { useGetList } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
@@ -21,23 +22,15 @@ const Agent = () => {
     name: { type: "string", lang: "會員姓名" },
     created__btw: { type: "rangeDate", lang: "創建日期" },
   };
-
-  const { list, currentRow, meta } = useSelector(selectAgent);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getAgents(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
+  const {
+    res: { list, currentRow, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getAgents, selectAgent);
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);

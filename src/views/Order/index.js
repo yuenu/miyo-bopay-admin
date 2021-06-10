@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Table, Modal, message, Tag } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -21,6 +21,7 @@ import {
   isBoolEnum,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
+import { useGetList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
@@ -53,22 +54,16 @@ const User = () => {
     paid_at__btw: { type: "rangeDate", lang: "支付时间" },
   };
 
-  const { list, currentRow, meta } = useSelector(selectOrder);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getOrders(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
+  const {
+    res: { list, currentRow, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getOrders, selectOrder);
+
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Table, Tag, message } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   selectCryptoWallet,
   getCryptoWallets,
@@ -10,6 +10,7 @@ import {
 import { isActiveLang, Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
+import { useGetList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -33,22 +34,16 @@ const CryptoWallet = () => {
     login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
 
-  const { list, currentRow, meta } = useSelector(selectCryptoWallet);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getCryptoWallets(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
+  const {
+    res: { list, currentRow, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getCryptoWallets, selectCryptoWallet);
+
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);

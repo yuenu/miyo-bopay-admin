@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Table, Tag, message } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   selectAppUser,
   getAppUsers,
@@ -8,6 +8,7 @@ import {
   addAppUser,
   editAppUser,
 } from "@/store/slice/appUser";
+import { useGetList } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
@@ -21,23 +22,16 @@ const AppUser = () => {
     name: { type: "string", lang: "會員姓名" },
     created__btw: { type: "rangeDate", lang: "創建日期" },
   };
+  const {
+    res: { list, currentRow, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getAppUsers, selectAppUser);
 
-  const { list, currentRow, meta } = useSelector(selectAppUser);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getAppUsers(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);

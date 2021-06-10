@@ -1,34 +1,25 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import { Space, Table } from "antd";
-import { useSelector, useDispatch } from "react-redux";
 import { selectLoginLog, getLoginLogs } from "@/store/slice/loginLog";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import { useGetList } from "@/utils/hook";
 
 const LoginLog = () => {
-  const dispatch = useDispatch();
-
   const searchFields = {
     id: { type: "string", lang: "ID" },
     name: { type: "string", lang: "username" },
     login_time__btw: { type: "rangeDate", lang: "loginTime" },
   };
+  const {
+    res: { list, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+  } = useGetList(getLoginLogs, selectLoginLog);
 
-  const { list, meta } = useSelector(selectLoginLog);
-  const [listLoading, setListLoading] = useState(false);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getLoginLogs(params));
-      setListLoading(false);
-    },
-    [dispatch],
-  );
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
-  };
 
   const columns = [
     { title: "id", dataIndex: "id" },
