@@ -8,7 +8,7 @@ import {
   addAgent,
   editAgent,
 } from "@/store/slice/agent";
-import { useGetList } from "@/utils/hook";
+import { useList } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
@@ -27,7 +27,7 @@ const Agent = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getAgents, selectAgent);
+  } = useList(getAgents, selectAgent);
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);

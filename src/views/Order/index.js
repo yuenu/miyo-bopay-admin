@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { Button, Space, Table, Modal, message, Tag } from "antd";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Button, Space, Table, Modal, message } from "antd";
 import {
   selectOrder,
   getOrders,
@@ -17,19 +16,17 @@ import {
   WXPayType,
   PayMethod,
   Currency,
-  isActiveLang,
   isBoolEnum,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
-import { useGetList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Edit from "./Edit";
 import Detail from "./Detail";
 
-const User = () => {
-  const dispatch = useDispatch();
-
+const Order = () => {
   const searchFields = {
     id: { type: "string", lang: "ID" },
     order_no: { type: "string", lang: "订单号" },
@@ -55,15 +52,11 @@ const User = () => {
   };
 
   const {
-    res: { list, currentRow, meta },
+    res: { list, meta },
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getOrders, selectOrder);
-
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
+  } = useList(getOrders, selectOrder);
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -79,54 +72,33 @@ const User = () => {
     setAddVisible(false);
   };
 
-  const handleGetDetail = async id => {
-    await dispatch(getOrder(id));
-  };
-
+  const [detailId, setDetailId] = useState(null);
+  const {
+    currentRow,
+    loading: detailLoading,
+    handleEdit,
+  } = useDetail(getOrder, selectOrder, detailId);
   const [detailVisible, setDetailVisible] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
+    setDetailId(id);
     setDetailVisible(true);
-    setDetailLoading(true);
-    await handleGetDetail(id);
-    setDetailLoading(false);
   };
 
   const [editVisible, setEditVisible] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
-  const [editRecord, setEditRecord] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
   const handleEditClick = async (record, mode) => {
     setEditVisible(true);
-    setEditRecord(record);
+    setEditId(record.id);
     setEditMode(mode);
   };
-  const handleEditOk = formModel => {
-    editMode === "approve" && handleApprove(formModel);
-    editMode === "deny" && handleDeny(formModel);
-  };
-  const handleApprove = async formModel => {
-    setEditLoading(true);
-    const { status } = await approveOrder({
-      id: editRecord.id,
-      ...formModel,
-    });
-    status === 200 && message.success("審核成功！");
+  const handleEditOk = async formModel => {
+    const action = editMode === "approve" ? approveOrder : denyOrder;
+    await handleEdit({ action, id: editId, ...formModel });
     await handleGetList({ page: meta.page });
     setEditVisible(false);
-    setEditLoading(false);
   };
-  const handleDeny = async formModel => {
-    setEditLoading(true);
-    const { status } = await denyOrder({
-      id: editRecord.id,
-      ...formModel,
-    });
-    status === 200 && message.success("已拒絕訂單！");
-    await handleGetList({ page: meta.page });
-    setEditVisible(false);
-    setEditLoading(false);
-  };
+
   const handleCancelClick = id => {
     Modal.confirm({
       title: "是否取消訂單",
@@ -230,37 +202,27 @@ const User = () => {
     {
       title: "付款成功",
       dataIndex: "paid",
-      render: val => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "审核通过",
       dataIndex: "approved",
-      render: val => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "是否加密貨幣",
       dataIndex: "is_crypto",
-      render: val => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "是否在線訂單",
       dataIndex: "is_online",
-      render: val => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "清算成功",
       dataIndex: "settled",
-      render: val => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "動作",
@@ -332,11 +294,11 @@ const User = () => {
         visible={editVisible}
         onOk={handleEditOk}
         onCancel={() => setEditVisible(false)}
-        loading={editLoading}
-        data={editRecord}
+        loading={detailLoading}
+        id={editId}
         mode={editMode}
       />
     </Space>
   );
 };
-export default User;
+export default Order;

@@ -1,12 +1,5 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useContext,
-  useRef,
-} from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import {
   selectCryptoWallet,
   getCryptoWallet,
@@ -24,28 +17,30 @@ import {
 } from "antd";
 import { formLayout, Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
+import { useDetail } from "@/utils/hook";
+import { useHistory } from "react-router-dom";
+
 const EditableContext = React.createContext(null);
 const { Option } = Select;
 
 const Edit = () => {
+  const history = useHistory();
   let { id } = useParams();
-  const dispatch = useDispatch();
 
   const [form] = Form.useForm();
-  const { currentRow } = useSelector(selectCryptoWallet);
-  const [loading, setLoading] = useState(false);
+  const { currentRow, loading } = useDetail(
+    getCryptoWallet,
+    selectCryptoWallet,
+    id,
+  );
 
-  const handleGetDetail = useCallback(async () => {
-    setLoading(true);
-    await dispatch(getCryptoWallet(id));
-    setLoading(false);
-  }, [dispatch, id]);
-  useEffect(() => {
-    handleGetDetail();
-  }, [handleGetDetail]);
   useEffect(() => {
     form.setFieldsValue(currentRow);
   }, [currentRow, form]);
+
+  const handleCancel = () => {
+    history.push("/CryptoWallet");
+  };
 
   const columns = [
     {
@@ -194,7 +189,7 @@ const Edit = () => {
             <div className="text-right">
               <Space size="small">
                 <Button type="primary">保存修改</Button>
-                <Button>取消</Button>
+                <Button onClick={handleCancel}>取消</Button>
               </Space>
             </div>
           </Form>

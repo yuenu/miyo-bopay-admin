@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Table, message } from "antd";
 import { useDispatch } from "react-redux";
 import {
   selectCryptoWallet,
@@ -7,13 +7,14 @@ import {
   getCryptoWallet,
   addCryptoWallet,
 } from "@/store/slice/cryptoWallet";
-import { isActiveLang, Currency, isBoolEnum } from "@/utils/enum";
+import { Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
-import { useGetList } from "@/utils/hook";
+import { useList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import Tag from "@/components/Tag";
 import { useHistory, generatePath } from "react-router-dom";
 
 const CryptoWallet = () => {
@@ -38,7 +39,7 @@ const CryptoWallet = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getCryptoWallets, selectCryptoWallet);
+  } = useList(getCryptoWallets, selectCryptoWallet);
 
   useEffect(() => {
     handleGetList();
@@ -93,9 +94,7 @@ const CryptoWallet = () => {
     {
       title: "是否启用",
       dataIndex: "is_active",
-      render: (_, recore) => (
-        <Tag color={_ ? "green" : "default"}>{isActiveLang(_)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     { title: "备注", dataIndex: "note" },
     {

@@ -8,7 +8,7 @@ import {
   addDeveloper,
   editDeveloper,
 } from "@/store/slice/developer";
-import { useGetList } from "@/utils/hook";
+import { useList } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
@@ -26,7 +26,7 @@ const User = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getDevelopers, selectDeveloper);
+  } = useList(getDevelopers, selectDeveloper);
 
   useEffect(() => {
     handleGetList();

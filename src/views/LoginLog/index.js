@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Space, Table } from "antd";
 import { selectLoginLog, getLoginLogs } from "@/store/slice/loginLog";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import { useGetList } from "@/utils/hook";
+import { useList } from "@/utils/hook";
 
 const LoginLog = () => {
   const searchFields = {
@@ -15,7 +15,7 @@ const LoginLog = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getLoginLogs, selectLoginLog);
+  } = useList(getLoginLogs, selectLoginLog);
 
   useEffect(() => {
     handleGetList();

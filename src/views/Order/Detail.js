@@ -1,14 +1,9 @@
-import { Modal, Descriptions, Tag, Button } from "antd";
+import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import {
-  isActiveLang,
-  OrderStatus,
-  WXPayType,
-  PayMethod,
-  Currency,
-} from "@/utils/enum";
+import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
 
 import Spin from "@/components/Spin";
+import Tag from "@/components/Tag";
 const Detail = props => {
   const {
     id,
@@ -111,27 +106,19 @@ const Detail = props => {
             {Currency[currency]}
           </Descriptions.Item>
           <Descriptions.Item label="付款成功">
-            <Tag color={paid ? "green" : "default"}>{isActiveLang(paid)}</Tag>
+            <Tag val={paid} />
           </Descriptions.Item>
           <Descriptions.Item label="審核通過">
-            <Tag color={approved ? "green" : "default"}>
-              {isActiveLang(approved)}
-            </Tag>
+            <Tag val={approved} />
           </Descriptions.Item>
           <Descriptions.Item label="是否加密貨幣">
-            <Tag color={is_crypto ? "green" : "default"}>
-              {isActiveLang(is_crypto)}
-            </Tag>
+            <Tag val={is_crypto} />
           </Descriptions.Item>
           <Descriptions.Item label="是否在線訂單">
-            <Tag color={is_online ? "green" : "default"}>
-              {isActiveLang(is_online)}
-            </Tag>
+            <Tag val={is_online} />
           </Descriptions.Item>
           <Descriptions.Item label="清算成功">
-            <Tag color={settled ? "green" : "default"}>
-              {isActiveLang(settled)}
-            </Tag>
+            <Tag val={settled} />
           </Descriptions.Item>
         </Descriptions>
       </Spin>

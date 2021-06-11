@@ -23,7 +23,7 @@ const Edit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...layout} form={form}>
-          <Form.Item label="ID">{props.data.id}</Form.Item>
+          <Form.Item label="ID">{props.id}</Form.Item>
           {props.mode === "approve" && (
             <Form.Item name="amount_paid" label="實際付款金額">
               <InputNumber />

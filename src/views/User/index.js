@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { Button, Space, Table, message } from "antd";
 import {
   selectUser,
   getUsers,
@@ -9,15 +8,13 @@ import {
   editUser,
 } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
-import { isActiveLang } from "@/utils/enum";
-import { useGetList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const User = () => {
-  const dispatch = useDispatch();
-
   const searchFields = {
     id: { type: "string", lang: "會員ID" },
     name: { type: "string", lang: "會員姓名" },
@@ -25,15 +22,11 @@ const User = () => {
   };
 
   const {
-    res: { list, currentRow, meta },
+    res: { list, meta },
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useGetList(getUsers, selectUser);
-
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
+  } = useList(getUsers, selectUser);
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -49,37 +42,27 @@ const User = () => {
     setAddVisible(false);
   };
 
-  const handleGetDetail = async id => {
-    await dispatch(getUser(id));
-  };
-
+  const [detailId, setDetailId] = useState(null);
+  const {
+    currentRow,
+    loading: detailLoading,
+    handleEdit: handleEditHook,
+  } = useDetail(getUser, selectUser, detailId);
   const [detailVisible, setDetailVisible] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
+    setDetailId(id);
     setDetailVisible(true);
-    setDetailLoading(true);
-    await handleGetDetail(id);
-    setDetailLoading(false);
   };
 
   const [editVisible, setEditVisible] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
+    setDetailId(id);
     setEditVisible(true);
-    setEditLoading(true);
-    await handleGetDetail(id);
-    setEditLoading(false);
   };
   const handleEdit = async formModel => {
-    setEditLoading(true);
-    const { status } = await editUser({
-      id: currentRow.id,
-      formModel: { ...currentRow, ...formModel },
-    });
-    status === 200 && message.success("更新成功！");
-    await handleGetList({ page: meta.page });
+    await handleEditHook({ action: editUser, id: currentRow.id, ...formModel });
     setEditVisible(false);
-    setEditLoading(false);
+    await handleGetList({ page: meta.page });
   };
 
   const columns = [
@@ -89,9 +72,7 @@ const User = () => {
     {
       title: "启用",
       dataIndex: "is_active",
-      render: (val, recore) => (
-        <Tag color={val ? "green" : "default"}>{isActiveLang(val)}</Tag>
-      ),
+      render: val => <Tag val={val} />,
     },
     {
       title: "動作",
@@ -139,7 +120,7 @@ const User = () => {
         visible={editVisible}
         onOk={handleEdit}
         onCancel={() => setEditVisible(false)}
-        loading={editLoading}
+        loading={detailLoading}
         data={currentRow}
         mode="edit"
       />

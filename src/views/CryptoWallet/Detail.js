@@ -1,7 +1,8 @@
-import { Modal, Descriptions, Tag, Button } from "antd";
+import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import { isActiveLang, Currency } from "@/utils/enum";
+import { Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
+import Tag from "@/components/Tag";
 
 const Detail = props => {
   const {
@@ -40,9 +41,7 @@ const Detail = props => {
           <Descriptions.Item label="余额">{balance}</Descriptions.Item>
           <Descriptions.Item label="区块链">{network}</Descriptions.Item>
           <Descriptions.Item label="是否启用">
-            <Tag color={is_active ? "green" : "default"}>
-              {isActiveLang(is_active)}
-            </Tag>
+            <Tag val={is_active} />
           </Descriptions.Item>
           <Descriptions.Item label="token">{token}</Descriptions.Item>
           <Descriptions.Item label="創建日期">
