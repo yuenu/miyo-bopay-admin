@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Space, Table, message } from "antd";
-import { useDispatch } from "react-redux";
 import {
   selectCryptoWallet,
   getCryptoWallets,
@@ -10,7 +9,7 @@ import {
 import { Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -19,8 +18,6 @@ import { useHistory, generatePath } from "react-router-dom";
 
 const CryptoWallet = () => {
   const history = useHistory();
-
-  const dispatch = useDispatch();
 
   const searchFields = {
     id: { type: "string", lang: "ID" },
@@ -35,15 +32,11 @@ const CryptoWallet = () => {
   };
 
   const {
-    res: { list, currentRow, meta },
+    res: { list, meta },
     loading: listLoading,
     handleGetList,
     handleChangePage,
   } = useList(getCryptoWallets, selectCryptoWallet);
-
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -59,17 +52,15 @@ const CryptoWallet = () => {
     setAddVisible(false);
   };
 
-  const handleGetDetail = async id => {
-    await dispatch(getCryptoWallet(id));
-  };
-
+  const [detailId, setDetailId] = useState(null);
+  const { currentRow, loading: detailLoading } = useDetail(
+    { action: getCryptoWallet, id: detailId },
+    selectCryptoWallet,
+  );
   const [detailVisible, setDetailVisible] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
     setDetailVisible(true);
-    setDetailLoading(true);
-    await handleGetDetail(id);
-    setDetailLoading(false);
+    setDetailId(id);
   };
 
   const handleEditClick = async id => {

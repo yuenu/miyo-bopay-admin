@@ -77,7 +77,7 @@ const Order = () => {
     currentRow,
     loading: detailLoading,
     handleEdit,
-  } = useDetail(getOrder, selectOrder, detailId);
+  } = useDetail({ action: getOrder, id: detailId }, selectOrder);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -106,10 +106,10 @@ const Order = () => {
       content: `即將取消訂單 ${id}，是否繼續？`,
       okText: "確認",
       cancelText: "取消",
-      onOk: close => handleCancel(close, id),
+      onOk: close => handleCancelOrder(close, id),
     });
   };
-  const handleCancel = async (close, id) => {
+  const handleCancelOrder = async (close, id) => {
     const { status } = await cancelOrder(id);
     close();
     if (status !== 200) return;

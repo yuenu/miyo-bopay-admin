@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Space, Table } from "antd";
 import { selectLoginLog, getLoginLogs } from "@/store/slice/loginLog";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -16,10 +15,6 @@ const LoginLog = () => {
     handleGetList,
     handleChangePage,
   } = useList(getLoginLogs, selectLoginLog);
-
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
 
   const columns = [
     { title: "id", dataIndex: "id" },

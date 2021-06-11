@@ -47,7 +47,7 @@ const User = () => {
     currentRow,
     loading: detailLoading,
     handleEdit: handleEditHook,
-  } = useDetail(getUser, selectUser, detailId);
+  } = useDetail({ action: getUser, id: detailId }, selectUser);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -62,7 +62,7 @@ const User = () => {
   const handleEdit = async formModel => {
     await handleEditHook({ action: editUser, id: currentRow.id, ...formModel });
     setEditVisible(false);
-    await handleGetList({ page: meta.page });
+    handleGetList({ page: meta.page });
   };
 
   const columns = [

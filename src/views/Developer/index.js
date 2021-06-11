@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button, Space, Table, message } from "antd";
 import { useDispatch } from "react-redux";
 import {
@@ -27,10 +27,6 @@ const User = () => {
     handleGetList,
     handleChangePage,
   } = useList(getDevelopers, selectDeveloper);
-
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);

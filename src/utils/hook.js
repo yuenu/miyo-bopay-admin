@@ -28,19 +28,19 @@ export const useList = (action, selector) => {
   };
 };
 
-export const useDetail = (ac, selector, id) => {
+export const useDetail = ({ action, id }, selector) => {
   const dispatch = useDispatch();
   const { currentRow } = useSelector(selector);
   const [loading, setLoading] = useState(false);
   const handleGetDetail = useCallback(async () => {
     setLoading(true);
-    await dispatch(ac(id));
+    await dispatch(action(id));
     setLoading(false);
-  }, [dispatch, ac, id]);
+  }, [dispatch, action, id]);
 
-  const handleEdit = async ({ action, id: editId, ...params }) => {
+  const handleEdit = async ({ action: editAction, id: editId, ...params }) => {
     setLoading(true);
-    const { status } = await action({
+    const { status } = await editAction({
       id: editId,
       formModel: params,
     });

@@ -3,7 +3,6 @@ import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const SpinC = props => {
-  console.log(props.spinning);
   return (
     <Spin spinning={props.spinning} indicator={<LoadingOutlined />}>
       {props.children}

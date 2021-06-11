@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import {
   selectCryptoWallet,
   getCryptoWallet,
+  editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import {
   Card,
@@ -26,12 +27,10 @@ const { Option } = Select;
 const Edit = () => {
   const history = useHistory();
   let { id } = useParams();
-
   const [form] = Form.useForm();
-  const { currentRow, loading } = useDetail(
-    getCryptoWallet,
+  const { currentRow, loading, handleEdit } = useDetail(
+    { action: getCryptoWallet, id },
     selectCryptoWallet,
-    id,
   );
 
   useEffect(() => {
@@ -40,6 +39,10 @@ const Edit = () => {
 
   const handleCancel = () => {
     history.push("/CryptoWallet");
+  };
+  const handleSubmit = () => {
+    const formModel = form.getFieldsValue();
+    handleEdit({ action: editCryptoWallet, id, ...formModel });
   };
 
   const columns = [
@@ -188,7 +191,9 @@ const Edit = () => {
             </Form.Item>
             <div className="text-right">
               <Space size="small">
-                <Button type="primary">保存修改</Button>
+                <Button type="primary" onClick={handleSubmit}>
+                  保存修改
+                </Button>
                 <Button onClick={handleCancel}>取消</Button>
               </Space>
             </div>
