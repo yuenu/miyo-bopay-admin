@@ -59,6 +59,7 @@ const AppUser = () => {
   };
   const handleEditOk = async formModel => {
     await handleEdit({ action: editAppUser, id: currentRow.id, ...formModel });
+    setEditVisible(false);
   };
 
   const columns = [

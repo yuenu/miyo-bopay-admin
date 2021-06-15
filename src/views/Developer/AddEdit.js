@@ -13,7 +13,7 @@ const AddEdit = props => {
   });
   return (
     <Modal
-      title={`${mode[props.mode]}職員`}
+      title={`${mode[props.mode]}App用戶`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}

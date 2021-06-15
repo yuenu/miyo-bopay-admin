@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Checkbox } from "antd";
+import { Modal, Form, Input, Spin, InputNumber } from "antd";
 import { formLayout, mode } from "@/utils/enum";
 const AddEdit = props => {
   const [form] = Form.useForm();
@@ -28,49 +28,32 @@ const AddEdit = props => {
           <Form.Item name="phone" label="電話">
             <Input />
           </Form.Item>
-          <Form.Item name="email" label="email">
+          <Form.Item name="app_id" label="AppId">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="app_name" label="AppName">
             <Input />
           </Form.Item>
-          <Form.Item name="username" label="username">
+          <Form.Item name="app_userid" label="app_userid">
             <Input />
           </Form.Item>
-          <Form.Item name="password" label="password">
+          <Form.Item name="developer_id" label="developer_id">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="developer_name" label="developer_name">
             <Input />
           </Form.Item>
-          <Form.Item
-            name="is_active"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isActive</Checkbox>
+          <Form.Item name="rating" label="rating">
+            <InputNumber />
           </Form.Item>
-          <Form.Item
-            name="is_admin"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAdmin</Checkbox>
+          <Form.Item name="register_ip" label="register_ip">
+            <Input />
           </Form.Item>
-          <Form.Item
-            name="is_agent"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAgent</Checkbox>
+          <Form.Item name="userid" label="userid">
+            <Input />
           </Form.Item>
-          <Form.Item
-            name="is_developer"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isDeveloper</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_staff"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isStaff</Checkbox>
+          <Form.Item name="vip" label="vip">
+            <InputNumber />
           </Form.Item>
         </Form>
       </Spin>
