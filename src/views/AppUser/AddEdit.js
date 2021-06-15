@@ -22,6 +22,9 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
+          <Form.Item name="id" label="ID">
+            <InputNumber disabled />
+          </Form.Item>
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
