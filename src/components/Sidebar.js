@@ -45,8 +45,8 @@ const SidebarView = () => {
           <Menu.Item key="/CryptoWallet" icon={<WalletOutlined />}>
             <Link to="/CryptoWallet">加密钱包</Link>
           </Menu.Item>
-          <Menu.Item key="/CryptoAcctLogs" icon={<WalletOutlined />}>
-            <Link to="/CryptoAcctLogs">加密賬戶流水紀錄</Link>
+          <Menu.Item key="/CryptoAcctLog" icon={<WalletOutlined />}>
+            <Link to="/CryptoAcctLog">加密賬戶流水紀錄</Link>
           </Menu.Item>
         </SubMenu>
         <Menu.Item key="/Card" icon={<CreditCardOutlined />}>

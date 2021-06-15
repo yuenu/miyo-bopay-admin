@@ -1,8 +1,8 @@
 import { Space, Table } from "antd";
 import {
-  selectCryptoWallet,
+  selectCryptoAcctLog,
   getCryptoAcctLogs,
-} from "@/store/slice/cryptoWallet";
+} from "@/store/slice/cryptoAcctLog";
 import { Currency, isBoolEnum } from "@/utils/enum";
 import { useList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -25,7 +25,7 @@ const CryptoWallet = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useList(getCryptoAcctLogs, selectCryptoWallet);
+  } = useList(getCryptoAcctLogs, selectCryptoAcctLog);
 
   const columns = [
     { title: "ID", dataIndex: "id" },
