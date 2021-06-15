@@ -21,12 +21,12 @@ const Detail = props => {
   } = props.data;
   return (
     <Modal
-      title="職員明細"
+      title="开发者明細"
       visible={props.visible}
       onCancel={props.onCancel}
       footer={[
         <Button key="close" type="primary" onClick={props.onCancel}>
-          關閉
+          关闭
         </Button>,
       ]}
     >
@@ -34,15 +34,15 @@ const Detail = props => {
         <Descriptions column={1} bordered>
           <Descriptions.Item label="id">{id}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
-          <Descriptions.Item label="電話">{phone}</Descriptions.Item>
+          <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="email">{email}</Descriptions.Item>
-          <Descriptions.Item label="創建日期">
+          <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
           <Descriptions.Item label="更新日期">
             {dateFormat(updated)}
           </Descriptions.Item>
-          <Descriptions.Item label="帳號">{username}</Descriptions.Item>
+          <Descriptions.Item label="帐号">{username}</Descriptions.Item>
           <Descriptions.Item label="info">{info}</Descriptions.Item>
           <Descriptions.Item label="note">{note}</Descriptions.Item>
           <Descriptions.Item label="org">{org}</Descriptions.Item>

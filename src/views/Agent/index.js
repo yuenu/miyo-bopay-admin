@@ -18,9 +18,9 @@ const Agent = () => {
   const dispatch = useDispatch();
 
   const searchFields = {
-    id: { type: "string", label: "會員ID" },
-    name: { type: "string", label: "會員姓名" },
-    created__btw: { type: "rangeDate", label: "創建日期" },
+    id: { type: "string", label: "代理ID" },
+    name: { type: "string", label: "代理姓名" },
+    created__btw: { type: "rangeDate", label: "创建日期" },
   };
   const {
     res: { list, currentRow, meta },
@@ -79,7 +79,7 @@ const Agent = () => {
   const columns = [
     { title: "id", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
+    { title: "电话", dataIndex: "phone" },
     {
       title: "is_active",
       dataIndex: "is_active",
@@ -88,7 +88,7 @@ const Agent = () => {
       ),
     },
     {
-      title: "動作",
+      title: "动作",
       dataIndex: "action",
       align: "right",
       render: (_, recore) => (
@@ -96,7 +96,7 @@ const Agent = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
         </Space>
       ),
     },

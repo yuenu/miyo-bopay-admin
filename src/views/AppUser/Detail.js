@@ -26,7 +26,7 @@ const Detail = props => {
       onCancel={props.onCancel}
       footer={[
         <Button key="close" type="primary" onClick={props.onCancel}>
-          關閉
+          关闭
         </Button>,
       ]}
     >
@@ -34,23 +34,19 @@ const Detail = props => {
         <Descriptions column={1} bordered>
           <Descriptions.Item label="id">{id}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
-          <Descriptions.Item label="電話">{phone}</Descriptions.Item>
-          <Descriptions.Item label="AppId">{app_id}</Descriptions.Item>
-          <Descriptions.Item label="AppName">{app_name}</Descriptions.Item>
-          <Descriptions.Item label="AppUserId">{app_userid}</Descriptions.Item>
-          <Descriptions.Item label="DeveloperId">
-            {developer_id}
-          </Descriptions.Item>
-          <Descriptions.Item label="DeveloperName">
+          <Descriptions.Item label="电话">{phone}</Descriptions.Item>
+          <Descriptions.Item label="AppID">{app_id}</Descriptions.Item>
+          <Descriptions.Item label="App名称">{app_name}</Descriptions.Item>
+          <Descriptions.Item label="App用户ID">{app_userid}</Descriptions.Item>
+          <Descriptions.Item label="开发者ID">{developer_id}</Descriptions.Item>
+          <Descriptions.Item label="开发者姓名">
             {developer_name}
           </Descriptions.Item>
           <Descriptions.Item label="Rating">{rating}</Descriptions.Item>
-          <Descriptions.Item label="RegisterIP">
-            {register_ip}
-          </Descriptions.Item>
-          <Descriptions.Item label="userId">{userid}</Descriptions.Item>
+          <Descriptions.Item label="注册IP">{register_ip}</Descriptions.Item>
+          <Descriptions.Item label="用户ID">{userid}</Descriptions.Item>
           <Descriptions.Item label="VIP">{vip}</Descriptions.Item>
-          <Descriptions.Item label="創建日期">
+          <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
           <Descriptions.Item label="更新日期">

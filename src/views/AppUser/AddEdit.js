@@ -12,7 +12,7 @@ const AddEdit = props => {
   });
   return (
     <Modal
-      title={`${mode[props.mode]}職員`}
+      title={`${mode[props.mode]}App用户`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}
@@ -22,40 +22,42 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="id" label="ID">
-            <InputNumber disabled />
-          </Form.Item>
+          {props.mode === "edit" && (
+            <Form.Item name="id" label="ID">
+              <InputNumber disabled />
+            </Form.Item>
+          )}
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="電話">
+          <Form.Item name="phone" label="电话">
             <Input />
           </Form.Item>
-          <Form.Item name="app_id" label="AppId">
+          <Form.Item name="app_id" label="AppID">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="app_name" label="AppName">
+          <Form.Item name="app_name" label="App名称">
             <Input />
           </Form.Item>
-          <Form.Item name="app_userid" label="app_userid">
+          <Form.Item name="app_userid" label="App用户ID">
             <Input />
           </Form.Item>
-          <Form.Item name="developer_id" label="developer_id">
+          <Form.Item name="developer_id" label="开发者ID">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="developer_name" label="developer_name">
+          <Form.Item name="developer_name" label="开发者姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="rating" label="rating">
+          <Form.Item name="rating" label="Rating">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="register_ip" label="register_ip">
+          <Form.Item name="register_ip" label="注册IP">
             <Input />
           </Form.Item>
-          <Form.Item name="userid" label="userid">
+          <Form.Item name="userid" label="用户ID">
             <Input />
           </Form.Item>
-          <Form.Item name="vip" label="vip">
+          <Form.Item name="vip" label="VIP">
             <InputNumber />
           </Form.Item>
         </Form>

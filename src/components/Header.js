@@ -17,8 +17,8 @@ const HeaderView = () => {
   };
   const UserMenu = (
     <Menu>
-      <Menu.Item key="1">基本資料</Menu.Item>
-      <Menu.Item key="2">修改密碼</Menu.Item>
+      <Menu.Item key="1">基本资料</Menu.Item>
+      <Menu.Item key="2">修改密码</Menu.Item>
       <Menu.Item onClick={handleLogout} key="3">
         登出
       </Menu.Item>

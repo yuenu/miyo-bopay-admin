@@ -26,7 +26,7 @@ const Detail = props => {
       onCancel={props.onCancel}
       footer={[
         <Button key="close" type="primary" onClick={props.onCancel}>
-          關閉
+          关闭
         </Button>,
       ]}
     >
@@ -44,7 +44,7 @@ const Detail = props => {
             <Tag val={is_active} />
           </Descriptions.Item>
           <Descriptions.Item label="token">{token}</Descriptions.Item>
-          <Descriptions.Item label="創建日期">
+          <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
           <Descriptions.Item label="更新日期">

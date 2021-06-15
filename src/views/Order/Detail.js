@@ -40,29 +40,29 @@ const Detail = props => {
   const payerCredArr = JSON.parse(payer_cred || "[]");
   return (
     <Modal
-      title="職員明細"
+      title="订单明細"
       visible={props.visible}
       onCancel={props.onCancel}
       width={1024}
       footer={[
         <Button key="close" type="primary" onClick={props.onCancel}>
-          關閉
+          关闭
         </Button>,
       ]}
     >
       <Spin spinning={props.loading}>
         <Descriptions column={{ xs: 1, sm: 1, md: 2 }} bordered>
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
-          <Descriptions.Item label="訂單號">{order_no}</Descriptions.Item>
-          <Descriptions.Item label="第三方訂單號">{trans_no}</Descriptions.Item>
+          <Descriptions.Item label="订单号">{order_no}</Descriptions.Item>
+          <Descriptions.Item label="第三方订单号">{trans_no}</Descriptions.Item>
           <Descriptions.Item label="AppID">{app_id}</Descriptions.Item>
           <Descriptions.Item label="商戶ID">{developer_id}</Descriptions.Item>
-          <Descriptions.Item label="會員ID">{userid}</Descriptions.Item>
-          <Descriptions.Item label="會員姓名">{name || ""}</Descriptions.Item>
-          <Descriptions.Item label="訂單狀態">
+          <Descriptions.Item label="会员ID">{userid}</Descriptions.Item>
+          <Descriptions.Item label="会员姓名">{name || ""}</Descriptions.Item>
+          <Descriptions.Item label="订单状态">
             {OrderStatus[status]}
           </Descriptions.Item>
-          <Descriptions.Item label="支付類別">
+          <Descriptions.Item label="支付类别">
             {WXPayType[pay_type]}
           </Descriptions.Item>
           <Descriptions.Item label="付款方式">
@@ -80,41 +80,41 @@ const Detail = props => {
               ))}
             </ul>
           </Descriptions.Item>
-          <Descriptions.Item label="設備類型">{device_type}</Descriptions.Item>
-          <Descriptions.Item label="支付狀態">{pay_status}</Descriptions.Item>
-          <Descriptions.Item label="支付時間">
+          <Descriptions.Item label="设备类型">{device_type}</Descriptions.Item>
+          <Descriptions.Item label="支付状态">{pay_status}</Descriptions.Item>
+          <Descriptions.Item label="支付时间">
             {dateFormat(paid_at?.Time)}
           </Descriptions.Item>
-          <Descriptions.Item label="審核狀態">
+          <Descriptions.Item label="审核状态">
             {approval_status}
           </Descriptions.Item>
-          <Descriptions.Item label="通知狀態">
+          <Descriptions.Item label="通知状态">
             {notify_status}
           </Descriptions.Item>
-          <Descriptions.Item label="通知時間">
+          <Descriptions.Item label="通知时间">
             {dateFormat(notified_at?.Time)}
           </Descriptions.Item>
           <Descriptions.Item label="IP">{client_ip}</Descriptions.Item>
-          <Descriptions.Item label="錯誤代碼">{failure_code}</Descriptions.Item>
-          <Descriptions.Item label="錯誤信息">{failure_msg}</Descriptions.Item>
-          <Descriptions.Item label="訂單金額">{amount}</Descriptions.Item>
-          <Descriptions.Item label="實際付款金額">
+          <Descriptions.Item label="错误代码">{failure_code}</Descriptions.Item>
+          <Descriptions.Item label="错误信息">{failure_msg}</Descriptions.Item>
+          <Descriptions.Item label="订单金额">{amount}</Descriptions.Item>
+          <Descriptions.Item label="实际付款金额">
             {amount_paid}
           </Descriptions.Item>
-          <Descriptions.Item label="贈送金額">{bonus}</Descriptions.Item>
-          <Descriptions.Item label="貨幣類型">
+          <Descriptions.Item label="赠送金额">{bonus}</Descriptions.Item>
+          <Descriptions.Item label="货币类型">
             {Currency[currency]}
           </Descriptions.Item>
           <Descriptions.Item label="付款成功">
             <Tag val={paid} />
           </Descriptions.Item>
-          <Descriptions.Item label="審核通過">
+          <Descriptions.Item label="审核通过">
             <Tag val={approved} />
           </Descriptions.Item>
-          <Descriptions.Item label="是否加密貨幣">
+          <Descriptions.Item label="是否加密货币">
             <Tag val={is_crypto} />
           </Descriptions.Item>
-          <Descriptions.Item label="是否在線訂單">
+          <Descriptions.Item label="是否在线订单">
             <Tag val={is_online} />
           </Descriptions.Item>
           <Descriptions.Item label="清算成功">

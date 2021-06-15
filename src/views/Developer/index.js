@@ -78,10 +78,10 @@ const User = () => {
   const columns = [
     { title: "id", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
+    { title: "电话", dataIndex: "phone" },
     { title: "email", dataIndex: "email" },
     {
-      title: "動作",
+      title: "动作",
       dataIndex: "action",
       align: "right",
       render: (_, recore) => (
@@ -89,7 +89,7 @@ const User = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
         </Space>
       ),
     },

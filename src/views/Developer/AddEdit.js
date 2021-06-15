@@ -26,7 +26,7 @@ const AddEdit = props => {
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="電話">
+          <Form.Item name="phone" label="电话">
             <Input />
           </Form.Item>
           <Form.Item name="email" label="email">

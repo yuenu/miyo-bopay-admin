@@ -18,7 +18,7 @@ export const errorCodeMessage = {
   504: "网关超时。",
 };
 export const formLayout = { labelCol: { span: 8 }, wrapperCol: { span: 16 } };
-export const mode = { add: "添加", edit: "編輯", approve: "審核" };
+export const mode = { add: "添加", edit: "编辑", approve: "审核" };
 export const isActiveLang = val => {
   return val ? "是" : "否";
 };

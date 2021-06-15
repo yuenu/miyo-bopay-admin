@@ -89,7 +89,7 @@ const CryptoWallet = () => {
     },
     { title: "备注", dataIndex: "note" },
     {
-      title: "動作",
+      title: "动作",
       dataIndex: "action",
       align: "right",
       render: (_, recore) => (
@@ -97,7 +97,7 @@ const CryptoWallet = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
           <Button>禁用</Button>
         </Space>
       ),

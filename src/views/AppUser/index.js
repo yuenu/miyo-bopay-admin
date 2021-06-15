@@ -15,9 +15,9 @@ import Detail from "./Detail";
 
 const AppUser = () => {
   const searchFields = {
-    id: { type: "string", label: "會員ID" },
-    name: { type: "string", label: "會員姓名" },
-    created__btw: { type: "rangeDate", label: "創建日期" },
+    id: { type: "string", label: "App ID" },
+    name: { type: "string", label: "App用户姓名" },
+    created__btw: { type: "rangeDate", label: "创建日期" },
   };
   const {
     res: { list, meta },
@@ -64,12 +64,13 @@ const AppUser = () => {
 
   const columns = [
     { title: "id", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name" },
-    { title: "AppId", dataIndex: "app_id" },
-    { title: "AppName", dataIndex: "app_name" },
-    { title: "AppUserId", dataIndex: "app_userid" },
+    { title: "姓名", dataIndex: "name", width: 90 },
+    { title: "AppID", dataIndex: "app_id" },
+    { title: "App名称", dataIndex: "app_name" },
+    { title: "App用户ID", dataIndex: "app_userid" },
+    { title: "创建日期", dataIndex: "created" },
     {
-      title: "動作",
+      title: "动作",
       dataIndex: "action",
       align: "right",
       render: (_, recore) => (
@@ -77,7 +78,7 @@ const AppUser = () => {
           <Button onClick={() => handleDetailClick(recore.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>編輯</Button>
+          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
         </Space>
       ),
     },

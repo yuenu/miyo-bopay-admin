@@ -52,7 +52,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
             <Space size="small">
               <Button onClick={handleReset}>清除</Button>
               <Button type="primary" onClick={handleSearchClick}>
-                搜尋
+                搜寻
               </Button>
             </Space>
           </Col>

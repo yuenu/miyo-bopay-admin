@@ -47,7 +47,7 @@ const Order = () => {
       isBool: true,
     },
     developer_id: { type: "string", label: "商户ID" },
-    created__btw: { type: "rangeDate", label: "created" },
+    created__btw: { type: "rangeDate", label: "创建日期" },
     paid_at__btw: { type: "rangeDate", label: "支付时间" },
   };
 
@@ -100,10 +100,10 @@ const Order = () => {
 
   const handleCancelClick = id => {
     Modal.confirm({
-      title: "是否取消訂單",
+      title: "是否取消订单",
       icon: <ExclamationCircleOutlined />,
-      content: `即將取消訂單 ${id}，是否繼續？`,
-      okText: "確認",
+      content: `即将取消订单 ${id}，是否继续？`,
+      okText: "确认",
       cancelText: "取消",
       onOk: close => handleCancelOrder(close, id),
     });
@@ -118,10 +118,10 @@ const Order = () => {
 
   const handleNotifyClick = async id => {
     Modal.confirm({
-      title: "是否通知訂單",
+      title: "是否通知订单",
       icon: <ExclamationCircleOutlined />,
-      content: `即將通知訂單 ${id}，是否繼續？`,
-      okText: "確認",
+      content: `即将通知订单 ${id}，是否继续？`,
+      okText: "确认",
       cancelText: "取消",
       onOk: close => handleNotify(close, id),
     });
@@ -141,7 +141,7 @@ const Order = () => {
     { title: "AppID", dataIndex: "app_id" },
     { title: "商戶ID", dataIndex: "developer_id" },
     { title: "会员ID", dataIndex: "userid" },
-    { title: "會員姓名", dataIndex: "name" },
+    { title: "会员姓名", dataIndex: "name" },
     {
       title: "訂單狀態",
       dataIndex: "status",
@@ -224,7 +224,7 @@ const Order = () => {
       render: val => <Tag val={val} />,
     },
     {
-      title: "動作",
+      title: "动作",
       dataIndex: "action",
       align: "center",
       render: (_, recore) => (
@@ -233,7 +233,7 @@ const Order = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(recore, "approve")}>
-            審核
+            审核
           </Button>
           <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
           <Button onClick={() => handleCancelClick(recore.id)}>取消</Button>
