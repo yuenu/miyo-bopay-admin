@@ -17,6 +17,8 @@ import {
   PayMethod,
   Currency,
   isBoolEnum,
+  NotifyStatus,
+  ApprovalStatus,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import { useList, useDetail } from "@/utils/hook";
@@ -167,8 +169,16 @@ const Order = () => {
       width: 170,
       render: val => dateFormat(val),
     },
-    { title: "審核狀態", dataIndex: "approval_status" },
-    { title: "通知狀態", dataIndex: "notify_status" },
+    {
+      title: "審核狀態",
+      dataIndex: "approval_status",
+      render: val => ApprovalStatus[val] || "",
+    },
+    {
+      title: "通知狀態",
+      dataIndex: "notify_status",
+      render: val => NotifyStatus[val] || "",
+    },
     {
       title: "通知時間",
       dataIndex: "notified_at",

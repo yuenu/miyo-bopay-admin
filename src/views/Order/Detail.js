@@ -1,6 +1,13 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
+import {
+  OrderStatus,
+  WXPayType,
+  PayMethod,
+  Currency,
+  NotifyStatus,
+  ApprovalStatus,
+} from "@/utils/enum";
 
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
@@ -86,10 +93,10 @@ const Detail = props => {
             {dateFormat(paid_at?.Time)}
           </Descriptions.Item>
           <Descriptions.Item label="审核状态">
-            {approval_status}
+            {ApprovalStatus[approval_status]}
           </Descriptions.Item>
           <Descriptions.Item label="通知状态">
-            {notify_status}
+            {NotifyStatus[notify_status]}
           </Descriptions.Item>
           <Descriptions.Item label="通知时间">
             {dateFormat(notified_at?.Time)}

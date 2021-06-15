@@ -76,3 +76,16 @@ export const isBoolEnum = {
   1: "是",
   0: "否",
 };
+
+export const NotifyStatus = {
+  0: "pending",
+  1: "scheduling",
+  2: "succeeded",
+  3: "failed",
+};
+
+export const ApprovalStatus = {
+  0: "pending",
+  9: "approved",
+  10: "denied",
+};
