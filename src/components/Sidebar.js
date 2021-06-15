@@ -37,6 +37,9 @@ const SidebarView = () => {
           <Menu.Item key="/AppUser">
             <Link to="/AppUser">App用户管理</Link>
           </Menu.Item>
+          <Menu.Item key="/App">
+            <Link to="/App">App管理</Link>
+          </Menu.Item>
         </SubMenu>
         <Menu.Item key="/Order" icon={<ContainerOutlined />}>
           <Link to="/Order">支付订单</Link>

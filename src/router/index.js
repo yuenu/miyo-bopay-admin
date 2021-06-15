@@ -25,6 +25,10 @@ const routes = [
     component: () => getComponent("AppUser"),
   },
   {
+    path: "/App",
+    component: () => getComponent("App"),
+  },
+  {
     path: "/Order",
     component: () => getComponent("Order"),
   },
