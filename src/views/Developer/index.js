@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, message } from "antd";
-import { useDispatch } from "react-redux";
+import { Button, Space, Table } from "antd";
 import {
   selectDeveloper,
   getDevelopers,
@@ -8,75 +7,63 @@ import {
   addDeveloper,
   editDeveloper,
 } from "@/store/slice/developer";
-import { useList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const User = () => {
-  const dispatch = useDispatch();
   const searchFields = {
     id: { type: "string", label: "ID" },
     name: { type: "string", label: "username" },
     login_time__btw: { type: "rangeDate", label: "loginTime" },
   };
   const {
-    res: { list, currentRow, meta },
+    res: { list, meta },
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleAdd: handleAddHook,
   } = useList(getDevelopers, selectDeveloper);
 
   const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addDeveloper(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addDeveloper, ...formModel });
     setAddVisible(false);
   };
 
-  const handleGetDetail = async id => {
-    await dispatch(getDeveloper(id));
-  };
-
+  const [detailId, setDetailId] = useState(null);
+  const {
+    currentRow,
+    loading: detailLoading,
+    handleEdit: handleEditHook,
+  } = useDetail({ action: getDeveloper, id: detailId }, selectDeveloper);
   const [detailVisible, setDetailVisible] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
+    setDetailId(id);
     setDetailVisible(true);
-    setDetailLoading(true);
-    await handleGetDetail(id);
-    setDetailLoading(false);
   };
 
   const [editVisible, setEditVisible] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
+    setDetailId(id);
     setEditVisible(true);
-    setEditLoading(true);
-    await handleGetDetail(id);
-    setEditLoading(false);
   };
   const handleEdit = async formModel => {
-    setEditLoading(true);
-    const { status } = await editDeveloper({
+    await handleEditHook({
+      action: editDeveloper,
       id: currentRow.id,
-      formModel: { ...currentRow, ...formModel },
+      ...formModel,
     });
-    status === 200 && message.success("更新成功！");
-    await handleGetList({ page: meta.page });
     setEditVisible(false);
-    setEditLoading(false);
+    handleGetList({ page: meta.page });
   };
 
   const columns = [
     { title: "id", dataIndex: "id" },
+    { title: "帐户ID", dataIndex: "user_id" },
+    { title: "帐户名称", dataIndex: "username" },
     { title: "姓名", dataIndex: "name" },
     { title: "电话", dataIndex: "phone" },
     { title: "email", dataIndex: "email" },
@@ -98,7 +85,11 @@ const User = () => {
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
 
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={() => setAddVisible(true)}
+      >
         添加
       </Button>
       <Table
@@ -114,7 +105,7 @@ const User = () => {
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail
@@ -127,7 +118,7 @@ const User = () => {
         visible={editVisible}
         onOk={handleEdit}
         onCancel={() => setEditVisible(false)}
-        loading={editLoading}
+        loading={detailLoading}
         data={currentRow}
         mode="edit"
       />

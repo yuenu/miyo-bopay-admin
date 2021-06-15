@@ -17,6 +17,12 @@ export const useList = (action, selector) => {
   const handleChangePage = (pagination, filters, sorter, extra) => {
     handleGetList({ page: pagination.current });
   };
+  const handleAdd = async ({ action: addAction, ...params }) => {
+    setLoading(true);
+    const { status } = await addAction(params);
+    status === 200 && message.success("新增成功！");
+    handleGetList();
+  };
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
@@ -25,6 +31,7 @@ export const useList = (action, selector) => {
     loading,
     handleGetList,
     handleChangePage,
+    handleAdd,
   };
 };
 

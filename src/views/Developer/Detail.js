@@ -33,25 +33,23 @@ const Detail = props => {
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
           <Descriptions.Item label="id">{id}</Descriptions.Item>
+          <Descriptions.Item label="帐户ID">{user_id}</Descriptions.Item>
+          <Descriptions.Item label="帐户名称">{username}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
           <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="email">{email}</Descriptions.Item>
+          <Descriptions.Item label="org">{org}</Descriptions.Item>
+          <Descriptions.Item label="info">{info}</Descriptions.Item>
+          <Descriptions.Item label="site">{site}</Descriptions.Item>
+          <Descriptions.Item label="status">{status}</Descriptions.Item>
+          <Descriptions.Item label="telegram">{telegram}</Descriptions.Item>
+          <Descriptions.Item label="note">{note}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
           <Descriptions.Item label="更新日期">
             {dateFormat(updated)}
           </Descriptions.Item>
-          <Descriptions.Item label="帐号">{username}</Descriptions.Item>
-          <Descriptions.Item label="info">{info}</Descriptions.Item>
-          <Descriptions.Item label="note">{note}</Descriptions.Item>
-          <Descriptions.Item label="org">{org}</Descriptions.Item>
-          <Descriptions.Item label="site">{site}</Descriptions.Item>
-          <Descriptions.Item label="status">
-            <Tag color={status ? "green" : "default"}>{status}</Tag>
-          </Descriptions.Item>
-          <Descriptions.Item label="telegram">{telegram}</Descriptions.Item>
-          <Descriptions.Item label="user_id">{user_id}</Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>
