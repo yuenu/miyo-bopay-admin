@@ -18,7 +18,7 @@ const LoginLog = () => {
   } = useList(getLoginLogs, selectLoginLog);
 
   const columns = [
-    { title: "id", dataIndex: "id" },
+    { title: "ID", dataIndex: "id" },
     { title: "帐号", dataIndex: "username" },
     { title: "用户ID", dataIndex: "user_id" },
     { title: "IP", dataIndex: "ip" },

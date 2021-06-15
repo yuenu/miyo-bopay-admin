@@ -32,7 +32,7 @@ const Detail = props => {
     >
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
-          <Descriptions.Item label="id">{id}</Descriptions.Item>
+          <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
           <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="AppID">{app_id}</Descriptions.Item>

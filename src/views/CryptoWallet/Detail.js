@@ -32,7 +32,7 @@ const Detail = props => {
     >
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
-          <Descriptions.Item label="id">{id}</Descriptions.Item>
+          <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="钱包名">{name}</Descriptions.Item>
           <Descriptions.Item label="钱包所有者">{owner}</Descriptions.Item>
           <Descriptions.Item label="货币">
@@ -43,7 +43,7 @@ const Detail = props => {
           <Descriptions.Item label="是否启用">
             <Tag val={is_active} />
           </Descriptions.Item>
-          <Descriptions.Item label="token">{token}</Descriptions.Item>
+          <Descriptions.Item label="Token">{token}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>

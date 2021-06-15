@@ -12,6 +12,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import { dateFormat } from "@/utils/format";
 
 const AppUser = () => {
   const searchFields = {
@@ -68,7 +69,11 @@ const AppUser = () => {
     { title: "AppID", dataIndex: "app_id" },
     { title: "App名称", dataIndex: "app_name" },
     { title: "App用户ID", dataIndex: "app_userid" },
-    { title: "创建日期", dataIndex: "created" },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+    },
     {
       title: "动作",
       dataIndex: "action",

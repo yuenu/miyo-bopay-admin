@@ -36,10 +36,10 @@ const AddEdit = props => {
           <Form.Item name="email" label="email">
             <Input />
           </Form.Item>
-          <Form.Item name="username" label="username">
+          <Form.Item name="username" label="帐号">
             <Input />
           </Form.Item>
-          <Form.Item name="password" label="password">
+          <Form.Item name="password" label="密码">
             <Input />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
