@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, message } from "antd";
+import { Button, Space, Table } from "antd";
 import {
   selectGateway,
   getGateways,
@@ -26,19 +26,12 @@ const Gateway = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleAdd: handleAddHook,
   } = useList(getGateways, selectGateway);
 
   const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addGateway(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addGateway, ...formModel });
     setAddVisible(false);
   };
 
@@ -100,7 +93,11 @@ const Gateway = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={() => setAddVisible(true)}
+      >
         添加
       </Button>
       <Table
@@ -116,7 +113,7 @@ const Gateway = () => {
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail

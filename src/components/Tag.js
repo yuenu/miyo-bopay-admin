@@ -6,5 +6,7 @@ const TagC = props => {
     <Tag color={props.val ? "green" : "default"}>{isActiveLang(props.val)}</Tag>
   );
 };
-
-export default React.memo(TagC);
+function propsAreEqual(prev, next) {
+  return prev.val === next.val;
+}
+export default React.memo(TagC, propsAreEqual);

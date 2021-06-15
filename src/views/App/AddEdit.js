@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Switch } from "antd";
+import { Modal, Form, Input, InputNumber, Spin, Switch } from "antd";
 import { formLayout, mode } from "@/utils/enum";
 const AddEdit = props => {
   const [form] = Form.useForm();
@@ -29,34 +29,41 @@ const AddEdit = props => {
           <Form.Item name="name_cn" label="姓名CN">
             <Input />
           </Form.Item>
-          <Form.Item name="developer_id" label="开发者ID">
+          <Form.Item name="info" label="info">
             <Input />
-          </Form.Item>
-          <Form.Item name="developer_name" label="开发者姓名">
-            <Input />
-          </Form.Item>
-
-          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
-            <Switch />
           </Form.Item>
           <Form.Item name="callback_url" label="callback_url">
             <Input />
           </Form.Item>
-          <Form.Item name="info" label="info">
-            <Input />
+          <Form.Item name="developer_id" label="开发者ID">
+            <InputNumber />
           </Form.Item>
-          <Form.Item name="secret" label="secret">
-            <Input />
-          </Form.Item>
-          <Form.Item name="status" label="status">
-            <Input />
-          </Form.Item>
-          <Form.Item name="token" label="Token">
-            <Input />
-          </Form.Item>
-          <Form.Item name="note" label="备注">
-            <Input />
-          </Form.Item>
+          {props.mode === "edit" && (
+            <>
+              <Form.Item name="developer_name" label="开发者姓名">
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="is_active"
+                label="是否启用"
+                valuePropName="checked"
+              >
+                <Switch />
+              </Form.Item>
+              <Form.Item name="secret" label="secret">
+                <Input />
+              </Form.Item>
+              <Form.Item name="status" label="status">
+                <InputNumber />
+              </Form.Item>
+              <Form.Item name="token" label="Token">
+                <Input />
+              </Form.Item>
+              <Form.Item name="note" label="备注">
+                <Input />
+              </Form.Item>
+            </>
+          )}
         </Form>
       </Spin>
     </Modal>

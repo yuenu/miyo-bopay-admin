@@ -19,7 +19,7 @@ export const getApp = createAsyncThunk("app/getDetail", async id => {
 });
 export const addApp = async params => {
   const res = await request({
-    url: `/api/apps/new`,
+    url: `/api/apps`,
     method: "post",
     data: params,
   });

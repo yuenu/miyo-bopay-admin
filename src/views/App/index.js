@@ -56,6 +56,7 @@ const App = () => {
   const handleEdit = async formModel => {
     await handleEditHook({ action: editApp, id: currentRow.id, ...formModel });
     setEditVisible(false);
+    setDetailId(null);
     handleGetList({ page: meta.page });
   };
 

@@ -44,7 +44,6 @@ const Detail = props => {
             {callback_url}
           </Descriptions.Item>
           <Descriptions.Item label="info">{info}</Descriptions.Item>
-
           <Descriptions.Item label="secret">{secret}</Descriptions.Item>
           <Descriptions.Item label="status">{status}</Descriptions.Item>
           <Descriptions.Item label="token">{token}</Descriptions.Item>
