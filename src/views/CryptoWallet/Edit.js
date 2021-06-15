@@ -1,30 +1,35 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import {
-  Card,
-  Form,
-  Spin,
-  Input,
-  Space,
-  Button,
-  Select,
-  Switch,
-  Table,
-} from "antd";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
+import { Card, Form, Input, Space, Button, Select, Switch, Table } from "antd";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   selectCryptoWallet,
   getCryptoWallet,
   editCryptoWallet,
+  getCryptoAccts,
+  addCryptoAccts,
+  editCryptoAccts,
 } from "@/store/slice/cryptoWallet";
 import { formLayout, Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { useDetail } from "@/utils/hook";
 import { useHistory } from "react-router-dom";
+import Spin from "@/components/Spin";
 
 const EditableContext = React.createContext(null);
 const { Option } = Select;
 
 const Edit = () => {
+  const dispatch = useDispatch();
+  const { accts } = useSelector(selectCryptoWallet);
+  const [acctsState, setAcctsState] = useState([]);
   const history = useHistory();
   let { id } = useParams();
   const [form] = Form.useForm();
@@ -33,9 +38,17 @@ const Edit = () => {
     selectCryptoWallet,
   );
 
+  const [acctsLoading, setAcctsLoading] = useState(false);
+  const handleGetAccts = useCallback(async () => {
+    setAcctsLoading(true);
+    const res = await dispatch(getCryptoAccts({ wallet_id: currentRow.id }));
+    setAcctsState(res.payload.data.data);
+    setAcctsLoading(false);
+  }, [currentRow.id, dispatch]);
   useEffect(() => {
     form.setFieldsValue(currentRow);
-  }, [currentRow, form]);
+    handleGetAccts();
+  }, [currentRow, form, handleGetAccts]);
 
   const handleCancel = () => {
     history.push("/CryptoWallet");
@@ -53,7 +66,7 @@ const Edit = () => {
     },
     {
       title: "序号",
-      dataIndex: "no",
+      dataIndex: "w",
     },
     {
       title: "启用",
@@ -61,7 +74,7 @@ const Edit = () => {
     },
     { title: "地址", dataIndex: "address" },
     { title: "备注", dataIndex: "note" },
-    { title: "排序", dataIndex: "order" },
+    { title: "排序", dataIndex: "seq" },
   ];
   const columnsCell = columns.map(i => {
     return {
@@ -69,16 +82,12 @@ const Edit = () => {
       onCell: record => ({ ...i, record, dataIndex: i.dataIndex }),
     };
   });
-  const [addrs, setAddrs] = useState([
-    { id: 10, no: 100, is_active: true, address: "add", note: "", order: 0 },
-    { id: 11, no: 110, is_active: false, address: "add", note: "", order: 1 },
-  ]);
 
   const EditableRow = ({ index, ...props }) => {
     const [form] = Form.useForm();
     return (
       <Form form={form} component={false}>
-        <EditableContext.Provider value={form}>
+        <EditableContext.Provider value={{ form }}>
           <tr {...props} />
         </EditableContext.Provider>
       </Form>
@@ -91,12 +100,27 @@ const Edit = () => {
     record,
     ...restProps
   }) => {
-    const form = useContext(EditableContext);
+    const { form } = useContext(EditableContext);
     const inputRef = useRef(null);
     const save = async () => {
       try {
         const values = await form.validateFields();
-        console.log(values);
+        const hasAddr = accts.find(i => i.id === record.id);
+        hasAddr ||
+          (await dispatch(
+            addCryptoAccts({
+              ...values,
+              wallet_id: currentRow.id,
+              currency: 1,
+            }),
+          ));
+        hasAddr &&
+          (await dispatch(
+            editCryptoAccts({
+              id: record.id,
+              formModel: { ...values, wallet_id: currentRow.id, currency: 1 },
+            }),
+          ));
       } catch (errInfo) {
         console.log("Save failed:", errInfo);
       }
@@ -110,7 +134,7 @@ const Edit = () => {
         <div>{record.id}</div>
       ) : dataIndex === "is_active" ? (
         <Form.Item name={dataIndex} valuePropName="checked" noStyle>
-          <Switch ref={inputRef} />
+          <Switch ref={inputRef} onChange={save} />
         </Form.Item>
       ) : (
         <Form.Item
@@ -138,23 +162,22 @@ const Edit = () => {
     },
   };
   const handleAddAddrClick = () => {
-    setAddrs([
-      ...addrs,
+    setAcctsState([
+      ...acctsState,
       {
-        id: null,
-        no: null,
-        is_active: false,
-        address: null,
+        name: "",
+        seq: 0,
+        w: 0,
         note: "",
-        order: null,
+        address: "",
       },
     ]);
   };
   return (
-    <Spin spinning={loading}>
-      <Space direction="vertical" className="w-100">
-        <h2>编辑钱包</h2>
-        <Card>
+    <Space direction="vertical" className="w-100">
+      <h2>编辑钱包</h2>
+      <Card>
+        <Spin spinning={loading}>
           <Form form={form} {...formLayout}>
             <Form.Item label="钱包名" name="name">
               <Input />
@@ -198,23 +221,24 @@ const Edit = () => {
               </Space>
             </div>
           </Form>
-        </Card>
-        <Card title="加密钱包收款帐号">
-          <Table
-            columns={columnsCell}
-            dataSource={addrs}
-            rowKey="id"
-            components={components}
-            pagination={false}
-          />
-          <div className="text-right mt-1">
-            <Button type="primary" onClick={handleAddAddrClick}>
-              新增地址
-            </Button>
-          </div>
-        </Card>
-      </Space>
-    </Spin>
+        </Spin>
+      </Card>
+      <Card title="加密钱包收款帐号" v-loading="true">
+        <Table
+          columns={columnsCell}
+          dataSource={acctsState}
+          rowKey="id"
+          components={components}
+          pagination={false}
+          loading={acctsLoading}
+        />
+        <div className="text-right mt-1">
+          <Button type="primary" onClick={handleAddAddrClick}>
+            新增地址
+          </Button>
+        </div>
+      </Card>
+    </Space>
   );
 };
 

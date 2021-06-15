@@ -48,12 +48,42 @@ export const deleteCryptoWallet = async id => {
   return res;
 };
 
+export const getCryptoAccts = createAsyncThunk(
+  "cryptoAcct/getList",
+  async params => {
+    const res = await request({
+      url: `/api/cryptoaccts`,
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
+export const addCryptoAccts = async params => {
+  const res = await request({
+    url: `/api/cryptoaccts`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
+export const editCryptoAccts = async params => {
+  const res = await request({
+    url: `/api/cryptoaccts/${params.id}`,
+    method: "post",
+    data: params.formModel,
+  });
+  return res;
+};
+
 export const slice = createSlice({
   name: "cryptoWallet",
   initialState: {
     list: [],
     meta: {},
     currentRow: {},
+    accts: [],
+    acctsMeta: {},
   },
   reducers: {
     setCryptoWallets: (state, action) => {
@@ -75,6 +105,16 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.currentRow = data;
+    },
+    [getCryptoAccts.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.accts = data.data;
+      state.acctsMeta = {
+        pageSize: data.meta.per_page,
+        current: data.meta.page,
+        total: data.meta.total,
+      };
     },
   },
 });
