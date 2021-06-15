@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
-import { useDispatch } from "react-redux";
+import { Button, Space, Table, message } from "antd";
 import {
   selectAppUser,
   getAppUsers,
@@ -8,22 +7,20 @@ import {
   addAppUser,
   editAppUser,
 } from "@/store/slice/appUser";
-import { useList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 
 const AppUser = () => {
-  const dispatch = useDispatch();
-
   const searchFields = {
-    id: { type: "string", lang: "會員ID" },
-    name: { type: "string", lang: "會員姓名" },
-    created__btw: { type: "rangeDate", lang: "創建日期" },
+    id: { type: "string", label: "會員ID" },
+    name: { type: "string", label: "會員姓名" },
+    created__btw: { type: "rangeDate", label: "創建日期" },
   };
   const {
-    res: { list, currentRow, meta },
+    res: { list, meta },
     loading: listLoading,
     handleGetList,
     handleChangePage,
@@ -43,50 +40,33 @@ const AppUser = () => {
     setAddVisible(false);
   };
 
-  const handleGetDetail = async id => {
-    await dispatch(getAppUser(id));
-  };
-
+  const [detailId, setDetailId] = useState(null);
+  const {
+    currentRow,
+    loading: detailLoading,
+    handleEdit,
+  } = useDetail({ action: getAppUser, id: detailId }, selectAppUser);
   const [detailVisible, setDetailVisible] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
   const handleDetailClick = async id => {
+    setDetailId(id);
     setDetailVisible(true);
-    setDetailLoading(true);
-    await handleGetDetail(id);
-    setDetailLoading(false);
   };
 
   const [editVisible, setEditVisible] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
   const handleEditClick = async id => {
+    setDetailId(id);
     setEditVisible(true);
-    setEditLoading(true);
-    await handleGetDetail(id);
-    setEditLoading(false);
   };
-  const handleEdit = async formModel => {
-    setEditLoading(true);
-    const { status } = await editAppUser({
-      id: currentRow.id,
-      formModel: { ...currentRow, ...formModel },
-    });
-    status === 200 && message.success("更新成功！");
-    await handleGetList({ page: meta.page });
-    setEditVisible(false);
-    setEditLoading(false);
+  const handleEditOk = async formModel => {
+    await handleEdit({ action: editAppUser, id: currentRow.id, ...formModel });
   };
 
   const columns = [
     { title: "id", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
-    { title: "電話", dataIndex: "phone" },
-    {
-      title: "is_active",
-      dataIndex: "is_active",
-      render: (_, recore) => (
-        <Tag color={_ ? "green" : "default"}>{_.toString()}</Tag>
-      ),
-    },
+    { title: "AppId", dataIndex: "app_id" },
+    { title: "AppName", dataIndex: "app_name" },
+    { title: "AppUserId", dataIndex: "app_userid" },
     {
       title: "動作",
       dataIndex: "action",
@@ -131,9 +111,9 @@ const AppUser = () => {
       />
       <AddEdit
         visible={editVisible}
-        onOk={handleEdit}
+        onOk={handleEditOk}
         onCancel={() => setEditVisible(false)}
-        loading={editLoading}
+        loading={detailLoading}
         data={currentRow}
         mode="edit"
       />

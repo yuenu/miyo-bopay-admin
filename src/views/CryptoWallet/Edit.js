@@ -1,10 +1,4 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useParams } from "react-router-dom";
-import {
-  selectCryptoWallet,
-  getCryptoWallet,
-  editCryptoWallet,
-} from "@/store/slice/cryptoWallet";
 import {
   Card,
   Form,
@@ -16,6 +10,12 @@ import {
   Switch,
   Table,
 } from "antd";
+import { useParams } from "react-router-dom";
+import {
+  selectCryptoWallet,
+  getCryptoWallet,
+  editCryptoWallet,
+} from "@/store/slice/cryptoWallet";
 import { formLayout, Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { useDetail } from "@/utils/hook";

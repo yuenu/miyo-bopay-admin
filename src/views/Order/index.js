@@ -28,27 +28,27 @@ import Detail from "./Detail";
 
 const Order = () => {
   const searchFields = {
-    id: { type: "string", lang: "ID" },
-    order_no: { type: "string", lang: "订单号" },
-    trans_no: { type: "string", lang: "第三方订单号" },
-    currency: { type: "select", lang: "货币类型", options: Currency },
-    userid: { type: "string", lang: "会员ID" },
-    app_id: { type: "string", lang: "AppID" },
+    id: { type: "string", label: "ID" },
+    order_no: { type: "string", label: "订单号" },
+    trans_no: { type: "string", label: "第三方订单号" },
+    currency: { type: "select", label: "货币类型", options: Currency },
+    userid: { type: "string", label: "会员ID" },
+    app_id: { type: "string", label: "AppID" },
     paid: {
       type: "select",
-      lang: "付款成功",
+      label: "付款成功",
       options: isBoolEnum,
       isBool: true,
     },
     approved: {
       type: "select",
-      lang: "审核通过",
+      label: "审核通过",
       options: isBoolEnum,
       isBool: true,
     },
-    developer_id: { type: "string", lang: "商户ID" },
-    created__btw: { type: "rangeDate", lang: "created" },
-    paid_at__btw: { type: "rangeDate", lang: "支付时间" },
+    developer_id: { type: "string", label: "商户ID" },
+    created__btw: { type: "rangeDate", label: "created" },
+    paid_at__btw: { type: "rangeDate", label: "支付时间" },
   };
 
   const {
@@ -86,15 +86,14 @@ const Order = () => {
 
   const [editVisible, setEditVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [editId, setEditId] = useState(null);
   const handleEditClick = async (record, mode) => {
     setEditVisible(true);
-    setEditId(record.id);
+    setDetailId(record.id);
     setEditMode(mode);
   };
   const handleEditOk = async formModel => {
     const action = editMode === "approve" ? approveOrder : denyOrder;
-    await handleEdit({ action, id: editId, ...formModel });
+    await handleEdit({ action, id: detailId, ...formModel });
     await handleGetList({ page: meta.page });
     setEditVisible(false);
   };
@@ -295,7 +294,7 @@ const Order = () => {
         onOk={handleEditOk}
         onCancel={() => setEditVisible(false)}
         loading={detailLoading}
-        id={editId}
+        id={detailId}
         mode={editMode}
       />
     </Space>

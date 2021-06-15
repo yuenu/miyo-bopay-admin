@@ -20,12 +20,12 @@ const CryptoWallet = () => {
   const history = useHistory();
 
   const searchFields = {
-    id: { type: "string", lang: "ID" },
-    name: { type: "string", lang: "钱包名" },
-    currency: { type: "select", lang: "货币", options: Currency },
+    id: { type: "string", label: "ID" },
+    name: { type: "string", label: "钱包名" },
+    currency: { type: "select", label: "货币", options: Currency },
     is_active: {
       type: "select",
-      lang: "是否启用",
+      label: "是否启用",
       options: isBoolEnum,
       isBool: true,
     },

@@ -9,7 +9,7 @@ import { searchFieldsFormat } from "@/utils/format";
  * @param {object} fields
  * @param {object} fields.name - field key
  * @param {string} fields.name.type - input type [string, select, switch, checkbox, rangeDate]
- * @param {string} fields.name.lang - form label
+ * @param {string} fields.name.label - form label
  * @param {string} fields.name.options - when type === 'select', pass options.
  * @function handleSubmit  - 送出表單
  */
@@ -38,7 +38,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
               <Col xs={24} md={12} xl={8} key={i}>
                 <Form.Item
                   name={i}
-                  label={fields[i].lang}
+                  label={fields[i].label}
                   valuePropName={valuePropName(fields[i].type)}
                 >
                   <InputFactory {...inputFactoryProps} />

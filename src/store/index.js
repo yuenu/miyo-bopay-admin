@@ -3,7 +3,7 @@ import layoutReducer from "./slice/layout";
 import authReducer from "./slice/auth";
 import userReducer from "./slice/user";
 import developerReducer from "./slice/developer";
-import appUserReducer from "./slice/developer";
+import appUserReducer from "./slice/appUser";
 import orderReducer from "./slice/order";
 import cryptoWalletReducer from "./slice/cryptoWallet";
 import cardReducer from "./slice/card";

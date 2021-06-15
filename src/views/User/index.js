@@ -16,9 +16,9 @@ import Detail from "./Detail";
 
 const User = () => {
   const searchFields = {
-    id: { type: "string", lang: "會員ID" },
-    name: { type: "string", lang: "會員姓名" },
-    created__btw: { type: "rangeDate", lang: "創建日期" },
+    id: { type: "string", label: "會員ID" },
+    name: { type: "string", label: "會員姓名" },
+    created__btw: { type: "rangeDate", label: "創建日期" },
   };
 
   const {

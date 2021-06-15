@@ -17,9 +17,9 @@ import Detail from "./Detail";
 const User = () => {
   const dispatch = useDispatch();
   const searchFields = {
-    id: { type: "string", lang: "ID" },
-    name: { type: "string", lang: "username" },
-    login_time__btw: { type: "rangeDate", lang: "loginTime" },
+    id: { type: "string", label: "ID" },
+    name: { type: "string", label: "username" },
+    login_time__btw: { type: "rangeDate", label: "loginTime" },
   };
   const {
     res: { list, currentRow, meta },
