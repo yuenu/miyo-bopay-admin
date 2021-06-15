@@ -147,3 +147,37 @@ POST http://{{ host }}/api/orders/100/cancel HTTP/1.1
 ### 订单通知
 POST http://{{ host }}/api/orders/100/notify HTTP/1.1
 
+
+### 加密货币账变流水记录 CryptoAcctLogList
+
+GET {{ host }}/api/cryptoacctlogs HTTP/1.1
+
+
+### 绑定订单和加密货币账变日志, 操作按钮放在加密货币账变记录
+
+POST http://{{ host }}/api/orders/bind HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "order_id": 7,
+    "crypto_acct_log_id": 1342,
+    "amount_paid": 1160000,
+    "note": "测试一下绑定, 正确支付金额应该是 1260000"
+}
+
+
+### 预下单，开放API 接入
+
+POST http://{{ host }}/payments/orders HTTP/1.1
+Content-Type: {{contentType}}
+X-Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAwMDJ9.wWYyGs3kDhS_qRZrWESDXg8g-5CmiQ-wDQvC57wOEfs
+X-Appid: 20002
+
+{
+    "userid": "843812904",
+    "currency": 2,
+    "pay_type": 4,
+    "amount": 1250000,
+    "device_type": 0,
+    "client_ip": "2607:f0d0:1002:0051:0000:0000:0000:0004"
+}
