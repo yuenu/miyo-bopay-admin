@@ -11,6 +11,7 @@ import cardReducer from "./slice/card";
 import agentReducer from "./slice/agent";
 import loginLogReducer from "./slice/loginLog";
 import appReducer from "./slice/app";
+import gatewayReducer from "./slice/gateway";
 
 export default configureStore({
   reducer: {
@@ -26,5 +27,6 @@ export default configureStore({
     agent: agentReducer,
     loginLog: loginLogReducer,
     app: appReducer,
+    gateway: gatewayReducer,
   },
 });

@@ -29,6 +29,10 @@ const routes = [
     component: () => getComponent("App"),
   },
   {
+    path: "/Gateway",
+    component: () => getComponent("Gateway"),
+  },
+  {
     path: "/Order",
     component: () => getComponent("Order"),
   },
