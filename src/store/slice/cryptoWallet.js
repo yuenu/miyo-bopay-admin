@@ -76,6 +76,17 @@ export const editCryptoAccts = async params => {
   return res;
 };
 
+export const getCryptoAcctLogs = createAsyncThunk(
+  "cryptoAcct/getLogList",
+  async () => {
+    const res = await request({
+      url: "/api/cryptoacctlogs",
+      method: "get",
+    });
+    return res;
+  },
+);
+
 export const slice = createSlice({
   name: "cryptoWallet",
   initialState: {
@@ -84,6 +95,8 @@ export const slice = createSlice({
     currentRow: {},
     accts: [],
     acctsMeta: {},
+    acctLogs: [],
+    acctLogsMeta: {},
   },
   reducers: {
     setCryptoWallets: (state, action) => {
@@ -111,6 +124,16 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.accts = data.data;
       state.acctsMeta = {
+        pageSize: data.meta.per_page,
+        current: data.meta.page,
+        total: data.meta.total,
+      };
+    },
+    [getCryptoAcctLogs.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.acctLogs = data.data;
+      state.acctLogsMeta = {
         pageSize: data.meta.per_page,
         current: data.meta.page,
         total: data.meta.total,

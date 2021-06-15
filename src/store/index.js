@@ -6,6 +6,7 @@ import developerReducer from "./slice/developer";
 import appUserReducer from "./slice/appUser";
 import orderReducer from "./slice/order";
 import cryptoWalletReducer from "./slice/cryptoWallet";
+import cryptoAcctLogReducer from "./slice/cryptoAcctLog";
 import cardReducer from "./slice/card";
 import agentReducer from "./slice/agent";
 import loginLogReducer from "./slice/loginLog";
@@ -19,6 +20,7 @@ export default configureStore({
     appUser: appUserReducer,
     order: orderReducer,
     cryptoWallet: cryptoWalletReducer,
+    cryptoAcctLog: cryptoAcctLogReducer,
     card: cardReducer,
     agent: agentReducer,
     loginLog: loginLogReducer,
