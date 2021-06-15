@@ -78,14 +78,14 @@ export const isBoolEnum = {
 };
 
 export const NotifyStatus = {
-  0: "pending",
-  1: "scheduling",
-  2: "succeeded",
-  3: "failed",
+  0: "待通知",
+  1: "重试通知中",
+  2: "通知成功",
+  3: "通知失败",
 };
 
 export const ApprovalStatus = {
-  0: "pending",
-  9: "approved",
-  10: "denied",
+  0: "待审核",
+  9: "审核通过",
+  10: "拒绝",
 };
