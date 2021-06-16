@@ -45,8 +45,12 @@ const routes = [
     component: () => getComponent("CryptoWallet/Edit"),
   },
   {
+    path: "/CryptoAcct",
+    component: () => getComponent("CryptoAcct"),
+  },
+  {
     path: "/CryptoAcctLog",
-    component: () => getComponent("CryptoWallet/CryptoAcctLog"),
+    component: () => getComponent("CryptoAcct/CryptoAcctLog"),
   },
   {
     path: "/Card",

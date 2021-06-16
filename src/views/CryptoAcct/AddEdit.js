@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Spin, Switch } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import { Modal, Form, Input, InputNumber, Spin, Switch, Select } from "antd";
+import { formLayout, mode, Currency } from "@/utils/enum";
+const { Option } = Select;
+
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -13,7 +15,7 @@ const AddEdit = props => {
 
   return (
     <Modal
-      title={`${mode[props.mode]}App`}
+      title={`${mode[props.mode]}加密钱包帐户`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}
@@ -23,32 +25,38 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
+          <Form.Item name="wallet_id" label="钱包ID">
+            <InputNumber />
+          </Form.Item>
           <Form.Item name="name" label="名称">
             <Input />
           </Form.Item>
-          <Form.Item name="name_cn" label="名称CN">
+          <Form.Item name="address" label="地址">
             <Input />
           </Form.Item>
-          <Form.Item name="developer_id" label="开发者ID">
+          <Form.Item name="balance" label="余额">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="developer_name" label="开发者姓名">
-            <Input />
+          <Form.Item name="currency" label="货币">
+            <Select>
+              {Object.keys(Currency).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Currency[i]}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
-          <Form.Item name="callback_url" label="callback_url">
-            <Input />
-          </Form.Item>
-          <Form.Item name="secret" label="secret">
-            <Input />
-          </Form.Item>
-          <Form.Item name="info" label="info">
-            <Input />
-          </Form.Item>
-          <Form.Item name="status" label="status">
+          <Form.Item name="last_block" label="last_block">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="token" label="Token">
+          <Form.Item name="last_block_time" label="last_block_time">
             <Input />
+          </Form.Item>
+          <Form.Item name="seq" label="seq">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="w" label="w">
+            <InputNumber />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />

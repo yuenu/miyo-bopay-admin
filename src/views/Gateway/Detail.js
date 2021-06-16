@@ -1,6 +1,6 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import { PayMethod, WXPayType } from "@/utils/enum";
+import { PayMethod, WXPayType, Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
 
@@ -63,7 +63,9 @@ const Detail = props => {
           </Descriptions.Item>
           <Descriptions.Item label="crypt_type">{crypt_type}</Descriptions.Item>
 
-          <Descriptions.Item label="currency">{currency}</Descriptions.Item>
+          <Descriptions.Item label="货币">
+            {Currency[currency]}
+          </Descriptions.Item>
           <Descriptions.Item label="decimals">{decimals}</Descriptions.Item>
           <Descriptions.Item label="display_name">
             {display_name}
@@ -83,15 +85,21 @@ const Detail = props => {
           </Descriptions.Item>
           <Descriptions.Item label="fee">{fee}</Descriptions.Item>
           <Descriptions.Item label="gateway">{gateway}</Descriptions.Item>
-          <Descriptions.Item label="h5_on">{h5_on}</Descriptions.Item>
-          <Descriptions.Item label="is_3rd">{is_3rd}</Descriptions.Item>
-          <Descriptions.Item label="pay_method">
+          <Descriptions.Item label="h5_on">
+            <Tag val={h5_on} />
+          </Descriptions.Item>
+          <Descriptions.Item label="is_3rd">
+            <Tag val={is_3rd} />
+          </Descriptions.Item>
+          <Descriptions.Item label="付款方式">
             {PayMethod[pay_method]}
           </Descriptions.Item>
-          <Descriptions.Item label="pay_type">
+          <Descriptions.Item label="支付类别">
             {WXPayType[pay_type]}
           </Descriptions.Item>
-          <Descriptions.Item label="pc_on">{pc_on}</Descriptions.Item>
+          <Descriptions.Item label="pc_on">
+            <Tag val={pc_on} />
+          </Descriptions.Item>
           <Descriptions.Item label="random_decimals">
             {random_decimals}
           </Descriptions.Item>

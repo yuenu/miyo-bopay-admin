@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Spin } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import { Modal, Form, Input, InputNumber, Spin, Select } from "antd";
+import { formLayout, mode, developerStatus } from "@/utils/enum";
+const { Option } = Select;
+
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -38,17 +40,23 @@ const AddEdit = props => {
           <Form.Item name="email" label="email">
             <Input />
           </Form.Item>
-          <Form.Item name="org" label="org">
+          <Form.Item name="org" label="公司/组织">
             <Input />
           </Form.Item>
-          <Form.Item name="info" label="info">
+          <Form.Item name="info" label="公司简介">
             <Input />
           </Form.Item>
-          <Form.Item name="site" label="site">
+          <Form.Item name="site" label="公司官网">
             <Input />
           </Form.Item>
-          <Form.Item name="status" label="status">
-            <InputNumber />
+          <Form.Item name="status" label="审核状态">
+            <Select>
+              {Object.keys(developerStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {developerStatus[i]}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="telegram" label="telegram">
             <Input />

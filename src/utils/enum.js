@@ -82,3 +82,8 @@ export const ApprovalStatus = {
   9: "审核通过",
   10: "审核拒绝",
 };
+export const developerStatus = {
+  0: "审核中",
+  1: "审核通过",
+  2: "拒绝",
+};

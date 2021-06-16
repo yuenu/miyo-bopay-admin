@@ -1,14 +1,20 @@
 import { useState } from "react";
-import { Button, Space, Table, message } from "antd";
-import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
+import { Button, Space, Table } from "antd";
+import {
+  selectCryptoAcct,
+  getCryptoAccts,
+  getCryptoAcct,
+  addCryptoAcct,
+  editCryptoAcct,
+} from "@/store/slice/cryptoAcct";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-
-const App = () => {
+import { Currency } from "@/utils/enum";
+const CryptoAcct = () => {
   const searchFields = {
     id: { type: "string", label: "ID" },
     name: { type: "string", label: "名称" },
@@ -20,28 +26,20 @@ const App = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-  } = useList(getApps, selectApp);
+    handleAdd: handleAddHook,
+  } = useList(getCryptoAccts, selectCryptoAcct);
 
   const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addApp(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addCryptoAcct, ...formModel });
     setAddVisible(false);
   };
-
   const [detailId, setDetailId] = useState(null);
   const {
     currentRow,
     loading: detailLoading,
     handleEdit: handleEditHook,
-  } = useDetail({ action: getApp, id: detailId }, selectApp);
+  } = useDetail({ action: getCryptoAcct, id: detailId }, selectCryptoAcct);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -54,7 +52,11 @@ const App = () => {
     setEditVisible(true);
   };
   const handleEdit = async formModel => {
-    await handleEditHook({ action: editApp, id: currentRow.id, ...formModel });
+    await handleEditHook({
+      action: editCryptoAcct,
+      id: currentRow.id,
+      ...formModel,
+    });
     setEditVisible(false);
     setDetailId(null);
     handleGetList({ page: meta.page });
@@ -63,9 +65,12 @@ const App = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name" },
-    { title: "名称CN", dataIndex: "name_cn" },
-    { title: "开发者ID", dataIndex: "developer_id" },
-    { title: "开发者姓名", dataIndex: "developer_name" },
+    { title: "余额", dataIndex: "balance" },
+    {
+      title: "货币",
+      dataIndex: "currency",
+      render: val => Currency[val] || "",
+    },
     {
       title: "启用",
       dataIndex: "is_active",
@@ -88,7 +93,11 @@ const App = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={() => setAddVisible(true)}
+      >
         添加
       </Button>
       <Table
@@ -104,7 +113,7 @@ const App = () => {
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail
@@ -124,4 +133,4 @@ const App = () => {
     </Space>
   );
 };
-export default App;
+export default CryptoAcct;

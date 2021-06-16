@@ -1,6 +1,7 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
+import { developerStatus } from "@/utils/enum";
 
 const Detail = props => {
   const {
@@ -38,12 +39,14 @@ const Detail = props => {
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
           <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="email">{email}</Descriptions.Item>
-          <Descriptions.Item label="org">{org}</Descriptions.Item>
-          <Descriptions.Item label="info">{info}</Descriptions.Item>
-          <Descriptions.Item label="site">{site}</Descriptions.Item>
-          <Descriptions.Item label="status">{status}</Descriptions.Item>
+          <Descriptions.Item label="公司/组织">{org}</Descriptions.Item>
+          <Descriptions.Item label="公司简介">{info}</Descriptions.Item>
+          <Descriptions.Item label="公司官网">{site}</Descriptions.Item>
+          <Descriptions.Item label="审核状态">
+            {developerStatus[status]}
+          </Descriptions.Item>
           <Descriptions.Item label="telegram">{telegram}</Descriptions.Item>
-          <Descriptions.Item label="note">{note}</Descriptions.Item>
+          <Descriptions.Item label="备注">{note}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>

@@ -2,22 +2,23 @@ import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
+import { Currency } from "@/utils/enum";
 
 const Detail = props => {
   const {
     id,
+    wallet_id,
     name,
-    name_cn,
     created,
     updated,
     is_active,
-    developer_id,
-    developer_name,
-    callback_url,
-    info,
-    secret,
-    status,
-    token,
+    address,
+    balance,
+    currency,
+    last_block,
+    last_block_time,
+    seq,
+    w,
     note,
   } = props.data;
   return (
@@ -34,19 +35,19 @@ const Detail = props => {
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
+          <Descriptions.Item label="钱包ID">{wallet_id}</Descriptions.Item>
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
-          <Descriptions.Item label="名称CN">{name_cn}</Descriptions.Item>
-          <Descriptions.Item label="开发者ID">{developer_id}</Descriptions.Item>
-          <Descriptions.Item label="开发者姓名">
-            {developer_name}
+          <Descriptions.Item label="地址">{address}</Descriptions.Item>
+          <Descriptions.Item label="余额">{balance}</Descriptions.Item>
+          <Descriptions.Item label="货币">
+            {Currency[currency]}
           </Descriptions.Item>
-          <Descriptions.Item label="callback_url">
-            {callback_url}
+          <Descriptions.Item label="last_block">{last_block}</Descriptions.Item>
+          <Descriptions.Item label="last_block_time">
+            {last_block_time}
           </Descriptions.Item>
-          <Descriptions.Item label="info">{info}</Descriptions.Item>
-          <Descriptions.Item label="secret">{secret}</Descriptions.Item>
-          <Descriptions.Item label="status">{status}</Descriptions.Item>
-          <Descriptions.Item label="token">{token}</Descriptions.Item>
+          <Descriptions.Item label="seq">{seq}</Descriptions.Item>
+          <Descriptions.Item label="w">{w}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
