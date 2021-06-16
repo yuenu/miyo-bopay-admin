@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Switch } from "antd";
+import { Modal, Form, Input, Switch } from "antd";
 import { formLayout, mode } from "@/utils/enum";
+import Spin from "@/components/Spin";
+
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {

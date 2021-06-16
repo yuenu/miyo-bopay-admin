@@ -1,6 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Checkbox, Switch } from "antd";
+import { Modal, Form, Input, Checkbox, Switch } from "antd";
 import { formLayout, mode } from "@/utils/enum";
+import Spin from "@/components/Spin";
+
 const AddEdit = props => {
   const wrapperCol = {
     offset: formLayout.labelCol.span,

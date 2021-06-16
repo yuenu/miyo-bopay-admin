@@ -1,6 +1,7 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Switch, Select, InputNumber } from "antd";
+import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode, Currency, PayMethod, WXPayType } from "@/utils/enum";
+import Spin from "@/components/Spin";
 const { Option } = Select;
 
 const AddEdit = props => {

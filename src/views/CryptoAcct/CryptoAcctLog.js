@@ -4,12 +4,12 @@ import {
   Table,
   Button,
   Modal,
-  Spin,
   Form,
   Input,
   InputNumber,
   message,
 } from "antd";
+import Spin from "@/components/Spin";
 import {
   selectCryptoAcctLog,
   getCryptoAcctLogs,
@@ -20,7 +20,6 @@ import { Currency, formLayout } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-
 const CryptoWallet = () => {
   const searchFields = {
     id: { type: "string", label: "ID" },

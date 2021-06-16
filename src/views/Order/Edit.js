@@ -1,5 +1,7 @@
-import { Modal, Form, Input, InputNumber, Spin } from "antd";
+import { Modal, Form, Input, InputNumber } from "antd";
 import { mode, formLayout } from "@/utils/enum";
+import Spin from "@/components/Spin";
+
 const Edit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {

@@ -6,15 +6,18 @@ import {
   getCryptoAcct,
   addCryptoAcct,
   editCryptoAcct,
+  activeCryptoAcct,
 } from "@/store/slice/cryptoAcct";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import SetActiveModal from "@/components/SetActiveModal";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
+
 const CryptoAcct = () => {
   const searchFields = {
     id: { type: "string", label: "ID" },
@@ -63,6 +66,22 @@ const CryptoAcct = () => {
     handleGetList({ page: meta.page });
   };
 
+  const [activeVisible, setActiveVisible] = useState(false);
+  const handleActiveClick = id => {
+    setDetailId(id);
+    setActiveVisible(true);
+  };
+  const handleActiveOk = async formModel => {
+    await handleEditHook({
+      action: activeCryptoAcct,
+      id: currentRow.id,
+      ...formModel,
+    });
+    setActiveVisible(false);
+    setDetailId(null);
+    handleGetList({ page: meta.page });
+  };
+
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name" },
@@ -91,6 +110,12 @@ const CryptoAcct = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
+          <Button
+            onClick={() => handleActiveClick(record.id)}
+            disabled={!record.is_active}
+          >
+            禁用
+          </Button>
         </Space>
       ),
     },
@@ -134,6 +159,14 @@ const CryptoAcct = () => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
+      />
+      <SetActiveModal
+        title="加密钱包帐户"
+        visible={activeVisible}
+        onOk={handleActiveOk}
+        onCancel={() => setActiveVisible(false)}
+        loading={detailLoading}
+        data={currentRow}
       />
     </Space>
   );

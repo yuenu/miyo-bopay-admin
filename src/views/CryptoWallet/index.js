@@ -5,6 +5,7 @@ import {
   getCryptoWallets,
   getCryptoWallet,
   addCryptoWallet,
+  editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import { Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
@@ -15,6 +16,7 @@ import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import Tag from "@/components/Tag";
 import { useHistory, generatePath } from "react-router-dom";
+import SetActiveModal from "@/components/SetActiveModal";
 
 const CryptoWallet = () => {
   const history = useHistory();
@@ -53,10 +55,11 @@ const CryptoWallet = () => {
   };
 
   const [detailId, setDetailId] = useState(null);
-  const { currentRow, loading: detailLoading } = useDetail(
-    { action: getCryptoWallet, id: detailId },
-    selectCryptoWallet,
-  );
+  const {
+    currentRow,
+    loading: detailLoading,
+    handleEdit: handleEditHook,
+  } = useDetail({ action: getCryptoWallet, id: detailId }, selectCryptoWallet);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailVisible(true);
@@ -65,6 +68,22 @@ const CryptoWallet = () => {
 
   const handleEditClick = async id => {
     history.push(generatePath("/CryptoWalletEdit/:id", { id }));
+  };
+
+  const [activeVisible, setActiveVisible] = useState(false);
+  const handleActiveClick = id => {
+    setDetailId(id);
+    setActiveVisible(true);
+  };
+  const handleActiveOk = async formModel => {
+    await handleEditHook({
+      action: editCryptoWallet,
+      id: currentRow.id,
+      ...formModel,
+    });
+    setActiveVisible(false);
+    setDetailId(null);
+    handleGetList({ page: meta.page });
   };
 
   const columns = [
@@ -98,7 +117,12 @@ const CryptoWallet = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
-          <Button>禁用</Button>
+          <Button
+            onClick={() => handleActiveClick(record.id)}
+            disabled={!record.is_active}
+          >
+            禁用
+          </Button>
         </Space>
       ),
     },
@@ -130,6 +154,14 @@ const CryptoWallet = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+      />
+      <SetActiveModal
+        title="加密钱包帐户"
+        visible={activeVisible}
+        onOk={handleActiveOk}
+        onCancel={() => setActiveVisible(false)}
+        loading={detailLoading}
+        data={currentRow}
       />
     </Space>
   );
