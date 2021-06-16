@@ -146,12 +146,12 @@ const Order = () => {
     { title: "会员ID", dataIndex: "userid" },
     { title: "会员姓名", dataIndex: "name" },
     {
-      title: "訂單狀態",
+      title: "订单状态",
       dataIndex: "status",
       render: val => OrderStatus[val] || "",
     },
     {
-      title: "支付類別",
+      title: "支付类别",
       dataIndex: "pay_type",
       render: val => WXPayType[val] || "",
     },
@@ -162,8 +162,8 @@ const Order = () => {
       render: val => PayMethod[val] || "",
     },
     { title: "付款人姓名", dataIndex: "payer_name" },
-    { title: "設備類型", dataIndex: "device_type" },
-    { title: "支付狀態", dataIndex: "pay_status" },
+    { title: "设备类型", dataIndex: "device_type" },
+    { title: "支付状态", dataIndex: "pay_status" },
     {
       title: "支付时间",
       dataIndex: "paid_at",
@@ -171,36 +171,36 @@ const Order = () => {
       render: val => dateFormat(val),
     },
     {
-      title: "審核狀態",
+      title: "审核状态",
       dataIndex: "approval_status",
       render: val => ApprovalStatus[val] || "",
     },
     {
-      title: "通知狀態",
+      title: "通知状态",
       dataIndex: "notify_status",
       render: val => NotifyStatus[val] || "",
     },
     {
-      title: "通知時間",
+      title: "通知时间",
       dataIndex: "notified_at",
       width: 170,
       render: val => dateFormat(val),
     },
     { title: "IP", dataIndex: "client_ip" },
-    { title: "錯誤代碼", dataIndex: "failure_code" },
-    { title: "錯誤信息", dataIndex: "failure_msg" },
+    { title: "错误代码", dataIndex: "failure_code" },
+    { title: "错误信息", dataIndex: "failure_msg" },
     {
-      title: "訂單金額",
+      title: "订单金额",
       dataIndex: "amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
     },
     {
-      title: "實際付款金額",
+      title: "实际付款金额",
       dataIndex: "amount_paid",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
     },
     {
-      title: "贈送金額",
+      title: "赠送金额",
       dataIndex: "bonus",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
     },
@@ -220,12 +220,12 @@ const Order = () => {
       render: val => <Tag val={val} />,
     },
     {
-      title: "是否加密貨幣",
+      title: "是否加密货币",
       dataIndex: "is_crypto",
       render: val => <Tag val={val} />,
     },
     {
-      title: "是否在線訂單",
+      title: "是否在线订单",
       dataIndex: "is_online",
       render: val => <Tag val={val} />,
     },
@@ -246,7 +246,7 @@ const Order = () => {
           <Button onClick={() => handleEditClick(record, "approve")}>
             审核
           </Button>
-          <Button onClick={() => handleEditClick(record, "deny")}>拒絕</Button>
+          <Button onClick={() => handleEditClick(record, "deny")}>拒绝</Button>
           <Button onClick={() => handleCancelClick(record.id)}>取消</Button>
           <Button onClick={() => handleNotifyClick(record.id)}>通知</Button>
         </Space>
