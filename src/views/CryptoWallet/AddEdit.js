@@ -1,6 +1,17 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Spin, Checkbox } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import {
+  Modal,
+  Form,
+  Input,
+  Spin,
+  Checkbox,
+  Select,
+  Switch,
+  InputNumber,
+} from "antd";
+import { formLayout, mode, Currency } from "@/utils/enum";
+const { Option } = Select;
+
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -22,55 +33,38 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="name" label="姓名">
+          <Form.Item name="name" label="名称">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="电话">
+          <Form.Item name="address" label="地址">
             <Input />
           </Form.Item>
-          <Form.Item name="email" label="email">
+          <Form.Item name="balance" label="余额">
             <Input />
           </Form.Item>
-          <Form.Item name="username" label="username">
+          <Form.Item name="currency" label="货币">
+            <Select>
+              {Object.keys(Currency).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Currency[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+          <Form.Item name="network" label="network">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="owner" label="owner">
             <Input />
           </Form.Item>
-          <Form.Item name="password" label="password">
+          <Form.Item name="token" label="token">
             <Input />
           </Form.Item>
-          <Form.Item
-            name="is_active"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isActive</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_admin"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAdmin</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_agent"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAgent</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_developer"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isDeveloper</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_staff"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isStaff</Checkbox>
+          <Form.Item name="note" label="备注">
+            <Input />
           </Form.Item>
         </Form>
       </Spin>

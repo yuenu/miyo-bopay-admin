@@ -7,16 +7,18 @@ import React, {
 } from "react";
 import { Card, Form, Input, Space, Button, Select, Switch, Table } from "antd";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import {
   selectCryptoWallet,
   getCryptoWallet,
   editCryptoWallet,
-  getCryptoAccts,
-  addCryptoAccts,
-  editCryptoAccts,
 } from "@/store/slice/cryptoWallet";
+import {
+  getCryptoAccts,
+  addCryptoAcct,
+  editCryptoAcct,
+} from "@/store/slice/cryptoAcct";
 import { formLayout, Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { useDetail } from "@/utils/hook";
@@ -28,7 +30,7 @@ const { Option } = Select;
 
 const Edit = () => {
   const dispatch = useDispatch();
-  const { accts } = useSelector(selectCryptoWallet);
+  const [accts, setAccts] = useState([]);
   const [acctsState, setAcctsState] = useState([]);
   const history = useHistory();
   let { id } = useParams();
@@ -42,12 +44,12 @@ const Edit = () => {
   const handleGetAccts = useCallback(async () => {
     setAcctsLoading(true);
     const res = await dispatch(getCryptoAccts({ wallet_id: currentRow.id }));
-    setAcctsState(res.payload.data.data);
+    setAccts(res.payload.data.data);
     setAcctsLoading(false);
   }, [currentRow.id, dispatch]);
   useEffect(() => {
     form.setFieldsValue(currentRow);
-    handleGetAccts();
+    currentRow.id && handleGetAccts();
   }, [currentRow, form, handleGetAccts]);
 
   const handleCancel = () => {
@@ -108,7 +110,7 @@ const Edit = () => {
         const hasAddr = accts.find(i => i.id === record.id);
         hasAddr ||
           (await dispatch(
-            addCryptoAccts({
+            addCryptoAcct({
               ...values,
               wallet_id: currentRow.id,
               currency: 1,
@@ -116,7 +118,7 @@ const Edit = () => {
           ));
         hasAddr &&
           (await dispatch(
-            editCryptoAccts({
+            editCryptoAcct({
               id: record.id,
               formModel: { ...values, wallet_id: currentRow.id, currency: 1 },
             }),
@@ -224,14 +226,16 @@ const Edit = () => {
         </Spin>
       </Card>
       <Card title="加密钱包收款帐号" v-loading="true">
-        <Table
-          columns={columnsCell}
-          dataSource={acctsState}
-          rowKey="id"
-          components={components}
-          pagination={false}
-          loading={acctsLoading}
-        />
+        {acctsState.length > 0 && (
+          <Table
+            columns={columnsCell}
+            dataSource={acctsState}
+            rowKey="id"
+            components={components}
+            pagination={false}
+            loading={acctsLoading}
+          />
+        )}
         <div className="text-right mt-1">
           <Button type="primary" onClick={handleAddAddrClick}>
             新增地址
