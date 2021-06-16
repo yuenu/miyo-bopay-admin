@@ -16,15 +16,12 @@ import {
   getCryptoAcctLog,
 } from "@/store/slice/cryptoAcctLog";
 import { bindOrder } from "@/store/slice/order";
-import { useDispatch } from "react-redux";
 import { Currency, formLayout } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 
 const CryptoWallet = () => {
-  const dispatch = useDispatch();
-
   const searchFields = {
     id: { type: "string", label: "ID" },
     order_no: { type: "string", label: "订单号" },
@@ -106,7 +103,6 @@ const CryptoWallet = () => {
   const [form] = Form.useForm();
   const [editVisible, setEditVisible] = useState(false);
   const handleEditClick = async id => {
-    console.log(id);
     setDetailId(id);
     setEditVisible(true);
   };

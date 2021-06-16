@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { Card, Form, Input, Space, Button, Select, Switch, Table } from "antd";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   selectCryptoWallet,
@@ -15,9 +15,10 @@ import {
   editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import {
+  selectCryptoAcct,
   getCryptoAccts,
-  addCryptoAcct,
   editCryptoAcct,
+  addCryptoAcct,
 } from "@/store/slice/cryptoAcct";
 import { formLayout, Currency } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
@@ -30,8 +31,6 @@ const { Option } = Select;
 
 const Edit = () => {
   const dispatch = useDispatch();
-  const [accts, setAccts] = useState([]);
-  const [acctsState, setAcctsState] = useState([]);
   const history = useHistory();
   let { id } = useParams();
   const [form] = Form.useForm();
@@ -39,18 +38,9 @@ const Edit = () => {
     { action: getCryptoWallet, id },
     selectCryptoWallet,
   );
-
-  const [acctsLoading, setAcctsLoading] = useState(false);
-  const handleGetAccts = useCallback(async () => {
-    setAcctsLoading(true);
-    const res = await dispatch(getCryptoAccts({ wallet_id: currentRow.id }));
-    setAccts(res.payload.data.data);
-    setAcctsLoading(false);
-  }, [currentRow.id, dispatch]);
   useEffect(() => {
     form.setFieldsValue(currentRow);
-    currentRow.id && handleGetAccts();
-  }, [currentRow, form, handleGetAccts]);
+  }, [currentRow, form]);
 
   const handleCancel = () => {
     history.push("/CryptoWallet");
@@ -59,6 +49,20 @@ const Edit = () => {
     const formModel = form.getFieldsValue();
     handleEdit({ action: editCryptoWallet, id, ...formModel });
   };
+
+  const [listLoading, setListLoading] = useState(false);
+  const { list } = useSelector(selectCryptoAcct);
+  const handleGetList = useCallback(
+    async (params = {}) => {
+      setListLoading(true);
+      await dispatch(getCryptoAccts({ wallet_id: id, ...params }));
+      setListLoading(false);
+    },
+    [dispatch, id],
+  );
+  useEffect(() => {
+    handleGetList();
+  }, [handleGetList]);
 
   const columns = [
     {
@@ -69,6 +73,7 @@ const Edit = () => {
     {
       title: "序号",
       dataIndex: "w",
+      width: 80,
     },
     {
       title: "启用",
@@ -107,22 +112,10 @@ const Edit = () => {
     const save = async () => {
       try {
         const values = await form.validateFields();
-        const hasAddr = accts.find(i => i.id === record.id);
-        hasAddr ||
-          (await dispatch(
-            addCryptoAcct({
-              ...values,
-              wallet_id: currentRow.id,
-              currency: 1,
-            }),
-          ));
-        hasAddr &&
-          (await dispatch(
-            editCryptoAcct({
-              id: record.id,
-              formModel: { ...values, wallet_id: currentRow.id, currency: 1 },
-            }),
-          ));
+        await editCryptoAcct({
+          id: record.id,
+          formModel: { ...values, wallet_id: currentRow.id, currency: 1 },
+        });
       } catch (errInfo) {
         console.log("Save failed:", errInfo);
       }
@@ -142,7 +135,7 @@ const Edit = () => {
         <Form.Item
           name={dataIndex}
           rules={
-            dataIndex === "no" || dataIndex === "address"
+            dataIndex === "address"
               ? [
                   {
                     required: true,
@@ -157,24 +150,67 @@ const Edit = () => {
       );
     return <td {...restProps}>{childNode}</td>;
   };
-  const components = {
+  const editComponents = {
     body: {
       row: EditableRow,
       cell: EditableCell,
     },
   };
-  const handleAddAddrClick = () => {
-    setAcctsState([
-      ...acctsState,
-      {
-        name: "",
-        seq: 0,
-        w: 0,
-        note: "",
-        address: "",
-      },
-    ]);
+
+  const [addForm] = Form.useForm();
+  const AddCel = ({ title, children, dataIndex, record, ...restProps }) => {
+    let childNode = children;
+    childNode =
+      dataIndex === "id" ? (
+        <div>{record.id}</div>
+      ) : dataIndex === "is_active" ? (
+        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
+          <Switch />
+        </Form.Item>
+      ) : (
+        <Form.Item
+          name={dataIndex}
+          rules={
+            dataIndex === "address"
+              ? [
+                  {
+                    required: true,
+                  },
+                ]
+              : null
+          }
+          noStyle
+        >
+          <Input />
+        </Form.Item>
+      );
+    return <td {...restProps}>{childNode}</td>;
   };
+  const addComponents = {
+    body: {
+      cell: AddCel,
+    },
+  };
+  const defaultAddFormModel = {
+    id: null,
+    w: 0,
+    is_active: true,
+    address: null,
+    note: null,
+    seq: 0,
+  };
+  useEffect(() => {
+    addForm.setFieldsValue(defaultAddFormModel);
+  });
+  const handleAddClick = async () => {
+    const formModel = addForm.getFieldsValue();
+    const params = { ...formModel, wallet_id: Number(id), currency: 1 };
+    const res = await addCryptoAcct(params);
+    console.log(res);
+    addForm.resetFields();
+    handleGetList();
+  };
+
   return (
     <Space direction="vertical" className="w-100">
       <h2>编辑钱包</h2>
@@ -226,18 +262,28 @@ const Edit = () => {
         </Spin>
       </Card>
       <Card title="加密钱包收款帐号" v-loading="true">
-        {acctsState.length > 0 && (
+        {list.length > 0 && (
           <Table
             columns={columnsCell}
-            dataSource={acctsState}
+            dataSource={list}
             rowKey="id"
-            components={components}
+            components={editComponents}
             pagination={false}
-            loading={acctsLoading}
+            loading={listLoading}
           />
         )}
+        <Form form={addForm} component={false}>
+          <Table
+            columns={columnsCell}
+            showHeader={list.length === 0}
+            dataSource={[defaultAddFormModel]}
+            rowKey="id"
+            components={addComponents}
+            pagination={false}
+          />
+        </Form>
         <div className="text-right mt-1">
-          <Button type="primary" onClick={handleAddAddrClick}>
+          <Button type="primary" onClick={handleAddClick}>
             新增地址
           </Button>
         </div>
