@@ -98,6 +98,7 @@ const Order = () => {
     await handleEdit({ action, id: detailId, ...formModel });
     await handleGetList({ page: meta.page });
     setEditVisible(false);
+    setDetailId(null);
   };
 
   const handleCancelClick = id => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Spin, Switch } from "antd";
+import { Modal, Form, Input, InputNumber, Spin } from "antd";
 import { formLayout, mode } from "@/utils/enum";
 const AddEdit = props => {
   const [form] = Form.useForm();
@@ -32,13 +32,25 @@ const AddEdit = props => {
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
-            <Switch />
+          <Form.Item name="phone" label="电话">
+            <Input />
+          </Form.Item>
+          <Form.Item name="email" label="email">
+            <Input />
           </Form.Item>
           <Form.Item name="org" label="org">
             <Input />
           </Form.Item>
-          <Form.Item name="email" label="email">
+          <Form.Item name="info" label="info">
+            <Input />
+          </Form.Item>
+          <Form.Item name="site" label="site">
+            <Input />
+          </Form.Item>
+          <Form.Item name="status" label="status">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="telegram" label="telegram">
             <Input />
           </Form.Item>
           <Form.Item name="note" label="备注">

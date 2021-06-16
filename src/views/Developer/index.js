@@ -58,6 +58,7 @@ const User = () => {
     });
     setEditVisible(false);
     handleGetList({ page: meta.page });
+    setDetailId(null);
   };
 
   const columns = [

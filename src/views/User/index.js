@@ -26,19 +26,12 @@ const User = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleAdd: handleAddHook,
   } = useList(getUsers, selectUser);
 
   const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addUser(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addUser, ...formModel });
     setAddVisible(false);
   };
 
@@ -63,6 +56,7 @@ const User = () => {
     await handleEditHook({ action: editUser, id: currentRow.id, ...formModel });
     setEditVisible(false);
     handleGetList({ page: meta.page });
+    setDetailId(null);
   };
 
   const columns = [
@@ -91,7 +85,11 @@ const User = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={() => setAddVisible(true)}
+      >
         添加
       </Button>
       <Table
@@ -107,7 +105,7 @@ const User = () => {
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail
