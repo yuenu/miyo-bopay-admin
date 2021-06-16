@@ -238,17 +238,17 @@ const Order = () => {
       title: "动作",
       dataIndex: "action",
       align: "center",
-      render: (_, recore) => (
+      render: (_, record) => (
         <Space>
-          <Button onClick={() => handleDetailClick(recore.id)} type="primary">
+          <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore, "approve")}>
+          <Button onClick={() => handleEditClick(record, "approve")}>
             审核
           </Button>
-          <Button onClick={() => handleEditClick(recore, "deny")}>拒絕</Button>
-          <Button onClick={() => handleCancelClick(recore.id)}>取消</Button>
-          <Button onClick={() => handleNotifyClick(recore.id)}>通知</Button>
+          <Button onClick={() => handleEditClick(record, "deny")}>拒絕</Button>
+          <Button onClick={() => handleCancelClick(record.id)}>取消</Button>
+          <Button onClick={() => handleNotifyClick(record.id)}>通知</Button>
         </Space>
       ),
     },

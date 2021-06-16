@@ -14,6 +14,7 @@ import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { Currency } from "@/utils/enum";
+import { priceFormat } from "@/utils/format";
 const CryptoAcct = () => {
   const searchFields = {
     id: { type: "string", label: "ID" },
@@ -65,7 +66,11 @@ const CryptoAcct = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name" },
-    { title: "余额", dataIndex: "balance" },
+    {
+      title: "余额",
+      dataIndex: "balance",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
     {
       title: "货币",
       dataIndex: "currency",
@@ -80,12 +85,12 @@ const CryptoAcct = () => {
       title: "动作",
       dataIndex: "action",
       align: "right",
-      render: (_, recore) => (
+      render: (_, record) => (
         <Space>
-          <Button onClick={() => handleDetailClick(recore.id)} type="primary">
+          <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
+          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
         </Space>
       ),
     },

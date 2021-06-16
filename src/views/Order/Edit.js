@@ -1,15 +1,11 @@
 import { Modal, Form, Input, InputNumber, Spin } from "antd";
-import { mode } from "@/utils/enum";
+import { mode, formLayout } from "@/utils/enum";
 const Edit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     const formModel = form.getFieldsValue();
     await props.onOk({ ...formModel });
     form.resetFields();
-  };
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
   };
   return (
     <Modal
@@ -22,7 +18,7 @@ const Edit = props => {
       confirmLoading={props.loading}
     >
       <Spin spinning={props.loading}>
-        <Form {...layout} form={form}>
+        <Form {...formLayout} form={form}>
           <Form.Item label="ID">{props.id}</Form.Item>
           {props.mode === "approve" && (
             <Form.Item name="amount_paid" label="实际付款金额">

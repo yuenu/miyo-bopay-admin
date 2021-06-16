@@ -72,12 +72,12 @@ const User = () => {
       title: "动作",
       dataIndex: "action",
       align: "right",
-      render: (_, recore) => (
+      render: (_, record) => (
         <Space>
-          <Button onClick={() => handleDetailClick(recore.id)} type="primary">
+          <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(recore.id)}>编辑</Button>
+          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
         </Space>
       ),
     },

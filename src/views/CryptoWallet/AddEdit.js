@@ -54,7 +54,7 @@ const AddEdit = props => {
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />
           </Form.Item>
-          <Form.Item name="network" label="network">
+          <Form.Item name="区块链" label="network">
             <InputNumber />
           </Form.Item>
           <Form.Item name="owner" label="owner">

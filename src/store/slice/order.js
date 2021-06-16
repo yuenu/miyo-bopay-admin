@@ -72,7 +72,14 @@ export const deleteOrder = async id => {
   });
   return res;
 };
-
+export const bindOrder = async params => {
+  const res = await request({
+    url: `/api/orders/bind`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "order",
   initialState: {

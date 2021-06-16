@@ -9,7 +9,7 @@ export const dateFormat = date => {
 export const priceFormat = ({ val, currency }) => {
   try {
     const { unit, rate } = CurrencyFormat.find(i => i.key === currency);
-    return `${unit} ${val / rate}`;
+    return `${unit} ${(val / rate).toLocaleString("en-US")}`;
   } catch (e) {
     console.log(e);
     return "";
