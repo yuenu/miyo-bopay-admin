@@ -259,18 +259,7 @@ const Order = () => {
     },
   ];
   const payerCredExpandedRowRender = record => {
-    const columns = [
-      { title: "name", dataIndex: "name", width: "200px" },
-      { title: "residency", dataIndex: "residency" },
-    ];
-    return (
-      <Table
-        columns={columns}
-        dataSource={record}
-        rowKey="name"
-        pagination={false}
-      />
-    );
+    return <div>{record}</div>;
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
@@ -289,7 +278,7 @@ const Order = () => {
         expandable={{
           rowExpandable: record => true,
           expandedRowRender: record =>
-            payerCredExpandedRowRender(JSON.parse(record.payer_cred)),
+            payerCredExpandedRowRender(JSON.stringify(record.payer_cred)),
         }}
       />
       <AddEdit

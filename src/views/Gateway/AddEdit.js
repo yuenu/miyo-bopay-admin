@@ -11,7 +11,12 @@ const AddEdit = props => {
     form.resetFields();
   };
   useEffect(() => {
-    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+    props.visible &&
+      props.mode === "edit" &&
+      form.setFieldsValue({
+        ...props.data,
+        extra: JSON.stringify(props.data.extra),
+      });
   });
 
   return (
@@ -87,6 +92,9 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="expires" label="expires">
             <InputNumber />
+          </Form.Item>
+          <Form.Item name="extra" label="extra">
+            <Input />
           </Form.Item>
           <Form.Item name="fee" label="fee">
             <InputNumber />
