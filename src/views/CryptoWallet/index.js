@@ -81,6 +81,7 @@ const CryptoWallet = () => {
   const handleActiveOk = async formModel => {
     await handleEditHook({
       action: editCryptoWallet,
+      ...currentRow,
       id: currentRow.id,
       ...formModel,
     });

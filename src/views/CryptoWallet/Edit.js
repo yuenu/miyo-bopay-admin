@@ -47,7 +47,7 @@ const Edit = () => {
   };
   const handleSubmit = () => {
     const formModel = form.getFieldsValue();
-    handleEdit({ action: editCryptoWallet, id, ...formModel });
+    handleEdit({ action: editCryptoWallet, ...currentRow, id, ...formModel });
   };
 
   const [listLoading, setListLoading] = useState(false);
@@ -205,8 +205,7 @@ const Edit = () => {
   const handleAddClick = async () => {
     const formModel = addForm.getFieldsValue();
     const params = { ...formModel, wallet_id: Number(id), currency: 1 };
-    const res = await addCryptoAcct(params);
-    console.log(res);
+    await addCryptoAcct(params);
     addForm.resetFields();
     handleGetList();
   };

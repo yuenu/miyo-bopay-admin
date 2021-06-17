@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Select, Switch, InputNumber } from "antd";
-import { formLayout, mode, Currency } from "@/utils/enum";
+import { formLayout, mode, Currency, Network } from "@/utils/enum";
 import Spin from "@/components/Spin";
 const { Option } = Select;
 
@@ -28,10 +28,10 @@ const AddEdit = props => {
           <Form.Item name="name" label="名称">
             <Input />
           </Form.Item>
-          <Form.Item name="address" label="地址">
+          <Form.Item name="owner" label="钱包所有者">
             <Input />
           </Form.Item>
-          <Form.Item name="balance" label="余额">
+          <Form.Item name="address" label="地址">
             <Input />
           </Form.Item>
           <Form.Item name="currency" label="货币">
@@ -43,14 +43,20 @@ const AddEdit = props => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
-            <Switch />
-          </Form.Item>
-          <Form.Item name="区块链" label="network">
+          <Form.Item name="balance" label="余额">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="owner" label="owner">
-            <Input />
+          <Form.Item name="区块链" label="network">
+            <Select>
+              {Object.keys(Network).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Network[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
+            <Switch />
           </Form.Item>
           <Form.Item name="token" label="token">
             <Input />
