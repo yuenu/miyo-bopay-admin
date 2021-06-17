@@ -14,6 +14,7 @@ const Detail = props => {
     created,
     crypt_type,
     currency,
+    crypto_wallet_id,
     decimals,
     display_name,
     enc_type,
@@ -54,6 +55,9 @@ const Detail = props => {
         <Descriptions column={1} bordered>
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
+          <Descriptions.Item label="display_name">
+            {display_name}
+          </Descriptions.Item>
           <Descriptions.Item label="alias">{alias}</Descriptions.Item>
           <Descriptions.Item label="api">{api}</Descriptions.Item>
           <Descriptions.Item label="appid">{appid}</Descriptions.Item>
@@ -61,29 +65,16 @@ const Detail = props => {
           <Descriptions.Item label="callback_url">
             {callback_url}
           </Descriptions.Item>
-          <Descriptions.Item label="crypt_type">{crypt_type}</Descriptions.Item>
 
-          <Descriptions.Item label="货币">
-            {Currency[currency]}
-          </Descriptions.Item>
-          <Descriptions.Item label="decimals">{decimals}</Descriptions.Item>
-          <Descriptions.Item label="display_name">
-            {display_name}
-          </Descriptions.Item>
-          <Descriptions.Item label="enc_type">{enc_type}</Descriptions.Item>
-          <Descriptions.Item label="expires">{expires}</Descriptions.Item>
-          <Descriptions.Item label="extra">
-            {JSON.stringify(extra)}
-          </Descriptions.Item>
           <Descriptions.Item label="fee">
             {priceFormat({ val: fee, currency })}
           </Descriptions.Item>
           <Descriptions.Item label="gateway">{gateway}</Descriptions.Item>
-          <Descriptions.Item label="h5_on">
-            <Tag val={h5_on} />
+          <Descriptions.Item label="加密钱包ID">
+            {crypto_wallet_id}
           </Descriptions.Item>
-          <Descriptions.Item label="is_3rd">
-            <Tag val={is_3rd} />
+          <Descriptions.Item label="货币">
+            {Currency[currency]}
           </Descriptions.Item>
           <Descriptions.Item label="付款方式">
             {PayMethod[pay_method]}
@@ -91,25 +82,38 @@ const Detail = props => {
           <Descriptions.Item label="支付类别">
             {WXPayType[pay_type]}
           </Descriptions.Item>
-          <Descriptions.Item label="pc_on">
-            <Tag val={pc_on} />
-          </Descriptions.Item>
+          <Descriptions.Item label="crypt_type">{crypt_type}</Descriptions.Item>
+          <Descriptions.Item label="decimals">{decimals}</Descriptions.Item>
           <Descriptions.Item label="random_decimals">
             {random_decimals}
+          </Descriptions.Item>
+          <Descriptions.Item label="enc_type">{enc_type}</Descriptions.Item>
+          <Descriptions.Item label="expires">{expires}</Descriptions.Item>
+          <Descriptions.Item label="extra">
+            {JSON.stringify(extra)}
           </Descriptions.Item>
           <Descriptions.Item label="rating">{rating}</Descriptions.Item>
           <Descriptions.Item label="resp_type">{resp_type}</Descriptions.Item>
           <Descriptions.Item label="sign_type">{sign_type}</Descriptions.Item>
           <Descriptions.Item label="type">{type}</Descriptions.Item>
           <Descriptions.Item label="whitelist">{whitelist}</Descriptions.Item>
+          <Descriptions.Item label="h5_on">
+            <Tag val={h5_on} />
+          </Descriptions.Item>
+          <Descriptions.Item label="is_3rd">
+            <Tag val={is_3rd} />
+          </Descriptions.Item>
+          <Descriptions.Item label="pc_on">
+            <Tag val={pc_on} />
+          </Descriptions.Item>
+          <Descriptions.Item label="是否启用">
+            <Tag val={is_active} />
+          </Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
           <Descriptions.Item label="更新日期">
             {dateFormat(updated)}
-          </Descriptions.Item>
-          <Descriptions.Item label="是否启用">
-            <Tag val={is_active} />
           </Descriptions.Item>
           <Descriptions.Item label="备注">{note}</Descriptions.Item>
         </Descriptions>

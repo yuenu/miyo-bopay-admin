@@ -15,13 +15,20 @@ import SetActiveModal from "@/components/SetActiveModal";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import { Currency } from "@/utils/enum";
+import { Currency, isBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 
 const CryptoAcct = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    name: { type: "string", label: "名称" },
+    id__in: { type: "string", label: "ID" },
+    name__k: { type: "string", label: "名称" },
+    currency: { type: "select", label: "货币", options: Currency },
+    is_active: {
+      type: "select",
+      label: "是否启用",
+      options: isBoolEnum,
+      isBool: true,
+    },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 

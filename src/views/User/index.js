@@ -17,7 +17,7 @@ import { isBoolEnum } from "@/utils/enum";
 
 const User = () => {
   const searchFields = {
-    id: { type: "string", label: "会员ID" },
+    id__in: { type: "string", label: "会员ID" },
     name__k: { type: "string", label: "会员姓名" },
     username__k: { type: "string", label: "帐号" },
     created__btw: { type: "rangeDate", label: "创建日期" },

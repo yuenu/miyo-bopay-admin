@@ -22,8 +22,9 @@ const CryptoWallet = () => {
   const history = useHistory();
 
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    name: { type: "string", label: "钱包名" },
+    id__in: { type: "string", label: "ID" },
+    name__k: { type: "string", label: "钱包名" },
+    owner__k: { type: "string", label: "钱包所有者" },
     currency: { type: "select", label: "货币", options: Currency },
     is_active: {
       type: "select",
@@ -31,6 +32,7 @@ const CryptoWallet = () => {
       options: isBoolEnum,
       isBool: true,
     },
+    created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
   const {

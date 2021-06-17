@@ -16,13 +16,13 @@ import { dateFormat } from "@/utils/format";
 
 const AppUser = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    userid: { type: "string", label: "会员ID" },
-    app_id: { type: "string", label: "App ID" },
+    id__in: { type: "string", label: "ID" },
+    userid__in: { type: "string", label: "会员ID" },
+    app_id__in: { type: "string", label: "App ID" },
     name__k: { type: "string", label: "姓名" },
     app_name__k: { type: "string", label: "App名称" },
-    app_userid: { type: "string", label: "App用户ID" },
-    developer_id__k: { type: "string", label: "开发者ID" },
+    app_userid__in: { type: "string", label: "App用户ID" },
+    developer_id__in: { type: "string", label: "开发者ID" },
     developer_name__k: { type: "string", label: "开发者姓名" },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };

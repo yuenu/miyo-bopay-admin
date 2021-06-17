@@ -30,12 +30,12 @@ import Detail from "./Detail";
 
 const Order = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    order_no: { type: "string", label: "订单号" },
-    trans_no: { type: "string", label: "第三方订单号" },
+    id__in: { type: "string", label: "ID" },
+    order_no__in: { type: "string", label: "订单号" },
+    trans_no__in: { type: "string", label: "第三方订单号" },
     currency: { type: "select", label: "货币类型", options: Currency },
-    userid: { type: "string", label: "会员ID" },
-    app_id: { type: "string", label: "AppID" },
+    userid__in: { type: "string", label: "会员ID" },
+    app_id__in: { type: "string", label: "AppID" },
     paid: {
       type: "select",
       label: "付款成功",
@@ -48,7 +48,7 @@ const Order = () => {
       options: isBoolEnum,
       isBool: true,
     },
-    developer_id: { type: "string", label: "商户ID" },
+    developer_id__in: { type: "string", label: "商户ID" },
     created__btw: { type: "rangeDate", label: "创建日期" },
     paid_at__btw: { type: "rangeDate", label: "支付时间" },
   };

@@ -33,6 +33,7 @@ const Detail = props => {
         <Descriptions column={1} bordered>
           <Descriptions.Item label="id">{id}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
+          <Descriptions.Item label="帐号">{username}</Descriptions.Item>
           <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="email">{email}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
@@ -56,7 +57,6 @@ const Detail = props => {
           <Descriptions.Item label="是否为职员">
             <Tag val={is_staff} />
           </Descriptions.Item>
-          <Descriptions.Item label="帐号">{username}</Descriptions.Item>
         </Descriptions>
       </Spin>
     </Modal>

@@ -6,8 +6,11 @@ import { dateFormat } from "@/utils/format";
 
 const LoginLog = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    name: { type: "string", label: "帐号" },
+    id__in: { type: "string", label: "ID" },
+    name__k: { type: "string", label: "帐号" },
+    user_id__in: { type: "string", label: "用户ID" },
+    device: { type: "string", label: "设备" },
+    ip: { type: "string", label: "IP" },
     login_time__btw: { type: "rangeDate", label: "登入时间" },
   };
   const {

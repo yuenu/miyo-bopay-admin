@@ -16,9 +16,9 @@ import { developerStatus } from "@/utils/enum";
 
 const User = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
+    id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "姓名" },
-    user_id: { type: "string", label: "帐户ID" },
+    user_id__in: { type: "string", label: "帐户ID" },
     username__k: { type: "string", label: "帐户名称" },
     status: { type: "select", label: "审核状态", options: developerStatus },
     created__btw: { type: "rangeDate", label: "创建日期" },

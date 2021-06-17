@@ -7,11 +7,21 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import { isBoolEnum } from "@/utils/enum";
 
 const App = () => {
   const searchFields = {
-    id: { type: "string", label: "ID" },
-    name: { type: "string", label: "名称" },
+    id__in: { type: "string", label: "ID" },
+    name__k: { type: "string", label: "名称" },
+    name_cn__k: { type: "string", label: "姓名" },
+    developer_id__in: { type: "string", label: "开发者ID" },
+    developer_name__k: { type: "string", label: "开发者姓名" },
+    is_active: {
+      type: "select",
+      label: "是否启用",
+      options: isBoolEnum,
+      isBool: true,
+    },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
@@ -63,7 +73,7 @@ const App = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name" },
-    { title: "名称CN", dataIndex: "name_cn" },
+    { title: "姓名", dataIndex: "name_cn" },
     { title: "开发者ID", dataIndex: "developer_id" },
     { title: "开发者姓名", dataIndex: "developer_name" },
     {
