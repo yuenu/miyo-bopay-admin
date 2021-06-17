@@ -53,10 +53,10 @@ const AddEdit = props => {
           <Form.Item name="last_block_time" label="last_block_time">
             <Input />
           </Form.Item>
-          <Form.Item name="seq" label="seq">
+          <Form.Item name="seq" label="排序">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="w" label="w">
+          <Form.Item name="w" label="序号">
             <InputNumber />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">

@@ -48,8 +48,8 @@ const Detail = props => {
           <Descriptions.Item label="last_block_time">
             {last_block_time}
           </Descriptions.Item>
-          <Descriptions.Item label="seq">{seq}</Descriptions.Item>
-          <Descriptions.Item label="w">{w}</Descriptions.Item>
+          <Descriptions.Item label="排序">{seq}</Descriptions.Item>
+          <Descriptions.Item label="序号">{w}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>
