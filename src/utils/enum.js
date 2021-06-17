@@ -87,6 +87,13 @@ export const ApprovalStatus = {
   9: "审核通过",
   10: "审核拒绝",
 };
+
+export const Network = {
+  0: "TRX 波场",
+  1: "ETH 以太坊",
+  2: "BTC",
+};
+
 export const developerStatus = {
   0: "审核中",
   1: "审核通过",

@@ -7,7 +7,7 @@ import {
   addCryptoWallet,
   editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
-import { Currency, isBoolEnum } from "@/utils/enum";
+import { Currency, isBoolEnum, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -26,6 +26,7 @@ const CryptoWallet = () => {
     name__k: { type: "string", label: "钱包名" },
     owner__k: { type: "string", label: "钱包所有者" },
     currency: { type: "select", label: "货币", options: Currency },
+    network: { type: "select", label: "区块链", options: Network },
     is_active: {
       type: "select",
       label: "是否启用",
@@ -102,7 +103,11 @@ const CryptoWallet = () => {
       dataIndex: "balance",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
     },
-    { title: "区块链", dataIndex: "network" },
+    {
+      title: "区块链",
+      dataIndex: "network",
+      render: val => Network[val] || "",
+    },
     {
       title: "是否启用",
       dataIndex: "is_active",

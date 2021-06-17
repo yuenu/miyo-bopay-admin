@@ -1,6 +1,6 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat, priceFormat } from "@/utils/format";
-import { Currency } from "@/utils/enum";
+import { Currency, Network } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
 
@@ -36,12 +36,14 @@ const Detail = props => {
           <Descriptions.Item label="钱包名">{name}</Descriptions.Item>
           <Descriptions.Item label="钱包所有者">{owner}</Descriptions.Item>
           <Descriptions.Item label="货币">
-            {Currency[currency]}
+            {Currency[currency] || ""}
           </Descriptions.Item>
           <Descriptions.Item label="余额">
             {priceFormat({ val: balance, currency })}
           </Descriptions.Item>
-          <Descriptions.Item label="区块链">{network}</Descriptions.Item>
+          <Descriptions.Item label="区块链">
+            {Network[network] || ""}
+          </Descriptions.Item>
           <Descriptions.Item label="是否启用">
             <Tag val={is_active} />
           </Descriptions.Item>

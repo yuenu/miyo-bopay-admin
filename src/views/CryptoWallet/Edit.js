@@ -20,7 +20,7 @@ import {
   editCryptoAcct,
   addCryptoAcct,
 } from "@/store/slice/cryptoAcct";
-import { formLayout, Currency } from "@/utils/enum";
+import { formLayout, Currency, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { useDetail } from "@/utils/hook";
 import { useHistory } from "react-router-dom";
@@ -234,8 +234,11 @@ const Edit = () => {
             </Form.Item>
             <Form.Item label="区块链" name="network">
               <Select>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
+                {Object.keys(Network).map(i => (
+                  <Option value={Number(i)} key={i}>
+                    {Network[i]}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
             <Form.Item label="货币" name="currency">
