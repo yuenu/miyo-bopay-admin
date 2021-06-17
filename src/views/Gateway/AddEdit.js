@@ -7,7 +7,8 @@ const { Option } = Select;
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
-    await props.onOk(form.getFieldsValue());
+    const formModel = form.getFieldsValue();
+    await props.onOk({ ...formModel, extra: JSON.parse(formModel.extra) });
     form.resetFields();
   };
   useEffect(() => {
