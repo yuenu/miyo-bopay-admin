@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, InputNumber, Select } from "antd";
-import { formLayout, mode, developerStatus } from "@/utils/enum";
+import { formLayout, mode, DeveloperStatus } from "@/utils/enum";
 import Spin from "@/components/Spin";
 const { Option } = Select;
 
@@ -52,9 +52,9 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="status" label="审核状态">
             <Select>
-              {Object.keys(developerStatus).map(i => (
+              {Object.keys(DeveloperStatus).map(i => (
                 <Option value={Number(i)} key={i}>
-                  {developerStatus[i]}
+                  {DeveloperStatus[i]}
                 </Option>
               ))}
             </Select>

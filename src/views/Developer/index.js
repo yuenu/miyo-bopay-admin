@@ -12,7 +12,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import { developerStatus } from "@/utils/enum";
+import { DeveloperStatus } from "@/utils/enum";
 
 const User = () => {
   const searchFields = {
@@ -20,7 +20,7 @@ const User = () => {
     name__k: { type: "string", label: "姓名" },
     user_id__in: { type: "string", label: "帐户ID" },
     username__k: { type: "string", label: "帐户名称" },
-    status: { type: "select", label: "审核状态", options: developerStatus },
+    status: { type: "select", label: "审核状态", options: DeveloperStatus },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
   const {
@@ -66,14 +66,14 @@ const User = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
+    { title: "ID", dataIndex: "id" },
     { title: "帐户ID", dataIndex: "user_id" },
     { title: "帐户名称", dataIndex: "username" },
     { title: "姓名", dataIndex: "name" },
     {
       title: "审核状态",
       dataIndex: "status",
-      render: val => developerStatus[val] || "",
+      render: val => DeveloperStatus[val] || "",
     },
     {
       title: "动作",

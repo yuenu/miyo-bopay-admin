@@ -13,7 +13,7 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import { isBoolEnum } from "@/utils/enum";
+import { IsBoolEnum } from "@/utils/enum";
 
 const User = () => {
   const searchFields = {
@@ -24,31 +24,31 @@ const User = () => {
     is_active: {
       type: "select",
       label: "是否启用",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     is_admin: {
       type: "select",
       label: "是否为管理员",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     is_agent: {
       type: "select",
       label: "是否为代理",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     is_developer: {
       type: "select",
       label: "是否为开发者",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     is_staff: {
       type: "select",
       label: "是否为职员",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
   };
@@ -92,7 +92,7 @@ const User = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
+    { title: "ID", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
     { title: "帐号", dataIndex: "username" },
     {

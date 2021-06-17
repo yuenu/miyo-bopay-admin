@@ -70,7 +70,7 @@ const AppUser = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
+    { title: "ID", dataIndex: "id" },
     { title: "姓名", dataIndex: "name", width: 90 },
     { title: "AppID", dataIndex: "app_id" },
     { title: "App名称", dataIndex: "app_name" },

@@ -54,6 +54,10 @@ export const PayMethod = {
   2: "转账 ",
 };
 
+export const PayStatus = {
+  3: "待付款",
+  4: "已支付",
+};
 export const Currency = {
   0: "RMB",
   1: "USDT_ERC20",
@@ -70,7 +74,7 @@ export const CurrencyFormat = [
   { key: 4, unit: "", rate: 0, tofix: 0 },
   { key: 5, unit: "", rate: 0, tofix: 0 },
 ];
-export const isBoolEnum = {
+export const IsBoolEnum = {
   1: "是",
   0: "否",
 };
@@ -94,8 +98,13 @@ export const Network = {
   2: "BTC",
 };
 
-export const developerStatus = {
+export const DeveloperStatus = {
   0: "审核中",
   1: "审核通过",
   2: "拒绝",
+};
+
+export const AppStatus = {
+  0: "开发中",
+  1: "上线",
 };

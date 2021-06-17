@@ -13,14 +13,14 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import { Currency, isBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
+import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
 const Gateway = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     crypto_wallet_id__in: { type: "string", label: "加密钱包ID" },
     name__k: { type: "string", label: "名称" },
-    alias__k: { type: "string", label: "alias" },
-    display_name__k: { type: "string", label: "display_name" },
+    alias__k: { type: "string", label: "别名" },
+    display_name__k: { type: "string", label: "显示名称" },
     currency: { type: "select", label: "货币类型", options: Currency },
     pay_method: { type: "select", label: "付款方式", options: PayMethod },
     pay_type: { type: "select", label: "支付类别", options: WXPayType },
@@ -28,25 +28,25 @@ const Gateway = () => {
     is_active: {
       type: "select",
       label: "是否启用",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     h5_on: {
       type: "select",
       label: "h5_on",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     is_3rd: {
       type: "select",
       label: "is_3rd",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     pc_on: {
       type: "select",
       label: "pc_on",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     created__btw: { type: "rangeDate", label: "创建日期" },
@@ -96,7 +96,7 @@ const Gateway = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name", width: 140 },
-    { title: "alias", dataIndex: "alias", width: 120 },
+    { title: "别名", dataIndex: "alias", width: 120 },
     {
       title: "货币类型",
       dataIndex: "currency",

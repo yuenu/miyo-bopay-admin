@@ -77,7 +77,7 @@ const Agent = () => {
   };
 
   const columns = [
-    { title: "id", dataIndex: "id" },
+    { title: "ID", dataIndex: "id" },
     { title: "姓名", dataIndex: "name" },
     { title: "电话", dataIndex: "phone" },
     {

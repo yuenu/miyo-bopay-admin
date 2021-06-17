@@ -1,8 +1,18 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Switch } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import { Modal, Form, Input, InputNumber, Select } from "antd";
+import {
+  formLayout,
+  mode,
+  OrderStatus,
+  WXPayType,
+  PayMethod,
+  PayStatus,
+  ApprovalStatus,
+  NotifyStatus,
+  Currency,
+} from "@/utils/enum";
 import Spin from "@/components/Spin";
-
+const { Option } = Select;
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -25,38 +35,113 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="name" label="姓名">
+          <Form.Item name="order_no" label="订单号">
             <Input />
           </Form.Item>
-          <Form.Item name="phone" label="电话">
+          <Form.Item name="trans_no" label="第三方订单号">
             <Input />
           </Form.Item>
-          <Form.Item name="email" label="email">
+          <Form.Item name="app_id" label="AppID">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="developer_id" label="商戶ID">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="userid" label="会员ID">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="name" label="会员姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="username" label="username">
+          <Form.Item name="status" label="订单状态">
+            <Select>
+              {Object.keys(OrderStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {OrderStatus[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="pay_type" label="支付类别">
+            <Select>
+              {Object.keys(WXPayType).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {WXPayType[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="pay_method" label="付款方式">
+            <Select>
+              {Object.keys(PayMethod).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {PayMethod[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="payer_name" label="付款人姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="info" label="info">
+          <Form.Item name="payer_cred" label="付款人信息">
             <Input />
           </Form.Item>
-          <Form.Item name="note" label="note">
+          <Form.Item name="device_type" label="设备类型">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="pay_status" label="支付状态">
+            <Select>
+              {Object.keys(PayStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {PayStatus[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="approval_status" label="审核状态">
+            <Select>
+              {Object.keys(ApprovalStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {ApprovalStatus[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="notify_status" label="通知状态">
+            <Select>
+              {Object.keys(NotifyStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {NotifyStatus[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="client_ip" label="IP">
             <Input />
           </Form.Item>
-          <Form.Item name="org" label="org">
+          <Form.Item name="failure_code" label="错误代码">
             <Input />
           </Form.Item>
-          <Form.Item name="site" label="site">
+          <Form.Item name="failure_msg" label="错误信息">
             <Input />
           </Form.Item>
-          <Form.Item name="status" label="status" valuePropName="checked">
-            <Switch />
+          <Form.Item name="amount" label="订单金额">
+            <InputNumber />
           </Form.Item>
-          <Form.Item name="telegram" label="telegram">
-            <Input />
+          <Form.Item name="amount_paid" label="实际付款金额">
+            <InputNumber />
           </Form.Item>
-          <Form.Item name="user_id" label="user_id">
-            <Input />
+          <Form.Item name="bonus" label="赠送金额">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="currency" label="货币类型">
+            <Select>
+              {Object.keys(Currency).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Currency[i]}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
         </Form>
       </Spin>

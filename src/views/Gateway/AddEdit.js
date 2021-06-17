@@ -29,11 +29,11 @@ const AddEdit = props => {
           <Form.Item name="name" label="名称">
             <Input />
           </Form.Item>
-          <Form.Item name="display_name" label="display_name">
+          <Form.Item name="display_name" label="显示名称">
             <Input />
           </Form.Item>
 
-          <Form.Item name="alias" label="alias">
+          <Form.Item name="alias" label="别名">
             <Input />
           </Form.Item>
           <Form.Item name="api" label="api">
@@ -46,7 +46,7 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
 
-          <Form.Item name="callback_url" label="callback_url">
+          <Form.Item name="callback_url" label="回调网址">
             <Input />
           </Form.Item>
           <Form.Item name="crypto_wallet_id" label="加密钱包ID">
@@ -106,7 +106,7 @@ const AddEdit = props => {
           <Form.Item name="type" label="type">
             <Input />
           </Form.Item>
-          <Form.Item name="whitelist" label="whitelist">
+          <Form.Item name="whitelist" label="白名单">
             <Input />
           </Form.Item>
           <Form.Item name="h5_on" label="h5_on" valuePropName="checked">

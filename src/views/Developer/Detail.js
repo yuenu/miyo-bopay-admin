@@ -1,7 +1,7 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
-import { developerStatus } from "@/utils/enum";
+import { DeveloperStatus } from "@/utils/enum";
 
 const Detail = props => {
   const {
@@ -33,7 +33,7 @@ const Detail = props => {
     >
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
-          <Descriptions.Item label="id">{id}</Descriptions.Item>
+          <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="帐户ID">{user_id}</Descriptions.Item>
           <Descriptions.Item label="帐户名称">{username}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
@@ -43,7 +43,7 @@ const Detail = props => {
           <Descriptions.Item label="公司简介">{info}</Descriptions.Item>
           <Descriptions.Item label="公司官网">{site}</Descriptions.Item>
           <Descriptions.Item label="审核状态">
-            {developerStatus[status]}
+            {DeveloperStatus[status]}
           </Descriptions.Item>
           <Descriptions.Item label="telegram">{telegram}</Descriptions.Item>
           <Descriptions.Item label="备注">{note}</Descriptions.Item>

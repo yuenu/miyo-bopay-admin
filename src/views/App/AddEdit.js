@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Switch } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import { Modal, Form, Input, InputNumber, Switch, Select } from "antd";
+import { formLayout, mode, AppStatus } from "@/utils/enum";
 import Spin from "@/components/Spin";
+const { Option } = Select;
 
 const AddEdit = props => {
   const [form] = Form.useForm();
@@ -37,7 +38,7 @@ const AddEdit = props => {
           <Form.Item name="developer_name" label="开发者姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="callback_url" label="callback_url">
+          <Form.Item name="callback_url" label="回调网址">
             <Input />
           </Form.Item>
           <Form.Item name="secret" label="secret">
@@ -46,8 +47,14 @@ const AddEdit = props => {
           <Form.Item name="info" label="info">
             <Input />
           </Form.Item>
-          <Form.Item name="status" label="status">
-            <InputNumber />
+          <Form.Item name="status" label="状态">
+            <Select>
+              {Object.keys(AppStatus).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {AppStatus[i]}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="token" label="Token">
             <Input />

@@ -7,7 +7,7 @@ import {
   addCryptoWallet,
   editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
-import { Currency, isBoolEnum, Network } from "@/utils/enum";
+import { Currency, IsBoolEnum, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -30,7 +30,7 @@ const CryptoWallet = () => {
     is_active: {
       type: "select",
       label: "是否启用",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     created__btw: { type: "rangeDate", label: "创建日期" },

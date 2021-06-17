@@ -55,16 +55,12 @@ const Detail = props => {
         <Descriptions column={1} bordered>
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
-          <Descriptions.Item label="display_name">
-            {display_name}
-          </Descriptions.Item>
-          <Descriptions.Item label="alias">{alias}</Descriptions.Item>
+          <Descriptions.Item label="显示名称">{display_name}</Descriptions.Item>
+          <Descriptions.Item label="别名">{alias}</Descriptions.Item>
           <Descriptions.Item label="api">{api}</Descriptions.Item>
           <Descriptions.Item label="appid">{appid}</Descriptions.Item>
           <Descriptions.Item label="appsecret">{appsecret}</Descriptions.Item>
-          <Descriptions.Item label="callback_url">
-            {callback_url}
-          </Descriptions.Item>
+          <Descriptions.Item label="回调网址">{callback_url}</Descriptions.Item>
 
           <Descriptions.Item label="fee">
             {priceFormat({ val: fee, currency })}
@@ -96,7 +92,7 @@ const Detail = props => {
           <Descriptions.Item label="resp_type">{resp_type}</Descriptions.Item>
           <Descriptions.Item label="sign_type">{sign_type}</Descriptions.Item>
           <Descriptions.Item label="type">{type}</Descriptions.Item>
-          <Descriptions.Item label="whitelist">{whitelist}</Descriptions.Item>
+          <Descriptions.Item label="白名单">{whitelist}</Descriptions.Item>
           <Descriptions.Item label="h5_on">
             <Tag val={h5_on} />
           </Descriptions.Item>

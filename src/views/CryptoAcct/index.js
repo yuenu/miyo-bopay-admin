@@ -15,7 +15,7 @@ import SetActiveModal from "@/components/SetActiveModal";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import { Currency, isBoolEnum } from "@/utils/enum";
+import { Currency, IsBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 
 const CryptoAcct = () => {
@@ -26,7 +26,7 @@ const CryptoAcct = () => {
     is_active: {
       type: "select",
       label: "是否启用",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     created__btw: { type: "rangeDate", label: "创建日期" },

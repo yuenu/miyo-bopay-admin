@@ -1,5 +1,6 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
+import { AppStatus } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
 
@@ -40,12 +41,12 @@ const Detail = props => {
           <Descriptions.Item label="开发者姓名">
             {developer_name}
           </Descriptions.Item>
-          <Descriptions.Item label="callback_url">
-            {callback_url}
-          </Descriptions.Item>
+          <Descriptions.Item label="回调网址">{callback_url}</Descriptions.Item>
           <Descriptions.Item label="info">{info}</Descriptions.Item>
           <Descriptions.Item label="secret">{secret}</Descriptions.Item>
-          <Descriptions.Item label="status">{status}</Descriptions.Item>
+          <Descriptions.Item label="状态">
+            {AppStatus[status] || ""}
+          </Descriptions.Item>
           <Descriptions.Item label="token">{token}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}

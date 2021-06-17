@@ -15,8 +15,9 @@ import {
   OrderStatus,
   WXPayType,
   PayMethod,
+  PayStatus,
   Currency,
-  isBoolEnum,
+  IsBoolEnum,
   NotifyStatus,
   ApprovalStatus,
 } from "@/utils/enum";
@@ -39,13 +40,13 @@ const Order = () => {
     paid: {
       type: "select",
       label: "付款成功",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     approved: {
       type: "select",
       label: "审核通过",
-      options: isBoolEnum,
+      options: IsBoolEnum,
       isBool: true,
     },
     developer_id__in: { type: "string", label: "商户ID" },
@@ -163,7 +164,11 @@ const Order = () => {
     },
     { title: "付款人姓名", dataIndex: "payer_name" },
     { title: "设备类型", dataIndex: "device_type" },
-    { title: "支付状态", dataIndex: "pay_status" },
+    {
+      title: "支付状态",
+      dataIndex: "pay_status",
+      render: val => PayStatus[val] || "",
+    },
     {
       title: "支付时间",
       dataIndex: "paid_at",

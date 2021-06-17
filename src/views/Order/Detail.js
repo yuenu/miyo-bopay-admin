@@ -1,9 +1,10 @@
 import { Modal, Descriptions, Button } from "antd";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import {
   OrderStatus,
   WXPayType,
   PayMethod,
+  PayStatus,
   Currency,
   NotifyStatus,
   ApprovalStatus,
@@ -44,7 +45,6 @@ const Detail = props => {
     is_online,
     settled,
   } = props.data;
-  const payerCredArr = JSON.parse(payer_cred || "[]");
   return (
     <Modal
       title="订单明細"
@@ -79,18 +79,14 @@ const Detail = props => {
             {payer_name}
           </Descriptions.Item>
           <Descriptions.Item label="付款人信息" span={2}>
-            <ul>
-              {payerCredArr.map(i => (
-                <li key={i.name}>
-                  {i.name}: {i.residency}
-                </li>
-              ))}
-            </ul>
+            {JSON.stringify(payer_cred)}
           </Descriptions.Item>
           <Descriptions.Item label="设备类型">{device_type}</Descriptions.Item>
-          <Descriptions.Item label="支付状态">{pay_status}</Descriptions.Item>
+          <Descriptions.Item label="支付状态">
+            {PayStatus[pay_status] || ""}
+          </Descriptions.Item>
           <Descriptions.Item label="支付时间">
-            {dateFormat(paid_at?.Time)}
+            {dateFormat(paid_at)}
           </Descriptions.Item>
           <Descriptions.Item label="审核状态">
             {ApprovalStatus[approval_status]}
@@ -99,16 +95,20 @@ const Detail = props => {
             {NotifyStatus[notify_status]}
           </Descriptions.Item>
           <Descriptions.Item label="通知时间">
-            {dateFormat(notified_at?.Time)}
+            {dateFormat(notified_at)}
           </Descriptions.Item>
           <Descriptions.Item label="IP">{client_ip}</Descriptions.Item>
           <Descriptions.Item label="错误代码">{failure_code}</Descriptions.Item>
           <Descriptions.Item label="错误信息">{failure_msg}</Descriptions.Item>
-          <Descriptions.Item label="订单金额">{amount}</Descriptions.Item>
-          <Descriptions.Item label="实际付款金额">
-            {amount_paid}
+          <Descriptions.Item label="订单金额">
+            {priceFormat({ val: amount, currency })}
           </Descriptions.Item>
-          <Descriptions.Item label="赠送金额">{bonus}</Descriptions.Item>
+          <Descriptions.Item label="实际付款金额">
+            {priceFormat({ val: amount_paid, currency })}
+          </Descriptions.Item>
+          <Descriptions.Item label="赠送金额">
+            {priceFormat({ val: bonus, currency })}
+          </Descriptions.Item>
           <Descriptions.Item label="货币类型">
             {Currency[currency]}
           </Descriptions.Item>
