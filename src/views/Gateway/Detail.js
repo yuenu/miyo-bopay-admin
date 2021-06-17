@@ -73,15 +73,7 @@ const Detail = props => {
           <Descriptions.Item label="enc_type">{enc_type}</Descriptions.Item>
           <Descriptions.Item label="expires">{expires}</Descriptions.Item>
           <Descriptions.Item label="extra">
-            {extra && (
-              <ol>
-                {JSON.parse(extra).map(i => (
-                  <li>
-                    <strong>{i.name}</strong> : {i.residency}
-                  </li>
-                ))}
-              </ol>
-            )}
+            {JSON.stringify(extra)}
           </Descriptions.Item>
           <Descriptions.Item label="fee">{fee}</Descriptions.Item>
           <Descriptions.Item label="gateway">{gateway}</Descriptions.Item>
