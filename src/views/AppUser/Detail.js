@@ -33,6 +33,7 @@ const Detail = props => {
       <Spin spinning={props.loading}>
         <Descriptions column={1} bordered>
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
+          <Descriptions.Item label="会员ID">{userid}</Descriptions.Item>
           <Descriptions.Item label="姓名">{name}</Descriptions.Item>
           <Descriptions.Item label="电话">{phone}</Descriptions.Item>
           <Descriptions.Item label="AppID">{app_id}</Descriptions.Item>
@@ -44,7 +45,7 @@ const Detail = props => {
           </Descriptions.Item>
           <Descriptions.Item label="Rating">{rating}</Descriptions.Item>
           <Descriptions.Item label="注册IP">{register_ip}</Descriptions.Item>
-          <Descriptions.Item label="用户ID">{userid}</Descriptions.Item>
+          <Descriptions.Item label="会员ID">{userid}</Descriptions.Item>
           <Descriptions.Item label="VIP">{vip}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}

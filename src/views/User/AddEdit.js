@@ -52,28 +52,28 @@ const AddEdit = props => {
             wrapperCol={wrapperCol}
             valuePropName="checked"
           >
-            <Checkbox>isAdmin</Checkbox>
+            <Checkbox>是否为管理员</Checkbox>
           </Form.Item>
           <Form.Item
             name="is_agent"
             wrapperCol={wrapperCol}
             valuePropName="checked"
           >
-            <Checkbox>isAgent</Checkbox>
+            <Checkbox>是否为代理</Checkbox>
           </Form.Item>
           <Form.Item
             name="is_developer"
             wrapperCol={wrapperCol}
             valuePropName="checked"
           >
-            <Checkbox>isDeveloper</Checkbox>
+            <Checkbox>是否为开发者</Checkbox>
           </Form.Item>
           <Form.Item
             name="is_staff"
             wrapperCol={wrapperCol}
             valuePropName="checked"
           >
-            <Checkbox>isStaff</Checkbox>
+            <Checkbox>是否为职员</Checkbox>
           </Form.Item>
         </Form>
       </Spin>

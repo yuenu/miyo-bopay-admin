@@ -16,7 +16,7 @@ const AddEdit = props => {
 
   return (
     <Modal
-      title={`${mode[props.mode]}加密钱包帐户`}
+      title={`${mode[props.mode]}收款地址`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}

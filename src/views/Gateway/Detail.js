@@ -1,5 +1,5 @@
 import { Modal, Descriptions, Button } from "antd";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import { PayMethod, WXPayType, Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
@@ -75,7 +75,9 @@ const Detail = props => {
           <Descriptions.Item label="extra">
             {JSON.stringify(extra)}
           </Descriptions.Item>
-          <Descriptions.Item label="fee">{fee}</Descriptions.Item>
+          <Descriptions.Item label="fee">
+            {priceFormat({ val: fee, currency })}
+          </Descriptions.Item>
           <Descriptions.Item label="gateway">{gateway}</Descriptions.Item>
           <Descriptions.Item label="h5_on">
             <Tag val={h5_on} />

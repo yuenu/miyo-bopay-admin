@@ -44,16 +44,16 @@ const Detail = props => {
           <Descriptions.Item label="是否启用">
             <Tag val={is_active} />
           </Descriptions.Item>
-          <Descriptions.Item label="is_admin">
+          <Descriptions.Item label="是否为管理员">
             <Tag val={is_admin} />
           </Descriptions.Item>
-          <Descriptions.Item label="is_agent">
+          <Descriptions.Item label="是否为代理">
             <Tag val={is_agent} />
           </Descriptions.Item>
-          <Descriptions.Item label="is_developer">
+          <Descriptions.Item label="是否为开发者">
             <Tag val={is_developer} />
           </Descriptions.Item>
-          <Descriptions.Item label="is_staff">
+          <Descriptions.Item label="是否为职员">
             <Tag val={is_staff} />
           </Descriptions.Item>
           <Descriptions.Item label="帐号">{username}</Descriptions.Item>

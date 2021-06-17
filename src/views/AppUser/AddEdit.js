@@ -56,7 +56,7 @@ const AddEdit = props => {
           <Form.Item name="register_ip" label="注册IP">
             <Input />
           </Form.Item>
-          <Form.Item name="userid" label="用户ID">
+          <Form.Item name="userid" label="会员ID">
             <Input />
           </Form.Item>
           <Form.Item name="vip" label="VIP">

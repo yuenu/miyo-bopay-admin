@@ -57,8 +57,8 @@ const CryptoWallet = () => {
       width: 120,
       render: val => dateFormat(val),
     },
-    { title: "加密钱包帐户ID", dataIndex: "crypto_acct_id" },
-    { title: "加密钱包帐户名称", dataIndex: "crypto_acct_name" },
+    { title: "收款地址ID", dataIndex: "crypto_acct_id" },
+    { title: "收款地址名称", dataIndex: "crypto_acct_name" },
     { title: "加密钱包ID", dataIndex: "crypto_wallet_id" },
     {
       title: "货币",

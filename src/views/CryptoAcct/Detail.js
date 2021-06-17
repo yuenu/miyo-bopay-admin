@@ -1,5 +1,5 @@
 import { Modal, Descriptions, Button } from "antd";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
 import Tag from "@/components/Tag";
 import { Currency } from "@/utils/enum";
@@ -23,7 +23,7 @@ const Detail = props => {
   } = props.data;
   return (
     <Modal
-      title="App明细"
+      title="收款地址明细"
       visible={props.visible}
       onCancel={props.onCancel}
       footer={[
@@ -38,7 +38,9 @@ const Detail = props => {
           <Descriptions.Item label="钱包ID">{wallet_id}</Descriptions.Item>
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
           <Descriptions.Item label="地址">{address}</Descriptions.Item>
-          <Descriptions.Item label="余额">{balance}</Descriptions.Item>
+          <Descriptions.Item label="余额">
+            {priceFormat({ val: balance, currency })}
+          </Descriptions.Item>
           <Descriptions.Item label="货币">
             {Currency[currency]}
           </Descriptions.Item>
