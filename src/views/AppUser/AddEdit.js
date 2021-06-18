@@ -50,7 +50,7 @@ const AddEdit = props => {
           <Form.Item name="developer_name" label="开发者姓名">
             <Input />
           </Form.Item>
-          <Form.Item name="rating" label="Rating">
+          <Form.Item name="rating" label="评级">
             <InputNumber />
           </Form.Item>
           <Form.Item name="register_ip" label="注册IP">
@@ -59,7 +59,7 @@ const AddEdit = props => {
           <Form.Item name="userid" label="会员ID">
             <Input />
           </Form.Item>
-          <Form.Item name="vip" label="VIP">
+          <Form.Item name="vip" label="等级">
             <InputNumber />
           </Form.Item>
         </Form>

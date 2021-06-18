@@ -108,3 +108,26 @@ export const AppStatus = {
   0: "开发中",
   1: "上线",
 };
+
+export const CryptoAcctLogsType = {
+  0: "存款",
+  1: "提款",
+  2: "活动赠送",
+  3: "扣罚",
+  4: "其它",
+};
+export const CryptoAcctLogsStatus = {
+  0: "未确认",
+  1: "已确认",
+};
+
+export const ContentType = {
+  1: "存款订单",
+  2: "提款订单",
+  3: "活动对象",
+};
+
+export const DirType = {
+  0: "转入",
+  1: "转出",
+};

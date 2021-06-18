@@ -88,7 +88,7 @@ const Detail = props => {
           <Descriptions.Item label="extra">
             {JSON.stringify(extra)}
           </Descriptions.Item>
-          <Descriptions.Item label="rating">{rating}</Descriptions.Item>
+          <Descriptions.Item label="评级">{rating}</Descriptions.Item>
           <Descriptions.Item label="resp_type">{resp_type}</Descriptions.Item>
           <Descriptions.Item label="sign_type">{sign_type}</Descriptions.Item>
           <Descriptions.Item label="type">{type}</Descriptions.Item>

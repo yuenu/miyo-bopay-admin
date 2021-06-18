@@ -103,7 +103,7 @@ const AddEdit = props => {
           <Form.Item name="gateway" label="gateway">
             <Input />
           </Form.Item>
-          <Form.Item name="rating" label="rating">
+          <Form.Item name="rating" label="评级">
             <InputNumber />
           </Form.Item>
           <Form.Item name="resp_type" label="resp_type">

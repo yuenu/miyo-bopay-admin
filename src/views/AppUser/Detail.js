@@ -43,10 +43,10 @@ const Detail = props => {
           <Descriptions.Item label="开发者姓名">
             {developer_name}
           </Descriptions.Item>
-          <Descriptions.Item label="Rating">{rating}</Descriptions.Item>
+          <Descriptions.Item label="评级">{rating}</Descriptions.Item>
           <Descriptions.Item label="注册IP">{register_ip}</Descriptions.Item>
           <Descriptions.Item label="会员ID">{userid}</Descriptions.Item>
-          <Descriptions.Item label="VIP">{vip}</Descriptions.Item>
+          <Descriptions.Item label="等级">{vip}</Descriptions.Item>
           <Descriptions.Item label="创建日期">
             {dateFormat(created)}
           </Descriptions.Item>

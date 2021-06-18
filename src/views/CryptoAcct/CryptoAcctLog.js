@@ -16,21 +16,40 @@ import {
   getCryptoAcctLog,
 } from "@/store/slice/cryptoAcctLog";
 import { bindOrder } from "@/store/slice/order";
-import { Currency, formLayout } from "@/utils/enum";
+import {
+  Currency,
+  formLayout,
+  CryptoAcctLogsType,
+  ContentType,
+  DirType,
+  CryptoAcctLogsStatus,
+} from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 const CryptoWallet = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
+    status__in: {
+      type: "select",
+      label: "状态",
+      options: CryptoAcctLogsStatus,
+    },
     order_no__in: { type: "string", label: "订单号" },
     trans_no__in: { type: "string", label: "第三方订单号" },
-    content_id__in: { type: "string", label: "content_id" },
+    content_id__in: { type: "string", label: "关联对象ID" },
+    content_type: {
+      type: "select",
+      label: "关联对象类型",
+      options: ContentType,
+    },
+    type: { type: "select", label: "交易类型", options: CryptoAcctLogsType },
+    dir: { type: "select", label: "方向", options: DirType },
     currency: { type: "select", label: "货币", options: Currency },
     crypto_acct_id__in: { type: "string", label: "收款地址ID" },
     crypto_acct_name__k: { type: "string", label: "收款地址名称" },
     crypto_wallet_id__in: { type: "string", label: "加密钱包ID" },
-    channel__k: { type: "string", label: "channel" },
+    channel__k: { type: "string", label: "支付商户" },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
@@ -46,9 +65,14 @@ const CryptoWallet = () => {
     { title: "订单号", dataIndex: "order_no" },
     { title: "第三方订单号", dataIndex: "trans_no" },
     {
-      title: "订单金额",
+      title: "交易金额",
       dataIndex: "amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
+    },
+    {
+      title: "交易类型",
+      dataIndex: "type",
+      render: val => CryptoAcctLogsType[val] || "",
     },
     { title: "收款地址ID", dataIndex: "crypto_acct_id" },
     { title: "收款地址名称", dataIndex: "crypto_acct_name" },
@@ -58,20 +82,28 @@ const CryptoWallet = () => {
       dataIndex: "currency",
       render: val => Currency[val] || "",
     },
-    { title: "b1", dataIndex: "b1" },
-    { title: "b2", dataIndex: "b2" },
-    { title: "block", dataIndex: "block" },
-    { title: "channel", dataIndex: "channel" },
-    { title: "client_ip", dataIndex: "client_ip" },
-    { title: "content_id", dataIndex: "content_id" },
-    { title: "content_type", dataIndex: "content_type" },
-    { title: "dir", dataIndex: "dir" },
-    { title: "from_addr", dataIndex: "from_addr" },
-    { title: "status", dataIndex: "status" },
-    { title: "subject", dataIndex: "subject" },
-    { title: "to_addr", dataIndex: "to_addr" },
-    { title: "trans_time", dataIndex: "trans_time" },
-    { title: "type", dataIndex: "type" },
+    { title: "变动前余额", dataIndex: "b1" },
+    { title: "变动后余额", dataIndex: "b2" },
+    { title: "区块高度", dataIndex: "block" },
+    { title: "支付商户", dataIndex: "channel" },
+    { title: "客户IP", dataIndex: "client_ip" },
+    { title: "关联对象ID", dataIndex: "content_id" },
+    {
+      title: "关联对象类型",
+      dataIndex: "content_type",
+      render: val => ContentType[val] || "",
+    },
+    { title: "方向", dataIndex: "dir", render: val => DirType[val] || "" },
+    { title: "转入地址", dataIndex: "from_addr" },
+    {
+      title: "状态",
+      dataIndex: "status",
+      render: val => CryptoAcctLogsStatus[val] || "",
+    },
+    { title: "交易内容", dataIndex: "subject" },
+    { title: "转出地址", dataIndex: "to_addr" },
+    { title: "交易时间", dataIndex: "trans_time" },
+
     {
       title: "创建日期",
       dataIndex: "created",
