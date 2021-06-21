@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Switch, InputNumber, Select } from "antd";
+import { Modal, Form, Input, Switch, Select } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
 import { filterOption } from "@/utils";
 import Spin from "@/components/Spin";

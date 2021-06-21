@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { Button, Space, Table, message } from "antd";
+import { useState } from "react";
+import { Button, Space, Table } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { getDevelopers } from "@/store/slice/developer";
 import { useDispatch } from "react-redux";
@@ -39,25 +39,22 @@ const App = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleAdd: handleAddHook,
+    handleInitOptions: handleInitOptionsHook,
   } = useList(getApps, selectApp);
 
-  const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleGetIds = async () => {
-    setAddLoading(true);
-    await dispatch(getDevelopers());
-    setAddLoading(false);
+  const handleInitOptions = async () => {
+    const actions = [dispatch(getDevelopers())];
+    await handleInitOptionsHook({ actions });
   };
-  const handleAddClick = async () => {
+
+  const [addVisible, setAddVisible] = useState(false);
+  const handleAppClick = () => {
+    handleInitOptions();
     setAddVisible(true);
-    await handleGetIds();
   };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addApp(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addApp, ...formModel });
     setAddVisible(false);
   };
 
@@ -75,6 +72,7 @@ const App = () => {
 
   const [editVisible, setEditVisible] = useState(false);
   const handleEditClick = async id => {
+    await handleInitOptions();
     setDetailId(id);
     setEditVisible(true);
   };
@@ -114,7 +112,7 @@ const App = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
       <Table
@@ -130,7 +128,7 @@ const App = () => {
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail
