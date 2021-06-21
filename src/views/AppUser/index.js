@@ -1,16 +1,8 @@
 import { useState } from "react";
-import { Button, Space, Table, message } from "antd";
-import {
-  selectAppUser,
-  getAppUsers,
-  getAppUser,
-  addAppUser,
-  editAppUser,
-} from "@/store/slice/appUser";
+import { Button, Space, Table } from "antd";
+import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
 import { useList, useDetail } from "@/utils/hook";
-import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { dateFormat } from "@/utils/format";
 
@@ -33,40 +25,15 @@ const AppUser = () => {
     handleChangePage,
   } = useList(getAppUsers, selectAppUser);
 
-  const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
-  const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addAppUser(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
-    setAddVisible(false);
-  };
-
   const [detailId, setDetailId] = useState(null);
-  const {
-    currentRow,
-    loading: detailLoading,
-    handleEdit,
-  } = useDetail({ action: getAppUser, id: detailId }, selectAppUser);
+  const { currentRow, loading: detailLoading } = useDetail(
+    { action: getAppUser, id: detailId },
+    selectAppUser,
+  );
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
-  };
-
-  const [editVisible, setEditVisible] = useState(false);
-  const handleEditClick = async id => {
-    setDetailId(id);
-    setEditVisible(true);
-  };
-  const handleEditOk = async formModel => {
-    await handleEdit({ action: editAppUser, id: currentRow.id, ...formModel });
-    setEditVisible(false);
   };
 
   const columns = [
@@ -89,7 +56,6 @@ const AppUser = () => {
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
         </Space>
       ),
     },
@@ -97,9 +63,6 @@ const AppUser = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
-        添加
-      </Button>
       <Table
         columns={columns}
         dataSource={list}
@@ -109,26 +72,11 @@ const AppUser = () => {
         onChange={handleChangePage}
         loading={listLoading}
       />
-      <AddEdit
-        visible={addVisible}
-        onOk={handleAdd}
-        onCancel={() => setAddVisible(false)}
-        loading={addLoading}
-        mode="add"
-      />
       <Detail
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
-      />
-      <AddEdit
-        visible={editVisible}
-        onOk={handleEditOk}
-        onCancel={() => setEditVisible(false)}
-        loading={detailLoading}
-        data={currentRow}
-        mode="edit"
       />
     </Space>
   );

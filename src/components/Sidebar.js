@@ -22,23 +22,15 @@ const SidebarView = () => {
     <Sider breakpoint="lg" collapsedWidth="0">
       <div className="logo">支付服务后台</div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[path]}>
-        <SubMenu key="Users" icon={<UserOutlined />} title="用户管理">
-          <Menu.Item key="/">
-            <Link to="/">职员管理</Link>
-          </Menu.Item>
-          <Menu.Item key="/Permission">
-            <Link to="/Permission">权限设置</Link>
-          </Menu.Item>
-        </SubMenu>
         <SubMenu key="Merchant" icon={<TeamOutlined />} title="商户管理">
           <Menu.Item key="/Developer">
             <Link to="/Developer">开发者管理</Link>
           </Menu.Item>
-          <Menu.Item key="/AppUser">
-            <Link to="/AppUser">App用户管理</Link>
-          </Menu.Item>
           <Menu.Item key="/App">
             <Link to="/App">App管理</Link>
+          </Menu.Item>
+          <Menu.Item key="/AppUser">
+            <Link to="/AppUser">App用户管理</Link>
           </Menu.Item>
         </SubMenu>
         <SubMenu key="Pay" icon={<TeamOutlined />} title="支付管理">
@@ -72,6 +64,14 @@ const SidebarView = () => {
         <Menu.Item key="/Audit" icon={<TableOutlined />}>
           <Link to="/Audit">审计日志</Link>
         </Menu.Item>
+        <SubMenu key="Users" icon={<UserOutlined />} title="用户管理">
+          <Menu.Item key="/">
+            <Link to="/">职员管理</Link>
+          </Menu.Item>
+          <Menu.Item key="/Permission">
+            <Link to="/Permission">权限设置</Link>
+          </Menu.Item>
+        </SubMenu>
       </Menu>
     </Sider>
   );

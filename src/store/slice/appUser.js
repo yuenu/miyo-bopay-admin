@@ -19,29 +19,6 @@ export const getAppUser = createAsyncThunk("appUser/getDetail", async id => {
   });
   return res;
 });
-export const addAppUser = async params => {
-  const res = await request({
-    url: `/api/appusers`,
-    method: "post",
-    data: params,
-  });
-  return res;
-};
-export const editAppUser = async params => {
-  const res = await request({
-    url: `/api/appusers/${params.id}`,
-    method: "post",
-    data: params.formModel,
-  });
-  return res;
-};
-export const deleteAppUser = async id => {
-  const res = await request({
-    url: `/api/appusers/${id}`,
-    method: "delete",
-  });
-  return res;
-};
 
 export const slice = createSlice({
   name: "appUser",
