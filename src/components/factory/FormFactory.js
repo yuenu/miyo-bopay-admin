@@ -41,7 +41,10 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
                   label={fields[i].label}
                   valuePropName={valuePropName(fields[i].type)}
                 >
-                  <InputFactory {...inputFactoryProps} />
+                  <InputFactory
+                    {...inputFactoryProps}
+                    id={`search_${fields[i].label}`}
+                  />
                 </Form.Item>
               </Col>
             );

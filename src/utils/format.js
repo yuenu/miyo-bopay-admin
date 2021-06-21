@@ -11,7 +11,6 @@ export const priceFormat = ({ val, currency }) => {
     const { unit, rate } = CurrencyFormat.find(i => i.key === currency);
     return `${unit} ${(val / rate).toLocaleString("en-US")}`;
   } catch (e) {
-    console.log(e);
     return "";
   }
 };
@@ -31,4 +30,13 @@ export const searchFieldsFormat = ({ fields, formModel }) => {
     }
   });
   return params;
+};
+
+export const metaToPagin = meta => {
+  return {
+    pageSize: meta.per_page,
+    current: meta.page,
+    total: meta.total,
+    pages: meta.pages,
+  };
 };

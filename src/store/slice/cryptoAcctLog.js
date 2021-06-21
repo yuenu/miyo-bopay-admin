@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
+import { metaToPagin } from "@/utils/format";
 
 export const getCryptoAcctLogs = createAsyncThunk(
   "cryptoAcctLog/getList",
@@ -34,11 +35,7 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.list = data.data;
-      state.meta = {
-        pageSize: data.meta.per_page,
-        current: data.meta.page,
-        total: data.meta.total,
-      };
+      state.meta = metaToPagin(data.meta);
     },
     [getCryptoAcctLog.fulfilled]: (state, action) => {
       const { status, data } = action.payload;

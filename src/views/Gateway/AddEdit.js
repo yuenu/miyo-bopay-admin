@@ -55,7 +55,6 @@ const AddEdit = props => {
           <Form.Item name="appsecret" label="appsecret">
             <Input />
           </Form.Item>
-
           <Form.Item name="callback_url" label="回调网址">
             <Input />
           </Form.Item>
