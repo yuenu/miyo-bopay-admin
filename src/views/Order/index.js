@@ -248,11 +248,18 @@ const Order = () => {
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
-          <Button onClick={() => handleEditClick(record, "approve")}>
-            审核
-          </Button>
-          <Button onClick={() => handleEditClick(record, "deny")}>拒绝</Button>
-          <Button onClick={() => handleCancelClick(record.id)}>取消</Button>
+          {record.approved || (
+            <>
+              <Button onClick={() => handleEditClick(record, "approve")}>
+                审核
+              </Button>
+              <Button onClick={() => handleEditClick(record, "deny")}>
+                拒绝
+              </Button>
+              <Button onClick={() => handleCancelClick(record.id)}>取消</Button>
+            </>
+          )}
+
           <Button onClick={() => handleNotifyClick(record.id)}>通知</Button>
         </Space>
       ),
@@ -299,7 +306,7 @@ const Order = () => {
         onOk={handleEditOk}
         onCancel={() => setEditVisible(false)}
         loading={detailLoading}
-        id={detailId}
+        data={currentRow}
         mode={editMode}
       />
     </Space>
