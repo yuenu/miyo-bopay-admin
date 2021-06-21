@@ -21,7 +21,7 @@ const InputFactory = props => {
     select: <SelectC />,
     switch: <Switch {...rest} />,
     checkbox: <Checkbox {...rest} />,
-    rangeDate: <RangePicker {...rest} />,
+    rangeDate: <RangePicker showTime={true} {...rest} />,
   };
   return types[type] || types.string;
 };

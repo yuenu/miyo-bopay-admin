@@ -9,7 +9,7 @@ import {
   CreditCardOutlined,
   UserSwitchOutlined,
   LoginOutlined,
-  FundProjectionScreenOutlined,
+  TableOutlined,
 } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
@@ -69,8 +69,8 @@ const SidebarView = () => {
         <Menu.Item key="/LoginLog" icon={<LoginOutlined />}>
           <Link to="/LoginLog">登入日志</Link>
         </Menu.Item>
-        <Menu.Item key="/Audit" icon={<FundProjectionScreenOutlined />}>
-          <Link to="/Audit">报表管理</Link>
+        <Menu.Item key="/Audit" icon={<TableOutlined />}>
+          <Link to="/Audit">审计日志</Link>
         </Menu.Item>
       </Menu>
     </Sider>

@@ -13,6 +13,7 @@ import agentReducer from "./slice/agent";
 import loginLogReducer from "./slice/loginLog";
 import appReducer from "./slice/app";
 import gatewayReducer from "./slice/gateway";
+import auditReducer from "./slice/audit";
 
 export default configureStore({
   reducer: {
@@ -30,5 +31,6 @@ export default configureStore({
     loginLog: loginLogReducer,
     app: appReducer,
     gateway: gatewayReducer,
+    audit: auditReducer,
   },
 });

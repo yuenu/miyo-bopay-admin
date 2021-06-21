@@ -64,9 +64,9 @@ const routes = [
     path: "/LoginLog",
     component: () => getComponent("LoginLog"),
   },
-  //   {
-  //     path: "/Audit",
-  //     component: "Audit",
-  //   },
+  {
+    path: "/Audit",
+    component: () => getComponent("Audit"),
+  },
 ];
 export default routes;
