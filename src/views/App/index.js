@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Button, Space, Table, message } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
+import { getDevelopers } from "@/store/slice/developer";
+import { useDispatch } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -10,6 +12,8 @@ import Detail from "./Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
 
 const App = () => {
+  const dispatch = useDispatch();
+
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
@@ -39,8 +43,14 @@ const App = () => {
 
   const [addVisible, setAddVisible] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
+  const handleGetIds = async () => {
+    setAddLoading(true);
+    await dispatch(getDevelopers());
+    setAddLoading(false);
+  };
+  const handleAddClick = async () => {
     setAddVisible(true);
+    await handleGetIds();
   };
   const handleAdd = async formModel => {
     setAddLoading(true);

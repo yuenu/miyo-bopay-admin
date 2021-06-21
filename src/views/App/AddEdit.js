@@ -1,10 +1,15 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Switch, Select } from "antd";
+import { Modal, Form, Input, Switch, InputNumber, Select } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
+import { filterOption } from "@/utils";
 import Spin from "@/components/Spin";
+import { selectDeveloper } from "@/store/slice/developer";
+import { useSelector } from "react-redux";
+
 const { Option } = Select;
 
 const AddEdit = props => {
+  const { list } = useSelector(selectDeveloper);
   const [form] = Form.useForm();
   const handleOk = async () => {
     await props.onOk(form.getFieldsValue());
@@ -33,7 +38,13 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="developer_id" label="开发者ID">
-            <InputNumber />
+            <Select showSearch filterOption={filterOption}>
+              {list.map(i => (
+                <Option value={i.user_id} key={i.id} label={i.username}>
+                  {i.user_id} {i.username}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="developer_name" label="开发者姓名">
             <Input />
