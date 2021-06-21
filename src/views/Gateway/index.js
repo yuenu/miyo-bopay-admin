@@ -61,6 +61,9 @@ const Gateway = () => {
   } = useList(getGateways, selectGateway);
 
   const [addVisible, setAddVisible] = useState(false);
+  const handleAppClick = () => {
+    setAddVisible(true);
+  };
   const handleAdd = async formModel => {
     handleAddHook({ action: addGateway, ...formModel });
     setAddVisible(false);
@@ -124,11 +127,7 @@ const Gateway = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => setAddVisible(true)}
-      >
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
       <Table

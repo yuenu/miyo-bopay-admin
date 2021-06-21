@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Button, Space, Table } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
-import { getDevelopers } from "@/store/slice/developer";
-import { useDispatch } from "react-redux";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -12,8 +10,6 @@ import Detail from "./Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
 
 const App = () => {
-  const dispatch = useDispatch();
-
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
@@ -40,17 +36,10 @@ const App = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
-    handleInitOptions: handleInitOptionsHook,
   } = useList(getApps, selectApp);
-
-  const handleInitOptions = async () => {
-    const actions = [dispatch(getDevelopers())];
-    await handleInitOptionsHook({ actions });
-  };
 
   const [addVisible, setAddVisible] = useState(false);
   const handleAppClick = () => {
-    handleInitOptions();
     setAddVisible(true);
   };
   const handleAdd = async formModel => {
@@ -72,7 +61,6 @@ const App = () => {
 
   const [editVisible, setEditVisible] = useState(false);
   const handleEditClick = async id => {
-    await handleInitOptions();
     setDetailId(id);
     setEditVisible(true);
   };

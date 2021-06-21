@@ -1,7 +1,10 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, InputNumber, Select } from "antd";
+import { Modal, Form, Input, Select } from "antd";
 import { formLayout, mode, DeveloperStatus } from "@/utils/enum";
 import Spin from "@/components/Spin";
+import { selectUser, getUsers } from "@/store/slice/user";
+import SearchSelect from "@/components/SearchSelect";
+
 const { Option } = Select;
 
 const AddEdit = props => {
@@ -27,7 +30,13 @@ const AddEdit = props => {
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
           <Form.Item name="user_id" label="帐户ID">
-            <InputNumber />
+            <SearchSelect
+              action={getUsers}
+              selector={selectUser}
+              searchKey="username"
+              val="id"
+              label={i => `${i.id} ${i.username}`}
+            />
           </Form.Item>
           <Form.Item name="username" label="帐户名称">
             <Input />

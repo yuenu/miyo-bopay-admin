@@ -2,6 +2,11 @@ import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode, Currency, PayMethod, WXPayType } from "@/utils/enum";
 import Spin from "@/components/Spin";
+import {
+  selectCryptoWallet,
+  getCryptoWallets,
+} from "@/store/slice/cryptoWallet";
+import SearchSelect from "@/components/SearchSelect";
 const { Option } = Select;
 
 const AddEdit = props => {
@@ -38,7 +43,6 @@ const AddEdit = props => {
           <Form.Item name="display_name" label="显示名称">
             <Input />
           </Form.Item>
-
           <Form.Item name="alias" label="别名">
             <Input />
           </Form.Item>
@@ -56,7 +60,13 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="crypto_wallet_id" label="加密钱包ID">
-            <InputNumber />
+            <SearchSelect
+              action={getCryptoWallets}
+              selector={selectCryptoWallet}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
           </Form.Item>
           <Form.Item name="currency" label="货币">
             <Select>

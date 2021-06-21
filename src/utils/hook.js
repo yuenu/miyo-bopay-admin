@@ -23,12 +23,7 @@ export const useList = (action, selector) => {
     status === 200 && message.success("新增成功！");
     handleGetList();
   };
-  const handleInitOptions = async ({ actions }) => {
-    setLoading(true);
-    await Promise.all(actions).then(() => {
-      setLoading(false);
-    });
-  };
+
   useEffect(() => {
     handleGetList();
   }, [handleGetList]);
@@ -38,7 +33,6 @@ export const useList = (action, selector) => {
     handleGetList,
     handleChangePage,
     handleAdd,
-    handleInitOptions,
   };
 };
 

@@ -32,6 +32,9 @@ const User = () => {
   } = useList(getDevelopers, selectDeveloper);
 
   const [addVisible, setAddVisible] = useState(false);
+  const handleAppClick = () => {
+    setAddVisible(true);
+  };
   const handleAdd = async formModel => {
     handleAddHook({ action: addDeveloper, ...formModel });
     setAddVisible(false);
@@ -93,11 +96,7 @@ const User = () => {
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
 
-      <Button
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={() => setAddVisible(true)}
-      >
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
       <Table

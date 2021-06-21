@@ -1,15 +1,12 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
-import { filterOption } from "@/utils";
+import { selectDeveloper, getDevelopers } from "@/store/slice/developer";
+import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
-import { selectDeveloper } from "@/store/slice/developer";
-import { useSelector } from "react-redux";
-
 const { Option } = Select;
 
 const AddEdit = props => {
-  const { list } = useSelector(selectDeveloper);
   const [form] = Form.useForm();
   const handleOk = async () => {
     await props.onOk(form.getFieldsValue());
@@ -21,6 +18,7 @@ const AddEdit = props => {
 
   return (
     <Modal
+      destroyOnClose={true}
       title={`${mode[props.mode]}App`}
       visible={props.visible}
       onOk={handleOk}
@@ -38,13 +36,13 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="developer_id" label="开发者ID">
-            <Select showSearch filterOption={filterOption}>
-              {list.map(i => (
-                <Option value={i.user_id} key={i.id} label={i.username}>
-                  {i.user_id} {i.username}
-                </Option>
-              ))}
-            </Select>
+            <SearchSelect
+              action={getDevelopers}
+              selector={selectDeveloper}
+              searchKey="username"
+              val="user_id"
+              label={i => `${i.user_id} ${i.username}`}
+            />
           </Form.Item>
           <Form.Item name="developer_name" label="开发者姓名">
             <Input />
