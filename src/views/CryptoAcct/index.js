@@ -1,18 +1,16 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space, Switch } from "antd";
 import {
   selectCryptoAcct,
   getCryptoAccts,
   getCryptoAcct,
   addCryptoAcct,
   editCryptoAcct,
-  activeCryptoAcct,
 } from "@/store/slice/cryptoAcct";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import SetActiveModal from "@/components/SetActiveModal";
-import Tag from "@/components/Tag";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { Currency, IsBoolEnum } from "@/utils/enum";
@@ -38,6 +36,7 @@ const CryptoAcct = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
+    setLoading: setListLoading,
   } = useList(getCryptoAccts, selectCryptoAcct);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -73,25 +72,23 @@ const CryptoAcct = () => {
     handleGetList({ page: meta.page });
   };
 
-  const [activeVisible, setActiveVisible] = useState(false);
-  const handleActiveClick = id => {
-    setDetailId(id);
-    setActiveVisible(true);
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editCryptoAcct, id, ...params });
+    handleGetList({ page: meta.current });
   };
-  const handleActiveOk = async formModel => {
+  const handleChangeIsActive = async (checked, { id, ...params }) => {
+    setListLoading(true);
     await handleEditHook({
-      action: activeCryptoAcct,
-      id: currentRow.id,
-      ...formModel,
+      action: editCryptoAcct,
+      id,
+      ...params,
+      is_active: checked,
     });
-    setActiveVisible(false);
-    setDetailId(null);
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
   };
-
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name" },
+    { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
     {
       title: "余额",
       dataIndex: "balance",
@@ -105,7 +102,12 @@ const CryptoAcct = () => {
     {
       title: "启用",
       dataIndex: "is_active",
-      render: val => <Tag val={val} />,
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
     {
       title: "动作",
@@ -117,12 +119,6 @@ const CryptoAcct = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
-          <Button
-            onClick={() => handleActiveClick(record.id)}
-            disabled={!record.is_active}
-          >
-            禁用
-          </Button>
         </Space>
       ),
     },
@@ -137,14 +133,13 @@ const CryptoAcct = () => {
       >
         添加
       </Button>
-      <Table
+      <EditableTable
         columns={columns}
         dataSource={list}
         pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
         loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit
         visible={addVisible}
@@ -166,14 +161,6 @@ const CryptoAcct = () => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
-      />
-      <SetActiveModal
-        title="加密钱包帐户"
-        visible={activeVisible}
-        onOk={handleActiveOk}
-        onCancel={() => setActiveVisible(false)}
-        loading={detailLoading}
-        data={currentRow}
       />
     </Space>
   );

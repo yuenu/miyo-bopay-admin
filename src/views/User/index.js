@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space, Switch } from "antd";
 import {
   selectUser,
   getUsers,
@@ -10,7 +10,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import Tag from "@/components/Tag";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { IsBoolEnum } from "@/utils/enum";
@@ -59,6 +59,7 @@ const User = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
+    setLoading: setListLoading,
   } = useList(getUsers, selectUser);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -90,15 +91,39 @@ const User = () => {
     handleGetList({ page: meta.page });
     setDetailId(null);
   };
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editUser, id, ...params });
+    handleGetList({ page: meta.current });
+  };
+  const handleChangeIsActive = async (checked, { id, ...params }) => {
+    setListLoading(true);
+    await handleEditHook({
+      action: editUser,
+      id,
+      ...params,
+      is_active: checked,
+    });
+    handleGetList({ page: meta.current });
+  };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name" },
-    { title: "帐号", dataIndex: "username" },
+    { title: "姓名", dataIndex: "name", editable: true, inputType: "string" },
+    {
+      title: "帐号",
+      dataIndex: "username",
+      editable: true,
+      inputType: "string",
+    },
     {
       title: "启用",
       dataIndex: "is_active",
-      render: val => <Tag val={val} />,
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
     {
       title: "动作",
@@ -124,14 +149,13 @@ const User = () => {
       >
         添加
       </Button>
-      <Table
+      <EditableTable
         columns={columns}
         dataSource={list}
         pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
         loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit
         visible={addVisible}
