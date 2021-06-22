@@ -252,6 +252,9 @@ const Edit = () => {
             <Form.Item label="启用" name="is_active" valuePropName="checked">
               <Switch />
             </Form.Item>
+            <Form.Item label="备注" name="note">
+              <Input />
+            </Form.Item>
             <div className="text-right">
               <Space size="small">
                 <Button type="primary" onClick={handleSubmit}>

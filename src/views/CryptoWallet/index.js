@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, message } from "antd";
+import { Button, Space, Switch } from "antd";
 import {
   selectCryptoWallet,
   getCryptoWallets,
@@ -12,11 +12,10 @@ import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
-import Tag from "@/components/Tag";
 import { useHistory, generatePath } from "react-router-dom";
-import SetActiveModal from "@/components/SetActiveModal";
 
 const CryptoWallet = () => {
   const history = useHistory();
@@ -41,19 +40,16 @@ const CryptoWallet = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleAdd: handleAddHook,
+    setLoading: setListLoading,
   } = useList(getCryptoWallets, selectCryptoWallet);
 
   const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
+  const handleAppClick = () => {
     setAddVisible(true);
   };
   const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addCryptoWallet(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
+    handleAddHook({ action: addCryptoWallet, ...formModel });
     setAddVisible(false);
   };
 
@@ -72,28 +68,35 @@ const CryptoWallet = () => {
   const handleEditClick = async id => {
     history.push(generatePath("/CryptoWalletEdit/:id", { id }));
   };
-
-  const [activeVisible, setActiveVisible] = useState(false);
-  const handleActiveClick = id => {
-    setDetailId(id);
-    setActiveVisible(true);
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editCryptoWallet, id, ...params });
+    handleGetList({ page: meta.current });
   };
-  const handleActiveOk = async formModel => {
+  const handleChangeIsActive = async (checked, { id, ...params }) => {
+    setListLoading(true);
     await handleEditHook({
       action: editCryptoWallet,
-      ...currentRow,
-      id: currentRow.id,
-      ...formModel,
+      id,
+      ...params,
+      is_active: checked,
     });
-    setActiveVisible(false);
-    setDetailId(null);
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
   };
-
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "钱包名", dataIndex: "name", width: "150px" },
-    { title: "钱包所有者", dataIndex: "owner" },
+    {
+      title: "钱包名",
+      dataIndex: "name",
+      width: "150px",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "钱包所有者",
+      dataIndex: "owner",
+      editable: true,
+      inputType: "string",
+    },
     {
       title: "货币",
       dataIndex: "currency",
@@ -112,9 +115,13 @@ const CryptoWallet = () => {
     {
       title: "是否启用",
       dataIndex: "is_active",
-      render: val => <Tag val={val} />,
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
-    { title: "备注", dataIndex: "note" },
     {
       title: "动作",
       dataIndex: "action",
@@ -125,12 +132,6 @@ const CryptoWallet = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
-          <Button
-            onClick={() => handleActiveClick(record.id)}
-            disabled={!record.is_active}
-          >
-            禁用
-          </Button>
         </Space>
       ),
     },
@@ -138,23 +139,22 @@ const CryptoWallet = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
-      <Table
+      <EditableTable
         columns={columns}
         dataSource={list}
         pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
         loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
-        loading={addLoading}
+        loading={listLoading}
         mode="add"
       />
       <Detail
@@ -162,14 +162,6 @@ const CryptoWallet = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
-      />
-      <SetActiveModal
-        title="加密钱包帐户"
-        visible={activeVisible}
-        onOk={handleActiveOk}
-        onCancel={() => setActiveVisible(false)}
-        loading={detailLoading}
-        data={currentRow}
       />
     </Space>
   );
