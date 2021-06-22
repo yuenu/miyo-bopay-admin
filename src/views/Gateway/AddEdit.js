@@ -12,9 +12,11 @@ const { Option } = Select;
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
-    const formModel = form.getFieldsValue();
-    await props.onOk({ ...formModel });
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await props.onOk(formModel);
+      form.resetFields();
+    });
   };
   useEffect(() => {
     props.visible &&
@@ -37,13 +39,35 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="name" label="名称">
+          <Form.Item
+            name="name"
+            label="名称"
+            rules={[{ required: true, message: "请输入名称" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="display_name" label="显示名称">
             <Input />
           </Form.Item>
-          <Form.Item name="alias" label="别名">
+          <Form.Item
+            name="alias"
+            label="别名"
+            rules={[{ required: true, message: "请输入别名" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="type"
+            label="type"
+            rules={[{ required: true, message: "请输入type" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="gateway"
+            label="gateway"
+            rules={[{ required: true, message: "请输入gateway" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="api" label="api">
@@ -106,9 +130,6 @@ const AddEdit = props => {
           <Form.Item name="fee" label="fee">
             <InputNumber />
           </Form.Item>
-          <Form.Item name="gateway" label="gateway">
-            <Input />
-          </Form.Item>
           <Form.Item name="rating" label="评级">
             <InputNumber />
           </Form.Item>
@@ -116,9 +137,6 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="sign_type" label="sign_type">
-            <Input />
-          </Form.Item>
-          <Form.Item name="type" label="type">
             <Input />
           </Form.Item>
           <Form.Item name="whitelist" label="白名单">
