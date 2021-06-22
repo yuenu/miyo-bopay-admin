@@ -12,8 +12,11 @@ const { Option } = Select;
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
-    await props.onOk(form.getFieldsValue());
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await props.onOk(formModel);
+      form.resetFields();
+    });
   };
   useEffect(() => {
     props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
@@ -43,7 +46,11 @@ const AddEdit = props => {
           <Form.Item name="name" label="名称">
             <Input />
           </Form.Item>
-          <Form.Item name="address" label="地址">
+          <Form.Item
+            name="address"
+            label="地址"
+            rules={[{ required: true, message: "请输入地址" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="balance" label="余额">
