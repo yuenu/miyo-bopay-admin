@@ -4,13 +4,12 @@ import {
   selectOrder,
   getOrders,
   getOrder,
-  addOrder,
   approveOrder,
   denyOrder,
   cancelOrder,
   notifyOrder,
 } from "@/store/slice/order";
-import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   OrderStatus,
   WXPayType,
@@ -25,7 +24,6 @@ import { priceFormat, dateFormat } from "@/utils/format";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
-import AddEdit from "./AddEdit";
 import Edit from "./Edit";
 import Detail from "./Detail";
 
@@ -60,20 +58,6 @@ const Order = () => {
     handleGetList,
     handleChangePage,
   } = useList(getOrders, selectOrder);
-
-  const [addVisible, setAddVisible] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
-  const handleAdd = async formModel => {
-    setAddLoading(true);
-    const { status } = await addOrder(formModel);
-    status === 200 && message.success("新增成功！");
-    await handleGetList({ page: meta.page });
-    setAddLoading(false);
-    setAddVisible(false);
-  };
 
   const [detailId, setDetailId] = useState(null);
   const {
@@ -271,9 +255,6 @@ const Order = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
-        添加
-      </Button>
       <Table
         columns={columns}
         dataSource={list}
@@ -287,13 +268,6 @@ const Order = () => {
           expandedRowRender: record =>
             payerCredExpandedRowRender(JSON.stringify(record.payer_cred)),
         }}
-      />
-      <AddEdit
-        visible={addVisible}
-        onOk={handleAdd}
-        onCancel={() => setAddVisible(false)}
-        loading={addLoading}
-        mode="add"
       />
       <Detail
         visible={detailVisible}
