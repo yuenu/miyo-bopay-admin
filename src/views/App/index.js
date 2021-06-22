@@ -4,6 +4,7 @@ import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -70,13 +71,20 @@ const App = () => {
     setDetailId(null);
     handleGetList({ page: meta.page });
   };
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editApp, id, ...params });
+    handleGetList({ page: meta.page });
+  };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name" },
-    { title: "姓名", dataIndex: "name_cn" },
-    { title: "开发者ID", dataIndex: "developer_id" },
-    { title: "开发者姓名", dataIndex: "developer_name" },
+    { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    {
+      title: "姓名",
+      dataIndex: "name_cn",
+      editable: true,
+      inputType: "string",
+    },
     { title: "状态", dataIndex: "status", render: val => AppStatus[val] || "" },
     {
       title: "启用",
@@ -97,12 +105,21 @@ const App = () => {
       ),
     },
   ];
+
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
+      <EditableTable
+        columns={columns}
+        dataSource={list}
+        loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
+        pagination={meta}
+      />
       <Table
         columns={columns}
         dataSource={list}
