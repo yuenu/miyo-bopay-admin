@@ -11,6 +11,11 @@ import {
   NotifyStatus,
   Currency,
 } from "@/utils/enum";
+import SearchSelect from "@/components/SearchSelect";
+import { selectDeveloper, getDevelopers } from "@/store/slice/developer";
+import { selectApp, getApps } from "@/store/slice/app";
+import { selectUser, getUsers } from "@/store/slice/user";
+
 import Spin from "@/components/Spin";
 const { Option } = Select;
 const AddEdit = props => {
@@ -42,13 +47,31 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="app_id" label="AppID">
-            <InputNumber />
+            <SearchSelect
+              action={getApps}
+              selector={selectApp}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
           </Form.Item>
           <Form.Item name="developer_id" label="商戶ID">
-            <InputNumber />
+            <SearchSelect
+              action={getDevelopers}
+              selector={selectDeveloper}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
           </Form.Item>
           <Form.Item name="userid" label="会员ID">
-            <InputNumber />
+            <SearchSelect
+              action={getUsers}
+              selector={selectUser}
+              searchKey="username"
+              val="id"
+              label={i => `${i.id} ${i.username}`}
+            />
           </Form.Item>
           <Form.Item name="name" label="会员姓名">
             <Input />
