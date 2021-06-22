@@ -6,8 +6,10 @@ import React, {
   useCallback,
 } from "react";
 import { Card, Form, Input, Space, Button, Select, Switch, Table } from "antd";
+import { sortableHandle } from "react-sortable-hoc";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { MenuOutlined } from "@ant-design/icons";
 
 import {
   selectCryptoWallet,
@@ -25,10 +27,84 @@ import { priceFormat } from "@/utils/format";
 import { useDetail } from "@/utils/hook";
 import { useHistory } from "react-router-dom";
 import Spin from "@/components/Spin";
+const DragHandle = sortableHandle(() => <MenuOutlined />);
 
 const EditableContext = React.createContext(null);
 const { Option } = Select;
-
+const EditableRow = ({ index, ...props }) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={{ form }}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  );
+};
+const EditableCell = ({
+  title,
+  children,
+  dataIndex,
+  editable,
+  record,
+  wallet_id,
+  ...restProps
+}) => {
+  const { form } = useContext(EditableContext);
+  const inputRef = useRef(null);
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+      await editCryptoAcct({
+        id: record.id,
+        formModel: { ...values, wallet_id, currency: 1 },
+      });
+    } catch (errInfo) {
+      console.log("Save failed:", errInfo);
+    }
+  };
+  useEffect(() => {
+    form.setFieldsValue(record);
+  });
+  let childNode = children;
+  childNode = editable ? (
+    <Form.Item
+      name={dataIndex}
+      rules={
+        dataIndex === "address"
+          ? [
+              {
+                required: true,
+              },
+            ]
+          : null
+      }
+      noStyle
+    >
+      {dataIndex === "is_active" ? (
+        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
+          <Switch
+            ref={inputRef}
+            onChange={save}
+            id={`addr_${dataIndex}_${record.id}`}
+          />
+        </Form.Item>
+      ) : (
+        <Input
+          ref={inputRef}
+          onPressEnter={save}
+          onBlur={save}
+          id={`addr_${dataIndex}_${record.id}`}
+        />
+      )}
+    </Form.Item>
+  ) : dataIndex === "sort" ? (
+    <DragHandle />
+  ) : (
+    children
+  );
+  return <td {...restProps}>{childNode}</td>;
+};
 const Edit = () => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -66,6 +142,11 @@ const Edit = () => {
 
   const columns = [
     {
+      title: "Sort",
+      dataIndex: "sort",
+      width: 65,
+    },
+    {
       title: "ID",
       dataIndex: "id",
       width: 60,
@@ -78,117 +159,72 @@ const Edit = () => {
     {
       title: "启用",
       dataIndex: "is_active",
+      editable: true,
     },
-    { title: "地址", dataIndex: "address" },
-    { title: "备注", dataIndex: "note" },
-    { title: "排序", dataIndex: "seq" },
+    { title: "地址", dataIndex: "address", editable: true },
+    { title: "备注", dataIndex: "note", editable: true },
   ];
   const columnsCell = columns.map(i => {
     return {
       ...i,
-      onCell: record => ({ ...i, record, dataIndex: i.dataIndex }),
+      onCell: record => ({
+        ...i,
+        record,
+        dataIndex: i.dataIndex,
+        editable: i.editable,
+        wallet_id: currentRow.id,
+      }),
     };
   });
 
-  const EditableRow = ({ index, ...props }) => {
-    const [form] = Form.useForm();
-    return (
-      <Form form={form} component={false}>
-        <EditableContext.Provider value={{ form }}>
-          <tr {...props} />
-        </EditableContext.Provider>
-      </Form>
-    );
-  };
-  const EditableCell = ({
-    title,
-    children,
-    dataIndex,
-    record,
-    ...restProps
-  }) => {
-    const { form } = useContext(EditableContext);
-    const inputRef = useRef(null);
-    const save = async () => {
-      try {
-        const values = await form.validateFields();
-        await editCryptoAcct({
-          id: record.id,
-          formModel: { ...values, wallet_id: currentRow.id, currency: 1 },
-        });
-      } catch (errInfo) {
-        console.log("Save failed:", errInfo);
-      }
-    };
-    useEffect(() => {
-      form.setFieldsValue(record);
-    });
-    let childNode = children;
-    childNode =
-      dataIndex === "id" ? (
-        <div>{record.id}</div>
-      ) : dataIndex === "is_active" ? (
-        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
-          <Switch ref={inputRef} onChange={save} />
-        </Form.Item>
-      ) : (
-        <Form.Item
-          name={dataIndex}
-          rules={
-            dataIndex === "address"
-              ? [
-                  {
-                    required: true,
-                  },
-                ]
-              : null
-          }
-          noStyle
-        >
-          <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-        </Form.Item>
-      );
-    return <td {...restProps}>{childNode}</td>;
-  };
   const editComponents = {
     body: {
       row: EditableRow,
+      // wrapper: DraggableContainer,
       cell: EditableCell,
     },
   };
 
   const [addForm] = Form.useForm();
-  const AddCel = ({ title, children, dataIndex, record, ...restProps }) => {
-    let childNode = children;
-    childNode =
-      dataIndex === "id" ? (
-        <div>{record.id}</div>
-      ) : dataIndex === "is_active" ? (
-        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
-          <Switch />
-        </Form.Item>
-      ) : (
-        <Form.Item
-          name={dataIndex}
-          rules={
-            dataIndex === "address"
-              ? [
-                  {
-                    required: true,
-                  },
-                ]
-              : null
-          }
-          noStyle
-        >
-          <Input />
-        </Form.Item>
-      );
+  const AddCell = ({
+    title,
+    children,
+    dataIndex,
+    editable,
+    record,
+    ...restProps
+  }) => {
+    let childNode;
+    childNode = editable ? (
+      <Form.Item
+        name={dataIndex}
+        rules={
+          dataIndex === "address"
+            ? [
+                {
+                  required: true,
+                },
+              ]
+            : null
+        }
+        noStyle
+      >
+        {dataIndex === "is_active" ? (
+          <Form.Item name={dataIndex} valuePropName="checked" noStyle>
+            <Switch id={`addaddr_${dataIndex}`} />
+          </Form.Item>
+        ) : (
+          <Input id={`addaddr_${dataIndex}`} />
+        )}
+      </Form.Item>
+    ) : (
+      children
+    );
     return <td {...restProps}>{childNode}</td>;
   };
   const addComponents = {
     body: {
-      cell: AddCel,
+      cell: AddCell,
     },
   };
   const defaultAddFormModel = {
