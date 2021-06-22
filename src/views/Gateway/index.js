@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space, Switch } from "antd";
 import {
   selectGateway,
   getGateways,
@@ -10,7 +10,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import Tag from "@/components/Tag";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
@@ -58,6 +58,7 @@ const Gateway = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
+    setLoading: setListLoading,
   } = useList(getGateways, selectGateway);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -93,22 +94,59 @@ const Gateway = () => {
       ...formModel,
     });
     setEditVisible(false);
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
   };
-
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editGateway, id, ...params });
+    handleGetList({ page: meta.current });
+  };
+  const handleChangeIsActive = async (checked, { id, ...params }) => {
+    setListLoading(true);
+    await handleEditHook({
+      action: editGateway,
+      id,
+      ...params,
+      is_active: checked,
+    });
+    handleGetList({ page: meta.current });
+  };
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name", width: 140 },
-    { title: "别名", dataIndex: "alias", width: 120 },
+    {
+      title: "名称",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "显示名称",
+      dataIndex: "display_name",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "别名",
+      dataIndex: "alias",
+      editable: true,
+      inputType: "string",
+    },
     {
       title: "货币类型",
       dataIndex: "currency",
       render: val => Currency[val] || "",
+      editable: true,
+      inputType: "select",
+      options: Currency,
     },
     {
       title: "启用",
       dataIndex: "is_active",
-      render: val => <Tag val={val} />,
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
     {
       title: "动作",
@@ -130,14 +168,13 @@ const Gateway = () => {
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
-      <Table
+      <EditableTable
         columns={columns}
         dataSource={list}
         pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
         loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit
         visible={addVisible}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space } from "antd";
 import {
   selectDeveloper,
   getDevelopers,
