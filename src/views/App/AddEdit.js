@@ -9,8 +9,11 @@ const { Option } = Select;
 const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
-    await props.onOk(form.getFieldsValue());
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await props.onOk(formModel);
+      form.resetFields();
+    });
   };
   useEffect(() => {
     props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
@@ -29,7 +32,11 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="name" label="名称">
+          <Form.Item
+            name="name"
+            label="名称"
+            rules={[{ required: true, message: "请输入名称" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="name_cn" label="名称CN">
