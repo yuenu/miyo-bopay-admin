@@ -10,6 +10,7 @@ import {
 import { useList, useDetail } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { DeveloperStatus } from "@/utils/enum";
@@ -64,19 +65,31 @@ const User = () => {
       ...formModel,
     });
     setEditVisible(false);
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
     setDetailId(null);
+  };
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editDeveloper, id, ...params });
+    handleGetList({ page: meta.current });
   };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "帐户ID", dataIndex: "user_id" },
-    { title: "帐户名称", dataIndex: "username" },
-    { title: "姓名", dataIndex: "name" },
+    {
+      title: "帐户名称",
+      dataIndex: "username",
+      editable: true,
+      inputType: "string",
+    },
+    { title: "姓名", dataIndex: "name", editable: true, inputType: "string" },
     {
       title: "审核状态",
       dataIndex: "status",
       render: val => DeveloperStatus[val] || "",
+      editable: true,
+      inputType: "select",
+      options: DeveloperStatus,
     },
     {
       title: "动作",
@@ -95,18 +108,16 @@ const User = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
         添加
       </Button>
-      <Table
+      <EditableTable
         columns={columns}
         dataSource={list}
         pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
         loading={listLoading}
+        onChange={handleChangePage}
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit
         visible={addVisible}

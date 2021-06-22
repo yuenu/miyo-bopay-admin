@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, Switch } from "antd";
+import { Button, Space, Switch } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -135,15 +135,6 @@ const App = () => {
         onChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
         pagination={meta}
-      />
-      <Table
-        columns={columns}
-        dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        onChange={handleChangePage}
-        loading={listLoading}
       />
       <AddEdit
         visible={addVisible}

@@ -10,6 +10,7 @@ const EditableCell = ({
   dataIndex,
   title,
   inputType,
+  options,
   record,
   index,
   children,
@@ -26,7 +27,7 @@ const EditableCell = ({
           }}
           valuePropName={valuePropName(inputType)}
         >
-          <InputFactory type={inputType} disabled={loading} />
+          <InputFactory type={inputType} disabled={loading} options={options} />
         </Form.Item>
       ) : (
         children
@@ -43,6 +44,7 @@ const EditableCell = ({
  * @param {Boolean} columns.editable
  * @param {Node} columns.render
  * @param {String} columns.inputType - [string, select, switch]
+ * @param {Object} columns.options - if inputType === 'select', using options
  */
 const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
   const [form] = Form.useForm();
@@ -105,6 +107,7 @@ const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
       onCell: record => ({
         record,
         inputType: col.inputType,
+        options: col.options,
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),
