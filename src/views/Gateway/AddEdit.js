@@ -13,7 +13,7 @@ const AddEdit = props => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     const formModel = form.getFieldsValue();
-    await props.onOk({ ...formModel, extra: JSON.parse(formModel.extra) });
+    await props.onOk({ ...formModel });
     form.resetFields();
   };
   useEffect(() => {
@@ -102,9 +102,6 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="expires" label="expires">
             <InputNumber />
-          </Form.Item>
-          <Form.Item name="extra" label="extra">
-            <Input />
           </Form.Item>
           <Form.Item name="fee" label="fee">
             <InputNumber />
