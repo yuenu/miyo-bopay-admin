@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space, Table, Switch } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
-import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
@@ -37,6 +36,7 @@ const App = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
+    setLoading: setListLoading,
   } = useList(getApps, selectApp);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -69,11 +69,22 @@ const App = () => {
     await handleEditHook({ action: editApp, id: currentRow.id, ...formModel });
     setEditVisible(false);
     setDetailId(null);
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
   };
   const handleRowEditSubmit = async ({ id, ...params }) => {
     await handleEditHook({ action: editApp, id, ...params });
-    handleGetList({ page: meta.page });
+    handleGetList({ page: meta.current });
+  };
+
+  const handleChangeIsActive = async (checked, { id, ...params }) => {
+    setListLoading(true);
+    await handleEditHook({
+      action: editApp,
+      id,
+      ...params,
+      is_active: checked,
+    });
+    handleGetList({ page: meta.current });
   };
 
   const columns = [
@@ -89,7 +100,12 @@ const App = () => {
     {
       title: "启用",
       dataIndex: "is_active",
-      render: val => <Tag val={val} />,
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
     {
       title: "动作",

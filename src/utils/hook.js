@@ -33,6 +33,7 @@ export const useList = (action, selector) => {
     handleGetList,
     handleChangePage,
     handleAdd,
+    setLoading,
   };
 };
 
