@@ -9,10 +9,12 @@ const { Option } = Select;
 
 const AddEdit = props => {
   const [form] = Form.useForm();
-  const handleOk = async () => {
-    const formModel = form.getFieldsValue();
-    await props.onOk(formModel);
-    form.resetFields();
+  const handleOk = () => {
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await props.onOk(formModel);
+      form.resetFields();
+    });
   };
   useEffect(() => {
     props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
@@ -29,7 +31,11 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="user_id" label="帐户ID">
+          <Form.Item
+            name="user_id"
+            label="帐户ID"
+            rules={[{ required: true, message: "请输入帐户ID" }]}
+          >
             <SearchSelect
               action={getUsers}
               selector={selectUser}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { errorCodeMessage } from "@/utils/enum";
-import { message } from "antd";
+import Notification from "@/components/factory/NotifFactory";
 import { logout } from "@/store/slice/auth";
 export const interceptor = store => {
   axios.interceptors.request.use(
@@ -28,13 +28,18 @@ export const interceptor = store => {
       const status = error.response.status;
       if (status === 401) {
         store.dispatch(logout());
-        message.error(errorCodeMessage[status] ?? error.message);
+        Notification({
+          title: errorCodeMessage[status] ?? error.message,
+          message: error.response?.data?.err,
+        });
       } else {
-        message.error(
-          error.response.data.message ??
+        Notification({
+          title:
+            error.response.data.message ??
             errorCodeMessage[status] ??
             error.message,
-        );
+          message: error.response?.data?.err,
+        });
       }
       return Promise.reject(error);
     },
