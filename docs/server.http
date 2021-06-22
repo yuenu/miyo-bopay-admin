@@ -181,3 +181,34 @@ X-Appid: 20002
     "device_type": 0,
     "client_ip": "2607:f0d0:1002:0051:0000:0000:0000:0004"
 }
+
+
+### Roles list
+GET http://{{ host }}/api/roles HTTP/1.1
+
+### Role's Users 角色下的用户列表
+GET http://{{ host }}/api/roles/1/users HTTP/1.1
+
+
+### Roles Update Perms 更新角色权限列表
+POST http://{{ host }}/api/roles/1/perms HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+    "role.List": true,
+    "role.Delete": false
+}
+
+
+### Role Add Users 角色添加用户
+POST http://{{ host }}/api/roles/1/users/add HTTP/1.1
+Content-Type: {{contentType}}
+
+[ 10027,10037,10047, 1, 3232 , 10001]
+
+
+### Role Del Users 角色删除用户, 值为 user.id
+POST http://{{ host }}/api/roles/1/users/del HTTP/1.1
+Content-Type: {{contentType}}
+
+[ 10027,10037,10047, 1, 3232 ]
