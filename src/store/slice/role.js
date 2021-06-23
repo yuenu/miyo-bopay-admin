@@ -62,6 +62,14 @@ export const addRoleUsers = async ({ id, ids }) => {
   });
   return res;
 };
+export const deleteRoleUsers = async ({ id, ids }) => {
+  const res = await request({
+    url: `/api/roles/${id}/users/del`,
+    method: "delete",
+    data: ids,
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "role",
   initialState: {

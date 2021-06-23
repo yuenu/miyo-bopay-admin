@@ -1,18 +1,22 @@
+import { useState } from "react";
 import { Modal, Spin, Table, Button, Form } from "antd";
 import SearchSelect from "@/components/SearchSelect";
 import { selectUser, getUsers } from "@/store/slice/user";
-const EditUsers = ({ visible, onCancel, loading, data, onOk }) => {
-  const [form] = Form.useForm();
 
-  const handleOk = async () => {
+const EditUsers = ({ visible, onCancel, loading, data, onAdd, onDelete }) => {
+  const [form] = Form.useForm();
+  const [selectIds, setSelectIds] = useState([]);
+
+  const handleAdd = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
-      await onOk(formModel);
+      await onAdd(formModel);
       form.resetFields();
     });
   };
-  const handleDeleteClick = id => {
-    console.log(id);
+  const handleDelete = async () => {
+    await onDelete(selectIds);
+    setSelectIds([]);
   };
   const columns = [
     { title: "ID", dataIndex: "id" },
@@ -23,17 +27,17 @@ const EditUsers = ({ visible, onCancel, loading, data, onOk }) => {
       editable: true,
       inputType: "string",
     },
-    {
-      title: "动作",
-      dataIndex: "action",
-      align: "right",
-      render: (_, record) => (
-        <Button onClick={() => handleDeleteClick(record.id)} type="danger">
-          删除
-        </Button>
-      ),
-    },
   ];
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        "selectedRows: ",
+        selectedRows,
+      );
+      setSelectIds(selectedRows.map(i => i.id));
+    },
+  };
   return (
     <Modal
       destroyOnClose={true}
@@ -65,12 +69,30 @@ const EditUsers = ({ visible, onCancel, loading, data, onOk }) => {
             />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" onClick={handleOk}>
+            <Button type="primary" onClick={handleAdd}>
               新增
             </Button>
           </Form.Item>
         </Form>
-        <Table columns={columns} dataSource={data} pagination={false} />
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          rowKey="id"
+          rowSelection={{
+            type: "checkbox",
+            ...rowSelection,
+          }}
+        />
+        <div className="text-right mt-1">
+          <Button
+            type="danger"
+            disabled={selectIds.length <= 0}
+            onClick={handleDelete}
+          >
+            批量删除
+          </Button>
+        </div>
       </Spin>
     </Modal>
   );

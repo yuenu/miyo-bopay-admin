@@ -8,6 +8,7 @@ import {
   editRole,
   getRoleUsers,
   addRoleUsers,
+  deleteRoleUsers,
 } from "@/store/slice/role";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -77,9 +78,15 @@ const Role = () => {
     setEditUsersVisible(true);
     setEditUsersLoading(false);
   };
-  const handleEditUsers = async params => {
+  const handleAddUsers = async params => {
     setEditUsersLoading(true);
     await addRoleUsers({ id: editUsersCurrentId, ids: params.ids });
+    await dispatch(getRoleUsers(editUsersCurrentId));
+    setEditUsersLoading(false);
+  };
+  const handleDeleteUsers = async params => {
+    setEditUsersLoading(true);
+    await deleteRoleUsers({ id: editUsersCurrentId, ids: params });
     await dispatch(getRoleUsers(editUsersCurrentId));
     setEditUsersLoading(false);
   };
@@ -148,7 +155,8 @@ const Role = () => {
       />
       <EditUsers
         visible={editUsersVisible}
-        onOk={handleEditUsers}
+        onAdd={handleAddUsers}
+        onDelete={handleDeleteUsers}
         onCancel={() => setEditUsersVisible(false)}
         loading={editUsersLoading}
         data={users}
