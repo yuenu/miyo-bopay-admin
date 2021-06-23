@@ -30,11 +30,6 @@ const EditUsers = ({ visible, onCancel, loading, data, onAdd, onDelete }) => {
   ];
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows,
-      );
       setSelectIds(selectedRows.map(i => i.id));
     },
   };
