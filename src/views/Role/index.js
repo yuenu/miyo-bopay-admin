@@ -16,7 +16,6 @@ import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import EditUsers from "./EditUsers";
-import { IsBoolEnum, AppStatus } from "@/utils/enum";
 import { useDispatch, useSelector } from "react-redux";
 
 const Role = () => {
@@ -24,21 +23,6 @@ const Role = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
-    name_cn__k: { type: "string", label: "姓名" },
-    developer_id__in: { type: "string", label: "开发者ID" },
-    developer_name__k: { type: "string", label: "开发者姓名" },
-    status: {
-      type: "select",
-      label: "状态",
-      options: AppStatus,
-    },
-    is_active: {
-      type: "select",
-      label: "是否启用",
-      options: IsBoolEnum,
-      isBool: true,
-    },
-    created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
   const {
