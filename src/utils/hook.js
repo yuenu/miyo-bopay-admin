@@ -2,14 +2,14 @@ import { useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
 
-export const useList = (action, selector) => {
+export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
   const { list, currentRow, meta } = useSelector(selector);
   const [loading, setLoading] = useState(false);
   const handleGetList = useCallback(
     async (params = {}) => {
       setLoading(true);
-      await dispatch(action(params));
+      await dispatch(action({ ...originParams, ...params }));
       setLoading(false);
     },
     [dispatch, action],

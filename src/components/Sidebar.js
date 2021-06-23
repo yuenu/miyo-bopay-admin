@@ -20,7 +20,7 @@ const SidebarView = () => {
 
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
-      <div className="logo">支付服务后台</div>
+      <div className="logo">财务中心</div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={[path]}>
         <SubMenu key="Merchant" icon={<TeamOutlined />} title="商户管理">
           <Menu.Item key="/Developer">
@@ -36,6 +36,15 @@ const SidebarView = () => {
         <SubMenu key="Pay" icon={<TeamOutlined />} title="支付管理">
           <Menu.Item key="/Gateway">
             <Link to="/Gateway">商户管理</Link>
+          </Menu.Item>
+          <Menu.Item key="/Gateway1">
+            <Link to="/Gateway1">银行卡管理</Link>
+          </Menu.Item>
+          <Menu.Item key="/Gateway2">
+            <Link to="/Gateway2">第三方支付</Link>
+          </Menu.Item>
+          <Menu.Item key="/Gateway3">
+            <Link to="/Gateway3">第三方代付</Link>
           </Menu.Item>
         </SubMenu>
         <Menu.Item key="/Order" icon={<ContainerOutlined />}>
