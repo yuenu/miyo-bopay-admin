@@ -62,7 +62,7 @@ const GatewayTypes = ({ type }) => {
   } = useList(getGateways, selectGateway, { type });
 
   const [addVisible, setAddVisible] = useState(false);
-  const handleAppClick = () => {
+  const handleAddClick = () => {
     setAddVisible(true);
   };
   const handleAdd = async formModel => {
@@ -165,7 +165,7 @@ const GatewayTypes = ({ type }) => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAppClick}>
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
       <EditableTable

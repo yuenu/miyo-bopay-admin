@@ -1,15 +1,26 @@
 import { useState } from "react";
-import { Button, Space, Switch } from "antd";
-import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
+import { Button, Space } from "antd";
+import {
+  selectRole,
+  getRoles,
+  getRole,
+  addRole,
+  editRole,
+  getRoleUsers,
+  addRoleUsers,
+} from "@/store/slice/role";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import EditUsers from "./EditUsers";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
+import { useDispatch, useSelector } from "react-redux";
 
-const App = () => {
+const Role = () => {
+  const dispatch = useDispatch();
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
@@ -36,15 +47,14 @@ const App = () => {
     handleGetList,
     handleChangePage,
     handleAdd: handleAddHook,
-    setLoading: setListLoading,
-  } = useList(getApps, selectApp);
+  } = useList(getRoles, selectRole);
 
   const [addVisible, setAddVisible] = useState(false);
   const handleAddClick = () => {
     setAddVisible(true);
   };
   const handleAdd = async formModel => {
-    handleAddHook({ action: addApp, ...formModel });
+    handleAddHook({ action: addRole, ...formModel });
     setAddVisible(false);
   };
 
@@ -53,7 +63,7 @@ const App = () => {
     currentRow,
     loading: detailLoading,
     handleEdit: handleEditHook,
-  } = useDetail({ action: getApp, id: detailId }, selectApp);
+  } = useDetail({ action: getRole, id: detailId }, selectRole);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -66,47 +76,38 @@ const App = () => {
     setEditVisible(true);
   };
   const handleEdit = async formModel => {
-    await handleEditHook({ action: editApp, id: currentRow.id, ...formModel });
+    await handleEditHook({ action: editRole, id: currentRow.id, ...formModel });
     setEditVisible(false);
     setDetailId(null);
     handleGetList({ page: meta.current });
   };
-  const handleRowEditSubmit = async ({ id, ...params }) => {
-    await handleEditHook({ action: editApp, id, ...params });
-    handleGetList({ page: meta.current });
+
+  const { users } = useSelector(selectRole);
+  const [editUsersVisible, setEditUsersVisible] = useState(false);
+  const [editUsersLoading, setEditUsersLoading] = useState(false);
+  const [editUsersCurrentId, setEditUsersCurrentId] = useState(false);
+  const handleEditUsersClick = async id => {
+    setEditUsersLoading(true);
+    setEditUsersCurrentId(id);
+    await dispatch(getRoleUsers(id));
+    setEditUsersVisible(true);
+    setEditUsersLoading(false);
+  };
+  const handleEditUsers = async params => {
+    setEditUsersLoading(true);
+    await addRoleUsers({ id: editUsersCurrentId, ids: params.ids });
+    await dispatch(getRoleUsers(editUsersCurrentId));
+    setEditUsersLoading(false);
   };
 
-  const handleChangeIsActive = async (checked, { id, ...params }) => {
-    setListLoading(true);
-    await handleEditHook({
-      action: editApp,
-      id,
-      ...params,
-      is_active: checked,
-    });
+  const handleRowEditSubmit = async ({ id, ...params }) => {
+    await handleEditHook({ action: editRole, id, ...params });
     handleGetList({ page: meta.current });
   };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
-    {
-      title: "姓名",
-      dataIndex: "name_cn",
-      editable: true,
-      inputType: "string",
-    },
-    { title: "状态", dataIndex: "status", render: val => AppStatus[val] || "" },
-    {
-      title: "启用",
-      dataIndex: "is_active",
-      render: (val, record) => (
-        <Switch
-          checked={val}
-          onChange={checked => handleChangeIsActive(checked, record)}
-        />
-      ),
-    },
     {
       title: "动作",
       dataIndex: "action",
@@ -117,6 +118,10 @@ const App = () => {
             查看
           </Button>
           <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
+          <Button onClick={() => handleEditUsersClick(record.id)}>
+            职员管理
+          </Button>
+          <Button>编辑权限</Button>
         </Space>
       ),
     },
@@ -157,7 +162,14 @@ const App = () => {
         data={currentRow}
         mode="edit"
       />
+      <EditUsers
+        visible={editUsersVisible}
+        onOk={handleEditUsers}
+        onCancel={() => setEditUsersVisible(false)}
+        loading={editUsersLoading}
+        data={users}
+      />
     </Space>
   );
 };
-export default App;
+export default Role;

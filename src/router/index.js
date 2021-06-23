@@ -12,10 +12,10 @@ const routes = [
     component: () => getComponent("User"),
     exact: true,
   },
-  //   {
-  //     path: "/Permission",
-  //     component: "Permission",
-  //   },
+  {
+    path: "/Role",
+    component: () => getComponent("Role"),
+  },
   {
     path: "/Developer",
     component: () => getComponent("Developer"),

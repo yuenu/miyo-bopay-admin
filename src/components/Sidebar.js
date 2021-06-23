@@ -77,8 +77,8 @@ const SidebarView = () => {
           <Menu.Item key="/">
             <Link to="/">职员管理</Link>
           </Menu.Item>
-          <Menu.Item key="/Permission">
-            <Link to="/Permission">权限设置</Link>
+          <Menu.Item key="/Role">
+            <Link to="/Role">权限设置</Link>
           </Menu.Item>
         </SubMenu>
       </Menu>
