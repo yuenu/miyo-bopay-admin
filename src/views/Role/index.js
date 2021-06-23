@@ -18,9 +18,11 @@ import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import EditUsers from "./EditUsers";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory, generatePath } from "react-router-dom";
 
 const Role = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
@@ -91,6 +93,10 @@ const Role = () => {
     setEditUsersLoading(false);
   };
 
+  const handleEditPermClick = id => {
+    history.push(generatePath("/RolePerm/:id", { id }));
+  };
+
   const handleRowEditSubmit = async ({ id, ...params }) => {
     await handleEditHook({ action: editRole, id, ...params });
     handleGetList({ page: meta.current });
@@ -112,7 +118,9 @@ const Role = () => {
           <Button onClick={() => handleEditUsersClick(record.id)}>
             职员管理
           </Button>
-          <Button>编辑权限</Button>
+          <Button onClick={() => handleEditPermClick(record.id)}>
+            编辑权限
+          </Button>
         </Space>
       ),
     },

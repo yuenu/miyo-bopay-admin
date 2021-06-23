@@ -17,6 +17,10 @@ const routes = [
     component: () => getComponent("Role"),
   },
   {
+    path: "/RolePerm/:id",
+    component: () => getComponent("Role/EditPerm"),
+  },
+  {
     path: "/Developer",
     component: () => getComponent("Developer"),
   },

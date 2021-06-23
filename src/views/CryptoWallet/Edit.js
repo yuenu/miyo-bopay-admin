@@ -17,7 +17,7 @@ const { Option } = Select;
 
 const Edit = () => {
   const history = useHistory();
-  let { id } = useParams();
+  const { id } = useParams();
   const [form] = Form.useForm();
   const { currentRow, loading, handleEdit } = useDetail(
     { action: getCryptoWallet, id },
