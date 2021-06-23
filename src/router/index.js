@@ -33,6 +33,10 @@ const routes = [
     component: () => getComponent("Gateway"),
   },
   {
+    path: "/SortTable",
+    component: () => getComponent("Gateway/SortTable"),
+  },
+  {
     path: "/Order",
     component: () => getComponent("Order"),
   },

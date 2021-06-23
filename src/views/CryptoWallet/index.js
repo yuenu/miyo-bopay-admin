@@ -13,7 +13,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
-import AddEdit from "./AddEdit";
+import Add from "./Add";
 import Detail from "./Detail";
 import { useHistory, generatePath } from "react-router-dom";
 
@@ -150,7 +150,7 @@ const CryptoWallet = () => {
         onChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
       />
-      <AddEdit
+      <Add
         visible={addVisible}
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}

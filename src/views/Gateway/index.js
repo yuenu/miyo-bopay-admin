@@ -21,6 +21,7 @@ const Gateway = () => {
     name__k: { type: "string", label: "名称" },
     alias__k: { type: "string", label: "别名" },
     display_name__k: { type: "string", label: "显示名称" },
+    type: { type: "string", label: "Type" },
     currency: { type: "select", label: "货币类型", options: Currency },
     pay_method: { type: "select", label: "付款方式", options: PayMethod },
     pay_type: { type: "select", label: "支付类别", options: WXPayType },
