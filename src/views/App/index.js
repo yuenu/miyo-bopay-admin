@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Button, Space, Switch } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
+import { dateFormat } from "@/utils/format";
 
 const App = () => {
   const searchFields = {
@@ -96,7 +98,35 @@ const App = () => {
       editable: true,
       inputType: "string",
     },
+    {
+      title: "开发者ID",
+      dataIndex: "developer_id",
+    },
+    {
+      title: "开发者姓名",
+      dataIndex: "developer_name",
+    },
+    {
+      title: "回调网址",
+      dataIndex: "callback_url",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "info",
+      dataIndex: "info",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "secret",
+      dataIndex: "secret",
+    },
     { title: "状态", dataIndex: "status", render: val => AppStatus[val] || "" },
+    { title: "token", dataIndex: "token" },
+    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
+    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    { title: "备注", dataIndex: "note" },
     {
       title: "启用",
       dataIndex: "is_active",
@@ -121,15 +151,31 @@ const App = () => {
       ),
     },
   ];
-
+  const defaultColumns = [
+    "id",
+    "name",
+    "name_cn",
+    "status",
+    "is_active",
+    "action",
+  ];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <EditableTable
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <EditableTable
+        columns={selectedColumns}
         dataSource={list}
         loading={listLoading}
         onChange={handleChangePage}

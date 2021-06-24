@@ -7,13 +7,15 @@ import {
   addDeveloper,
   editDeveloper,
 } from "@/store/slice/developer";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { DeveloperStatus } from "@/utils/enum";
+import { dateFormat } from "@/utils/format";
 
 const User = () => {
   const searchFields = {
@@ -83,6 +85,26 @@ const User = () => {
       inputType: "string",
     },
     { title: "姓名", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
+    { title: "email", dataIndex: "email", editable: true, inputType: "string" },
+    {
+      title: "公司/组织",
+      dataIndex: "org",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "公司简介",
+      dataIndex: "info",
+      editable: true,
+      inputType: "string",
+    },
+    {
+      title: "公司官网",
+      dataIndex: "site",
+      editable: true,
+      inputType: "string",
+    },
     {
       title: "审核状态",
       dataIndex: "status",
@@ -91,6 +113,15 @@ const User = () => {
       inputType: "select",
       options: DeveloperStatus,
     },
+    {
+      title: "telegram",
+      dataIndex: "telegram",
+      editable: true,
+      inputType: "string",
+    },
+    { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
+    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
+    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
     {
       title: "动作",
       dataIndex: "action",
@@ -105,14 +136,24 @@ const User = () => {
       ),
     },
   ];
+  const defaultColumns = ["id", "name", "username", "is_active", "action"];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <EditableTable
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <EditableTable
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         loading={listLoading}
