@@ -25,8 +25,10 @@ import {
   CryptoAcctLogsStatus,
 } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
+
 const CryptoWallet = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -60,6 +62,40 @@ const CryptoWallet = () => {
     handleChangePage,
   } = useList(getCryptoAcctLogs, selectCryptoAcctLog);
 
+  const [detailId, setDetailId] = useState(null);
+  const { currentRow, loading: detailLoading } = useDetail(
+    { action: getCryptoAcctLog, id: detailId },
+    selectCryptoAcctLog,
+  );
+
+  const [form] = Form.useForm();
+  const [editVisible, setEditVisible] = useState(false);
+  const handleEditClick = async id => {
+    setDetailId(id);
+    setEditVisible(true);
+  };
+  useEffect(() => {
+    editVisible &&
+      currentRow.id &&
+      form.setFieldsValue({
+        amount_paid: currentRow.amount,
+        note: currentRow.note,
+      });
+  }, [editVisible, currentRow, form]);
+
+  const handleEditOk = async () => {
+    const formModel = form.getFieldsValue();
+    await handleEdit({ crypto_acct_log_id: currentRow.id, ...formModel });
+    form.resetFields();
+    setEditVisible(false);
+    setDetailId(null);
+    handleGetList({ page: meta.page });
+  };
+  const handleEdit = async formModel => {
+    const { status } = await bindOrder({ ...formModel });
+    if (status !== 200) return;
+    message.success("订单已绑定！");
+  };
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "订单号", dataIndex: "order_no" },
@@ -128,47 +164,28 @@ const CryptoWallet = () => {
       ),
     },
   ];
-
-  const [detailId, setDetailId] = useState(null);
-  const { currentRow, loading: detailLoading } = useDetail(
-    { action: getCryptoAcctLog, id: detailId },
-    selectCryptoAcctLog,
-  );
-
-  const [form] = Form.useForm();
-  const [editVisible, setEditVisible] = useState(false);
-  const handleEditClick = async id => {
-    setDetailId(id);
-    setEditVisible(true);
-  };
-  useEffect(() => {
-    editVisible &&
-      currentRow.id &&
-      form.setFieldsValue({
-        amount_paid: currentRow.amount,
-        note: currentRow.note,
-      });
-  }, [editVisible, currentRow, form]);
-
-  const handleEditOk = async () => {
-    const formModel = form.getFieldsValue();
-    await handleEdit({ crypto_acct_log_id: currentRow.id, ...formModel });
-    form.resetFields();
-    setEditVisible(false);
-    setDetailId(null);
-    handleGetList({ page: meta.page });
-  };
-  const handleEdit = async formModel => {
-    const { status } = await bindOrder({ ...formModel });
-    if (status !== 200) return;
-    message.success("订单已绑定！");
-  };
-
+  const defaultColumns = [
+    "id",
+    "order_no",
+    "amount",
+    "crypto_acct_id",
+    "status",
+    "action",
+  ];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Table
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <Table
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         rowKey="id"

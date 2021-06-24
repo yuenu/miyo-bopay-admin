@@ -4,7 +4,7 @@ import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
 
 const AppUser = () => {
@@ -53,13 +53,11 @@ const AppUser = () => {
     {
       title: "创建日期",
       dataIndex: "created",
-      type: "render",
       render: val => dateFormat(val),
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      type: "render",
       render: val => dateFormat(val),
     },
     {
@@ -106,6 +104,7 @@ const AppUser = () => {
         loading={listLoading}
       />
       <Detail
+        title="App用戶明細"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}

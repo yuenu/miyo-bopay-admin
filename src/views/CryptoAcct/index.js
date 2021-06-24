@@ -8,13 +8,16 @@ import {
   editCryptoAcct,
 } from "@/store/slice/cryptoAcct";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
+import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { Currency, IsBoolEnum } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
+import { dateFormat } from "@/utils/format";
 
 const CryptoAcct = () => {
   const searchFields = {
@@ -89,6 +92,13 @@ const CryptoAcct = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "钱包ID", dataIndex: "wallet_id" },
+    {
+      title: "地址",
+      dataIndex: "address",
+      editable: true,
+      inputType: "string",
+    },
     {
       title: "余额",
       dataIndex: "balance",
@@ -97,17 +107,53 @@ const CryptoAcct = () => {
     {
       title: "货币",
       dataIndex: "currency",
+      editable: true,
+      inputType: "select",
+      options: Currency,
       render: val => Currency[val] || "",
+    },
+    {
+      title: "last_block",
+      dataIndex: "last_block",
+    },
+    {
+      title: "last_block_time",
+      dataIndex: "last_block_time",
+    },
+    {
+      title: "排序",
+      dataIndex: "seq",
+    },
+    {
+      title: "序号",
+      dataIndex: "w",
+    },
+    {
+      title: "备注",
+      dataIndex: "note",
+      editable: true,
+      inputType: "string",
     },
     {
       title: "启用",
       dataIndex: "is_active",
+      dRender: val => <Tag val={val} />,
       render: (val, record) => (
         <Switch
           checked={val}
           onChange={checked => handleChangeIsActive(checked, record)}
         />
       ),
+    },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
     },
     {
       title: "动作",
@@ -123,6 +169,18 @@ const CryptoAcct = () => {
       ),
     },
   ];
+  const defaultColumns = [
+    "id",
+    "wallet_id",
+    "balance",
+    "currency",
+    "is_active",
+    "action",
+  ];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
@@ -133,8 +191,13 @@ const CryptoAcct = () => {
       >
         添加
       </Button>
-      <EditableTable
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <EditableTable
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         loading={listLoading}
@@ -149,10 +212,12 @@ const CryptoAcct = () => {
         mode="add"
       />
       <Detail
+        title="收款地址明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <AddEdit
         visible={editVisible}

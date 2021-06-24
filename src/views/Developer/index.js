@@ -13,7 +13,7 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { DeveloperStatus } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 
@@ -168,10 +168,12 @@ const User = () => {
         mode="add"
       />
       <Detail
+        title="开发者明細"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <AddEdit
         visible={editVisible}

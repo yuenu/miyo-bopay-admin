@@ -12,14 +12,17 @@ import {
   editPerms,
 } from "@/store/slice/role";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
+import Tag from "@/components/Tag";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import EditUsers from "./EditUsers";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, generatePath } from "react-router-dom";
+import { dateFormat } from "@/utils/format";
 
 const Role = () => {
   const dispatch = useDispatch();
@@ -118,6 +121,11 @@ const Role = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "职员数量", dataIndex: "total" },
+    { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
+    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
+    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+
     {
       title: "动作",
       dataIndex: "action",
@@ -138,15 +146,24 @@ const Role = () => {
       ),
     },
   ];
-
+  const defaultColumns = ["id", "name", "action"];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <EditableTable
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <EditableTable
+        columns={selectedColumns}
         dataSource={list}
         loading={listLoading}
         onChange={handleChangePage}

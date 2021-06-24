@@ -5,7 +5,7 @@ import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
 
 const Audit = () => {
@@ -46,19 +46,16 @@ const Audit = () => {
     {
       title: "成功",
       dataIndex: "succeeded",
-      type: "render",
       render: val => <Tag val={val} />,
     },
     {
       title: "创建日期",
       dataIndex: "created",
-      type: "render",
       render: val => dateFormat(val),
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      type: "render",
       render: val => dateFormat(val),
     },
     {
@@ -95,6 +92,7 @@ const Audit = () => {
         loading={listLoading}
       />
       <Detail
+        title="审计日志明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}

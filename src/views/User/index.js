@@ -14,7 +14,7 @@ import EditableTable from "@/components/factory/EditableTableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 
@@ -125,6 +125,7 @@ const User = () => {
     {
       title: "启用",
       dataIndex: "is_active",
+      dRender: val => <Tag val={val} />,
       render: (val, record) => (
         <Switch
           checked={val}
@@ -202,10 +203,12 @@ const User = () => {
         mode="add"
       />
       <Detail
+        title="职员明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <AddEdit
         visible={editVisible}

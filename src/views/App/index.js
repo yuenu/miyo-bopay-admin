@@ -6,8 +6,9 @@ import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
+import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
-import Detail from "./Detail";
+import Detail from "@/components/Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 
@@ -130,6 +131,7 @@ const App = () => {
     {
       title: "启用",
       dataIndex: "is_active",
+      dRender: val => <Tag val={val} />,
       render: (val, record) => (
         <Switch
           checked={val}
@@ -190,10 +192,12 @@ const App = () => {
         mode="add"
       />
       <Detail
+        title="App明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <AddEdit
         visible={editVisible}

@@ -150,6 +150,7 @@ const Order = () => {
       render: val => PayMethod[val] || "",
     },
     { title: "付款人姓名", dataIndex: "payer_name", width: 100 },
+    { title: "付款人信息", dataIndex: "payer_cred", width: 100 },
     { title: "设备类型", dataIndex: "device_type", width: 100 },
     {
       title: "支付状态",
@@ -238,6 +239,8 @@ const Order = () => {
       render: val => <Tag val={val} />,
       width: 100,
     },
+    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
+    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
     {
       title: "动作",
       dataIndex: "action",
@@ -299,6 +302,7 @@ const Order = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <Edit
         visible={editVisible}
