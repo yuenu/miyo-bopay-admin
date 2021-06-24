@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Space, Table, Button } from "antd";
 import { selectAudit, getAudits, getAudit } from "@/store/slice/audit";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import { useList, useDetail } from "@/utils/hook";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import Detail from "./Detail";
+import { dateFormat } from "@/utils/format";
 
 const Audit = () => {
   const searchFields = {
@@ -36,7 +38,29 @@ const Audit = () => {
     { title: "帐号", dataIndex: "username" },
     { title: "用户ID", dataIndex: "user_id" },
     { title: "设备", dataIndex: "device" },
-    { title: "成功", dataIndex: "succeeded", render: val => <Tag val={val} /> },
+    { title: "IP", dataIndex: "client_ip" },
+    { title: "Brief", dataIndex: "brief" },
+    { title: "Method", dataIndex: "method" },
+    { title: "Verb", dataIndex: "verb" },
+    { title: "Err", dataIndex: "err" },
+    {
+      title: "成功",
+      dataIndex: "succeeded",
+      type: "render",
+      render: val => <Tag val={val} />,
+    },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      type: "render",
+      render: val => dateFormat(val),
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      type: "render",
+      render: val => dateFormat(val),
+    },
     {
       title: "动作",
       dataIndex: "action",
@@ -48,11 +72,21 @@ const Audit = () => {
       ),
     },
   ];
+  const defaultColumns = ["id", "username", "user_id", "succeeded", "action"];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Table
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <Table
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         rowKey="id"
@@ -65,6 +99,7 @@ const Audit = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
     </Space>
   );

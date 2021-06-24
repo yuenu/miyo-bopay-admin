@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Button, Space, Table } from "antd";
 import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import Detail from "./Detail";
 import { dateFormat } from "@/utils/format";
 
@@ -38,13 +39,27 @@ const AppUser = () => {
 
   const columns = [
     { title: "ID", dataIndex: "id" },
+    { title: "会员ID", dataIndex: "userid" },
     { title: "姓名", dataIndex: "name", width: 90 },
+    { title: "电话", dataIndex: "phone" },
     { title: "AppID", dataIndex: "app_id" },
     { title: "App名称", dataIndex: "app_name" },
     { title: "App用户ID", dataIndex: "app_userid" },
+    { title: "开发者ID", dataIndex: "developer_id" },
+    { title: "开发者姓名", dataIndex: "developer_name" },
+    { title: "评级", dataIndex: "rating" },
+    { title: "注册IP", dataIndex: "register_ip" },
+    { title: "等级", dataIndex: "vip" },
     {
       title: "创建日期",
       dataIndex: "created",
+      type: "render",
+      render: val => dateFormat(val),
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      type: "render",
       render: val => dateFormat(val),
     },
     {
@@ -60,11 +75,29 @@ const AppUser = () => {
       ),
     },
   ];
+  const defaultColumns = [
+    "id",
+    "name",
+    "app_id",
+    "app_name",
+    "app_userid",
+    "created",
+    "action",
+  ];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Table
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <Table
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         rowKey="id"
@@ -77,6 +110,7 @@ const AppUser = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
     </Space>
   );
