@@ -2,6 +2,7 @@ import { Modal, Descriptions, Button, Tag, Space } from "antd";
 import { dateFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
 import { Perms } from "@/utils/enum";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Detail = ({ visible, loading, data, onCancel, onDelete }) => {
   const { id, name, total, perms, created, updated, note } = data;
@@ -17,10 +18,21 @@ const Detail = ({ visible, loading, data, onCancel, onDelete }) => {
       });
       permsArr.push({ key: i, name });
     });
-  const handleDeleteClick = async (e, row) => {
+  const handleDeleteClick = (e, row) => {
     e.preventDefault();
+    Modal.confirm({
+      title: "是否删除权限",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将删除 ${row.name}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleDelete(close, row),
+    });
+  };
+  const handleDelete = async (close, row) => {
     const params = { ...perms, [row.key]: false };
-    onDelete(params);
+    await onDelete(params);
+    close();
   };
   return (
     <Modal
