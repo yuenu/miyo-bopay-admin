@@ -44,7 +44,6 @@ export const metaToPagin = meta => {
 export const treeToPermsFormat = selectedPerms => {
   let formModel = {};
   Perms.forEach(i => {
-    formModel[i.key] = selectedPerms.indexOf(i.key) >= 0;
     i.children.forEach(j => {
       formModel[j.key] = selectedPerms.indexOf(j.key) >= 0;
     });
