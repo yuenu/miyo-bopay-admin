@@ -1,5 +1,5 @@
 import moment from "moment";
-import { CurrencyFormat } from "@/utils/enum";
+import { CurrencyFormat, Perms } from "@/utils/enum";
 export const dateFormat = date => {
   if (!date) return;
   return moment(date).isValid()
@@ -39,4 +39,22 @@ export const metaToPagin = meta => {
     total: meta.total,
     pages: meta.pages,
   };
+};
+
+export const treeToPermsFormat = selectedPerms => {
+  let formModel = {};
+  Perms.forEach(i => {
+    formModel[i.key] = selectedPerms.indexOf(i.key) >= 0;
+    i.children.forEach(j => {
+      formModel[j.key] = selectedPerms.indexOf(j.key) >= 0;
+    });
+  });
+  return formModel;
+};
+export const getDefaultCheckKeys = perms => {
+  let defaultCheckedKeys = [];
+  Object.keys(perms).forEach(i => {
+    perms[i] && defaultCheckedKeys.push(i);
+  });
+  return defaultCheckedKeys;
 };

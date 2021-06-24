@@ -1,8 +1,6 @@
 import { Modal, Descriptions, Button } from "antd";
 import { dateFormat } from "@/utils/format";
-import { AppStatus } from "@/utils/enum";
 import Spin from "@/components/Spin";
-import Tag from "@/components/Tag";
 
 const Detail = props => {
   const { id, name, total, created, updated, note } = props.data;

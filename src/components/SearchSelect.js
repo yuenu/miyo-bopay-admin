@@ -28,6 +28,7 @@ const SearchSelect = ({ action, selector, searchKey, label, val, ...rest }) => {
     );
     setList([...list, ...payload?.data?.data]);
     setLoading(false);
+    // eslint-disable-next-line
   }, [dispatch, action, searchKey, page]);
 
   const handleScroll = e => {

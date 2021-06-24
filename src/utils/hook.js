@@ -12,6 +12,7 @@ export const useList = (action, selector, originParams = {}) => {
       await dispatch(action({ ...originParams, ...params }));
       setLoading(false);
     },
+    // eslint-disable-next-line
     [dispatch, action],
   );
   const handleChangePage = (pagination, filters, sorter, extra) => {
@@ -59,5 +60,5 @@ export const useDetail = ({ action, id }, selector) => {
   useEffect(() => {
     id && handleGetDetail();
   }, [handleGetDetail, id]);
-  return { currentRow, loading, handleEdit };
+  return { currentRow, loading, setLoading, handleEdit };
 };

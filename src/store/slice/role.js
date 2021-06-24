@@ -70,6 +70,15 @@ export const deleteRoleUsers = async ({ id, ids }) => {
   });
   return res;
 };
+export const editPerms = async ({ id, perms }) => {
+  const res = await request({
+    url: `/api/roles/${id}/perms`,
+    method: "post",
+    data: perms,
+  });
+  return res;
+};
+
 export const slice = createSlice({
   name: "role",
   initialState: {
