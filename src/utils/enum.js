@@ -138,23 +138,23 @@ export const Perms = [
     key: "appacctlog",
     children: [
       {
-        title: "新增",
+        title: "新增appacctlog",
         key: "appacctlog.Create",
       },
       {
-        title: "查看列表",
+        title: "查看appacctlog列表",
         key: "appacctlog.List",
       },
       {
-        title: "编辑",
+        title: "编辑appacctlog",
         key: "appacctlog.Get",
       },
       {
-        title: "删除",
+        title: "删除appacctlog",
         key: "appacctlog.Delete",
       },
       {
-        title: "更新",
+        title: "更新appacctlog",
         key: "appacctlog.Update",
       },
     ],
@@ -164,7 +164,7 @@ export const Perms = [
     key: "cryptoacct",
     children: [
       {
-        title: "新增",
+        title: "新增收款帐户",
         key: "cryptoacct.Create",
       },
       {
@@ -172,19 +172,19 @@ export const Perms = [
         key: "cryptoacct.List",
       },
       {
-        title: "编辑",
+        title: "编辑收款帐户",
         key: "cryptoacct.Get",
       },
       {
-        title: "删除",
+        title: "删除收款帐户",
         key: "cryptoacct.Delete",
       },
       {
-        title: "更新",
+        title: "更新收款帐户",
         key: "cryptoacct.Update",
       },
       {
-        title: "SetActive",
+        title: "停启用收款帐户",
         key: "cryptoacct.SetActive",
       },
     ],
@@ -194,7 +194,7 @@ export const Perms = [
     key: "order",
     children: [
       {
-        title: "新增",
+        title: "新增订单",
         key: "order.Create",
       },
       {
@@ -202,35 +202,35 @@ export const Perms = [
         key: "order.List",
       },
       {
-        title: "编辑",
+        title: "编辑订单",
         key: "order.Get",
       },
       {
-        title: "删除",
+        title: "删除订单",
         key: "order.Delete",
       },
       {
-        title: "更新",
+        title: "更新订单",
         key: "order.Update",
       },
       {
-        title: "Cancel",
+        title: "取消订单",
         key: "order.Cancel",
       },
       {
-        title: "Approve",
+        title: "审核订单",
         key: "order.Approve",
       },
       {
-        title: "Deny",
+        title: "拒绝订单",
         key: "order.Deny",
       },
       {
-        title: "Notify",
+        title: "通知订单",
         key: "order.Notify",
       },
       {
-        title: "Bind",
+        title: "绑定订单",
         key: "order.Bind",
       },
     ],
@@ -248,15 +248,15 @@ export const Perms = [
         key: "role.List",
       },
       {
-        title: "编辑",
+        title: "编辑角色",
         key: "role.Get",
       },
       {
-        title: "删除",
+        title: "删除角色",
         key: "role.Delete",
       },
       {
-        title: "更新",
+        title: "更新角色",
         key: "role.Update",
       },
       {
@@ -274,23 +274,23 @@ export const Perms = [
     key: "appacct",
     children: [
       {
-        title: "新增",
+        title: "新增appacct",
         key: "appacct.Create",
       },
       {
-        title: "查看列表",
+        title: "查看appacct列表",
         key: "appacct.List",
       },
       {
-        title: "编辑",
+        title: "编辑appacct",
         key: "appacct.Get",
       },
       {
-        title: "删除",
+        title: "删除appacct",
         key: "appacct.Delete",
       },
       {
-        title: "更新",
+        title: "更新appacct",
         key: "appacct.Update",
       },
     ],
@@ -300,7 +300,7 @@ export const Perms = [
     key: "audit",
     children: [
       {
-        title: "新增",
+        title: "新增审计日志",
         key: "audit.Create",
       },
       {
@@ -308,25 +308,25 @@ export const Perms = [
         key: "audit.List",
       },
       {
-        title: "编辑",
+        title: "编辑审计日志",
         key: "audit.Get",
       },
       {
-        title: "删除",
+        title: "删除审计日志",
         key: "audit.Delete",
       },
       {
-        title: "更新",
+        title: "更新审计日志",
         key: "audit.Update",
       },
     ],
   },
   {
-    title: "开发者",
+    title: "开发者管理",
     key: "developer",
     children: [
       {
-        title: "新增",
+        title: "新增开发者",
         key: "developer.Create",
       },
       {
@@ -334,15 +334,15 @@ export const Perms = [
         key: "developer.List",
       },
       {
-        title: "编辑",
+        title: "编辑开发者",
         key: "developer.Get",
       },
       {
-        title: "删除",
+        title: "删除开发者",
         key: "developer.Delete",
       },
       {
-        title: "更新",
+        title: "更新开发者",
         key: "developer.Update",
       },
     ],
@@ -352,7 +352,7 @@ export const Perms = [
     key: "cardacctlog",
     children: [
       {
-        title: "新增",
+        title: "新增银行卡帐户日志",
         key: "cardacctlog.Create",
       },
       {
@@ -360,15 +360,15 @@ export const Perms = [
         key: "cardacctlog.List",
       },
       {
-        title: "编辑",
+        title: "编辑银行卡帐户日志",
         key: "cardacctlog.Get",
       },
       {
-        title: "删除",
+        title: "删除银行卡帐户日志",
         key: "cardacctlog.Delete",
       },
       {
-        title: "更新",
+        title: "更新银行卡帐户日志",
         key: "cardacctlog.Update",
       },
     ],
@@ -378,7 +378,7 @@ export const Perms = [
     key: "cryptoacctlog",
     children: [
       {
-        title: "新增",
+        title: "新增资金动帐纪录",
         key: "cryptoacctlog.Create",
       },
       {
@@ -386,15 +386,15 @@ export const Perms = [
         key: "cryptoacctlog.List",
       },
       {
-        title: "编辑",
+        title: "编辑资金动帐纪录",
         key: "cryptoacctlog.Get",
       },
       {
-        title: "删除",
+        title: "删除资金动帐纪录",
         key: "cryptoacctlog.Delete",
       },
       {
-        title: "更新",
+        title: "更新资金动帐纪录",
         key: "cryptoacctlog.Update",
       },
     ],
@@ -404,7 +404,7 @@ export const Perms = [
     key: "agent",
     children: [
       {
-        title: "新增",
+        title: "新增代理",
         key: "agent.Create",
       },
       {
@@ -412,15 +412,15 @@ export const Perms = [
         key: "agent.List",
       },
       {
-        title: "编辑",
+        title: "编辑代理",
         key: "agent.Get",
       },
       {
-        title: "删除",
+        title: "删除代理",
         key: "agent.Delete",
       },
       {
-        title: "更新",
+        title: "更新代理",
         key: "agent.Update",
       },
     ],
@@ -430,7 +430,7 @@ export const Perms = [
     key: "cardacct",
     children: [
       {
-        title: "新增",
+        title: "新增银行卡帐户",
         key: "cardacct.Create",
       },
       {
@@ -438,11 +438,11 @@ export const Perms = [
         key: "cardacct.List",
       },
       {
-        title: "编辑",
+        title: "编辑银行卡帐户",
         key: "cardacct.Get",
       },
       {
-        title: "删除",
+        title: "删除银行卡帐户",
         key: "cardacct.Delete",
       },
       {
@@ -456,23 +456,23 @@ export const Perms = [
     key: "loginlog",
     children: [
       {
-        title: "新增",
+        title: "新增登入日志",
         key: "loginlog.Create",
       },
       {
-        title: "查看列表",
+        title: "查看登入日志列表",
         key: "loginlog.List",
       },
       {
-        title: "编辑",
+        title: "编辑登入日志",
         key: "loginlog.Get",
       },
       {
-        title: "删除",
+        title: "删除登入日志",
         key: "loginlog.Delete",
       },
       {
-        title: "更新",
+        title: "更新登入日志",
         key: "loginlog.Update",
       },
     ],
@@ -482,7 +482,7 @@ export const Perms = [
     key: "card",
     children: [
       {
-        title: "新增",
+        title: "新增银行卡",
         key: "card.Create",
       },
       {
@@ -490,15 +490,15 @@ export const Perms = [
         key: "card.List",
       },
       {
-        title: "编辑",
+        title: "编辑银行卡",
         key: "card.Get",
       },
       {
-        title: "删除",
+        title: "删除银行卡",
         key: "card.Delete",
       },
       {
-        title: "更新",
+        title: "更新银行卡",
         key: "card.Update",
       },
     ],
@@ -508,7 +508,7 @@ export const Perms = [
     key: "app",
     children: [
       {
-        title: "新增",
+        title: "新增App",
         key: "app.Create",
       },
       {
@@ -516,15 +516,15 @@ export const Perms = [
         key: "app.List",
       },
       {
-        title: "编辑",
+        title: "编辑App",
         key: "app.Get",
       },
       {
-        title: "删除",
+        title: "删除App",
         key: "app.Delete",
       },
       {
-        title: "更新",
+        title: "更新App",
         key: "app.Update",
       },
     ],
@@ -534,7 +534,7 @@ export const Perms = [
     key: "gateway",
     children: [
       {
-        title: "新增",
+        title: "新增商户",
         key: "gateway.Create",
       },
       {
@@ -542,15 +542,15 @@ export const Perms = [
         key: "gateway.List",
       },
       {
-        title: "编辑",
+        title: "编辑商户",
         key: "gateway.Get",
       },
       {
-        title: "删除",
+        title: "删除商户",
         key: "gateway.Delete",
       },
       {
-        title: "更新",
+        title: "更新商户",
         key: "gateway.Update",
       },
     ],
@@ -560,7 +560,7 @@ export const Perms = [
     key: "user",
     children: [
       {
-        title: "新增",
+        title: "新增用户",
         key: "user.Create",
       },
       {
@@ -568,15 +568,15 @@ export const Perms = [
         key: "user.List",
       },
       {
-        title: "编辑",
+        title: "编辑用户",
         key: "user.Get",
       },
       {
-        title: "删除",
+        title: "删除用户",
         key: "user.Delete",
       },
       {
-        title: "更新",
+        title: "更新用户",
         key: "user.Update",
       },
     ],
@@ -586,7 +586,7 @@ export const Perms = [
     key: "cryptowallet",
     children: [
       {
-        title: "新增",
+        title: "新增加密钱包",
         key: "cryptowallet.Create",
       },
       {
@@ -594,15 +594,15 @@ export const Perms = [
         key: "cryptowallet.List",
       },
       {
-        title: "编辑",
+        title: "编辑加密钱包",
         key: "cryptowallet.Get",
       },
       {
-        title: "删除",
+        title: "删除加密钱包",
         key: "cryptowallet.Delete",
       },
       {
-        title: "更新",
+        title: "更新加密钱包",
         key: "cryptowallet.Update",
       },
     ],

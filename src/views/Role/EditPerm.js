@@ -27,6 +27,7 @@ const EditPerm = () => {
     setLoading(false);
     status === 200 && message.success("更新成功！");
   };
+
   return (
     <Spin spinning={loading}>
       <Space direction="vertical" className="w-100">

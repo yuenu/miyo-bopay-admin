@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space } from "antd";
+import { Button, Space, message } from "antd";
 import {
   selectRole,
   getRoles,
@@ -9,6 +9,7 @@ import {
   getRoleUsers,
   addRoleUsers,
   deleteRoleUsers,
+  editPerms,
 } from "@/store/slice/role";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -49,12 +50,24 @@ const Role = () => {
   const {
     currentRow,
     loading: detailLoading,
+    setLoading: setDetailLoading,
     handleEdit: handleEditHook,
   } = useDetail({ action: getRole, id: detailId }, selectRole);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const handleDeletePerms = async params => {
+    setDetailLoading(true);
+    console.log(params);
+    const id = detailId;
+    const { status } = await editPerms({ id: detailId, perms: params });
+    setDetailId(null);
+    status === 200 && message.success("更新成功！");
+    setDetailId(id);
+    setDetailLoading(false);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -152,6 +165,7 @@ const Role = () => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
+        onDelete={handleDeletePerms}
       />
       <AddEdit
         visible={editVisible}
