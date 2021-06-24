@@ -62,3 +62,10 @@ export const useDetail = ({ action, id }, selector) => {
   }, [handleGetDetail, id]);
   return { currentRow, loading, setLoading, handleEdit };
 };
+
+export const useColumnsSelect = ({ columns, defaultColumns }) => {
+  const [selectedColumns, setSelectedColumns] = useState(
+    columns.filter(i => defaultColumns.indexOf(i.dataIndex) > -1),
+  );
+  return { selectedColumns, setSelectedColumns };
+};

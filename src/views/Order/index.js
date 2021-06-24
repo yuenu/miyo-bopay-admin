@@ -21,9 +21,10 @@ import {
   ApprovalStatus,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import Tag from "@/components/Tag";
+import ColumnsSelect from "@/components/ColumnsSelect";
 import Edit from "./Edit";
 import Detail from "./Detail";
 
@@ -263,14 +264,24 @@ const Order = () => {
       ),
     },
   ];
+  const defaultColumns = ["id", "order_no", "action"];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   const payerCredExpandedRowRender = record => {
     return <div>{record}</div>;
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Table
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <Table
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         rowKey="id"
