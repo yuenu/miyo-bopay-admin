@@ -8,12 +8,15 @@ import {
   editUser,
 } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail } from "@/utils/hook";
+import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import EditableTable from "@/components/factory/EditableTableFactory";
+import ColumnsSelect from "@/components/ColumnsSelect";
+import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import { IsBoolEnum } from "@/utils/enum";
+import { dateFormat } from "@/utils/format";
 
 const User = () => {
   const searchFields = {
@@ -115,6 +118,10 @@ const User = () => {
       editable: true,
       inputType: "string",
     },
+    { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
+    { title: "email", dataIndex: "email", editable: true, inputType: "string" },
+    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
+    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
     {
       title: "启用",
       dataIndex: "is_active",
@@ -124,6 +131,26 @@ const User = () => {
           onChange={checked => handleChangeIsActive(checked, record)}
         />
       ),
+    },
+    {
+      title: "是否为管理员",
+      dataIndex: "is_admin",
+      render: val => <Tag val={val} />,
+    },
+    {
+      title: "是否为代理",
+      dataIndex: "is_agent",
+      render: val => <Tag val={val} />,
+    },
+    {
+      title: "是否为开发者",
+      dataIndex: "is_developer",
+      render: val => <Tag val={val} />,
+    },
+    {
+      title: "是否为职员",
+      dataIndex: "is_staff",
+      render: val => <Tag val={val} />,
     },
     {
       title: "动作",
@@ -139,6 +166,11 @@ const User = () => {
       ),
     },
   ];
+  const defaultColumns = ["id", "name", "username", "is_active", "action"];
+  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+    columns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
@@ -149,8 +181,13 @@ const User = () => {
       >
         添加
       </Button>
-      <EditableTable
+      <ColumnsSelect
         columns={columns}
+        value={selectedColumns}
+        onChange={setSelectedColumns}
+      />
+      <EditableTable
+        columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         loading={listLoading}
