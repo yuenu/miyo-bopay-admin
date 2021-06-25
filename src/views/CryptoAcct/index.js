@@ -6,6 +6,7 @@ import {
   getCryptoAcct,
   addCryptoAcct,
   editCryptoAcct,
+  activeCryptoAcct,
 } from "@/store/slice/cryptoAcct";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
@@ -79,12 +80,10 @@ const CryptoAcct = () => {
     await handleEditHook({ action: editCryptoAcct, id, ...params });
     handleGetList({ page: meta.current });
   };
-  const handleChangeIsActive = async (checked, { id, ...params }) => {
+  const handleChangeIsActive = async (checked, { id }) => {
     setListLoading(true);
-    await handleEditHook({
-      action: editCryptoAcct,
+    await activeCryptoAcct({
       id,
-      ...params,
       is_active: checked,
     });
     handleGetList({ page: meta.current });

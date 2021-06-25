@@ -40,14 +40,11 @@ export const editCryptoAcct = async params => {
   });
   return res;
 };
-export const activeCryptoAcct = async ({ id, formModel }) => {
+export const activeCryptoAcct = async params => {
   const res = await request({
     url: `/api/cryptoaccts/set-active`,
     method: "post",
-    data: {
-      id,
-      ...formModel,
-    },
+    data: params,
   });
   return res;
 };

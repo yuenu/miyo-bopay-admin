@@ -6,6 +6,7 @@ import {
   getCryptoWallet,
   addCryptoWallet,
   editCryptoWallet,
+  activeCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import { Currency, IsBoolEnum, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
@@ -75,12 +76,10 @@ const CryptoWallet = () => {
     await handleEditHook({ action: editCryptoWallet, id, ...params });
     handleGetList({ page: meta.current });
   };
-  const handleChangeIsActive = async (checked, { id, ...params }) => {
+  const handleChangeIsActive = async (checked, { id }) => {
     setListLoading(true);
-    await handleEditHook({
-      action: editCryptoWallet,
+    await activeCryptoWallet({
       id,
-      ...params,
       is_active: checked,
     });
     handleGetList({ page: meta.current });

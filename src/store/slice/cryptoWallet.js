@@ -49,6 +49,15 @@ export const deleteCryptoWallet = async id => {
   return res;
 };
 
+export const activeCryptoWallet = async params => {
+  const res = await request({
+    url: `/api/cryptowallets/set-active`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
+
 export const slice = createSlice({
   name: "cryptoWallet",
   initialState: {
