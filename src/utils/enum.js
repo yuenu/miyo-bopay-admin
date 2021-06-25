@@ -66,6 +66,22 @@ export const Currency = {
   4: "BTC",
   5: "ETH",
 };
+export const AddrRedirect = {
+  0: "",
+  1: "https://etherscan.io/address",
+  2: "https://tronscan.org/#/address",
+  3: "",
+  4: "",
+  5: "",
+};
+export const TransRedirect = {
+  0: "",
+  1: "https://etherscan.io/tx",
+  2: "https://tronscan.org/#/transaction",
+  3: "",
+  4: "",
+  5: "",
+};
 export const CurrencyFormat = [
   { key: 0, unit: "¥", rate: 100, tofix: 2 },
   { key: 1, unit: "$", rate: 1000000, tofix: 6 },

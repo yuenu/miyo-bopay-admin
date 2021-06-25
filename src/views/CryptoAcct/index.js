@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Switch } from "antd";
+import { Button, Space, Switch, Typography } from "antd";
 import {
   selectCryptoAcct,
   getCryptoAccts,
@@ -15,10 +15,10 @@ import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
-import { Currency, IsBoolEnum } from "@/utils/enum";
+import { Currency, IsBoolEnum, AddrRedirect } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { dateFormat } from "@/utils/format";
-
+const { Link, Text } = Typography;
 const CryptoAcct = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -98,6 +98,18 @@ const CryptoAcct = () => {
       dataIndex: "address",
       editable: true,
       inputType: "string",
+      render: (val, record) => {
+        return AddrRedirect[record.currency] ? (
+          <Link
+            href={`${AddrRedirect[record.currency]}/${val}`}
+            target="_blank"
+          >
+            {val}
+          </Link>
+        ) : (
+          <Text>{val}</Text>
+        );
+      },
     },
     {
       title: "余额",
@@ -172,6 +184,7 @@ const CryptoAcct = () => {
   const defaultColumns = [
     "id",
     "wallet_id",
+    "address",
     "balance",
     "currency",
     "is_active",
