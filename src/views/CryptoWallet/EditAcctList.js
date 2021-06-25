@@ -120,11 +120,19 @@ const EditAcctList = ({ id }) => {
   }, [handleGetList]);
 
   const handleChangeSeq = newData => {
-    console.log(newData);
+    newData.forEach(async i => {
+      const oldSeq = list.find(j => j.id === i.id).seq;
+      oldSeq !== i.seq &&
+        (await editCryptoAcct({
+          id: i.id,
+          formModel: { ...i },
+        }));
+    });
+    handleGetList();
   };
   const onSortEnd = ({ oldIndex, newIndex }) => {
     if (oldIndex !== newIndex) {
-      const newData = arrayMove([].concat(list), oldIndex, newIndex)
+      const newData = arrayMove([...list], oldIndex, newIndex)
         .filter(el => !!el)
         .map((i, index) => ({ ...i, seq: index }));
       handleChangeSeq(newData);

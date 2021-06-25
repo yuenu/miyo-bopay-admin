@@ -76,7 +76,7 @@ export const slice = createSlice({
     [getCryptoAccts.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.list = data.data;
+      state.list = data.data.sort((a, b) => a.seq - b.seq);
       state.meta = metaToPagin(data.meta);
     },
     [getCryptoAcct.fulfilled]: (state, action) => {
