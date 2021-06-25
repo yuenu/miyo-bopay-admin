@@ -4,11 +4,13 @@ import { Layout } from "antd";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import PageHeader from "@/components/PageHeader";
+import RouterTab from "@/components/RouterTab";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { setModalDiscSpan } from "@/store/slice/layout";
 import routes from "@/router";
 const { Content, Footer } = Layout;
+
 const GlobalLayout = () => {
   const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
@@ -29,6 +31,7 @@ const GlobalLayout = () => {
           <Layout>
             <Header />
             <Content className="main">
+              <RouterTab />
               <PageHeader />
               <Switch>
                 {routes.map(i => (

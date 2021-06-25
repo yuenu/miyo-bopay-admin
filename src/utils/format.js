@@ -60,5 +60,6 @@ export const getDefaultCheckKeys = perms => {
   return defaultCheckedKeys;
 };
 
-export const getRouterDisplayName = key =>
-  router.find(i => i.path === key)?.displayName;
+export const getRouterDisplayName = path =>
+  router.find(i => i.path === path)?.displayName ||
+  router.find(i => i.name === path.split("/")[1])?.displayName;

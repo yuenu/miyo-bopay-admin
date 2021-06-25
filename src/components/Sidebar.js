@@ -1,6 +1,5 @@
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
-
 import {
   UserOutlined,
   TeamOutlined,
@@ -12,16 +11,26 @@ import {
   TableOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
+import { useDispatch } from "react-redux";
+import { setRouterTabs } from "@/store/slice/routerTab";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const SidebarView = () => {
+  const dispatch = useDispatch();
   const path = window.location.pathname;
+  const handleSetRouterTab = key => {
+    dispatch(setRouterTabs(key));
+  };
+
   const Item = (key, icon = null) => (
     <Menu.Item key={key} icon={icon}>
-      <Link to={key}>{getRouterDisplayName(key)}</Link>
+      <Link to={key} onClick={() => handleSetRouterTab(key)}>
+        {getRouterDisplayName(key)}
+      </Link>
     </Menu.Item>
   );
+
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
       <div className="logo">财务中心</div>
