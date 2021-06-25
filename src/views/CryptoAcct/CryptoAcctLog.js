@@ -8,6 +8,7 @@ import {
   Input,
   InputNumber,
   message,
+  Typography,
 } from "antd";
 import Spin from "@/components/Spin";
 import {
@@ -23,11 +24,13 @@ import {
   ContentType,
   DirType,
   CryptoAcctLogsStatus,
+  TransRedirect,
 } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
+const { Link, Paragraph, Text } = Typography;
 
 const CryptoWallet = () => {
   const searchFields = {
@@ -99,7 +102,31 @@ const CryptoWallet = () => {
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "订单号", dataIndex: "order_no" },
-    { title: "第三方订单号", dataIndex: "trans_no" },
+    {
+      title: "第三方订单号",
+      dataIndex: "trans_no",
+      wdth: 100,
+      render: (val, record) => {
+        return (
+          <Paragraph
+            style={{
+              width: 200,
+            }}
+          >
+            {TransRedirect[record.currency] ? (
+              <Link
+                href={`${TransRedirect[record.currency]}/${val}`}
+                target="_blank"
+              >
+                {val}
+              </Link>
+            ) : (
+              <Text>{val}</Text>
+            )}
+          </Paragraph>
+        );
+      },
+    },
     {
       title: "交易金额",
       dataIndex: "amount",
@@ -167,9 +194,9 @@ const CryptoWallet = () => {
   const defaultColumns = [
     "id",
     "order_no",
+    "trans_no",
     "amount",
-    "crypto_acct_id",
-    "status",
+    "currency",
     "action",
   ];
   const { selectedColumns, setSelectedColumns } = useColumnsSelect({

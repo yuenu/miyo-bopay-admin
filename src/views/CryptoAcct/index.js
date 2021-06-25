@@ -18,7 +18,7 @@ import Detail from "@/components/Detail";
 import { Currency, IsBoolEnum, AddrRedirect } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { dateFormat } from "@/utils/format";
-const { Link, Text } = Typography;
+const { Link, Text, Paragraph } = Typography;
 const CryptoAcct = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -99,15 +99,23 @@ const CryptoAcct = () => {
       editable: true,
       inputType: "string",
       render: (val, record) => {
-        return AddrRedirect[record.currency] ? (
-          <Link
-            href={`${AddrRedirect[record.currency]}/${val}`}
-            target="_blank"
+        return (
+          <Paragraph
+            style={{
+              width: 200,
+            }}
           >
-            {val}
-          </Link>
-        ) : (
-          <Text>{val}</Text>
+            {AddrRedirect[record.currency] ? (
+              <Link
+                href={`${AddrRedirect[record.currency]}/${val}`}
+                target="_blank"
+              >
+                {val}
+              </Link>
+            ) : (
+              <Text>{val}</Text>
+            )}
+          </Paragraph>
         );
       },
     },
