@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Layout } from "antd";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
+import PageHeader from "@/components/PageHeader";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { setModalDiscSpan } from "@/store/slice/layout";
@@ -28,6 +29,7 @@ const GlobalLayout = () => {
           <Layout>
             <Header />
             <Content className="main">
+              <PageHeader />
               <Switch>
                 {routes.map(i => (
                   <Route

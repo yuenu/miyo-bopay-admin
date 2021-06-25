@@ -37,7 +37,6 @@ const Edit = () => {
 
   return (
     <Space direction="vertical" className="w-100">
-      <h2>编辑钱包</h2>
       <Card>
         <Spin spinning={loading}>
           <Form form={form} {...formLayout}>

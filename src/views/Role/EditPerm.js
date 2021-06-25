@@ -31,8 +31,8 @@ const EditPerm = () => {
   return (
     <Spin spinning={loading}>
       <Space direction="vertical" className="w-100">
-        <h2>{currentRow.name}</h2>
         <Card>
+          <h2>{currentRow.name}</h2>
           <Tree
             checkable
             treeData={Perms}

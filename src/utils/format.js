@@ -1,5 +1,7 @@
 import moment from "moment";
 import { CurrencyFormat, Perms } from "@/utils/enum";
+import router from "@/router";
+
 export const dateFormat = date => {
   if (!date) return;
   return moment(date).isValid()
@@ -57,3 +59,6 @@ export const getDefaultCheckKeys = perms => {
   });
   return defaultCheckedKeys;
 };
+
+export const getRouterDisplayName = key =>
+  router.find(i => i.path === key)?.displayName;
