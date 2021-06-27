@@ -22,7 +22,7 @@ def pipeline() {
     def images = [:]
     def registry = env.DOCKER_REGISTRY
     def registryCred = env.DOCKER_REGISTRY_CREDS
-    def tag = "1.0.${env.BUILD_NUMBER}-pre"
+    def tag = "1.0.${env.BUILD_NUMBER}"
 
     stage('checkout') {
         checkout scm
@@ -36,7 +36,7 @@ def pipeline() {
     }
 
     stage('build bopay-admin') {
-        images["admin"] = docker.build("bopay/admin", "--build-arg ENV=dev .")
+        images["admin"] = docker.build("bopay/admin", "--build-arg ENV=prod .")
     }
 
     stage('push bopay-admin image') {
@@ -48,7 +48,7 @@ def pipeline() {
     }
 
     stage('release') {
-        build wait: false, job: 'pre/release', parameters: [
+        build wait: false, job: 'bopay/release', parameters: [
             string(name: 'TAG', value: tag),
             string(name: 'IMAGES', value: 'bopay/admin')
         ]
