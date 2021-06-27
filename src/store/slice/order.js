@@ -40,7 +40,7 @@ export const approveOrder = async params => {
   const res = await request({
     url: `/api/orders/approve`,
     method: "post",
-    data: params,
+    data: { id: params.id, ...params.formModel },
   });
   return res;
 };
@@ -48,20 +48,20 @@ export const denyOrder = async params => {
   const res = await request({
     url: `/api/orders/deny`,
     method: "post",
-    data: params,
+    data: { id: params.id, ...params.formModel },
   });
   return res;
 };
-export const cancelOrder = async params => {
+export const cancelOrder = async id => {
   const res = await request({
-    url: `/api/orders/cancel`,
+    url: `/api/orders/${id}/cancel`,
     method: "post",
   });
   return res;
 };
-export const notifyOrder = async params => {
+export const notifyOrder = async id => {
   const res = await request({
-    url: `/api/orders/notify`,
+    url: `/api/orders/${id}/notify`,
     method: "post",
   });
   return res;

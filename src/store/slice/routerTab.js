@@ -8,7 +8,7 @@ export const slice = createSlice({
   reducers: {
     setRouterTabs: (state, action) => {
       state.routerTabs = action.payload;
-      sessionStorage.setItem("tabs", [...state.routerTabs, action.payload]);
+      // sessionStorage.setItem("tabs", [...state.routerTabs, action.payload]);
     },
   },
 });
