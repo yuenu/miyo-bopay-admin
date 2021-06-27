@@ -4,7 +4,7 @@ import { Layout } from "antd";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import PageHeader from "@/components/PageHeader";
-import RouterTab from "@/components/RouterTab";
+// import RouterTab from "@/components/RouterTab";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { setModalDiscSpan } from "@/store/slice/layout";
@@ -31,7 +31,7 @@ const GlobalLayout = () => {
           <Layout>
             <Header />
             <Content className="main">
-              <RouterTab />
+              {/* <RouterTab /> */}
               <PageHeader />
               <Switch>
                 {routes.map(i => (
