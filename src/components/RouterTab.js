@@ -29,7 +29,7 @@ const RouterTab = () => {
     await dispatch(removeRouterTab(targetKey));
     const tabs = JSON.parse(sessionStorage.tabs).filter(i => i !== targetKey);
     const tabsLength = tabs.length;
-    history.push(tabs[tabsLength - 1]);
+    tabs.indexOf(pathname) <= -1 && history.push(tabs[tabsLength - 1]);
   };
   return (
     <Tabs
