@@ -63,3 +63,12 @@ export const getDefaultCheckKeys = perms => {
 export const getRouterDisplayName = path =>
   router.find(i => i.path === path)?.displayName ||
   router.find(i => i.name === path.split("/")[1])?.displayName;
+
+export const getRouter = path =>
+  router.find(i => i.path === path) ||
+  router.find(i => i.name === path.split("/")[1]);
+
+export const getRouterParam = path => {
+  const pathLength = path.split("/").length;
+  return pathLength > 2 ? ` - ${path.split("/")[pathLength - 1]}` : "";
+};

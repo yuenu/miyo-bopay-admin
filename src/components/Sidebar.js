@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { Layout, Menu } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   UserOutlined,
   TeamOutlined,
@@ -17,15 +18,18 @@ const { SubMenu } = Menu;
 const { Sider } = Layout;
 
 const SidebarView = () => {
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const path = window.location.pathname;
+  const [selectedKey, setSelectedKey] = useState(pathname);
   const handleSetRouterTab = key => {
     dispatch(setRouterTabs(key));
   };
-
+  useEffect(() => {
+    setSelectedKey(pathname);
+  }, [pathname]);
   const Item = (key, icon = null) => (
     <Menu.Item key={key} icon={icon}>
-      <Link to={key} onClick={() => handleSetRouterTab(key)}>
+      <Link to={key} onClick={() => handleSetRouterTab(pathname)}>
         {getRouterDisplayName(key)}
       </Link>
     </Menu.Item>
@@ -34,7 +38,7 @@ const SidebarView = () => {
   return (
     <Sider breakpoint="lg" collapsedWidth="0">
       <div className="logo">财务中心</div>
-      <Menu theme="dark" mode="inline" defaultSelectedKeys={[path]}>
+      <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
         <SubMenu key="Merchant" icon={<TeamOutlined />} title="商户管理">
           {Item("/Developer")}
           {Item("/App")}
@@ -48,7 +52,6 @@ const SidebarView = () => {
         </SubMenu>
         {Item("/Order", <ContainerOutlined />)}
         <SubMenu key="Crypto" icon={<TeamOutlined />} title="加密货币">
-          {Item("/Order", <ContainerOutlined />)}
           {Item("/CryptoWallet", <WalletOutlined />)}
           {Item("/CryptoAcct", <WalletOutlined />)}
           {Item("/CryptoAcctLog", <WalletOutlined />)}

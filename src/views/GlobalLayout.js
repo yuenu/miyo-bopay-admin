@@ -1,19 +1,24 @@
 import React, { useEffect } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { Layout } from "antd";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
 import PageHeader from "@/components/PageHeader";
-// import RouterTab from "@/components/RouterTab";
+import RouterTab from "@/components/RouterTab";
 import { useSelector, useDispatch } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { setModalDiscSpan } from "@/store/slice/layout";
 import routes from "@/router";
+import { setRouterTabs } from "@/store/slice/routerTab";
 const { Content, Footer } = Layout;
 
 const GlobalLayout = () => {
+  const { pathname } = useLocation();
   const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setRouterTabs(pathname));
+  });
   useEffect(() => {
     const handleWindowResize = e => {
       dispatch(setModalDiscSpan(e.target.innerWidth));
@@ -30,8 +35,8 @@ const GlobalLayout = () => {
           <Sidebar />
           <Layout>
             <Header />
+            <RouterTab />
             <Content className="main">
-              {/* <RouterTab /> */}
               <PageHeader />
               <Switch>
                 {routes.map(i => (
