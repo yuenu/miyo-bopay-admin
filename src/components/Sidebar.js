@@ -49,6 +49,7 @@ const SidebarView = () => {
           {Item("/Gateway1")}
           {Item("/Gateway2")}
           {Item("/Gateway3")}
+          {Item("/Gateway4")}
         </SubMenu>
         {Item("/Order", <ContainerOutlined />)}
         <SubMenu key="Crypto" icon={<TeamOutlined />} title="加密货币">

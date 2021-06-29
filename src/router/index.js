@@ -69,6 +69,12 @@ const routes = [
     displayName: "第三方代付",
   },
   {
+    path: "/Gateway4",
+    name: "Gateway4",
+    component: () => getComponent("Gateway/indexPaytype4"),
+    displayName: "加密货币支付",
+  },
+  {
     path: "/Order",
     name: "Order",
     component: () => getComponent("Order"),

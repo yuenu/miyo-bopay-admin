@@ -1,4 +1,4 @@
-import GatewayTypes from "./indexTypes";
+import GatewayTypes from "./indexTemplate";
 const Gateway = () => {
   return <GatewayTypes params={{ type: 1 }} />;
 };
