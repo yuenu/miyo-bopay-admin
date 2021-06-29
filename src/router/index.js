@@ -30,7 +30,7 @@ const routes = [
     path: "/Developer",
     name: "Developer",
     component: () => getComponent("Developer"),
-    displayName: "开发者管理",
+    displayName: "商户管理",
   },
   {
     path: "/AppUser",

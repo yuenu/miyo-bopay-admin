@@ -84,14 +84,14 @@ const User = () => {
 
   const columns = [
     { title: "ID", dataIndex: "id" },
-    { title: "帐户ID", dataIndex: "user_id" },
+    { title: "用户ID", dataIndex: "user_id" },
     {
-      title: "帐户名称",
+      title: "用户名",
       dataIndex: "username",
       editable: true,
       inputType: "string",
     },
-    { title: "姓名", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "商户名", dataIndex: "name", editable: true, inputType: "string" },
     { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
     { title: "email", dataIndex: "email", editable: true, inputType: "string" },
     {
@@ -146,7 +146,15 @@ const User = () => {
       ),
     },
   ];
-  const defaultColumns = ["id", "name", "username", "is_active", "action"];
+  const defaultColumns = [
+    "id",
+    "name",
+    "username",
+    "status",
+    "created",
+    "is_active",
+    "action",
+  ];
   const { selectedColumns, setSelectedColumns } = useColumnsSelect({
     columns,
     defaultColumns,
