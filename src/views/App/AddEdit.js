@@ -1,23 +1,21 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
-import { selectDeveloper, getDevelopers } from "@/store/slice/developer";
+import { selectUser, getUsers } from "@/store/slice/user";
 import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
 import { useSelector } from "react-redux";
 const { Option } = Select;
 
 const AddEdit = props => {
-  const { list: developers } = useSelector(selectDeveloper);
+  const { list: users } = useSelector(selectUser);
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
-      console.log(formModel);
       if (!formModel) return;
       await props.onOk({
         ...formModel,
-        developer_name: developers.find(i => i.id === formModel.developer_id)
-          ?.name,
+        developer_name: users.find(i => i.id === formModel.developer_id)?.name,
       });
       form.resetFields();
     });
@@ -55,8 +53,9 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="developer_id" label="开发者ID">
             <SearchSelect
-              action={getDevelopers}
-              selector={selectDeveloper}
+              action={getUsers}
+              params={{ is_developer: 1 }}
+              selector={selectUser}
               searchKey="name"
               val="id"
               label={i => `${i.id} ${i.name}`}

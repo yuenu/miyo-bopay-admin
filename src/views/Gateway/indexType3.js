@@ -1,5 +1,5 @@
 import GatewayTypes from "./indexTypes";
 const Gateway = () => {
-  return <GatewayTypes type={3} />;
+  return <GatewayTypes params={{ type: 3 }} />;
 };
 export default Gateway;

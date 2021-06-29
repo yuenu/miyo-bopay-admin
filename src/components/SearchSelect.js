@@ -4,7 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Spin from "@/components/Spin";
 const { Option } = Select;
 
-const SearchSelect = ({ action, selector, searchKey, label, val, ...rest }) => {
+const SearchSelect = ({
+  action,
+  params = {},
+  selector,
+  searchKey,
+  label,
+  val,
+  ...rest
+}) => {
   const dispatch = useDispatch();
   const [list, setList] = useState([]);
   const [searchText, setSearchText] = useState([]);
@@ -24,7 +32,7 @@ const SearchSelect = ({ action, selector, searchKey, label, val, ...rest }) => {
   const handleInit = useCallback(async () => {
     setLoading(true);
     const { payload } = await dispatch(
-      action({ [`${searchKey}__k`]: searchText, page }),
+      action({ [`${searchKey}__k`]: searchText, page, ...params }),
     );
     setList([...list, ...payload?.data?.data]);
     setLoading(false);

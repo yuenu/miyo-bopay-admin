@@ -19,7 +19,7 @@ import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
-const GatewayTypes = ({ type }) => {
+const GatewayTypes = ({ params }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     crypto_wallet_id__in: { type: "string", label: "加密钱包ID" },
@@ -64,7 +64,7 @@ const GatewayTypes = ({ type }) => {
     handleChangePage,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
-  } = useList(getGateways, selectGateway, { type });
+  } = useList(getGateways, selectGateway, params);
 
   const [addVisible, setAddVisible] = useState(false);
   const handleAddClick = () => {
