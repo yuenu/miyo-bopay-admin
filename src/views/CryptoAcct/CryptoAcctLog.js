@@ -31,6 +31,8 @@ import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import JsonModal from "@/components/JsonModal";
+import Tag from "@/components/Tag";
+
 const { Link, Paragraph, Text } = Typography;
 
 const CryptoWallet = () => {
@@ -89,7 +91,8 @@ const CryptoWallet = () => {
       currentRow.id &&
       form.setFieldsValue({
         amount_paid: currentRow.amount,
-        note: currentRow.note,
+        order_id: currentRow.content_id,
+        note: currentRow.note || "确认交易，资金到帐。",
       });
   }, [editVisible, currentRow, form]);
 
@@ -163,7 +166,15 @@ const CryptoWallet = () => {
       dataIndex: "content_type",
       render: val => ContentType[val] || "",
     },
-    { title: "方向", dataIndex: "dir", render: val => DirType[val] || "" },
+    {
+      title: "方向",
+      dataIndex: "dir",
+      render: val => (
+        <Tag val={val === 0} falseColor="red">
+          {DirType[val]}
+        </Tag>
+      ),
+    },
     { title: "转入地址", dataIndex: "from_addr" },
     {
       title: "状态",
@@ -218,6 +229,7 @@ const CryptoWallet = () => {
     "trans_no",
     "amount",
     "currency",
+    "note",
     "action",
   ];
   const { selectedColumns, setSelectedColumns } = useColumnsSelect({
