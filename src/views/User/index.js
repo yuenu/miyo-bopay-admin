@@ -15,6 +15,7 @@ import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
+import JsonModal from "@/components/JsonModal";
 import { IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 
@@ -81,6 +82,12 @@ const User = () => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -159,6 +166,9 @@ const User = () => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -201,6 +211,12 @@ const User = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="职员明细"

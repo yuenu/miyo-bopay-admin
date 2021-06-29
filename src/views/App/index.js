@@ -11,6 +11,7 @@ import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const App = () => {
   const searchFields = {
@@ -61,6 +62,12 @@ const App = () => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -145,6 +152,9 @@ const App = () => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -190,6 +200,12 @@ const App = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="App明细"

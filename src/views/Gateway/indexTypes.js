@@ -17,6 +17,8 @@ import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
 import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
+
 const GatewayTypes = ({ type }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -83,6 +85,12 @@ const GatewayTypes = ({ type }) => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -294,6 +302,9 @@ const GatewayTypes = ({ type }) => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -340,6 +351,13 @@ const GatewayTypes = ({ type }) => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        width={650}
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         width="700px"

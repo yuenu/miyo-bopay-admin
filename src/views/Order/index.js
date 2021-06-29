@@ -27,6 +27,7 @@ import Tag from "@/components/Tag";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Edit from "./Edit";
 import Detail from "./Detail";
+import JsonModal from "@/components/JsonModal";
 
 const Order = () => {
   const searchFields = {
@@ -70,6 +71,12 @@ const Order = () => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -247,6 +254,9 @@ const Order = () => {
       align: "center",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -296,6 +306,13 @@ const Order = () => {
           expandedRowRender: record =>
             payerCredExpandedRowRender(JSON.stringify(record.payer_cred)),
         }}
+      />
+      <JsonModal
+        width={650}
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         visible={detailVisible}

@@ -20,6 +20,7 @@ import Add from "./Add";
 import Detail from "@/components/Detail";
 import { useHistory, generatePath } from "react-router-dom";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const CryptoWallet = () => {
   const history = useHistory();
@@ -67,6 +68,12 @@ const CryptoWallet = () => {
   const handleDetailClick = async id => {
     setDetailVisible(true);
     setDetailId(id);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const handleEditClick = async id => {
@@ -159,6 +166,9 @@ const CryptoWallet = () => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -204,6 +214,12 @@ const CryptoWallet = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="钱包明細"

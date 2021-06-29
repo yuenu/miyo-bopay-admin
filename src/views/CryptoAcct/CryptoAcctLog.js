@@ -30,6 +30,7 @@ import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
+import JsonModal from "@/components/JsonModal";
 const { Link, Paragraph, Text } = Typography;
 
 const CryptoWallet = () => {
@@ -70,6 +71,12 @@ const CryptoWallet = () => {
     { action: getCryptoAcctLog, id: detailId },
     selectCryptoAcctLog,
   );
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
+  };
 
   const [form] = Form.useForm();
   const [editVisible, setEditVisible] = useState(false);
@@ -185,9 +192,14 @@ const CryptoWallet = () => {
       dataIndex: "action",
       align: "right",
       render: (_, record) => (
-        <Button type="primary" onClick={() => handleEditClick(record.id)}>
-          绑定订单
-        </Button>
+        <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
+          <Button type="primary" onClick={() => handleEditClick(record.id)}>
+            绑定订单
+          </Button>
+        </Space>
       ),
     },
   ];
@@ -219,6 +231,13 @@ const CryptoWallet = () => {
         scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
+      />
+      <JsonModal
+        width={650}
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Modal
         title="绑定订单"

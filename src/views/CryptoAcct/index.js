@@ -19,7 +19,9 @@ import Detail from "@/components/Detail";
 import { Currency, IsBoolEnum, AddrRedirect } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 const { Link, Text, Paragraph } = Typography;
+
 const CryptoAcct = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -58,6 +60,12 @@ const CryptoAcct = () => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -180,6 +188,9 @@ const CryptoAcct = () => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -230,6 +241,12 @@ const CryptoAcct = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="收款地址明细"

@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "craco-less": "^1.17.1",
     "env-cmd": "^10.1.0",
+    "highlight.js": "^11.0.1",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

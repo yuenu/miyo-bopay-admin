@@ -22,6 +22,7 @@ import EditUsers from "./EditUsers";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, generatePath } from "react-router-dom";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const Role = () => {
   const dispatch = useDispatch();
@@ -63,13 +64,18 @@ const Role = () => {
 
   const handleDeletePerms = async params => {
     setDetailLoading(true);
-    console.log(params);
     const id = detailId;
     const { status } = await editPerms({ id: detailId, perms: params });
     setDetailId(null);
     status === 200 && message.success("更新成功！");
     setDetailId(id);
     setDetailLoading(false);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
 
   const [editVisible, setEditVisible] = useState(false);
@@ -124,13 +130,15 @@ const Role = () => {
     { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
     { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
     { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
-
     {
       title: "动作",
       dataIndex: "action",
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -175,6 +183,12 @@ const Role = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         visible={detailVisible}

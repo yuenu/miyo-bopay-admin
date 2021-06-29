@@ -13,6 +13,14 @@ export const getLoginLogs = createAsyncThunk(
     return res;
   },
 );
+
+export const getLoginLog = createAsyncThunk("gateway/getDetail", async id => {
+  const res = await request({
+    url: `/api/loginlogs/${id}`,
+    method: "get",
+  });
+  return res;
+});
 export const slice = createSlice({
   name: "loginLog",
   initialState: {
@@ -26,6 +34,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getLoginLog.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.currentRow = data;
     },
   },
 });

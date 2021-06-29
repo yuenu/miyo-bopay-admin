@@ -7,6 +7,7 @@ import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const Audit = () => {
   const searchFields = {
@@ -32,6 +33,12 @@ const Audit = () => {
   const handleDetailClick = async id => {
     setDetailId(id);
     setDetailVisible(true);
+  };
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
   };
   const columns = [
     { title: "ID", dataIndex: "id" },
@@ -63,9 +70,14 @@ const Audit = () => {
       dataIndex: "action",
       align: "right",
       render: (_, record) => (
-        <Button onClick={() => handleDetailClick(record.id)} type="primary">
-          查看
-        </Button>
+        <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
+          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+            查看
+          </Button>
+        </Space>
       ),
     },
   ];
@@ -90,6 +102,13 @@ const Audit = () => {
         scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
+      />
+      <JsonModal
+        width={650}
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="审计日志明细"

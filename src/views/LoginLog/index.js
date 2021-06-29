@@ -1,8 +1,14 @@
-import { Space, Table } from "antd";
-import { selectLoginLog, getLoginLogs } from "@/store/slice/loginLog";
+import { useState } from "react";
+import { Space, Table, Button } from "antd";
+import {
+  selectLoginLog,
+  getLoginLogs,
+  getLoginLog,
+} from "@/store/slice/loginLog";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import { useList } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const LoginLog = () => {
   const searchFields = {
@@ -19,6 +25,18 @@ const LoginLog = () => {
     handleGetList,
     handleChangePage,
   } = useList(getLoginLogs, selectLoginLog);
+
+  const [detailId, setDetailId] = useState(null);
+  const { currentRow, loading: detailLoading } = useDetail(
+    { action: getLoginLog, id: detailId },
+    selectLoginLog,
+  );
+
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
+  };
 
   const columns = [
     { title: "ID", dataIndex: "id" },
@@ -45,6 +63,18 @@ const LoginLog = () => {
       width: 120,
       render: val => dateFormat(val),
     },
+    {
+      title: "动作",
+      dataIndex: "action",
+      align: "right",
+      render: (_, record) => (
+        <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
+        </Space>
+      ),
+    },
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
@@ -57,6 +87,12 @@ const LoginLog = () => {
         scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
     </Space>
   );

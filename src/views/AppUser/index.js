@@ -6,6 +6,7 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
+import JsonModal from "@/components/JsonModal";
 
 const AppUser = () => {
   const searchFields = {
@@ -36,7 +37,11 @@ const AppUser = () => {
     setDetailId(id);
     setDetailVisible(true);
   };
-
+  const [jsonVisible, setJsonVisible] = useState(false);
+  const handleJsonClick = async id => {
+    setDetailId(id);
+    setJsonVisible(true);
+  };
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "会员ID", dataIndex: "userid" },
@@ -66,6 +71,9 @@ const AppUser = () => {
       align: "right",
       render: (_, record) => (
         <Space>
+          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+            json
+          </Button>
           <Button onClick={() => handleDetailClick(record.id)} type="primary">
             查看
           </Button>
@@ -102,6 +110,12 @@ const AppUser = () => {
         scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
+      />
+      <JsonModal
+        visible={jsonVisible}
+        data={currentRow}
+        onCancel={() => setJsonVisible(false)}
+        loading={detailLoading}
       />
       <Detail
         title="App用戶明細"
