@@ -4,14 +4,21 @@ import { formLayout, mode, AppStatus } from "@/utils/enum";
 import { selectDeveloper, getDevelopers } from "@/store/slice/developer";
 import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
+import { useSelector } from "react-redux";
 const { Option } = Select;
 
 const AddEdit = props => {
+  const { list: developers } = useSelector(selectDeveloper);
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
+      console.log(formModel);
       if (!formModel) return;
-      await props.onOk(formModel);
+      await props.onOk({
+        ...formModel,
+        developer_name: developers.find(i => i.id === formModel.developer_id)
+          ?.name,
+      });
       form.resetFields();
     });
   };
@@ -39,25 +46,27 @@ const AddEdit = props => {
           >
             <Input />
           </Form.Item>
-          <Form.Item name="name_cn" label="名称CN">
+          <Form.Item
+            name="name_cn"
+            label="名称CN"
+            rules={[{ required: true, message: "请输入名称CN" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="developer_id" label="开发者ID">
             <SearchSelect
               action={getDevelopers}
               selector={selectDeveloper}
-              searchKey="username"
-              val="user_id"
-              label={i => `${i.user_id} ${i.username}`}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
             />
           </Form.Item>
-          <Form.Item name="developer_name" label="开发者姓名">
-            <Input />
-          </Form.Item>
-          <Form.Item name="callback_url" label="回调网址">
-            <Input />
-          </Form.Item>
-          <Form.Item name="secret" label="secret">
+          <Form.Item
+            name="callback_url"
+            label="回调网址"
+            rules={[{ required: true, message: "请输入回调网址" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item name="info" label="info">
@@ -71,9 +80,6 @@ const AddEdit = props => {
                 </Option>
               ))}
             </Select>
-          </Form.Item>
-          <Form.Item name="token" label="Token">
-            <Input />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />

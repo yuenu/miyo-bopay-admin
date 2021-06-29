@@ -91,7 +91,11 @@ const AddEdit = props => {
               label={i => `${i.id} ${i.name}`}
             />
           </Form.Item>
-          <Form.Item name="currency" label="货币">
+          <Form.Item
+            name="currency"
+            label="货币"
+            rules={[{ required: true, message: "请选择货币" }]}
+          >
             <Select>
               {Object.keys(Currency).map(i => (
                 <Option value={Number(i)} key={i}>
@@ -142,13 +146,13 @@ const AddEdit = props => {
           <Form.Item name="whitelist" label="白名单">
             <Input />
           </Form.Item>
-          <Form.Item name="h5_on" label="h5_on" valuePropName="checked">
+          <Form.Item name="h5_on" label="是否开启h5" valuePropName="checked">
             <Switch />
           </Form.Item>
-          <Form.Item name="is_3rd" label="is_3rd" valuePropName="checked">
+          <Form.Item name="is_3rd" label="是否第三方" valuePropName="checked">
             <Switch />
           </Form.Item>
-          <Form.Item name="pc_on" label="pc_on" valuePropName="checked">
+          <Form.Item name="pc_on" label="是否开启pc" valuePropName="checked">
             <Switch />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">

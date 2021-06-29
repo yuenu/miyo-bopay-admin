@@ -38,19 +38,19 @@ const GatewayTypes = ({ type }) => {
     },
     h5_on: {
       type: "select",
-      label: "h5_on",
+      label: "是否开启h5",
       options: IsBoolEnum,
       isBool: true,
     },
     is_3rd: {
       type: "select",
-      label: "is_3rd",
+      label: "是否第三方",
       options: IsBoolEnum,
       isBool: true,
     },
     pc_on: {
       type: "select",
-      label: "pc_on",
+      label: "是否开启pc",
       options: IsBoolEnum,
       isBool: true,
     },
@@ -251,7 +251,7 @@ const GatewayTypes = ({ type }) => {
       inputType: "string",
     },
     {
-      title: "h5_on",
+      title: "是否开启h5",
       dataIndex: "h5_on",
       dRender: val => <Tag val={val} />,
       render: (val, record) => (
@@ -262,7 +262,7 @@ const GatewayTypes = ({ type }) => {
       ),
     },
     {
-      title: "is_3rd",
+      title: "是否第三方",
       dataIndex: "is_3rd",
       dRender: val => <Tag val={val} />,
       render: (val, record) => (
@@ -273,7 +273,7 @@ const GatewayTypes = ({ type }) => {
       ),
     },
     {
-      title: "pc_on",
+      title: "是否开启pc",
       dataIndex: "pc_on",
       dRender: val => <Tag val={val} />,
       render: (val, record) => (
