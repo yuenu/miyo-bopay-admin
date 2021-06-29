@@ -10,8 +10,10 @@ export const dateFormat = date => {
 };
 export const priceFormat = ({ val, currency }) => {
   try {
-    const { unit, rate } = CurrencyFormat.find(i => i.key === currency);
-    return `${unit} ${(val / rate).toLocaleString("en-US")}`;
+    const { unit, rate, tofix } = CurrencyFormat.find(i => i.key === currency);
+    return `${unit} ${(val / rate).toLocaleString("en-US", {
+      maximumFractionDigits: tofix,
+    })}`;
   } catch (e) {
     return "";
   }
