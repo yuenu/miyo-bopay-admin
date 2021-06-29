@@ -246,38 +246,85 @@ const Order = () => {
       render: val => <Tag val={val} />,
       width: 100,
     },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      width: 120,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+    },
     {
       title: "动作",
       dataIndex: "action",
       align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record.id)}
+            type="primary"
+          >
             查看
           </Button>
           {record.approved || (
             <>
-              <Button onClick={() => handleEditClick(record, "approve")}>
+              <Button
+                size="small"
+                onClick={() => handleEditClick(record, "approve")}
+              >
                 审核
               </Button>
-              <Button onClick={() => handleEditClick(record, "deny")}>
+              <Button
+                size="small"
+                onClick={() => handleEditClick(record, "deny")}
+                type="danger"
+              >
                 拒绝
               </Button>
-              <Button onClick={() => handleCancelClick(record.id)}>取消</Button>
+              <Button
+                size="small"
+                onClick={() => handleCancelClick(record.id)}
+                type="danger"
+              >
+                取消
+              </Button>
             </>
           )}
-
-          <Button onClick={() => handleNotifyClick(record.id)}>通知</Button>
+          {record.paid && (
+            <Button size="small" onClick={() => handleNotifyClick(record.id)}>
+              通知
+            </Button>
+          )}
         </Space>
       ),
     },
   ];
-  const defaultColumns = ["id", "order_no", "action"];
+  const defaultColumns = [
+    "id",
+    "order_no",
+    "amount",
+    "pay_status",
+    "status",
+    "paid_at",
+    "name",
+    "device_type",
+    "approval_status",
+    "paid",
+    "created",
+    "action",
+  ];
   const { selectedColumns, setSelectedColumns } = useColumnsSelect({
     columns,
     defaultColumns,
@@ -294,11 +341,12 @@ const Order = () => {
         onChange={setSelectedColumns}
       />
       <Table
+        size="small"
         columns={selectedColumns}
         dataSource={list}
         pagination={meta}
         rowKey="id"
-        scroll={{ x: "auto", y: "100vh" }}
+        scroll={{ x: "auto" }}
         onChange={handleChangePage}
         loading={listLoading}
         expandable={{

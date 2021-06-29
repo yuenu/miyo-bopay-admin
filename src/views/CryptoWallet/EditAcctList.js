@@ -259,6 +259,7 @@ const EditAcctList = ({ id }) => {
     <Card title="加密钱包收款帐号" v-loading="true">
       {list.length > 0 && (
         <Table
+          size="small"
           columns={columnsCell}
           dataSource={list}
           rowKey="id"
@@ -269,6 +270,7 @@ const EditAcctList = ({ id }) => {
       )}
       <Form form={addForm} component={false}>
         <Table
+          size="small"
           columns={columnsCell}
           showHeader={list.length === 0}
           dataSource={[defaultAddFormModel]}

@@ -66,10 +66,15 @@ const LoginLog = () => {
     {
       title: "动作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
         </Space>
@@ -80,6 +85,7 @@ const LoginLog = () => {
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
       <Table
+        size="small"
         columns={columns}
         dataSource={list}
         pagination={meta}

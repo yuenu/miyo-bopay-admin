@@ -68,13 +68,22 @@ const AppUser = () => {
     {
       title: "动作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record.id)}
+            type="primary"
+          >
             查看
           </Button>
         </Space>
@@ -103,6 +112,7 @@ const AppUser = () => {
         onChange={setSelectedColumns}
       />
       <Table
+        size="small"
         columns={selectedColumns}
         dataSource={list}
         pagination={meta}

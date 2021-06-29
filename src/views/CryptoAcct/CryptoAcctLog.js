@@ -190,13 +190,22 @@ const CryptoWallet = () => {
     {
       title: "动作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button type="primary" onClick={() => handleEditClick(record.id)}>
+          <Button
+            size="small"
+            type="primary"
+            onClick={() => handleEditClick(record.id)}
+          >
             绑定订单
           </Button>
         </Space>
@@ -224,6 +233,7 @@ const CryptoWallet = () => {
         onChange={setSelectedColumns}
       />
       <Table
+        size="small"
         columns={selectedColumns}
         dataSource={list}
         pagination={meta}

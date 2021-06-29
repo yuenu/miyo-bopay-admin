@@ -127,8 +127,18 @@ const User = () => {
     },
     { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
     { title: "email", dataIndex: "email", editable: true, inputType: "string" },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      width: 120,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      width: 120,
+    },
     {
       title: "启用",
       dataIndex: "is_active",
@@ -163,16 +173,27 @@ const User = () => {
     {
       title: "动作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record.id)}
+            type="primary"
+          >
             查看
           </Button>
-          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
+          <Button size="small" onClick={() => handleEditClick(record.id)}>
+            编辑
+          </Button>
         </Space>
       ),
     },

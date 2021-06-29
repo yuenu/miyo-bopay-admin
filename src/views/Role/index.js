@@ -134,19 +134,30 @@ const Role = () => {
       title: "动作",
       dataIndex: "action",
       align: "right",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record.id)}
+            type="primary"
+          >
             查看
           </Button>
-          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
-          <Button onClick={() => handleEditUsersClick(record.id)}>
+          <Button size="small" onClick={() => handleEditClick(record.id)}>
+            编辑
+          </Button>
+          <Button size="small" onClick={() => handleEditUsersClick(record.id)}>
             职员管理
           </Button>
-          <Button onClick={() => handleEditPermClick(record.id)}>
+          <Button size="small" onClick={() => handleEditPermClick(record.id)}>
             编辑权限
           </Button>
         </Space>

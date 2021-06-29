@@ -70,6 +70,7 @@ const EditUsers = ({ visible, onCancel, loading, data, onAdd, onDelete }) => {
           </Form.Item>
         </Form>
         <Table
+          size="small"
           columns={columns}
           dataSource={data}
           pagination={false}

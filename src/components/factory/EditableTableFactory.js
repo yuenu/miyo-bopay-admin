@@ -81,15 +81,29 @@ const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
           const editable = isEditing(record);
           return editable ? (
             <>
-              <Button type="link" onClick={handleSubmit} loading={loading}>
+              <Button
+                size="small"
+                type="link"
+                onClick={handleSubmit}
+                loading={loading}
+              >
                 储存
               </Button>
-              <Button type="link" onClick={handleCancel} loading={loading}>
+              <Button
+                size="small"
+                type="link"
+                onClick={handleCancel}
+                loading={loading}
+              >
                 取消
               </Button>
             </>
           ) : (
-            <Button type="link" onClick={() => handleEditClick(record)}>
+            <Button
+              size="small"
+              type="link"
+              onClick={() => handleEditClick(record)}
+            >
               编辑
             </Button>
           );
@@ -123,6 +137,7 @@ const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
   return (
     <Form form={form} component={false}>
       <Table
+        size="small"
         components={components}
         columns={mergedColumns}
         rowKey="id"

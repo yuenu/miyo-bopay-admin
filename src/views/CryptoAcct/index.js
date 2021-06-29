@@ -185,16 +185,27 @@ const CryptoAcct = () => {
     {
       title: "动作",
       dataIndex: "action",
-      align: "right",
+      align: "center",
+      fixed: "right",
       render: (_, record) => (
         <Space>
-          <Button onClick={() => handleJsonClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleJsonClick(record.id)}
+            type="primary"
+          >
             json
           </Button>
-          <Button onClick={() => handleDetailClick(record.id)} type="primary">
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record.id)}
+            type="primary"
+          >
             查看
           </Button>
-          <Button onClick={() => handleEditClick(record.id)}>编辑</Button>
+          <Button size="small" onClick={() => handleEditClick(record.id)}>
+            编辑
+          </Button>
         </Space>
       ),
     },
