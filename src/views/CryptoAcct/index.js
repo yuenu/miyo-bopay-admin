@@ -11,7 +11,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import EditableTable from "@/components/factory/EditableTableFactory";
+import { EditableTable } from "@/components/factory/TableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
@@ -41,6 +41,7 @@ const CryptoAcct = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getCryptoAccts, selectCryptoAcct);
@@ -241,9 +242,10 @@ const CryptoAcct = () => {
       <EditableTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
+        meta={meta}
         loading={listLoading}
         onChange={handleChangePage}
+        onShowSizeChange={handleShowSizeChange}
         onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit

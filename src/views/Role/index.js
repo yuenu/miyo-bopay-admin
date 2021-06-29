@@ -14,7 +14,7 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import EditableTable from "@/components/factory/EditableTableFactory";
+import { EditableTable } from "@/components/factory/TableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
@@ -37,6 +37,7 @@ const Role = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
     handleAdd: handleAddHook,
   } = useList(getRoles, selectRole);
 
@@ -186,7 +187,8 @@ const Role = () => {
         loading={listLoading}
         onChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
-        pagination={meta}
+        onShowSizeChange={handleShowSizeChange}
+        meta={meta}
       />
       <AddEdit
         visible={addVisible}

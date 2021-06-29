@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, Modal, message } from "antd";
+import { Button, Space, Modal, message } from "antd";
 import {
   selectOrder,
   getOrders,
@@ -23,6 +23,7 @@ import {
 import { priceFormat, dateFormat } from "@/utils/format";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Edit from "./Edit";
@@ -59,6 +60,7 @@ const Order = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getOrders, selectOrder);
 
   const [detailId, setDetailId] = useState(null);
@@ -340,13 +342,10 @@ const Order = () => {
         value={selectedColumns}
         onChange={setSelectedColumns}
       />
-      <Table
-        size="small"
+      <NormalTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
         expandable={{
@@ -354,6 +353,7 @@ const Order = () => {
           expandedRowRender: record =>
             payerCredExpandedRowRender(JSON.stringify(record.payer_cred)),
         }}
+        onShowSizeChange={handleShowSizeChange}
       />
       <JsonModal
         width={650}

@@ -4,7 +4,7 @@ import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import EditableTable from "@/components/factory/EditableTableFactory";
+import { EditableTable } from "@/components/factory/TableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
@@ -39,6 +39,7 @@ const App = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getApps, selectApp);
@@ -203,7 +204,8 @@ const App = () => {
         loading={listLoading}
         onChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
-        pagination={meta}
+        onShowSizeChange={handleShowSizeChange}
+        meta={meta}
       />
       <AddEdit
         visible={addVisible}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Space, Table, Button } from "antd";
+import { Space, Button } from "antd";
 import {
   selectLoginLog,
   getLoginLogs,
@@ -9,6 +9,7 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList, useDetail } from "@/utils/hook";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import { NormalTable } from "@/components/factory/TableFactory";
 
 const LoginLog = () => {
   const searchFields = {
@@ -24,6 +25,7 @@ const LoginLog = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getLoginLogs, selectLoginLog);
 
   const [detailId, setDetailId] = useState(null);
@@ -84,15 +86,13 @@ const LoginLog = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <Table
-        size="small"
+      <NormalTable
         columns={columns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
+        onShowSizeChange={handleShowSizeChange}
       />
       <JsonModal
         visible={jsonVisible}

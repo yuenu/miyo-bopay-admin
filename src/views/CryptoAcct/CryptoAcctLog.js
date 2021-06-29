@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
   Space,
-  Table,
   Button,
   Modal,
   Form,
@@ -32,6 +31,7 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import JsonModal from "@/components/JsonModal";
 import Tag from "@/components/Tag";
+import { NormalTable } from "@/components/factory/TableFactory";
 
 const { Link, Paragraph, Text } = Typography;
 
@@ -66,6 +66,7 @@ const CryptoWallet = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getCryptoAcctLogs, selectCryptoAcctLog);
 
   const [detailId, setDetailId] = useState(null);
@@ -244,15 +245,13 @@ const CryptoWallet = () => {
         value={selectedColumns}
         onChange={setSelectedColumns}
       />
-      <Table
-        size="small"
+      <NormalTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
+        onShowSizeChange={handleShowSizeChange}
       />
       <JsonModal
         width={650}

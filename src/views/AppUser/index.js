@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table } from "antd";
+import { Button, Space } from "antd";
 import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -7,6 +7,7 @@ import ColumnsSelect from "@/components/ColumnsSelect";
 import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import { NormalTable } from "@/components/factory/TableFactory";
 
 const AppUser = () => {
   const searchFields = {
@@ -25,6 +26,7 @@ const AppUser = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getAppUsers, selectAppUser);
 
   const [detailId, setDetailId] = useState(null);
@@ -59,6 +61,7 @@ const AppUser = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
+      width: 120,
     },
     {
       title: "更新日期",
@@ -111,15 +114,13 @@ const AppUser = () => {
         value={selectedColumns}
         onChange={setSelectedColumns}
       />
-      <Table
-        size="small"
+      <NormalTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
+        onShowSizeChange={handleShowSizeChange}
       />
       <JsonModal
         visible={jsonVisible}

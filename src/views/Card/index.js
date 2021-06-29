@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Table, Tag, message } from "antd";
+import { Button, Space, Tag, message } from "antd";
 import { useDispatch } from "react-redux";
 import {
   selectCard,
@@ -13,6 +13,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
+import { NormalTable } from "@/components/factory/TableFactory";
 
 const Card = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Card = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getCards, selectCard);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -115,15 +117,13 @@ const Card = () => {
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <Table
-        size="small"
+      <NormalTable
         columns={columns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
+        onShowSizeChange={handleShowSizeChange}
       />
       <AddEdit
         visible={addVisible}

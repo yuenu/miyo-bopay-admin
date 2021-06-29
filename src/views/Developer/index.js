@@ -10,7 +10,7 @@ import {
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import EditableTable from "@/components/factory/EditableTableFactory";
+import { EditableTable } from "@/components/factory/TableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
@@ -32,6 +32,7 @@ const User = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
     handleAdd: handleAddHook,
   } = useList(getDevelopers, selectDeveloper);
 
@@ -184,10 +185,11 @@ const User = () => {
       <EditableTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
+        meta={meta}
         loading={listLoading}
         onChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
+        onShowSizeChange={handleShowSizeChange}
       />
       <AddEdit
         visible={addVisible}

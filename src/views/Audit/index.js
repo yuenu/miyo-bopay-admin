@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Space, Table, Button } from "antd";
+import { Space, Button } from "antd";
 import { selectAudit, getAudits, getAudit } from "@/store/slice/audit";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -8,6 +8,7 @@ import Tag from "@/components/Tag";
 import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import { NormalTable } from "@/components/factory/TableFactory";
 
 const Audit = () => {
   const searchFields = {
@@ -23,6 +24,7 @@ const Audit = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
   } = useList(getAudits, selectAudit);
   const [detailId, setDetailId] = useState(null);
   const { currentRow, loading: detailLoading } = useDetail(
@@ -103,15 +105,13 @@ const Audit = () => {
         value={selectedColumns}
         onChange={setSelectedColumns}
       />
-      <Table
-        size="small"
+      <NormalTable
         columns={selectedColumns}
         dataSource={list}
-        pagination={meta}
-        rowKey="id"
-        scroll={{ x: "auto" }}
+        meta={meta}
         onChange={handleChangePage}
         loading={listLoading}
+        onShowSizeChange={handleShowSizeChange}
       />
       <JsonModal
         width={650}

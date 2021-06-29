@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Table, Button, Form } from "antd";
+import { Table, Button, Form, Pagination, Space } from "antd";
 import InputFactory from "./InputFactory";
 
 const valuePropName = type =>
@@ -46,7 +46,14 @@ const EditableCell = ({
  * @param {String} columns.inputType - [string, select, switch]
  * @param {Object} columns.options - if inputType === 'select', using options
  */
-const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
+const EditableTable = ({
+  columns,
+  onRowEditSubmit,
+  meta,
+  onChange,
+  onShowSizeChange,
+  ...props
+}) => {
   const [form] = Form.useForm();
   const [currentEditRow, setCurrentEditRow] = useState("");
   const [loading, setLoading] = useState(false);
@@ -135,17 +142,47 @@ const EditableTable = ({ columns, onRowEditSubmit, ...props }) => {
     },
   };
   return (
-    <Form form={form} component={false}>
-      <Table
-        size="small"
-        components={components}
-        columns={mergedColumns}
-        rowKey="id"
-        scroll={{ x: "auto" }}
-        {...props}
+    <Space direction="vertical" className="w-100">
+      <Form form={form} component={false}>
+        <Table
+          size="small"
+          components={components}
+          columns={mergedColumns}
+          rowKey="id"
+          scroll={{ x: "auto" }}
+          pagination={false}
+          {...props}
+        />
+      </Form>
+      <Pagination
+        className="text-right"
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
+        onChange={onChange}
+        {...meta}
       />
-    </Form>
+    </Space>
   );
 };
 
-export default EditableTable;
+const NormalTable = ({ onShowSizeChange, onChange, meta, ...props }) => {
+  return (
+    <Space direction="vertical" className="w-100">
+      <Table
+        size="small"
+        rowKey="id"
+        scroll={{ x: "auto" }}
+        pagination={false}
+        {...props}
+      />
+      <Pagination
+        className="text-right"
+        showSizeChanger
+        onShowSizeChange={onShowSizeChange}
+        onChange={onChange}
+        {...meta}
+      />
+    </Space>
+  );
+};
+export { EditableTable, NormalTable };

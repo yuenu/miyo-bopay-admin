@@ -5,18 +5,30 @@ import { message } from "antd";
 export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
   const { list, currentRow, meta } = useSelector(selector);
+  const [pageSize, setPageSize] = useState(meta.pageSize);
+  const [current, setCurrent] = useState(meta.current);
   const [loading, setLoading] = useState(false);
   const handleGetList = useCallback(
     async (params = {}) => {
       setLoading(true);
-      await dispatch(action({ ...originParams, ...params }));
+      await dispatch(
+        action({
+          ...originParams,
+          ...params,
+          page: current,
+          per_page: pageSize,
+        }),
+      );
       setLoading(false);
     },
     // eslint-disable-next-line
-    [dispatch, action],
+    [dispatch, action, pageSize, current],
   );
-  const handleChangePage = (pagination, filters, sorter, extra) => {
-    handleGetList({ page: pagination.current });
+  const handleChangePage = (page, pageSize) => {
+    setCurrent(page);
+  };
+  const handleShowSizeChange = (page, pageSize) => {
+    setPageSize(pageSize);
   };
   const handleAdd = async ({ action: addAction, ...params }) => {
     setLoading(true);
@@ -33,6 +45,7 @@ export const useList = (action, selector, originParams = {}) => {
     loading,
     handleGetList,
     handleChangePage,
+    handleShowSizeChange,
     handleAdd,
     setLoading,
   };
