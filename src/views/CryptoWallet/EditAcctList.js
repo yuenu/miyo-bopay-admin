@@ -1,11 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-  useCallback,
-  createContext,
-} from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Card, Form, Input, Button, Switch, Table } from "antd";
 import {
   sortableContainer,
@@ -20,91 +13,17 @@ import {
   editCryptoAcct,
   addCryptoAcct,
 } from "@/store/slice/cryptoAcct";
+import { EditableCell } from "@/components/factory/TableFactory";
 import arrayMove from "array-move";
 const DragHandle = sortableHandle(() => (
   <MenuOutlined style={{ cursor: "grab", color: "#999" }} />
 ));
 
-const EditableContext = createContext(null);
-
-const EditableRow = props => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={{ form }}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-const EditableCell = ({
-  title,
-  children,
-  dataIndex,
-  editable,
-  record,
-  wallet_id,
-  ...restProps
-}) => {
-  const { form } = useContext(EditableContext);
-  const inputRef = useRef(null);
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      await editCryptoAcct({
-        id: record.id,
-        formModel: { ...values, wallet_id, currency: 1 },
-      });
-    } catch (errInfo) {
-      console.log("Save failed:", errInfo);
-    }
-  };
-  useEffect(() => {
-    form.setFieldsValue(record);
-  });
-  let childNode = children;
-  childNode = editable ? (
-    <Form.Item
-      name={dataIndex}
-      rules={
-        dataIndex === "address"
-          ? [
-              {
-                required: true,
-              },
-            ]
-          : null
-      }
-      noStyle
-    >
-      {dataIndex === "is_active" ? (
-        <Form.Item name={dataIndex} valuePropName="checked" noStyle>
-          <Switch
-            ref={inputRef}
-            onChange={save}
-            id={`addr_${dataIndex}_${record.id}`}
-          />
-        </Form.Item>
-      ) : (
-        <Input
-          ref={inputRef}
-          onPressEnter={save}
-          onBlur={save}
-          id={`addr_${dataIndex}_${record.id}`}
-        />
-      )}
-    </Form.Item>
-  ) : dataIndex === "sort" ? (
-    <DragHandle />
-  ) : (
-    children
-  );
-  return <td {...restProps}>{childNode}</td>;
-};
-const SortableItem = sortableElement(props => <EditableRow {...props} />);
+const SortableItem = sortableElement(props => <tr {...props} />);
 const SortableContainer = sortableContainer(props => <tbody {...props} />);
 const EditAcctList = ({ id }) => {
   const dispatch = useDispatch();
+
   const [listLoading, setListLoading] = useState(false);
   const { list } = useSelector(selectCryptoAcct);
   const handleGetList = useCallback(
@@ -119,15 +38,58 @@ const EditAcctList = ({ id }) => {
     handleGetList();
   }, [handleGetList]);
 
-  const handleChangeSeq = newData => {
-    newData.forEach(async i => {
+  //edit
+  const [form] = Form.useForm();
+  const [currentEditRow, setCurrentEditRow] = useState(null);
+  const [editLoading, setEditLoading] = useState(false);
+  const isEditing = record => record.id === currentEditRow?.id;
+  const handleEditClick = record => {
+    form.setFieldsValue(record);
+    setCurrentEditRow(record);
+  };
+  const handleSubmit = async () => {
+    setEditLoading(true);
+    const params = {
+      ...currentEditRow,
+      ...form.getFieldsValue(),
+    };
+    await editCryptoAcct({ id: params.id, formModel: { ...params } });
+    setCurrentEditRow(null);
+    handleGetList();
+    setEditLoading(false);
+  };
+  const handleCancel = () => {
+    form.resetFields();
+    setCurrentEditRow(null);
+  };
+  const handleChangeIsActive = async (checked, record) => {
+    setEditLoading(true);
+    const params = {
+      id: record.id,
+      formModel: {
+        ...record,
+        is_active: checked,
+      },
+    };
+    await editCryptoAcct(params);
+    handleGetList();
+    setEditLoading(false);
+  };
+
+  // sort
+  const handleChangeSeq = async newData => {
+    const funcArr = [];
+    newData.forEach(i => {
       const oldSeq = list.find(j => j.id === i.id).seq;
       oldSeq !== i.seq &&
-        (await editCryptoAcct({
-          id: i.id,
-          formModel: { ...i },
-        }));
+        funcArr.push(
+          editCryptoAcct({
+            id: i.id,
+            formModel: { ...i },
+          }),
+        );
     });
+    await Promise.all(funcArr);
     handleGetList();
   };
   const onSortEnd = ({ oldIndex, newIndex }) => {
@@ -151,11 +113,13 @@ const EditAcctList = ({ id }) => {
     const index = list.findIndex(x => x.id === restProps["data-row-key"]);
     return <SortableItem index={index} {...restProps} />;
   };
-  const columns = [
+
+  const columns = (mode = "edit") => [
     {
       title: "Sort",
       dataIndex: "sort",
       width: 65,
+      render: val => <DragHandle />,
     },
     {
       title: "ID",
@@ -171,22 +135,80 @@ const EditAcctList = ({ id }) => {
       title: "启用",
       dataIndex: "is_active",
       editable: true,
+      inputType: "switch",
+      render: (val, record) => (
+        <Switch
+          checked={val}
+          onChange={checked => handleChangeIsActive(checked, record)}
+        />
+      ),
     },
-    { title: "地址", dataIndex: "address", editable: true },
-    { title: "备注", dataIndex: "note", editable: true },
+    {
+      title: "地址",
+      dataIndex: "address",
+      editable: true,
+      inputType: "string",
+    },
+    { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
+    {
+      title: "快速编辑",
+      dataIndex: " edit",
+      render: (val, record) => {
+        const editable = isEditing(record);
+        return mode === "edit" ? (
+          editable ? (
+            <>
+              <Button
+                size="small"
+                type="link"
+                onClick={handleSubmit}
+                loading={editLoading}
+              >
+                储存
+              </Button>
+              <Button
+                size="small"
+                type="link"
+                onClick={handleCancel}
+                loading={editLoading}
+              >
+                取消
+              </Button>
+            </>
+          ) : (
+            <Button
+              size="small"
+              type="link"
+              onClick={() => handleEditClick(record)}
+            >
+              编辑
+            </Button>
+          )
+        ) : (
+          <Button type="primary" size="small" onClick={handleAddClick}>
+            新增地址
+          </Button>
+        );
+      },
+    },
   ];
-  const columnsCell = columns.map(i => {
+  const formatEditableColumns = cell => {
+    if (!cell.editable) {
+      return cell;
+    }
     return {
-      ...i,
+      ...cell,
       onCell: record => ({
-        ...i,
+        ...cell,
         record,
-        dataIndex: i.dataIndex,
-        editable: i.editable,
         wallet_id: Number(id),
+        editing: isEditing(record),
+        loading: editLoading,
       }),
     };
-  });
+  };
+  const editColumnsCell = columns("edit").map(formatEditableColumns);
+  const addColumnsCell = columns("add").map(formatEditableColumns);
 
   const editComponents = {
     body: {
@@ -258,20 +280,22 @@ const EditAcctList = ({ id }) => {
   return (
     <Card title="加密钱包收款帐号" v-loading="true">
       {list.length > 0 && (
-        <Table
-          size="small"
-          columns={columnsCell}
-          dataSource={list}
-          rowKey="id"
-          components={editComponents}
-          pagination={false}
-          loading={listLoading}
-        />
+        <Form form={form} component={false}>
+          <Table
+            size="small"
+            columns={editColumnsCell}
+            dataSource={list}
+            rowKey="id"
+            components={editComponents}
+            pagination={false}
+            loading={listLoading}
+          />
+        </Form>
       )}
       <Form form={addForm} component={false}>
         <Table
           size="small"
-          columns={columnsCell}
+          columns={addColumnsCell}
           showHeader={list.length === 0}
           dataSource={[defaultAddFormModel]}
           rowKey="id"
@@ -279,11 +303,6 @@ const EditAcctList = ({ id }) => {
           pagination={false}
         />
       </Form>
-      <div className="text-right mt-1">
-        <Button type="primary" onClick={handleAddClick}>
-          新增地址
-        </Button>
-      </div>
     </Card>
   );
 };

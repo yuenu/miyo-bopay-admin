@@ -185,4 +185,4 @@ const NormalTable = ({ onShowSizeChange, onChange, meta, ...props }) => {
     </Space>
   );
 };
-export { EditableTable, NormalTable };
+export { EditableTable, NormalTable, EditableCell };
