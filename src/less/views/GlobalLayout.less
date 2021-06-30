@@ -1,5 +1,12 @@
 .global-layout {
-  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  .container {
+    overflow-y: auto;
+    .ant-tabs {
+      overflow: unset;
+    }
+  }
   .main {
     padding: 30px;
     .rwd (sm;{padding:10px});

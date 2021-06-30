@@ -33,7 +33,7 @@ const GlobalLayout = () => {
       {user !== null ? (
         <Layout className="global-layout">
           <Sidebar />
-          <Layout>
+          <Layout className="container">
             <Header />
             <RouterTab />
             <Content className="main">

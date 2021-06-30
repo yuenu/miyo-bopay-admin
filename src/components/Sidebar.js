@@ -36,7 +36,7 @@ const SidebarView = () => {
   );
 
   return (
-    <Sider breakpoint="lg" collapsedWidth="0">
+    <Sider breakpoint="lg" collapsedWidth="0" className="sidebar">
       <div className="logo">财务中心</div>
       <Menu theme="dark" mode="inline" selectedKeys={[selectedKey]}>
         <SubMenu key="Merchant" icon={<TeamOutlined />} title="商户管理">
