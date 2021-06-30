@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, message } from "antd";
+import { Button, Space, message, Tag, Modal } from "antd";
 import {
   selectRole,
   getRoles,
@@ -21,8 +21,9 @@ import Detail from "./Detail";
 import EditUsers from "./EditUsers";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, generatePath } from "react-router-dom";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, permsToArrayFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Role = () => {
   const dispatch = useDispatch();
@@ -63,13 +64,12 @@ const Role = () => {
     setDetailVisible(true);
   };
 
-  const handleDeletePerms = async params => {
+  const handleDeletePerms = async (params, id) => {
     setDetailLoading(true);
-    const id = detailId;
-    const { status } = await editPerms({ id: detailId, perms: params });
+    const { status } = await editPerms({ id: id ?? detailId, perms: params });
     setDetailId(null);
     status === 200 && message.success("更新成功！");
-    setDetailId(id);
+    setDetailId(detailId);
     setDetailLoading(false);
   };
 
@@ -123,10 +123,44 @@ const Role = () => {
     await handleEditHook({ action: editRole, id, ...params });
     handleGetList({ page: meta.current });
   };
-
+  const handleListDeletePermsClick = ({ e, perm, record }) => {
+    e.preventDefault();
+    Modal.confirm({
+      title: "是否删除权限",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将删除 ${record.name} 「${perm.name}」，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleListDeletePerms(close, perm, record),
+    });
+  };
+  const handleListDeletePerms = async (close, perm, record) => {
+    const params = { ...record.perms, [perm.key]: false };
+    await handleDeletePerms(params, record.id);
+    await handleGetList({ page: meta.current });
+    close();
+  };
   const columns = [
     { title: "ID", dataIndex: "id" },
     { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    {
+      title: "权限列表",
+      dataIndex: "perms",
+      render: (val, record) => (
+        <Space size={[0, 4]} wrap>
+          {permsToArrayFormat(val).map(i => (
+            <Tag
+              color="purple"
+              key={i.key}
+              closable
+              onClose={e => handleListDeletePermsClick({ e, perm: i, record })}
+            >
+              {i.name}
+            </Tag>
+          ))}
+        </Space>
+      ),
+    },
     { title: "职员数量", dataIndex: "total" },
     { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
     { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
@@ -165,7 +199,7 @@ const Role = () => {
       ),
     },
   ];
-  const defaultColumns = ["id", "name", "action"];
+  const defaultColumns = ["id", "name", "perms", "action"];
   const { selectedColumns, setSelectedColumns } = useColumnsSelect({
     columns,
     defaultColumns,

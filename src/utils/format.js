@@ -74,3 +74,19 @@ export const getRouterParam = path => {
   const pathLength = path.split("/").length;
   return pathLength > 2 ? ` - ${path.split("/")[pathLength - 1]}` : "";
 };
+
+export const permsToArrayFormat = perms => {
+  const permsArr = [];
+  perms &&
+    Object.keys(perms).forEach(i => {
+      if (i.split(".").length <= 1 || !perms[i]) return;
+      let name;
+      Perms.forEach(j => {
+        j.children.forEach(k => {
+          k.key === i && (name = k.title);
+        });
+      });
+      permsArr.push({ key: i, name });
+    });
+  return permsArr;
+};

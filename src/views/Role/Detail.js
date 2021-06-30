@@ -1,23 +1,11 @@
 import { Modal, Descriptions, Button, Tag, Space } from "antd";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, permsToArrayFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
-import { Perms } from "@/utils/enum";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const Detail = ({ visible, loading, data, onCancel, onDelete }) => {
   const { id, name, total, perms, created, updated, note } = data;
-  const permsArr = [];
-  perms &&
-    Object.keys(perms).forEach(i => {
-      if (i.split(".").length <= 1 || !perms[i]) return;
-      let name;
-      Perms.forEach(j => {
-        j.children.forEach(k => {
-          k.key === i && (name = k.title);
-        });
-      });
-      permsArr.push({ key: i, name });
-    });
+  const permsArr = permsToArrayFormat(perms);
   const handleDeleteClick = (e, row) => {
     e.preventDefault();
     Modal.confirm({
@@ -51,7 +39,7 @@ const Detail = ({ visible, loading, data, onCancel, onDelete }) => {
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
           <Descriptions.Item label="职员数量">{total}</Descriptions.Item>
           <Descriptions.Item label="权限列表">
-            <Space size={[4, 4]} wrap>
+            <Space size={[0, 4]} wrap>
               {permsArr.map(i => (
                 <Tag
                   color="purple"
