@@ -26,7 +26,7 @@ const SearchSelect = ({
     const { payload } = await dispatch(
       action({ [`${searchKey}__k`]: input, page }),
     );
-    setList([...list, ...payload?.data?.data]);
+    setList([...payload?.data?.data]);
   };
 
   const handleInit = useCallback(async () => {
@@ -42,6 +42,7 @@ const SearchSelect = ({
   const handleScroll = e => {
     const isScrollBottom =
       e.target.scrollHeight - e.target.clientHeight === e.target.scrollTop;
+    console.log(isScrollBottom);
     if (isScrollBottom) {
       meta.pages > page && setPage(page + 1);
     }

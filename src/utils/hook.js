@@ -5,6 +5,7 @@ import { message } from "antd";
 export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
   const { list, currentRow, meta } = useSelector(selector);
+  const [searchParams, setSearchParams] = useState(null);
   const [pageSize, setPageSize] = useState(meta.pageSize);
   const [current, setCurrent] = useState(meta.current);
   const [loading, setLoading] = useState(false);
@@ -16,14 +17,19 @@ export const useList = (action, selector, originParams = {}) => {
           ...originParams,
           page: current,
           per_page: pageSize,
+          ...searchParams,
           ...params,
         }),
       );
       setLoading(false);
     },
     // eslint-disable-next-line
-    [dispatch, action, pageSize, current],
+    [dispatch, action, pageSize, current, searchParams],
   );
+  const handleSearch = formModel => {
+    setSearchParams(formModel);
+    setCurrent(1);
+  };
   const handleChangePage = (page, pageSize) => {
     setCurrent(page);
   };
@@ -43,6 +49,7 @@ export const useList = (action, selector, originParams = {}) => {
   return {
     res: { list, currentRow, meta },
     loading,
+    handleSearch,
     handleGetList,
     handleChangePage,
     handleShowSizeChange,

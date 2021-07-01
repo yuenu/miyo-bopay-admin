@@ -60,6 +60,7 @@ const GatewayTypes = ({ params }) => {
   const {
     res: { list, meta },
     loading: listLoading,
+    handleSearch,
     handleGetList,
     handleChangePage,
     handleShowSizeChange,
@@ -340,7 +341,7 @@ const GatewayTypes = ({ params }) => {
   });
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>

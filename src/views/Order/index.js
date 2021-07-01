@@ -58,6 +58,7 @@ const Order = () => {
   const {
     res: { list, meta },
     loading: listLoading,
+    handleSearch,
     handleGetList,
     handleChangePage,
     handleShowSizeChange,
@@ -336,7 +337,7 @@ const Order = () => {
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}

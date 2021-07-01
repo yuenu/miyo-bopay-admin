@@ -24,7 +24,7 @@ const AppUser = () => {
   const {
     res: { list, meta },
     loading: listLoading,
-    handleGetList,
+    handleSearch,
     handleChangePage,
     handleShowSizeChange,
   } = useList(getAppUsers, selectAppUser);
@@ -108,7 +108,7 @@ const AppUser = () => {
   });
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}

@@ -23,6 +23,7 @@ const LoginLog = () => {
   const {
     res: { list, meta },
     loading: listLoading,
+    handleSearch,
     handleGetList,
     handleChangePage,
     handleShowSizeChange,
@@ -85,7 +86,7 @@ const LoginLog = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <NormalTable
         columns={columns}
         dataSource={list}
