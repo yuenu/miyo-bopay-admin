@@ -85,17 +85,25 @@ export const useDetail = ({ action, id }, selector) => {
 };
 
 export const useColumnsSelect = ({ columns, defaultColumns }) => {
-  const [selectedColumns, setSelectedColumns] = useState(
-    getColumns() ||
-      columns.filter(i => defaultColumns.indexOf(i.dataIndex) > -1),
+  const localDefaultCols = columns.filter(
+    i => getColumns()?.indexOf(i.dataIndex) > -1,
   );
+  const originDefaultCols = columns.filter(
+    i => defaultColumns.indexOf(i.dataIndex) > -1,
+  );
+  const defaultColumnsAll =
+    localDefaultCols.length > 0 ? localDefaultCols : originDefaultCols;
+  const [selectedColumns, setSelectedColumns] = useState(defaultColumnsAll);
   const handleSelectedColumnsChange = ({ columns, pathname }) => {
     setSelectedColumns(columns);
     const storageColumns =
       JSON.parse(localStorage.getItem("columns") || "{}") || {};
     localStorage.setItem(
       "columns",
-      JSON.stringify({ ...storageColumns, [pathname]: columns }),
+      JSON.stringify({
+        ...storageColumns,
+        [pathname]: columns.map(i => i.dataIndex),
+      }),
     );
   };
   return { selectedColumns, handleSelectedColumnsChange };
