@@ -23,7 +23,6 @@ const Audit = () => {
     res: { list, meta },
     loading: listLoading,
     handleSearch,
-    handleGetList,
     handleChangePage,
     handleShowSizeChange,
   } = useList(getAudits, selectAudit);

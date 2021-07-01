@@ -24,7 +24,6 @@ const LoginLog = () => {
     res: { list, meta },
     loading: listLoading,
     handleSearch,
-    handleGetList,
     handleChangePage,
     handleShowSizeChange,
   } = useList(getLoginLogs, selectLoginLog);
