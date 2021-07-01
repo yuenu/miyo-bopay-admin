@@ -1,11 +1,17 @@
 import { Select } from "antd";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 const { Option } = Select;
 
 const ColumnsSelect = ({ columns, value, onChange }) => {
+  const { pathname } = useLocation();
+
   const [options, setOptions] = useState(columns);
   const handleChange = value => {
-    onChange(columns.filter(i => value.indexOf(i.dataIndex) > -1));
+    onChange({
+      columns: columns.filter(i => value.indexOf(i.dataIndex) > -1),
+      pathname,
+    });
   };
   const handleSearch = value => {
     const filterOptions = columns.filter(

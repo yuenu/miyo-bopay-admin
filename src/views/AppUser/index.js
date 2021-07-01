@@ -102,7 +102,7 @@ const AppUser = () => {
     "created",
     "action",
   ];
-  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns,
     defaultColumns,
   });
@@ -112,7 +112,7 @@ const AppUser = () => {
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}
-        onChange={setSelectedColumns}
+        onChange={handleSelectedColumnsChange}
       />
       <NormalTable
         columns={selectedColumns}

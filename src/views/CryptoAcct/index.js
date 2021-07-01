@@ -221,7 +221,7 @@ const CryptoAcct = () => {
     "is_active",
     "action",
   ];
-  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns,
     defaultColumns,
   });
@@ -238,7 +238,7 @@ const CryptoAcct = () => {
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}
-        onChange={setSelectedColumns}
+        onChange={handleSelectedColumnsChange}
       />
       <EditableTable
         columns={selectedColumns}

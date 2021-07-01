@@ -90,3 +90,9 @@ export const permsToArrayFormat = perms => {
     });
   return permsArr;
 };
+
+export const getColumns = () => {
+  return JSON.parse(localStorage.getItem("columns") || "{}")[
+    window.location.pathname
+  ];
+};

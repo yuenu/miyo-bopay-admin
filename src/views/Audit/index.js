@@ -93,7 +93,7 @@ const Audit = () => {
     },
   ];
   const defaultColumns = ["id", "username", "user_id", "succeeded", "action"];
-  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns,
     defaultColumns,
   });
@@ -103,7 +103,7 @@ const Audit = () => {
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}
-        onChange={setSelectedColumns}
+        onChange={handleSelectedColumnsChange}
       />
       <NormalTable
         columns={selectedColumns}

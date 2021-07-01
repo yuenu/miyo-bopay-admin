@@ -201,7 +201,7 @@ const Role = () => {
     },
   ];
   const defaultColumns = ["id", "name", "perms", "action"];
-  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns,
     defaultColumns,
   });
@@ -214,7 +214,7 @@ const Role = () => {
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}
-        onChange={setSelectedColumns}
+        onChange={handleSelectedColumnsChange}
       />
       <EditableTable
         columns={selectedColumns}

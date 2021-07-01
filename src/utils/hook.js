@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
+import { getColumns } from "@/utils/format";
 
 export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
@@ -85,7 +86,17 @@ export const useDetail = ({ action, id }, selector) => {
 
 export const useColumnsSelect = ({ columns, defaultColumns }) => {
   const [selectedColumns, setSelectedColumns] = useState(
-    columns.filter(i => defaultColumns.indexOf(i.dataIndex) > -1),
+    getColumns() ||
+      columns.filter(i => defaultColumns.indexOf(i.dataIndex) > -1),
   );
-  return { selectedColumns, setSelectedColumns };
+  const handleSelectedColumnsChange = ({ columns, pathname }) => {
+    setSelectedColumns(columns);
+    const storageColumns =
+      JSON.parse(localStorage.getItem("columns") || "{}") || {};
+    localStorage.setItem(
+      "columns",
+      JSON.stringify({ ...storageColumns, [pathname]: columns }),
+    );
+  };
+  return { selectedColumns, handleSelectedColumnsChange };
 };

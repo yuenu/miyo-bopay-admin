@@ -233,7 +233,7 @@ const CryptoWallet = () => {
     "note",
     "action",
   ];
-  const { selectedColumns, setSelectedColumns } = useColumnsSelect({
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns,
     defaultColumns,
   });
@@ -243,7 +243,7 @@ const CryptoWallet = () => {
       <ColumnsSelect
         columns={columns}
         value={selectedColumns}
-        onChange={setSelectedColumns}
+        onChange={handleSelectedColumnsChange}
       />
       <NormalTable
         columns={selectedColumns}
