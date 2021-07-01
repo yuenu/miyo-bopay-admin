@@ -23,6 +23,7 @@ const ColumnsSelect = ({ columns, value, onChange }) => {
         value={value.map(i => i.dataIndex)}
         onChange={handleChange}
         onSearch={handleSearch}
+        onBlur={() => setOptions(columns)}
         style={{ minWidth: 240 }}
       >
         {options.map(i => (
