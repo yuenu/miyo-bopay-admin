@@ -42,7 +42,6 @@ const SearchSelect = ({
   const handleScroll = e => {
     const isScrollBottom =
       e.target.scrollHeight - e.target.clientHeight === e.target.scrollTop;
-    console.log(isScrollBottom);
     if (isScrollBottom) {
       meta.pages > page && setPage(page + 1);
     }
