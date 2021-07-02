@@ -50,7 +50,7 @@ const EditableTable = ({
   columns,
   onRowEditSubmit,
   meta,
-  onChange,
+  onChangePage,
   onShowSizeChange,
   ...props
 }) => {
@@ -158,14 +158,14 @@ const EditableTable = ({
         className="text-right"
         showSizeChanger
         onShowSizeChange={onShowSizeChange}
-        onChange={onChange}
+        onChange={onChangePage}
         {...meta}
       />
     </Space>
   );
 };
 
-const NormalTable = ({ onShowSizeChange, onChange, meta, ...props }) => {
+const NormalTable = ({ onShowSizeChange, onChangePage, meta, ...props }) => {
   return (
     <Space direction="vertical" className="w-100">
       <Table
@@ -179,7 +179,7 @@ const NormalTable = ({ onShowSizeChange, onChange, meta, ...props }) => {
         className="text-right"
         showSizeChanger
         onShowSizeChange={onShowSizeChange}
-        onChange={onChange}
+        onChange={onChangePage}
         {...meta}
       />
     </Space>

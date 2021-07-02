@@ -40,7 +40,7 @@ const App = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getApps, selectApp);
@@ -100,21 +100,30 @@ const App = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    {
+      title: "名称",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
     {
       title: "姓名",
       dataIndex: "name_cn",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     {
       title: "开发者ID",
       dataIndex: "developer_id",
+      sorter: true,
     },
     {
       title: "开发者姓名",
       dataIndex: "developer_name",
+      sorter: true,
     },
     {
       title: "回调网址",
@@ -134,8 +143,18 @@ const App = () => {
     },
     { title: "状态", dataIndex: "status", render: val => AppStatus[val] || "" },
     { title: "token", dataIndex: "token" },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
     { title: "备注", dataIndex: "note" },
     {
       title: "启用",
@@ -203,9 +222,10 @@ const App = () => {
         columns={selectedColumns}
         dataSource={list}
         loading={listLoading}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
         meta={meta}
       />
       <AddEdit

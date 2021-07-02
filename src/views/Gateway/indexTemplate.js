@@ -63,7 +63,7 @@ const GatewayTypes = ({ params }) => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getGateways, selectGateway, params);
@@ -125,28 +125,32 @@ const GatewayTypes = ({ params }) => {
     handleGetList({ page: meta.current });
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
+    { title: "ID", dataIndex: "id", sorter: true },
     {
       title: "名称",
       dataIndex: "name",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     {
       title: "显示名称",
       dataIndex: "display_name",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     {
       title: "别名",
       dataIndex: "alias",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     {
       title: "gateway",
       dataIndex: "gateway",
+      sorter: true,
     },
     {
       title: "api",
@@ -170,10 +174,12 @@ const GatewayTypes = ({ params }) => {
       title: "fee",
       dataIndex: "fee",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
     },
     {
       title: "加密钱包ID",
       dataIndex: "crypto_wallet_id",
+      sorter: true,
     },
     {
       title: "货币类型",
@@ -227,6 +233,7 @@ const GatewayTypes = ({ params }) => {
     {
       title: "评级",
       dataIndex: "rating",
+      sorter: true,
     },
     {
       title: "resp_type",
@@ -296,8 +303,18 @@ const GatewayTypes = ({ params }) => {
         />
       ),
     },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
     {
       title: "动作",
       dataIndex: "action",
@@ -355,9 +372,10 @@ const GatewayTypes = ({ params }) => {
         dataSource={list}
         meta={meta}
         loading={listLoading}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <AddEdit
         visible={addVisible}

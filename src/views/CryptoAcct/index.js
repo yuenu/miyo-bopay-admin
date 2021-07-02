@@ -42,7 +42,7 @@ const CryptoAcct = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getCryptoAccts, selectCryptoAcct);
@@ -99,9 +99,15 @@ const CryptoAcct = () => {
     handleGetList({ page: meta.current });
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
-    { title: "钱包ID", dataIndex: "wallet_id" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    {
+      title: "名称",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
+    { title: "钱包ID", dataIndex: "wallet_id", sorter: true },
     {
       title: "地址",
       dataIndex: "address",
@@ -132,6 +138,7 @@ const CryptoAcct = () => {
       title: "余额",
       dataIndex: "balance",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
     },
     {
       title: "货币",
@@ -148,14 +155,17 @@ const CryptoAcct = () => {
     {
       title: "last_block_time",
       dataIndex: "last_block_time",
+      sorter: true,
     },
     {
       title: "排序",
       dataIndex: "seq",
+      sorter: true,
     },
     {
       title: "序号",
       dataIndex: "w",
+      sorter: true,
     },
     {
       title: "备注",
@@ -178,11 +188,13 @@ const CryptoAcct = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "动作",
@@ -245,8 +257,9 @@ const CryptoAcct = () => {
         dataSource={list}
         meta={meta}
         loading={listLoading}
-        onChange={handleChangePage}
-        onShowSizeChange={handleShowSizeChange}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
+        onShowSizeChange={handleChangePage}
         onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit

@@ -24,7 +24,7 @@ const Audit = () => {
     loading: listLoading,
     handleSearch,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
   } = useList(getAudits, selectAudit);
   const [detailId, setDetailId] = useState(null);
   const { currentRow, loading: detailLoading } = useDetail(
@@ -43,9 +43,9 @@ const Audit = () => {
     setJsonVisible(true);
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "帐号", dataIndex: "username" },
-    { title: "用户ID", dataIndex: "user_id" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    { title: "帐号", dataIndex: "username", sorter: true },
+    { title: "用户ID", dataIndex: "user_id", sorter: true },
     { title: "设备", dataIndex: "device" },
     { title: "IP", dataIndex: "client_ip" },
     { title: "Brief", dataIndex: "brief" },
@@ -61,11 +61,13 @@ const Audit = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "动作",
@@ -109,9 +111,10 @@ const Audit = () => {
         columns={selectedColumns}
         dataSource={list}
         meta={meta}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         loading={listLoading}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <JsonModal
         width={650}

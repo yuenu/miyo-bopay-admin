@@ -63,7 +63,7 @@ const User = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getUsers, selectUser);
@@ -119,13 +119,20 @@ const User = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "姓名", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    {
+      title: "姓名",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
     {
       title: "帐号",
       dataIndex: "username",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
     { title: "email", dataIndex: "email", editable: true, inputType: "string" },
@@ -134,12 +141,14 @@ const User = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       width: 120,
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
       width: 120,
+      sorter: true,
     },
     {
       title: "启用",
@@ -225,8 +234,9 @@ const User = () => {
         dataSource={list}
         meta={meta}
         loading={listLoading}
-        onChange={handleChangePage}
-        onShowSizeChange={handleShowSizeChange}
+        onChangePage={handleChangePage}
+        onShowSizeChange={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
       />
       <AddEdit

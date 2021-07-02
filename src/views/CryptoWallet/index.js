@@ -46,7 +46,7 @@ const CryptoWallet = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
     setLoading: setListLoading,
   } = useList(getCryptoWallets, selectCryptoWallet);
@@ -94,13 +94,14 @@ const CryptoWallet = () => {
     handleGetList({ page: meta.current });
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
+    { title: "ID", dataIndex: "id", sorter: true },
     {
       title: "钱包名",
       dataIndex: "name",
       width: "150px",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
     {
       title: "钱包所有者",
@@ -120,6 +121,7 @@ const CryptoWallet = () => {
       title: "余额",
       dataIndex: "balance",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
     },
     {
       title: "区块链",
@@ -145,11 +147,13 @@ const CryptoWallet = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "是否启用",
@@ -218,9 +222,10 @@ const CryptoWallet = () => {
         dataSource={list}
         meta={meta}
         loading={listLoading}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <Add
         visible={addVisible}

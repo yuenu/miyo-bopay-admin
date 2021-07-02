@@ -26,7 +26,7 @@ const AppUser = () => {
     loading: listLoading,
     handleSearch,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
   } = useList(getAppUsers, selectAppUser);
 
   const [detailId, setDetailId] = useState(null);
@@ -45,16 +45,16 @@ const AppUser = () => {
     setJsonVisible(true);
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "会员ID", dataIndex: "userid" },
-    { title: "姓名", dataIndex: "name", width: 90 },
+    { title: "ID", dataIndex: "id", sorter: true },
+    { title: "会员ID", dataIndex: "userid", sorter: true },
+    { title: "姓名", dataIndex: "name", width: 90, sorter: true },
     { title: "电话", dataIndex: "phone" },
-    { title: "AppID", dataIndex: "app_id" },
-    { title: "App名称", dataIndex: "app_name" },
-    { title: "App用户ID", dataIndex: "app_userid" },
-    { title: "开发者ID", dataIndex: "developer_id" },
-    { title: "开发者姓名", dataIndex: "developer_name" },
-    { title: "评级", dataIndex: "rating" },
+    { title: "AppID", dataIndex: "app_id", sorter: true },
+    { title: "App名称", dataIndex: "app_name", sorter: true },
+    { title: "App用户ID", dataIndex: "app_userid", sorter: true },
+    { title: "开发者ID", dataIndex: "developer_id", sorter: true },
+    { title: "开发者姓名", dataIndex: "developer_name", sorter: true },
+    { title: "评级", dataIndex: "rating", sorter: true },
     { title: "注册IP", dataIndex: "register_ip" },
     { title: "等级", dataIndex: "vip" },
     {
@@ -62,11 +62,13 @@ const AppUser = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       width: 120,
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "动作",
@@ -118,9 +120,10 @@ const AppUser = () => {
         columns={selectedColumns}
         dataSource={list}
         meta={meta}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         loading={listLoading}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <JsonModal
         visible={jsonVisible}

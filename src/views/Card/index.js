@@ -29,7 +29,7 @@ const Card = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
   } = useList(getCards, selectCard);
 
   const [addVisible, setAddVisible] = useState(false);
@@ -121,9 +121,10 @@ const Card = () => {
         columns={columns}
         dataSource={list}
         meta={meta}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         loading={listLoading}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <AddEdit
         visible={addVisible}

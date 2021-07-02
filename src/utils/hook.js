@@ -7,6 +7,7 @@ export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
   const { list, currentRow, meta } = useSelector(selector);
   const [searchParams, setSearchParams] = useState(null);
+  const [sortParams, setSortParams] = useState(null);
   const [pageSize, setPageSize] = useState(meta.pageSize);
   const [current, setCurrent] = useState(meta.current);
   const [loading, setLoading] = useState(false);
@@ -19,13 +20,14 @@ export const useList = (action, selector, originParams = {}) => {
           page: current,
           per_page: pageSize,
           ...searchParams,
+          ...sortParams,
           ...params,
         }),
       );
       setLoading(false);
     },
     // eslint-disable-next-line
-    [dispatch, action, pageSize, current, searchParams],
+    [dispatch, action, pageSize, current, searchParams, sortParams],
   );
   const handleSearch = formModel => {
     setSearchParams(formModel);
@@ -33,9 +35,11 @@ export const useList = (action, selector, originParams = {}) => {
   };
   const handleChangePage = (page, pageSize) => {
     setCurrent(page);
-  };
-  const handleShowSizeChange = (page, pageSize) => {
     setPageSize(pageSize);
+  };
+  const handleChange = (pagination, filters, sorter) => {
+    const order = sorter.order === "ascend" ? "" : "-";
+    setSortParams(sorter.order ? { o: order + sorter.field } : null);
   };
   const handleAdd = async ({ action: addAction, ...params }) => {
     setLoading(true);
@@ -53,7 +57,7 @@ export const useList = (action, selector, originParams = {}) => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd,
     setLoading,
   };

@@ -61,7 +61,7 @@ const Order = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
   } = useList(getOrders, selectOrder);
 
   const [detailId, setDetailId] = useState(null);
@@ -134,12 +134,12 @@ const Order = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id" },
+    { title: "ID", dataIndex: "id", sorter: true },
     { title: "订单号", dataIndex: "order_no" },
     { title: "第三方订单号", dataIndex: "trans_no" },
-    { title: "AppID", dataIndex: "app_id" },
-    { title: "商戶ID", dataIndex: "developer_id" },
-    { title: "会员ID", dataIndex: "userid" },
+    { title: "AppID", dataIndex: "app_id", sorter: true },
+    { title: "商戶ID", dataIndex: "developer_id", sorter: true },
+    { title: "会员ID", dataIndex: "userid", sorter: true },
     { title: "会员姓名", dataIndex: "name", width: 100 },
     {
       title: "订单状态",
@@ -173,6 +173,7 @@ const Order = () => {
       dataIndex: "paid_at",
       width: 150,
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "审核状态",
@@ -191,6 +192,7 @@ const Order = () => {
       dataIndex: "notified_at",
       width: 170,
       render: val => dateFormat(val),
+      sorter: true,
     },
     { title: "IP", dataIndex: "client_ip" },
     { title: "错误代码", dataIndex: "failure_code", width: 100 },
@@ -200,18 +202,21 @@ const Order = () => {
       dataIndex: "amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       width: 100,
+      sorter: true,
     },
     {
       title: "实际付款金额",
       dataIndex: "amount_paid",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       width: 100,
+      sorter: true,
     },
     {
       title: "赠送金额",
       dataIndex: "bonus",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       width: 100,
+      sorter: true,
     },
     {
       title: "货币类型",
@@ -254,11 +259,13 @@ const Order = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       width: 120,
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "动作",
@@ -347,14 +354,15 @@ const Order = () => {
         columns={selectedColumns}
         dataSource={list}
         meta={meta}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         loading={listLoading}
         expandable={{
           rowExpandable: record => true,
           expandedRowRender: record =>
             payerCredExpandedRowRender(JSON.stringify(record.payer_cred)),
         }}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <JsonModal
         width={650}

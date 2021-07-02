@@ -39,7 +39,7 @@ const Role = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
   } = useList(getRoles, selectRole);
 
@@ -142,8 +142,14 @@ const Role = () => {
     close();
   };
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "名称", dataIndex: "name", editable: true, inputType: "string" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    {
+      title: "名称",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
     {
       title: "权限列表",
       dataIndex: "perms",
@@ -162,10 +168,20 @@ const Role = () => {
         </Space>
       ),
     },
-    { title: "职员数量", dataIndex: "total" },
+    { title: "职员数量", dataIndex: "total", sorter: true },
     { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
     {
       title: "动作",
       dataIndex: "action",
@@ -220,9 +236,10 @@ const Role = () => {
         columns={selectedColumns}
         dataSource={list}
         loading={listLoading}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
         meta={meta}
       />
       <AddEdit

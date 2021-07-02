@@ -25,7 +25,7 @@ const LoginLog = () => {
     loading: listLoading,
     handleSearch,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
   } = useList(getLoginLogs, selectLoginLog);
 
   const [detailId, setDetailId] = useState(null);
@@ -41,9 +41,9 @@ const LoginLog = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "帐号", dataIndex: "username" },
-    { title: "用户ID", dataIndex: "user_id" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    { title: "帐号", dataIndex: "username", sorter: true },
+    { title: "用户ID", dataIndex: "user_id", sorter: true },
     { title: "IP", dataIndex: "ip" },
     { title: "设备", dataIndex: "device" },
     {
@@ -51,6 +51,7 @@ const LoginLog = () => {
       dataIndex: "login_time",
       width: 120,
       render: val => dateFormat(val),
+      sorter: true,
     },
     { title: "country", dataIndex: "country" },
     {
@@ -58,12 +59,14 @@ const LoginLog = () => {
       dataIndex: "created",
       width: 120,
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       width: 120,
       render: val => dateFormat(val),
+      sorter: true,
     },
     {
       title: "动作",
@@ -90,9 +93,10 @@ const LoginLog = () => {
         columns={columns}
         dataSource={list}
         meta={meta}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         loading={listLoading}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <JsonModal
         visible={jsonVisible}

@@ -33,7 +33,7 @@ const User = () => {
     handleSearch,
     handleGetList,
     handleChangePage,
-    handleShowSizeChange,
+    handleChange,
     handleAdd: handleAddHook,
   } = useList(getDevelopers, selectDeveloper);
 
@@ -85,15 +85,22 @@ const User = () => {
   };
 
   const columns = [
-    { title: "ID", dataIndex: "id" },
-    { title: "用户ID", dataIndex: "user_id" },
+    { title: "ID", dataIndex: "id", sorter: true },
+    { title: "用户ID", dataIndex: "user_id", sorter: true },
     {
       title: "用户名",
       dataIndex: "username",
       editable: true,
       inputType: "string",
+      sorter: true,
     },
-    { title: "商户名", dataIndex: "name", editable: true, inputType: "string" },
+    {
+      title: "商户名",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
     { title: "电话", dataIndex: "phone", editable: true, inputType: "string" },
     { title: "email", dataIndex: "email", editable: true, inputType: "string" },
     {
@@ -129,8 +136,18 @@ const User = () => {
       inputType: "string",
     },
     { title: "备注", dataIndex: "note", editable: true, inputType: "string" },
-    { title: "创建日期", dataIndex: "created", render: val => dateFormat(val) },
-    { title: "更新日期", dataIndex: "updated", render: val => dateFormat(val) },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      sorter: true,
+    },
     {
       title: "动作",
       dataIndex: "action",
@@ -188,9 +205,10 @@ const User = () => {
         dataSource={list}
         meta={meta}
         loading={listLoading}
-        onChange={handleChangePage}
+        onChangePage={handleChangePage}
+        onChange={handleChange}
         onRowEditSubmit={handleRowEditSubmit}
-        onShowSizeChange={handleShowSizeChange}
+        onShowSizeChange={handleChangePage}
       />
       <AddEdit
         visible={addVisible}
