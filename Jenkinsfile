@@ -26,6 +26,7 @@ node('web-builder') {
 
 def pipeline() {
     def images = [:]
+    def GIT_CRED = "bitbucket_robot"
     def registry = env.DOCKER_REGISTRY
     def registryCred = env.DOCKER_REGISTRY_CREDS
     def tag = "1.0.${env.BUILD_NUMBER}-pre"
