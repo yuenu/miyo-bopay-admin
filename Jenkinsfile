@@ -1,3 +1,9 @@
+properties([
+    parameters([
+        booleanParam(description: 'SKIP test', name: 'SKIP_TEST', defaultValue: false)
+    ])
+])
+
 node('web-builder') {
     try {
         pipeline()
@@ -26,6 +32,29 @@ def pipeline() {
 
     stage('checkout') {
         checkout scm
+    }
+
+    stage('test') {
+        if (params.SKIP_TEST) {
+            echo "Skip test."
+        } else {
+            echo "Test."
+        }
+    }
+
+    stage('merge into master') {
+        sshagent([GIT_CRED]) {
+            sh """
+            set -ex
+            echo "Pass test, merge to master"
+            git checkout master
+            git pull
+            git merge origin/dev
+            git push origin master
+            git status
+            git rev-parse --short HEAD
+            """
+        }
     }
 
     stage('pull spinach/web/server') {
