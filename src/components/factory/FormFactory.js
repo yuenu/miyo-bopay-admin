@@ -70,7 +70,6 @@ export const CurrencyHelpTextFormItemFactory = ({
   defaultValKey,
   label,
   row,
-  children,
 }) => {
   const [value, setValue] = useState(null);
   const helpText = useCallback(() => {
