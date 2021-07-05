@@ -61,7 +61,7 @@ const AddEdit = props => {
             label="type"
             rules={[{ required: true, message: "请输入type" }]}
           >
-            <Input />
+            <InputNumber />
           </Form.Item>
           <Form.Item
             name="gateway"
