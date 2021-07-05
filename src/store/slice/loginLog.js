@@ -14,7 +14,7 @@ export const getLoginLogs = createAsyncThunk(
   },
 );
 
-export const getLoginLog = createAsyncThunk("gateway/getDetail", async id => {
+export const getLoginLog = createAsyncThunk("loginLog/getDetail", async id => {
   const res = await request({
     url: `/api/loginlogs/${id}`,
     method: "get",

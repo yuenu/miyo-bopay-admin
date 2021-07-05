@@ -16,6 +16,9 @@ import appReducer from "./slice/app";
 import gatewayReducer from "./slice/gateway";
 import auditReducer from "./slice/audit";
 import roleReducer from "./slice/role";
+import agentDailyReducer from "./slice/agentDaily";
+import developerDailyReducer from "./slice/developerDaily";
+import orderDailyReducer from "./slice/orderDaily";
 
 export default configureStore({
   reducer: {
@@ -36,5 +39,8 @@ export default configureStore({
     gateway: gatewayReducer,
     audit: auditReducer,
     role: roleReducer,
+    agentDaily: agentDailyReducer,
+    developerDaily: developerDailyReducer,
+    orderDaily: orderDailyReducer,
   },
 });

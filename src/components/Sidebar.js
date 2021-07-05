@@ -10,6 +10,8 @@ import {
   UserSwitchOutlined,
   LoginOutlined,
   TableOutlined,
+  BarChartOutlined,
+  PayCircleOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
 import { useDispatch } from "react-redux";
@@ -44,7 +46,7 @@ const SidebarView = () => {
           {Item("/App")}
           {Item("/AppUser")}
         </SubMenu>
-        <SubMenu key="Pay" icon={<TeamOutlined />} title="支付管理">
+        <SubMenu key="Pay" icon={<PayCircleOutlined />} title="支付管理">
           {Item("/Gateway")}
           {Item("/Gateway1")}
           {Item("/Gateway2")}
@@ -52,10 +54,10 @@ const SidebarView = () => {
           {Item("/Gateway4")}
         </SubMenu>
         {Item("/Order", <ContainerOutlined />)}
-        <SubMenu key="Crypto" icon={<TeamOutlined />} title="加密货币">
-          {Item("/CryptoWallet", <WalletOutlined />)}
-          {Item("/CryptoAcct", <WalletOutlined />)}
-          {Item("/CryptoAcctLog", <WalletOutlined />)}
+        <SubMenu key="Crypto" icon={<WalletOutlined />} title="加密货币">
+          {Item("/CryptoWallet")}
+          {Item("/CryptoAcct")}
+          {Item("/CryptoAcctLog")}
         </SubMenu>
         {Item("/Card", <CreditCardOutlined />)}
         {Item("/Agent", <UserSwitchOutlined />)}
@@ -64,6 +66,11 @@ const SidebarView = () => {
         <SubMenu key="Users" icon={<UserOutlined />} title="用户管理">
           {Item("/")}
           {Item("/Role")}
+        </SubMenu>
+        <SubMenu key="Report" icon={<BarChartOutlined />} title="报表">
+          {Item("/AgentDaily")}
+          {Item("/DeveloperDaily")}
+          {Item("/OrderDaily")}
         </SubMenu>
       </Menu>
     </Sider>

@@ -128,5 +128,23 @@ const routes = [
     component: () => getComponent("Audit"),
     displayName: "审计日志",
   },
+  {
+    path: "/AgentDaily",
+    name: "AgentDaily",
+    component: () => getComponent("Report/AgentDaily"),
+    displayName: "代理日报",
+  },
+  {
+    path: "/DeveloperDaily",
+    name: "DeveloperDaily",
+    component: () => getComponent("Report/DeveloperDaily"),
+    displayName: "开发者日报",
+  },
+  {
+    path: "/OrderDaily",
+    name: "OrderDaily",
+    component: () => getComponent("Report/OrderDaily"),
+    displayName: "订单日报",
+  },
 ];
 export default routes;
