@@ -11,6 +11,7 @@ const SearchSelect = ({
   searchKey,
   label,
   val,
+  onSelect,
   ...rest
 }) => {
   const dispatch = useDispatch();
@@ -49,6 +50,10 @@ const SearchSelect = ({
   useEffect(() => {
     handleInit();
   }, [handleInit]);
+
+  const handleSelect = val => {
+    onSelect(list.find(i => i.id === val));
+  };
   return (
     <Select
       showSearch
@@ -56,6 +61,7 @@ const SearchSelect = ({
       onSearch={handleSearch}
       onPopupScroll={handleScroll}
       notFoundContent={loading ? <Spin spinning={loading} /> : null}
+      onSelect={val => handleSelect(val)}
       {...rest}
     >
       {list.map(i => (

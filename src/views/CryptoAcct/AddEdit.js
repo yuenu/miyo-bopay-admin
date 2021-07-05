@@ -22,6 +22,10 @@ const AddEdit = props => {
     props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
   });
 
+  const handleOnWalletIdSelect = row => {
+    form.setFieldsValue({ currency: row.currency });
+  };
+
   return (
     <Modal
       title={`${mode[props.mode]}收款地址`}
@@ -34,14 +38,28 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="wallet_id" label="钱包ID">
+          <Form.Item
+            name="wallet_id"
+            label="钱包ID"
+            rules={[{ required: true, message: "请输入钱包ID" }]}
+          >
             <SearchSelect
               action={getCryptoWallets}
               selector={selectCryptoWallet}
               searchKey="name"
               val="id"
               label={i => `${i.id} ${i.name}`}
+              onSelect={handleOnWalletIdSelect}
             />
+          </Form.Item>
+          <Form.Item name="currency" label="货币">
+            <Select disabled>
+              {Object.keys(Currency).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Currency[i]}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="name" label="名称">
             <Input />
@@ -55,15 +73,6 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="balance" label="余额">
             <InputNumber />
-          </Form.Item>
-          <Form.Item name="currency" label="货币">
-            <Select>
-              {Object.keys(Currency).map(i => (
-                <Option value={Number(i)} key={i}>
-                  {Currency[i]}
-                </Option>
-              ))}
-            </Select>
           </Form.Item>
           <Form.Item name="last_block" label="last_block">
             <InputNumber />
