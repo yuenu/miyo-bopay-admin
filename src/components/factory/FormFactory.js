@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { Card, Form, Row, Col, Space, Button } from "antd";
 import InputFactory from "./InputFactory";
 import { formLayout } from "@/utils/enum";
-import { searchFieldsFormat } from "@/utils/format";
+import { searchFieldsFormat, priceFormat } from "@/utils/format";
 
 /**
  * fields
@@ -62,5 +62,37 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
         </Row>
       </Form>
     </Card>
+  );
+};
+
+export const CurrencyHelpTextFormItemFactory = ({
+  name,
+  defaultValKey,
+  label,
+  row,
+  children,
+}) => {
+  const [value, setValue] = useState(null);
+  const helpText = useCallback(() => {
+    return `数量：${priceFormat({
+      val: value || row[defaultValKey] || row[name],
+      currency: row.currency,
+    })}`;
+    // eslint-disable-next-line
+  }, [row.id, value]);
+  const handleOnChange = val => {
+    setValue(val);
+    return val;
+  };
+  return (
+    <Form.Item
+      name={name}
+      label={label}
+      validateStatus="warning"
+      help={helpText()}
+      getValueFromEvent={handleOnChange}
+    >
+      {children}
+    </Form.Item>
   );
 };

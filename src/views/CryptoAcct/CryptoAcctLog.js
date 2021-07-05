@@ -27,7 +27,10 @@ import {
 } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
-import { SearchFormFactory } from "@/components/factory/FormFactory";
+import {
+  SearchFormFactory,
+  CurrencyHelpTextFormItemFactory,
+} from "@/components/factory/FormFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import JsonModal from "@/components/JsonModal";
 import Tag from "@/components/Tag";
@@ -271,6 +274,7 @@ const CryptoWallet = () => {
         onCancel={() => setEditVisible(false)}
         cancelText="取消"
         okText="送出"
+        destroyOnClose
       >
         <Spin spinning={detailLoading}>
           <Form {...formLayout} form={form}>
@@ -278,9 +282,14 @@ const CryptoWallet = () => {
             <Form.Item name="order_id" label="订单ID">
               <InputNumber />
             </Form.Item>
-            <Form.Item name="amount_paid" label="订单金额">
+            <CurrencyHelpTextFormItemFactory
+              name="amount_paid"
+              label="订单金额"
+              row={currentRow}
+              defaultValKey="amount"
+            >
               <InputNumber />
-            </Form.Item>
+            </CurrencyHelpTextFormItemFactory>
             <Form.Item name="note" label="备注">
               <Input />
             </Form.Item>
