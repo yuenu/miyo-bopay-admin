@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { Card, Form, Row, Col, Space, Button } from "antd";
+import { Card, Form, Row, Col, Space, Button, InputNumber } from "antd";
 import InputFactory from "./InputFactory";
 import { formLayout } from "@/utils/enum";
 import { searchFieldsFormat, priceFormat } from "@/utils/format";
@@ -92,7 +92,7 @@ export const CurrencyHelpTextFormItemFactory = ({
       help={helpText()}
       getValueFromEvent={handleOnChange}
     >
-      {children}
+      <InputNumber />
     </Form.Item>
   );
 };

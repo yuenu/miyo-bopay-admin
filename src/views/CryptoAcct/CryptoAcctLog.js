@@ -287,9 +287,7 @@ const CryptoWallet = () => {
               label="订单金额"
               row={currentRow}
               defaultValKey="amount"
-            >
-              <InputNumber />
-            </CurrencyHelpTextFormItemFactory>
+            />
             <Form.Item name="note" label="备注">
               <Input />
             </Form.Item>
