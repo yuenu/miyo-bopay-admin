@@ -13,7 +13,9 @@ import {
   editCryptoAcct,
   addCryptoAcct,
 } from "@/store/slice/cryptoAcct";
+import { selectCryptoWallet } from "@/store/slice/cryptoWallet";
 import { EditableCell } from "@/components/factory/TableFactory";
+import { Currency } from "@/utils/enum";
 import arrayMove from "array-move";
 const DragHandle = sortableHandle(() => (
   <MenuOutlined style={{ cursor: "grab", color: "#999" }} />
@@ -23,7 +25,7 @@ const SortableItem = sortableElement(props => <tr {...props} />);
 const SortableContainer = sortableContainer(props => <tbody {...props} />);
 const EditAcctList = ({ id }) => {
   const dispatch = useDispatch();
-
+  const { currentRow } = useSelector(selectCryptoWallet);
   const [listLoading, setListLoading] = useState(false);
   const { list } = useSelector(selectCryptoAcct);
   const handleGetList = useCallback(
@@ -130,6 +132,13 @@ const EditAcctList = ({ id }) => {
       title: "序号",
       dataIndex: "w",
       width: 80,
+    },
+    {
+      title: "货币",
+      dataIndex: "currency",
+      render: val =>
+        (mode === "edit" ? Currency[val] : Currency[currentRow.currency]) || "",
+      width: 110,
     },
     {
       title: "启用",
@@ -272,7 +281,11 @@ const EditAcctList = ({ id }) => {
   });
   const handleAddClick = async () => {
     const formModel = addForm.getFieldsValue();
-    const params = { ...formModel, wallet_id: Number(id), currency: 1 };
+    const params = {
+      ...formModel,
+      wallet_id: Number(id),
+      currency: currentRow.currency,
+    };
     await addCryptoAcct(params);
     addForm.resetFields();
     handleGetList();
