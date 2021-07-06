@@ -46,7 +46,6 @@ const Edit = () => {
     loading: listLoading,
     handleGetList,
     handleChangePage,
-    handleChange,
   } = useList(getCryptoAccts, selectCryptoAcct, { wallet_id: Number(id) });
 
   return (
