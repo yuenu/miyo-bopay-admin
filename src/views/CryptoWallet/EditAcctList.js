@@ -1,18 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { Card, Form, Input, Button, Switch, Table } from "antd";
+import React, { useState, useEffect } from "react";
+import { Card, Form, Input, Button, Switch, Table, Pagination } from "antd";
 import {
   sortableContainer,
   sortableElement,
   sortableHandle,
 } from "react-sortable-hoc";
 import { MenuOutlined } from "@ant-design/icons";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectCryptoAcct,
-  getCryptoAccts,
-  editCryptoAcct,
-  addCryptoAcct,
-} from "@/store/slice/cryptoAcct";
+import { useSelector } from "react-redux";
+import { editCryptoAcct, addCryptoAcct } from "@/store/slice/cryptoAcct";
 import { selectCryptoWallet } from "@/store/slice/cryptoWallet";
 import { EditableCell } from "@/components/factory/TableFactory";
 import { Currency } from "@/utils/enum";
@@ -23,22 +18,15 @@ const DragHandle = sortableHandle(() => (
 
 const SortableItem = sortableElement(props => <tr {...props} />);
 const SortableContainer = sortableContainer(props => <tbody {...props} />);
-const EditAcctList = ({ id }) => {
-  const dispatch = useDispatch();
+const EditAcctList = ({
+  id,
+  loading,
+  list,
+  meta,
+  handleGetList,
+  handleChangePage,
+}) => {
   const { currentRow } = useSelector(selectCryptoWallet);
-  const [listLoading, setListLoading] = useState(false);
-  const { list } = useSelector(selectCryptoAcct);
-  const handleGetList = useCallback(
-    async (params = {}) => {
-      setListLoading(true);
-      await dispatch(getCryptoAccts({ wallet_id: Number(id), ...params }));
-      setListLoading(false);
-    },
-    [dispatch, id],
-  );
-  useEffect(() => {
-    handleGetList();
-  }, [handleGetList]);
 
   //edit
   const [form] = Form.useForm();
@@ -301,7 +289,7 @@ const EditAcctList = ({ id }) => {
             rowKey="id"
             components={editComponents}
             pagination={false}
-            loading={listLoading}
+            loading={loading}
           />
         </Form>
       )}
@@ -316,6 +304,13 @@ const EditAcctList = ({ id }) => {
           pagination={false}
         />
       </Form>
+      <Pagination
+        className="text-right mt-1"
+        showSizeChanger
+        onShowSizeChange={handleChangePage}
+        onChange={handleChangePage}
+        {...meta}
+      />
     </Card>
   );
 };

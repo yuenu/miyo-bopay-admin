@@ -6,13 +6,13 @@ import {
   getCryptoWallet,
   editCryptoWallet,
 } from "@/store/slice/cryptoWallet";
+import { selectCryptoAcct, getCryptoAccts } from "@/store/slice/cryptoAcct";
 import { formLayout, Currency, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
-import { useDetail } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { useHistory } from "react-router-dom";
 import Spin from "@/components/Spin";
 import EditAcctList from "./EditAcctList";
-
 const { Option } = Select;
 
 const Edit = () => {
@@ -30,10 +30,24 @@ const Edit = () => {
   const handleCancel = () => {
     history.push("/CryptoWallet");
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formModel = form.getFieldsValue();
-    handleEdit({ action: editCryptoWallet, ...currentRow, id, ...formModel });
+    await handleEdit({
+      action: editCryptoWallet,
+      ...currentRow,
+      id,
+      ...formModel,
+    });
+    handleGetList({ wallet_id: Number(id) });
   };
+
+  const {
+    res: { list, meta },
+    loading: listLoading,
+    handleGetList,
+    handleChangePage,
+    handleChange,
+  } = useList(getCryptoAccts, selectCryptoAcct, { wallet_id: Number(id) });
 
   return (
     <Space direction="vertical" className="w-100">
@@ -90,7 +104,14 @@ const Edit = () => {
           </Form>
         </Spin>
       </Card>
-      <EditAcctList id={id} />
+      <EditAcctList
+        id={id}
+        list={list}
+        meta={meta}
+        loading={listLoading}
+        handleGetList={handleGetList}
+        handleChangePage={handleChangePage}
+      />
     </Space>
   );
 };
