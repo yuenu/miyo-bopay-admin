@@ -11,10 +11,9 @@ import {
 import { Currency, IsBoolEnum, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
-import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import Add from "./Add";
 import Detail from "@/components/Detail";
@@ -202,23 +201,15 @@ const CryptoWallet = () => {
     "is_active",
     "action",
   ];
-  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
-    columns,
-    defaultColumns,
-  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <ColumnsSelect
-        columns={columns}
-        value={selectedColumns}
-        onChange={handleSelectedColumnsChange}
-      />
       <EditableTable
-        columns={selectedColumns}
+        allColumns={columns}
+        defaultColumns={defaultColumns}
         dataSource={list}
         meta={meta}
         loading={listLoading}

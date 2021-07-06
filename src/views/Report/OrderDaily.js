@@ -71,7 +71,8 @@ const OrderDaily = () => {
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <NormalTable
-        columns={columns}
+        allColumns={columns}
+        defaultColumns={columns.map(i => i.dataIndex)}
         dataSource={list}
         meta={meta}
         onChangePage={handleChangePage}

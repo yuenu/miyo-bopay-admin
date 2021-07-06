@@ -21,11 +21,10 @@ import {
   ApprovalStatus,
 } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
-import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
-import ColumnsSelect from "@/components/ColumnsSelect";
 import Edit from "./Edit";
 import Detail from "./Detail";
 import JsonModal from "@/components/JsonModal";
@@ -336,23 +335,16 @@ const Order = () => {
     "created",
     "action",
   ];
-  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
-    columns,
-    defaultColumns,
-  });
+
   const payerCredExpandedRowRender = record => {
     return <div>{record}</div>;
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
-      <ColumnsSelect
-        columns={columns}
-        value={selectedColumns}
-        onChange={handleSelectedColumnsChange}
-      />
       <NormalTable
-        columns={selectedColumns}
+        allColumns={columns}
+        defaultColumns={defaultColumns}
         dataSource={list}
         meta={meta}
         onChangePage={handleChangePage}

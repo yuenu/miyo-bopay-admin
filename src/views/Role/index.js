@@ -12,10 +12,9 @@ import {
   editPerms,
 } from "@/store/slice/role";
 import { PlusOutlined } from "@ant-design/icons";
-import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
-import ColumnsSelect from "@/components/ColumnsSelect";
 import AddEdit from "./AddEdit";
 import Detail from "./Detail";
 import EditUsers from "./EditUsers";
@@ -222,23 +221,15 @@ const Role = () => {
     },
   ];
   const defaultColumns = ["id", "name", "perms", "action"];
-  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
-    columns,
-    defaultColumns,
-  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
         添加
       </Button>
-      <ColumnsSelect
-        columns={columns}
-        value={selectedColumns}
-        onChange={handleSelectedColumnsChange}
-      />
       <EditableTable
-        columns={selectedColumns}
+        allColumns={columns}
+        defaultColumns={defaultColumns}
         dataSource={list}
         loading={listLoading}
         onChangePage={handleChangePage}

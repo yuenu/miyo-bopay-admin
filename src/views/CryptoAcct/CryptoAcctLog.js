@@ -26,12 +26,11 @@ import {
   TransRedirect,
 } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
-import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import {
   SearchFormFactory,
   CurrencyHelpTextFormItemFactory,
 } from "@/components/factory/FormFactory";
-import ColumnsSelect from "@/components/ColumnsSelect";
 import JsonModal from "@/components/JsonModal";
 import Tag from "@/components/Tag";
 import { NormalTable } from "@/components/factory/TableFactory";
@@ -239,20 +238,12 @@ const CryptoWallet = () => {
     "note",
     "action",
   ];
-  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
-    columns,
-    defaultColumns,
-  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
-      <ColumnsSelect
-        columns={columns}
-        value={selectedColumns}
-        onChange={handleSelectedColumnsChange}
-      />
       <NormalTable
-        columns={selectedColumns}
+        allColumns={columns}
+        defaultColumns={defaultColumns}
         dataSource={list}
         meta={meta}
         onChangePage={handleChangePage}

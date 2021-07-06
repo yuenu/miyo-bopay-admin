@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Button, Space } from "antd";
 import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
-import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
+import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import ColumnsSelect from "@/components/ColumnsSelect";
 import Detail from "@/components/Detail";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
@@ -104,20 +103,12 @@ const AppUser = () => {
     "created",
     "action",
   ];
-  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
-    columns,
-    defaultColumns,
-  });
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
-      <ColumnsSelect
-        columns={columns}
-        value={selectedColumns}
-        onChange={handleSelectedColumnsChange}
-      />
       <NormalTable
-        columns={selectedColumns}
+        allColumns={columns}
+        defaultColumns={defaultColumns}
         dataSource={list}
         meta={meta}
         onChangePage={handleChangePage}

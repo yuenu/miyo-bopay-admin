@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Table, Button, Form, Pagination, Space } from "antd";
 import InputFactory from "./InputFactory";
-
+import { useColumnsSelect } from "@/utils/hook";
+import ColumnsSelect from "@/components/ColumnsSelect";
 const valuePropName = type =>
   type === "checkbox" || type === "switch" ? "checked" : "value";
 
@@ -47,11 +48,12 @@ const EditableCell = ({
  * @param {Object} columns.options - if inputType === 'select', using options
  */
 const EditableTable = ({
-  columns,
   onRowEditSubmit,
   meta,
   onChangePage,
   onShowSizeChange,
+  allColumns,
+  defaultColumns,
   ...props
 }) => {
   const [form] = Form.useForm();
@@ -77,9 +79,12 @@ const EditableTable = ({
     form.resetFields();
     setCurrentEditRow("record");
   };
-
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
+    columns: allColumns,
+    defaultColumns,
+  });
   const editColumns = [
-    ...columns.filter(i => i.dataIndex !== "action"),
+    ...selectedColumns.filter(i => i.dataIndex !== "action"),
     ...[
       {
         title: "快速编辑",
@@ -117,7 +122,7 @@ const EditableTable = ({
         },
       },
     ],
-    ...columns.filter(i => i.dataIndex === "action"),
+    ...selectedColumns.filter(i => i.dataIndex === "action"),
   ];
   const mergedColumns = editColumns.map(col => {
     if (!col.editable) {
@@ -141,8 +146,14 @@ const EditableTable = ({
       cell: EditableCell,
     },
   };
+
   return (
     <Space direction="vertical" className="w-100">
+      <ColumnsSelect
+        columns={allColumns}
+        value={selectedColumns}
+        onChange={handleSelectedColumnsChange}
+      />
       <Form form={form} component={false}>
         <Table
           size="small"
@@ -165,14 +176,31 @@ const EditableTable = ({
   );
 };
 
-const NormalTable = ({ onShowSizeChange, onChangePage, meta, ...props }) => {
+const NormalTable = ({
+  onShowSizeChange,
+  onChangePage,
+  meta,
+  allColumns,
+  defaultColumns,
+  ...props
+}) => {
+  const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
+    columns: allColumns,
+    defaultColumns,
+  });
   return (
     <Space direction="vertical" className="w-100">
+      <ColumnsSelect
+        columns={allColumns}
+        value={selectedColumns}
+        onChange={handleSelectedColumnsChange}
+      />
       <Table
         size="small"
         rowKey="id"
         scroll={{ x: "auto" }}
         pagination={false}
+        columns={selectedColumns}
         {...props}
       />
       <Pagination

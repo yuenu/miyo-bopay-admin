@@ -118,7 +118,8 @@ const Card = () => {
         添加
       </Button>
       <NormalTable
-        columns={columns}
+        allColumns={columns}
+        defaultColumns={columns.map(i => i.dataIndex)}
         dataSource={list}
         meta={meta}
         onChangePage={handleChangePage}
