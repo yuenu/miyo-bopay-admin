@@ -86,7 +86,12 @@ const Role = () => {
     setEditVisible(true);
   };
   const handleEdit = async formModel => {
-    await handleEditHook({ action: editRole, id: currentRow.id, ...formModel });
+    const { status } = await handleEditHook({
+      action: editRole,
+      id: currentRow.id,
+      ...formModel,
+    });
+    if (status !== 200) return;
     setEditVisible(false);
     setDetailId(null);
     handleGetList({ page: meta.current });

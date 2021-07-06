@@ -81,6 +81,7 @@ export const useDetail = ({ action, id }, selector) => {
     });
     status === 200 && message.success("更新成功！");
     setLoading(false);
+    return { status };
   };
   useEffect(() => {
     id && handleGetDetail();

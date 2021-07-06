@@ -101,11 +101,12 @@ const GatewayTypes = ({ params }) => {
     setEditVisible(true);
   };
   const handleEdit = async formModel => {
-    await handleEditHook({
+    const { status } = await handleEditHook({
       action: editGateway,
       id: currentRow.id,
       ...formModel,
     });
+    if (status !== 200) return;
     setEditVisible(false);
     handleGetList({ page: meta.current });
   };

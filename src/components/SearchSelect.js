@@ -52,7 +52,7 @@ const SearchSelect = ({
   }, [handleInit]);
 
   const handleSelect = val => {
-    onSelect(list.find(i => i.id === val));
+    onSelect && onSelect(list.find(i => i.id === val));
   };
   return (
     <Select

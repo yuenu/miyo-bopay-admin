@@ -91,10 +91,11 @@ const Order = () => {
   };
   const handleEditOk = async formModel => {
     const action = editMode === "approve" ? approveOrder : denyOrder;
-    await handleEdit({ action, id: detailId, ...formModel });
-    await handleGetList({ page: meta.page });
+    const { status } = await handleEdit({ action, id: detailId, ...formModel });
+    if (status !== 200) return;
     setEditVisible(false);
     setDetailId(null);
+    await handleGetList({ page: meta.page });
   };
 
   const handleCancelClick = id => {
