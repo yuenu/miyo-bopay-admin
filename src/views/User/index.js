@@ -6,6 +6,7 @@ import {
   getUser,
   addUser,
   editUser,
+  resetUserPsw,
 } from "@/store/slice/user";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail, useColumnsSelect } from "@/utils/hook";
@@ -14,6 +15,7 @@ import { EditableTable } from "@/components/factory/TableFactory";
 import ColumnsSelect from "@/components/ColumnsSelect";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
+import ResetPsw from "./ResetPsw";
 import Detail from "@/components/Detail";
 import JsonModal from "@/components/JsonModal";
 import { IsBoolEnum } from "@/utils/enum";
@@ -123,6 +125,22 @@ const User = () => {
     handleGetList({ page: meta.current });
   };
 
+  const [resetPswVisible, setResetPswVisible] = useState(false);
+  const handleResetPswClick = id => {
+    setDetailId(id);
+    setResetPswVisible(true);
+  };
+  const handleResetPsw = async formModel => {
+    const { status } = await handleEditHook({
+      action: resetUserPsw,
+      id: currentRow.id,
+      ...formModel,
+    });
+    if (status !== 200) return;
+    setResetPswVisible(false);
+    setDetailId(null);
+  };
+
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
@@ -207,6 +225,9 @@ const User = () => {
           >
             查看
           </Button>
+          <Button size="small" onClick={() => handleResetPswClick(record.id)}>
+            重置密码
+          </Button>
           <Button size="small" onClick={() => handleEditClick(record.id)}>
             编辑
           </Button>
@@ -272,6 +293,13 @@ const User = () => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
+      />
+      <ResetPsw
+        visible={resetPswVisible}
+        onOk={handleResetPsw}
+        onCancel={() => setResetPswVisible(false)}
+        loading={detailLoading}
+        data={currentRow}
       />
     </Space>
   );

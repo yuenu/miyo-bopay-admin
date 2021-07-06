@@ -1,34 +1,49 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Checkbox, Switch } from "antd";
-import { formLayout, mode } from "@/utils/enum";
+import { formLayout, mode as Mode } from "@/utils/enum";
 import Spin from "@/components/Spin";
 
-const AddEdit = props => {
+const AddEdit = ({ visible, mode, data, onCancel, onOk, loading }) => {
   const wrapperCol = {
     offset: formLayout.labelCol.span,
     span: formLayout.wrapperCol.span,
   };
   const [form] = Form.useForm();
   const handleOk = async () => {
-    await props.onOk(form.getFieldsValue());
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await onOk(formModel);
+      form.resetFields();
+    });
   };
   useEffect(() => {
-    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+    visible && mode === "edit" && form.setFieldsValue(data);
   });
 
   return (
     <Modal
-      title={`${mode[props.mode]}职员`}
-      visible={props.visible}
+      title={`${Mode[mode]}职员`}
+      visible={visible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       cancelText="取消"
       okText="送出"
-      confirmLoading={props.loading}
+      confirmLoading={loading}
     >
-      <Spin spinning={props.loading}>
+      <Spin spinning={loading}>
         <Form {...formLayout} form={form}>
+          <Form.Item
+            name="username"
+            label="帐号"
+            rules={[{ required: true, message: "请输入帐号" }]}
+          >
+            <Input />
+          </Form.Item>
+          {mode === "add" ? (
+            <Form.Item name="password" label="密码">
+              <Input />
+            </Form.Item>
+          ) : null}
           <Form.Item name="name" label="姓名">
             <Input />
           </Form.Item>
@@ -36,12 +51,6 @@ const AddEdit = props => {
             <Input />
           </Form.Item>
           <Form.Item name="email" label="email">
-            <Input />
-          </Form.Item>
-          <Form.Item name="username" label="帐号">
-            <Input />
-          </Form.Item>
-          <Form.Item name="password" label="密码">
             <Input />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">

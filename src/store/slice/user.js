@@ -45,6 +45,14 @@ export const deleteUser = async id => {
   });
   return res;
 };
+export const resetUserPsw = async params => {
+  const res = await request({
+    url: `/api/users/${params.id}/password`,
+    method: "post",
+    data: params.formModel,
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "user",
