@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Form, Input, Space, Button, Select, Switch } from "antd";
 import { useParams } from "react-router-dom";
 import {
   selectCryptoWallet,
   getCryptoWallet,
   editCryptoWallet,
+  activeCryptoWallet,
 } from "@/store/slice/cryptoWallet";
 import { selectCryptoAcct, getCryptoAccts } from "@/store/slice/cryptoAcct";
 import { formLayout, Currency, Network } from "@/utils/enum";
@@ -18,9 +19,10 @@ const { Option } = Select;
 const Edit = () => {
   const history = useHistory();
   const { id } = useParams();
+  const [walletId, setWalletId] = useState(Number(id));
   const [form] = Form.useForm();
   const { currentRow, loading, handleEdit } = useDetail(
-    { action: getCryptoWallet, id },
+    { action: getCryptoWallet, id: walletId },
     selectCryptoWallet,
   );
   useEffect(() => {
@@ -38,9 +40,18 @@ const Edit = () => {
       id,
       ...formModel,
     });
-    handleGetList({ wallet_id: Number(id) });
+    handleGetList({ wallet_id: walletId });
   };
-
+  const handleChangeIsActive = async checked => {
+    await handleEdit({
+      action: activeCryptoWallet,
+      id: currentRow.id,
+      is_active: checked,
+    });
+    handleGetList({ wallet_id: walletId });
+    setWalletId(null);
+    setWalletId(Number(id));
+  };
   const {
     res: { list, meta },
     loading: listLoading,
@@ -52,6 +63,12 @@ const Edit = () => {
     <Space direction="vertical" className="w-100">
       <Card>
         <Spin spinning={loading}>
+          <Form.Item {...formLayout} label="启用" valuePropName="checked">
+            <Switch
+              checked={currentRow.is_active}
+              onChange={handleChangeIsActive}
+            />
+          </Form.Item>
           <Form form={form} {...formLayout}>
             <Form.Item label="钱包名" name="name">
               <Input />
@@ -85,9 +102,6 @@ const Edit = () => {
                   </Option>
                 ))}
               </Select>
-            </Form.Item>
-            <Form.Item label="启用" name="is_active" valuePropName="checked">
-              <Switch />
             </Form.Item>
             <Form.Item label="备注" name="note">
               <Input />

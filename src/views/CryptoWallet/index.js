@@ -86,7 +86,8 @@ const CryptoWallet = () => {
   };
   const handleChangeIsActive = async (checked, { id }) => {
     setListLoading(true);
-    await activeCryptoWallet({
+    await handleEditHook({
+      action: activeCryptoWallet,
       id,
       is_active: checked,
     });

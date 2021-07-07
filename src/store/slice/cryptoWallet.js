@@ -53,7 +53,10 @@ export const activeCryptoWallet = async params => {
   const res = await request({
     url: `/api/cryptowallets/set-active`,
     method: "post",
-    data: params,
+    data: {
+      id: params.id,
+      ...params.formModel,
+    },
   });
   return res;
 };
