@@ -10,13 +10,14 @@ import { selectAuth } from "@/store/slice/auth";
 import { setModalDiscSpan } from "@/store/slice/layout";
 import routes from "@/router";
 import { setRouterTabs } from "@/store/slice/routerTab";
+import { connectSocket } from "@/utils/ws";
 const { Content, Footer } = Layout;
-
 const GlobalLayout = () => {
   const { pathname } = useLocation();
   const { user } = useSelector(selectAuth);
   const dispatch = useDispatch();
   useEffect(() => {
+    connectSocket();
     dispatch(setRouterTabs(pathname));
   });
   useEffect(() => {

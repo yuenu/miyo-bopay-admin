@@ -624,3 +624,7 @@ export const Perms = [
     ],
   },
 ];
+
+export const wsType = {
+  "order.pending": "新的待审订单",
+};
