@@ -24,6 +24,7 @@ const { Link, Text, Paragraph } = Typography;
 const CryptoAcct = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
+    wallet_id__in: { type: "string", label: "钱包ID" },
     name__k: { type: "string", label: "名称" },
     currency: { type: "select", label: "货币", options: Currency },
     is_active: {
