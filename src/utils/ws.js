@@ -14,7 +14,8 @@ export const connectSocket = () => {
     const res = JSON.parse(msg.data);
     res.type !== "pong" &&
       Notification({
-        title: wsType[res.type] || "ws",
+        type: "info",
+        title: wsType[res.type] || res.type || "ws",
         message: "",
       });
   };
