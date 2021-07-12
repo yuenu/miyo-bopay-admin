@@ -3,12 +3,13 @@ import { wsType } from "@/utils/enum";
 const wsUrl = process.env.REACT_APP_WS_URL;
 export var socket = null;
 const handlePinPerSecond = () => {
-  socket.send(JSON.stringify({ type: "ping" }));
+  if (socket.readyState === 1) socket.send(JSON.stringify({ type: "ping" }));
 };
+export let pingTimer;
 export const connectSocket = () => {
   socket = new WebSocket(wsUrl);
   socket.onopen = function () {
-    setInterval(handlePinPerSecond, 10 * 1000);
+    pingTimer = setInterval(handlePinPerSecond, 10000);
   };
   socket.onmessage = function (msg) {
     const res = JSON.parse(msg.data);
@@ -24,7 +25,7 @@ export const connectSocket = () => {
   };
   socket.onclose = function () {
     // connectSocket();
-    clearInterval(handlePinPerSecond);
+    clearInterval(pingTimer);
   };
 };
 export const sendSocketMessage = msg => {
