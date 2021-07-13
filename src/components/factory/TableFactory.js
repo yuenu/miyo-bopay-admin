@@ -16,6 +16,8 @@ const EditableCell = ({
   index,
   children,
   loading,
+  render,
+  editable,
   ...restProps
 }) => {
   return (

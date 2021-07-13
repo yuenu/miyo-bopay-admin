@@ -17,6 +17,7 @@ import Detail from "@/components/Detail";
 import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import { useHistory, generatePath } from "react-router-dom";
 
 const GatewayTypes = ({ params }) => {
   const searchFields = {
@@ -124,6 +125,14 @@ const GatewayTypes = ({ params }) => {
     });
     handleGetList({ page: meta.current });
   };
+
+  const history = useHistory();
+
+  const handleToWallet = crypto_wallet_id => {
+    history.push(
+      generatePath("/CryptoWalletEdit/:id", { id: crypto_wallet_id }),
+    );
+  };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
@@ -179,6 +188,11 @@ const GatewayTypes = ({ params }) => {
     {
       title: "加密钱包ID",
       dataIndex: "crypto_wallet_id",
+      render: val => (
+        <Button type="link" onClick={() => handleToWallet(val)}>
+          {val}
+        </Button>
+      ),
       sorter: true,
     },
     {
@@ -212,6 +226,7 @@ const GatewayTypes = ({ params }) => {
     {
       title: "decimals",
       dataIndex: "decimals",
+      render: val => Number(val).toFixed(2),
     },
     {
       title: "random_decimals",

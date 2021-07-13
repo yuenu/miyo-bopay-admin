@@ -221,6 +221,10 @@ const EditAcctList = ({
     dataIndex,
     editable,
     record,
+    render,
+    inputType,
+    editing,
+    loading,
     ...restProps
   }) => {
     let childNode;
