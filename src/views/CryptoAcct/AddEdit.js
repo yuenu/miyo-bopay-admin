@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, InputNumber, Switch, Select } from "antd";
-import { formLayout, mode, Currency } from "@/utils/enum";
+import { formLayout, mode as Mode, Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import SearchSelect from "@/components/SearchSelect";
 import {
@@ -9,17 +9,17 @@ import {
 } from "@/store/slice/cryptoWallet";
 const { Option } = Select;
 
-const AddEdit = props => {
+const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
-      await props.onOk(formModel);
+      await onOk(formModel);
       form.resetFields();
     });
   };
   useEffect(() => {
-    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+    visible && mode === "edit" && form.setFieldsValue(data);
   });
 
   const handleOnWalletIdSelect = row => {
@@ -28,15 +28,15 @@ const AddEdit = props => {
 
   return (
     <Modal
-      title={`${mode[props.mode]}收款地址`}
-      visible={props.visible}
+      title={`${Mode[mode]}收款地址`}
+      visible={visible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       cancelText="取消"
       okText="送出"
-      confirmLoading={props.loading}
+      confirmLoading={loading}
     >
-      <Spin spinning={props.loading}>
+      <Spin spinning={loading}>
         <Form {...formLayout} form={form}>
           <Form.Item
             name="wallet_id"
@@ -86,6 +86,18 @@ const AddEdit = props => {
           <Form.Item name="w" label="序号">
             <InputNumber />
           </Form.Item>
+          <Form.Item name="txlimit" label="单笔交易上限">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="txlimit_daily" label="单日累计交易上限">
+            <InputNumber />
+          </Form.Item>
+          {mode === "edit" && (
+            <Form.Item label="累计交易金额">{data?.txlimit_day}</Form.Item>
+          )}
+          {mode === "edit" && (
+            <Form.Item label="累计交易笔数">{data?.tx_cnt}</Form.Item>
+          )}
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />
           </Form.Item>
