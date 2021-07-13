@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Space, Switch } from "antd";
+import { Button, Space, Switch, Tag as AntTag } from "antd";
 import {
   selectGateway,
   getGateways,
@@ -160,7 +160,7 @@ const GatewayTypes = ({ params }) => {
     {
       title: "Apps",
       dataIndex: "apps",
-      render: val => val?.join(","),
+      render: val => val?.map(i => <AntTag key={i}>{i}</AntTag>),
     },
     {
       title: "gateway",
