@@ -54,11 +54,17 @@ export const treeToPermsFormat = selectedPerms => {
   return formModel;
 };
 export const getDefaultCheckKeys = perms => {
-  let defaultCheckedKeys = [];
-  Object.keys(perms).forEach(i => {
-    perms[i] && defaultCheckedKeys.push(i);
-  });
-  return defaultCheckedKeys;
+  if (perms === null) return [];
+  try {
+    let defaultCheckedKeys = [];
+    Object.keys(perms).forEach(i => {
+      perms[i] && defaultCheckedKeys.push(i);
+    });
+    return defaultCheckedKeys;
+  } catch (e) {
+    console.log(e);
+    return [];
+  }
 };
 
 export const getRouterDisplayName = path =>
