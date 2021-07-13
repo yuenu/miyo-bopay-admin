@@ -3,7 +3,7 @@ import { CurrencyFormat, Perms } from "@/utils/enum";
 import router from "@/router";
 
 export const dateFormat = date => {
-  return moment(date).isValid() && typeof date === "string"
+  return date && moment(date)._isValid && typeof date === "string"
     ? moment(date).format("YYYY-MM-DD HH:mm:ss")
     : "is not valid date";
 };
