@@ -6,6 +6,7 @@ import {
   selectCryptoWallet,
   getCryptoWallets,
 } from "@/store/slice/cryptoWallet";
+import { selectApp, getApps } from "@/store/slice/app";
 import SearchSelect from "@/components/SearchSelect";
 const { Option } = Select;
 
@@ -24,6 +25,7 @@ const AddEdit = props => {
       form.setFieldsValue({
         ...props.data,
         extra: JSON.stringify(props.data.extra),
+        apps: props.data.apps || [],
       });
   });
 
@@ -59,6 +61,16 @@ const AddEdit = props => {
             rules={[{ required: true, message: "请输入别名" }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item name="apps" label="Apps">
+            <SearchSelect
+              action={getApps}
+              selector={selectApp}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+              mode="multiple"
+            />
           </Form.Item>
           <Form.Item
             name="type"

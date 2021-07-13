@@ -157,6 +157,11 @@ const GatewayTypes = ({ params }) => {
       sorter: true,
     },
     {
+      title: "Apps",
+      dataIndex: "apps",
+      render: val => val?.join(","),
+    },
+    {
       title: "gateway",
       dataIndex: "gateway",
       sorter: true,
