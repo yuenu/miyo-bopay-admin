@@ -93,7 +93,10 @@ const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
             <InputNumber />
           </Form.Item>
           {mode === "edit" && (
-            <Form.Item label="累计交易金额">{data?.txlimit_day}</Form.Item>
+            <Form.Item label="当日累计交易金额">{data?.txlimit_day}</Form.Item>
+          )}
+          {mode === "edit" && (
+            <Form.Item label="累计交易金额">{data?.tx_amount}</Form.Item>
           )}
           {mode === "edit" && (
             <Form.Item label="累计交易笔数">{data?.tx_cnt}</Form.Item>

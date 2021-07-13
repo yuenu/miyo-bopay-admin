@@ -171,8 +171,14 @@ const CryptoAcct = () => {
     { title: "单笔交易上限", dataIndex: "txlimit", sorter: true },
     { title: "单日累计交易上限", dataIndex: "txlimit_daily", sorter: true },
     {
-      title: "累计交易金额",
+      title: "当日累计交易金额",
       dataIndex: "txlimit_day",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
+    },
+    {
+      title: "累计交易金额",
+      dataIndex: "tx_amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       sorter: true,
     },
