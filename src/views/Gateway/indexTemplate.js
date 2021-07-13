@@ -109,6 +109,7 @@ const GatewayTypes = ({ params }) => {
     if (status !== 200) return;
     setEditVisible(false);
     handleGetList({ page: meta.current });
+    setDetailId(null);
   };
   const handleRowEditSubmit = async ({ id, ...params }) => {
     await handleEditHook({ action: editGateway, id, ...params });
