@@ -146,5 +146,11 @@ const routes = [
     component: () => getComponent("Report/OrderDaily"),
     displayName: "订单日报",
   },
+  {
+    path: "/USDTExchange",
+    name: "USDTExchange",
+    component: () => getComponent("USDTExchange"),
+    displayName: "USDT 汇率设置",
+  },
 ];
 export default routes;

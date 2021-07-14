@@ -12,6 +12,7 @@ import {
   TableOutlined,
   BarChartOutlined,
   PayCircleOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
 import { useDispatch } from "react-redux";
@@ -71,6 +72,9 @@ const SidebarView = () => {
           {Item("/AgentDaily")}
           {Item("/DeveloperDaily")}
           {Item("/OrderDaily")}
+        </SubMenu>
+        <SubMenu key="Config" icon={<SettingOutlined />} title="系统设置">
+          {Item("/USDTExchange")}
         </SubMenu>
       </Menu>
     </Sider>

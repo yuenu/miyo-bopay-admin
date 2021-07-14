@@ -19,6 +19,7 @@ import roleReducer from "./slice/role";
 import agentDailyReducer from "./slice/agentDaily";
 import developerDailyReducer from "./slice/developerDaily";
 import orderDailyReducer from "./slice/orderDaily";
+import configReducer from "./slice/config";
 
 export default configureStore({
   reducer: {
@@ -42,5 +43,6 @@ export default configureStore({
     agentDaily: agentDailyReducer,
     developerDaily: developerDailyReducer,
     orderDaily: orderDailyReducer,
+    config: configReducer,
   },
 });
