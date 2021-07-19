@@ -146,7 +146,7 @@ const Order = () => {
           >
             查看
           </Button>
-          {!record.approved && record.approval_status < 9 && (
+          {record.status === 2 && (
             <>
               <Button
                 size="small"
