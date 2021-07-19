@@ -1,5 +1,5 @@
-import Notification from "@/components/factory/NotifFactory";
-import { wsType } from "@/utils/enum";
+import OrderNotif from "@/views/Order/Notification";
+
 const wsUrl = process.env.REACT_APP_WS_URL;
 export var socket = null;
 const handlePinPerSecond = () => {
@@ -13,18 +13,12 @@ export const connectSocket = () => {
   };
   socket.onmessage = function (msg) {
     const res = JSON.parse(msg.data);
-    res.type !== "pong" &&
-      Notification({
-        type: "info",
-        title: wsType[res.type] || res.type || "ws",
-        message: "",
-      });
+    res.type !== "pong" && OrderNotif(res);
   };
   socket.onerror = function (err) {
     console.log("error", err);
   };
   socket.onclose = function () {
-    // connectSocket();
     clearInterval(pingTimer);
   };
 };
