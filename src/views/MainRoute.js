@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Router, Switch, Route } from "react-router-dom";
 import GlobalLayout from "./GlobalLayout";
 import Login from "./Login";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { connectSocket, pingTimer } from "@/utils/ws";
+import history from "@/utils/history";
 const MainRoute = () => {
   const { user } = useSelector(selectAuth);
   useEffect(() => {
@@ -15,7 +16,7 @@ const MainRoute = () => {
     };
   }, [user]);
   return (
-    <Router>
+    <Router history={history}>
       <Switch>
         <Route path="/Login">
           <Login />

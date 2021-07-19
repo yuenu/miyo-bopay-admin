@@ -20,8 +20,6 @@ import ListColumns from "./Columns";
 import { useHistory, generatePath } from "react-router-dom";
 
 const Order = () => {
-  const history = useHistory();
-
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     order_no__in: { type: "string", label: "订单号" },
@@ -61,6 +59,8 @@ const Order = () => {
     loading: detailLoading,
     handleEdit,
   } = useDetail({ action: getOrder, id: detailId }, selectOrder);
+
+  const history = useHistory();
   const handleDetailClick = async id => {
     history.push(generatePath("/OrderDetail/:id", { id }));
   };
