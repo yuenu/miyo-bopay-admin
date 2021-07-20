@@ -76,6 +76,9 @@ const SidebarView = () => {
         <SubMenu key="Config" icon={<SettingOutlined />} title="系统设置">
           {Item("/USDTExchange")}
         </SubMenu>
+        <SubMenu key="Transfer" icon={<SettingOutlined />} title="代付">
+          {Item("/Transfers")}
+        </SubMenu>
       </Menu>
     </Sider>
   );

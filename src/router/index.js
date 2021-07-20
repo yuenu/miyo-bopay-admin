@@ -158,5 +158,11 @@ const routes = [
     component: () => getComponent("USDTExchange"),
     displayName: "USDT 汇率设置",
   },
+  {
+    path: "/Transfers",
+    name: "Transfers",
+    component: () => getComponent("Transfers"),
+    displayName: "查看代付",
+  },
 ];
 export default routes;
