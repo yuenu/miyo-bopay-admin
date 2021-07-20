@@ -26,7 +26,7 @@ const Transfer = ({ params }) => {
     handleSearch,
     handleChangePage,
     handleChange,
-  } = useList(getTransfers, selectTransfer);
+  } = useList(getTransfers, selectTransfer, params);
 
   const [detailId, setDetailId] = useState(null);
   const { currentRow, loading: detailLoading } = useDetail(
