@@ -1,7 +1,12 @@
 import { useState } from "react";
-import { Space, Button } from "antd";
-import { selectTransfer, getTransfers } from "@/store/slice/transfer";
+import { Space, Button, Modal } from "antd";
+import {
+  selectTransfer,
+  getTransfers,
+  claimTransfer,
+} from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency, transferStatus } from "@/utils/enum";
@@ -9,8 +14,12 @@ import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
+import { useSelector } from "react-redux";
+import { selectAuth } from "@/store/slice/auth";
 
 const Transfer = ({ params }) => {
+  const { user } = useSelector(selectAuth);
+
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     app_id__in: { type: "string", label: "AppID" },
@@ -21,6 +30,7 @@ const Transfer = ({ params }) => {
     res: { list, meta },
     loading: listLoading,
     handleSearch,
+    handleGetList,
     handleChangePage,
     handleChange,
   } = useList(getTransfers, selectTransfer, params);
@@ -36,6 +46,26 @@ const Transfer = ({ params }) => {
   const handleDetailClick = record => {
     setCurrentRow(record);
     setDetailVisible(true);
+  };
+
+  const handleClaimClick = record => {
+    Modal.confirm({
+      title: "是否认领",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将认领 ${record.id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleClaim(close, record),
+    });
+  };
+  const handleClaim = async (close, record) => {
+    const { status } = await claimTransfer({
+      id: record.id,
+      formModel: { approver_id: user.id },
+    });
+    close();
+    if (status !== 200) return;
+    handleGetList(params);
   };
 
   const columns = [
@@ -259,6 +289,11 @@ const Transfer = ({ params }) => {
           >
             查看
           </Button>
+          {params?.status === 2 && (
+            <Button size="small" onClick={() => handleClaimClick(record)}>
+              认领
+            </Button>
+          )}
         </Space>
       ),
     },

@@ -13,13 +13,14 @@ export const getTransfers = createAsyncThunk(
     return res;
   },
 );
-export const getTransfer = createAsyncThunk("transfer/getDetail", async id => {
+export const claimTransfer = async ({ id, formModel }) => {
   const res = await request({
-    url: `/api/transfer/${id}`,
-    method: "get",
+    url: `/api/transfers/${id}/claim`,
+    method: "post",
+    data: { id, ...formModel },
   });
   return res;
-});
+};
 
 export const slice = createSlice({
   name: "transfer",
@@ -34,11 +35,6 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
-    },
-    [getTransfer.fulfilled]: (state, action) => {
-      const { status, data } = action.payload;
-      if (status !== 200) return;
-      state.currentRow = data;
     },
   },
 });
