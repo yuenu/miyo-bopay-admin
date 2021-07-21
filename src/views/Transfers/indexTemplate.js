@@ -4,7 +4,7 @@ import { selectTransfer, getTransfers } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
-import { Currency } from "@/utils/enum";
+import { Currency, transferStatus } from "@/utils/enum";
 import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
@@ -121,6 +121,7 @@ const Transfer = ({ params }) => {
     {
       title: "审核状态",
       dataIndex: "approval_status",
+      render: val => transferStatus[val],
     },
     {
       title: "审核人ID",
@@ -191,10 +192,12 @@ const Transfer = ({ params }) => {
     {
       title: "回调的状态",
       dataIndex: "notify_status",
+      render: val => transferStatus[val],
     },
     {
       title: "订单状态",
       dataIndex: "status",
+      render: val => transferStatus[val],
     },
     {
       title: "补充信息",
