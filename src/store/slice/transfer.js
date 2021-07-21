@@ -21,6 +21,22 @@ export const claimTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+export const approveTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/approve`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
+export const denyTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/deny`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "transfer",

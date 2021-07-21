@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Space, Button, Modal } from "antd";
+import { Space, Button, Modal, message } from "antd";
 import {
   selectTransfer,
   getTransfers,
   claimTransfer,
+  approveTransfer,
+  denyTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -14,6 +16,7 @@ import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
+import EditableConfirm from "@/components/EditableConfirm";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 
@@ -66,6 +69,54 @@ const Transfer = ({ params }) => {
     close();
     if (status !== 200) return;
     handleGetList(params);
+  };
+
+  const [editLoading, setEditLoading] = useState(false);
+  const [editVisible, setEditVisible] = useState(false);
+  const [editMode, setEditMode] = useState("approve");
+  const fields =
+    editMode === "approve"
+      ? [
+          {
+            label: "金額",
+            name: "amount",
+            inputType: "price",
+          },
+          {
+            label: "备注",
+            name: "comments",
+            inputType: "string",
+          },
+        ]
+      : [
+          {
+            label: "备注",
+            name: "comments",
+            inputType: "string",
+          },
+        ];
+  const handleEditClick = (record, mode) => {
+    setCurrentRow(record);
+    setEditMode(mode);
+    setEditVisible(true);
+  };
+  const handleEdit = async formModel => {
+    setEditLoading(true);
+    const { status } =
+      editMode === "approve"
+        ? await approveTransfer({
+            id: currentRow.id,
+            formModel: { ...formModel, approver_id: user.id },
+          })
+        : await denyTransfer({
+            id: currentRow.id,
+            formModel: { ...formModel, approver_id: user.id },
+          });
+    setEditLoading(false);
+    if (status !== 200) return;
+    setEditVisible(false);
+    message.success(`已${editMode === "approve" ? "审核通过！" : "拒绝"}`);
+    await handleGetList(params);
   };
 
   const columns = [
@@ -294,6 +345,22 @@ const Transfer = ({ params }) => {
               认领
             </Button>
           )}
+          {params?.status === 3 && (
+            <Button
+              size="small"
+              onClick={() => handleEditClick(record, "approve")}
+            >
+              审核通过
+            </Button>
+          )}
+          {params?.status === 3 && (
+            <Button
+              size="small"
+              onClick={() => handleEditClick(record, "deny")}
+            >
+              拒绝
+            </Button>
+          )}
         </Space>
       ),
     },
@@ -336,6 +403,15 @@ const Transfer = ({ params }) => {
         onCancel={() => setDetailVisible(false)}
         loading={false}
         columns={columns.filter(i => i.dataIndex !== "action")}
+      />
+      <EditableConfirm
+        title={editMode === "approve" ? "审核通过" : "拒绝"}
+        fields={fields}
+        visible={editVisible}
+        data={currentRow}
+        onCancel={() => setEditVisible(false)}
+        loading={editLoading}
+        onOk={handleEdit}
       />
     </Space>
   );
