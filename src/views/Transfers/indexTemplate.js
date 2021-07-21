@@ -6,6 +6,7 @@ import {
   claimTransfer,
   approveTransfer,
   denyTransfer,
+  paidClaimTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -117,6 +118,25 @@ const Transfer = ({ params }) => {
     setEditVisible(false);
     message.success(`已${editMode === "approve" ? "审核通过！" : "拒绝"}`);
     await handleGetList(params);
+  };
+  const handlePaidClaimClick = record => {
+    Modal.confirm({
+      title: "是否认领",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将认领 ${record.id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handlePaidClaim(close, record),
+    });
+  };
+  const handlePaidClaim = async (close, record) => {
+    const { status } = await paidClaimTransfer({
+      id: record.id,
+      formModel: { paid_id: user.id },
+    });
+    close();
+    if (status !== 200) return;
+    handleGetList(params);
   };
 
   const columns = [
@@ -359,6 +379,11 @@ const Transfer = ({ params }) => {
               onClick={() => handleEditClick(record, "deny")}
             >
               拒绝
+            </Button>
+          )}
+          {params?.status === 5 && (
+            <Button size="small" onClick={() => handlePaidClaimClick(record)}>
+              认领
             </Button>
           )}
         </Space>
