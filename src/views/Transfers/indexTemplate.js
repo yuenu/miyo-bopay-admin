@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { Space, Button } from "antd";
-import {
-  selectTransfer,
-  getTransfers,
-  getTransfer,
-} from "@/store/slice/transfer";
+import { selectTransfer, getTransfers } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import { useList, useDetail } from "@/utils/hook";
+import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency } from "@/utils/enum";
 import JsonModal from "@/components/JsonModal";
+import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
 
@@ -28,16 +25,17 @@ const Transfer = ({ params }) => {
     handleChange,
   } = useList(getTransfers, selectTransfer, params);
 
-  const [detailId, setDetailId] = useState(null);
-  const { currentRow, loading: detailLoading } = useDetail(
-    { action: getTransfer, id: detailId },
-    selectTransfer,
-  );
-
   const [jsonVisible, setJsonVisible] = useState(false);
-  const handleJsonClick = async id => {
-    setDetailId(id);
+  const [currentRow, setCurrentRow] = useState({});
+  const handleJsonClick = record => {
+    setCurrentRow(record);
     setJsonVisible(true);
+  };
+
+  const [detailVisible, setDetailVisible] = useState(false);
+  const handleDetailClick = record => {
+    setCurrentRow(record);
+    setDetailVisible(true);
   };
 
   const columns = [
@@ -201,6 +199,7 @@ const Transfer = ({ params }) => {
     {
       title: "补充信息",
       dataIndex: "extra",
+      render: val => JSON.stringify(val),
     },
     {
       title: "代付凭证",
@@ -245,10 +244,17 @@ const Transfer = ({ params }) => {
         <Space>
           <Button
             size="small"
-            onClick={() => handleJsonClick(record.id)}
+            onClick={() => handleJsonClick(record)}
             type="primary"
           >
             json
+          </Button>
+          <Button
+            size="small"
+            onClick={() => handleDetailClick(record)}
+            type="primary"
+          >
+            查看
           </Button>
         </Space>
       ),
@@ -279,10 +285,19 @@ const Transfer = ({ params }) => {
         onShowSizeChange={handleChangePage}
       />
       <JsonModal
+        width={650}
         visible={jsonVisible}
         data={currentRow}
         onCancel={() => setJsonVisible(false)}
-        loading={detailLoading}
+        loading={false}
+      />
+      <Detail
+        title="代付明細"
+        visible={detailVisible}
+        data={currentRow}
+        onCancel={() => setDetailVisible(false)}
+        loading={false}
+        columns={columns.filter(i => i.dataIndex !== "action")}
       />
     </Space>
   );
