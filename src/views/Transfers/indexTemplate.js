@@ -7,7 +7,13 @@ import {
   approveTransfer,
   denyTransfer,
   paidClaimTransfer,
+  paidTransfer,
 } from "@/store/slice/transfer";
+import {
+  selectCryptoWallet,
+  getCryptoWallets,
+} from "@/store/slice/cryptoWallet";
+import { selectCard, getCards } from "@/store/slice/card";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
@@ -76,12 +82,19 @@ const Transfer = ({ params }) => {
   const [editVisible, setEditVisible] = useState(false);
   const [editMode, setEditMode] = useState("approve");
   const fields =
-    editMode === "approve"
+    editMode === "paid"
       ? [
           {
             label: "金額",
             name: "amount",
             inputType: "price",
+          },
+          {
+            label: "出款方式",
+            name: currentRow.currency > 0 ? "crypto_wallet_id" : "card_id",
+            inputType: "searchSelect",
+            action: currentRow.currency > 0 ? getCryptoWallets : getCards,
+            selector: currentRow.currency > 0 ? selectCryptoWallet : selectCard,
           },
           {
             label: "备注",
@@ -109,14 +122,34 @@ const Transfer = ({ params }) => {
             id: currentRow.id,
             formModel: { ...formModel, approver_id: user.id },
           })
-        : await denyTransfer({
+        : editMode === "deny"
+        ? await denyTransfer({
             id: currentRow.id,
             formModel: { ...formModel, approver_id: user.id },
+          })
+        : await paidTransfer({
+            id: currentRow.id,
+            formModel: {
+              amount_paid: formModel.amount,
+              [currentRow.currency > 0 ? "crypto_wallet_id" : "card_id"]:
+                formModel[
+                  currentRow.currency > 0 ? "crypto_wallet_id" : "card_id"
+                ],
+              paid_id: user.id,
+            },
           });
     setEditLoading(false);
     if (status !== 200) return;
     setEditVisible(false);
-    message.success(`已${editMode === "approve" ? "审核通过！" : "拒绝"}`);
+    message.success(
+      `已${
+        editMode === "approve"
+          ? "审核通过！"
+          : editMode === "deny"
+          ? "拒绝"
+          : "出款"
+      }`,
+    );
     await handleGetList(params);
   };
   const handlePaidClaimClick = record => {
@@ -384,6 +417,14 @@ const Transfer = ({ params }) => {
           {params?.status === 5 && (
             <Button size="small" onClick={() => handlePaidClaimClick(record)}>
               认领
+            </Button>
+          )}
+          {params?.status === 7 && (
+            <Button
+              size="small"
+              onClick={() => handleEditClick(record, "paid")}
+            >
+              出款
             </Button>
           )}
         </Space>

@@ -45,6 +45,14 @@ export const paidClaimTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+export const paidTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/paid`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "transfer",

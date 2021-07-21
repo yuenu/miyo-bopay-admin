@@ -3,6 +3,8 @@ import { Modal, Form, Input } from "antd";
 import { formLayout } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
+import SearchSelect from "@/components/SearchSelect";
+
 const Edit = ({ visible, data, onCancel, onOk, loading, title, fields }) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -39,7 +41,17 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title, fields }) => {
               />
             ) : (
               <Form.Item name={i.name} label={i.label} key={i.name}>
-                <Input />
+                {i.inputType === "searchSelect" ? (
+                  <SearchSelect
+                    action={i.action}
+                    selector={i.selector}
+                    searchKey="name"
+                    val="id"
+                    label={j => `${j.id} ${j.name}`}
+                  />
+                ) : (
+                  <Input />
+                )}
               </Form.Item>
             );
           })}
