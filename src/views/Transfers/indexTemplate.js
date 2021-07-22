@@ -10,6 +10,7 @@ import {
   paidTransfer,
   succeededTransfer,
   failedTransfer,
+  notifyTransfer,
 } from "@/store/slice/transfer";
 import {
   selectCryptoWallet,
@@ -210,6 +211,22 @@ const Transfer = ({ params }) => {
     close();
     if (status !== 200) return;
     handleGetList(params);
+  };
+  const handleNotifyClick = record => {
+    Modal.confirm({
+      title: "是否手动回调",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将手动回调 ${record.id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleNotify(close, record),
+    });
+  };
+  const handleNotify = async (close, record) => {
+    const { status } = await notifyTransfer({ id: record.id });
+    close();
+    if (status !== 200) return;
+    handleGetList();
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
@@ -432,6 +449,11 @@ const Transfer = ({ params }) => {
           >
             查看
           </Button>
+          {!params && record.status === 16 && (
+            <Button size="small" onClick={() => handleNotifyClick(record)}>
+              回调
+            </Button>
+          )}
           {params?.status === 2 && (
             <Button size="small" onClick={() => handleClaimClick(record)}>
               认领

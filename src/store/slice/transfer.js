@@ -69,6 +69,13 @@ export const failedTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+export const notifyTransfer = async ({ id }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/notify`,
+    method: "post",
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "transfer",
