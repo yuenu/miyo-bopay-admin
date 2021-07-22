@@ -8,6 +8,8 @@ import {
   denyTransfer,
   paidClaimTransfer,
   paidTransfer,
+  succeededTransfer,
+  failedTransfer,
 } from "@/store/slice/transfer";
 import {
   selectCryptoWallet,
@@ -102,6 +104,20 @@ const Transfer = ({ params }) => {
             inputType: "string",
           },
         ]
+      : editMode === "failed"
+      ? [
+          {
+            label: "错误码",
+            name: "failure_code",
+            inputType: "string",
+          },
+          {
+            label: "失败原因",
+            name: "failure_msg",
+            inputType: "string",
+            required: true,
+          },
+        ]
       : [
           {
             label: "备注",
@@ -127,6 +143,11 @@ const Transfer = ({ params }) => {
             id: currentRow.id,
             formModel: { ...formModel, approver_id: user.id },
           })
+        : editMode === "failed"
+        ? await failedTransfer({
+            id: currentRow.id,
+            formModel,
+          })
         : await paidTransfer({
             id: currentRow.id,
             formModel: {
@@ -146,7 +167,7 @@ const Transfer = ({ params }) => {
         editMode === "approve"
           ? "审核通过！"
           : editMode === "deny"
-          ? "拒绝"
+          ? "审核拒绝"
           : "出款"
       }`,
     );
@@ -171,7 +192,25 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
-
+  const handleSucceededClick = async record => {
+    Modal.confirm({
+      title: "是否出款成功",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将出款成功 ${record.id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleSucceeded(close, record),
+    });
+  };
+  const handleSucceeded = async (close, record) => {
+    const { status } = await succeededTransfer({
+      id: record.id,
+      formModel: { paid_id: user.id },
+    });
+    close();
+    if (status !== 200) return;
+    handleGetList(params);
+  };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "AppID", dataIndex: "app_id", sorter: true },
@@ -411,7 +450,7 @@ const Transfer = ({ params }) => {
               size="small"
               onClick={() => handleEditClick(record, "deny")}
             >
-              拒绝
+              审核拒绝
             </Button>
           )}
           {params?.status === 5 && (
@@ -425,6 +464,19 @@ const Transfer = ({ params }) => {
               onClick={() => handleEditClick(record, "paid")}
             >
               出款
+            </Button>
+          )}
+          {params?.status === 8 && (
+            <Button size="small" onClick={() => handleSucceededClick(record)}>
+              出款成功
+            </Button>
+          )}
+          {params?.status === 8 && (
+            <Button
+              size="small"
+              onClick={() => handleEditClick(record, "failed")}
+            >
+              出款失败
             </Button>
           )}
         </Space>
@@ -471,7 +523,7 @@ const Transfer = ({ params }) => {
         columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <EditableConfirm
-        title={editMode === "approve" ? "审核通过" : "拒绝"}
+        title={editMode === "approve" ? "审核通过" : "审核拒绝"}
         fields={fields}
         visible={editVisible}
         data={currentRow}

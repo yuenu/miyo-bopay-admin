@@ -5,7 +5,6 @@ import Spin from "@/components/Spin";
 const JsonModal = ({ data, visible, onCancel, loading, ...rest }) => {
   return (
     <Modal
-      {...rest}
       title="json response"
       visible={visible}
       onCancel={onCancel}
@@ -14,6 +13,8 @@ const JsonModal = ({ data, visible, onCancel, loading, ...rest }) => {
           关闭
         </Button>,
       ]}
+      destroyOnClose={true}
+      {...rest}
     >
       <Spin spinning={loading}>
         <pre

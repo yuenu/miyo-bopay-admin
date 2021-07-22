@@ -53,6 +53,22 @@ export const paidTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+export const succeededTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/succeeded`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
+export const failedTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/failed`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "transfer",

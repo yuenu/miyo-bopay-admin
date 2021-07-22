@@ -9,6 +9,7 @@ const Detail = ({
   onCancel,
   columns,
   width,
+  ...rest
 }) => {
   return (
     <Modal
@@ -21,6 +22,8 @@ const Detail = ({
           关闭
         </Button>,
       ]}
+      destroyOnClose={true}
+      {...rest}
     >
       <Spin spinning={loading}>
         <Descriptions column={1} bordered>

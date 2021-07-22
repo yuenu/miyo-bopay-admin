@@ -8,9 +8,11 @@ import SearchSelect from "@/components/SearchSelect";
 const Edit = ({ visible, data, onCancel, onOk, loading, title, fields }) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
-    const formModel = form.getFieldsValue();
-    await onOk({ ...formModel });
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await onOk({ ...formModel });
+      form.resetFields();
+    });
   };
   useEffect(() => {
     visible && form.setFieldsValue(data);
@@ -40,7 +42,16 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title, fields }) => {
                 key={i.name}
               />
             ) : (
-              <Form.Item name={i.name} label={i.label} key={i.name}>
+              <Form.Item
+                name={i.name}
+                label={i.label}
+                key={i.name}
+                rules={
+                  i.required
+                    ? [{ required: true, message: `请输入${i.label}` }]
+                    : []
+                }
+              >
                 {i.inputType === "searchSelect" ? (
                   <SearchSelect
                     action={i.action}
