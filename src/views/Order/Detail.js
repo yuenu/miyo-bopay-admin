@@ -110,7 +110,7 @@ const Detail = () => {
     setDetailId(id);
   };
   const extra = (
-    <Space size="middle">
+    <Space size="small">
       <Button type="primary" onClick={handleJsonClick}>
         json
       </Button>
