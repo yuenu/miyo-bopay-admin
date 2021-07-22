@@ -111,11 +111,11 @@ const Detail = () => {
   };
   const extra = (
     <Space size="middle">
+      <Button type="primary" onClick={handleJsonClick}>
+        json
+      </Button>
       {currentRow.status === 2 && (
         <>
-          <Button type="primary" onClick={handleJsonClick}>
-            json
-          </Button>
           <Button onClick={() => handleEditClick("approve")}>审核</Button>
           <Button onClick={() => handleEditClick("deny")} type="danger">
             拒绝
