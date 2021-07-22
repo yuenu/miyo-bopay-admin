@@ -1,9 +1,12 @@
 import { PageHeader } from "antd";
-import { getRouterDisplayName } from "@/utils/format";
+import { getRouter } from "@/utils/format";
 import { useLocation } from "react-router-dom";
 
 const PageHeaderC = () => {
   const { pathname } = useLocation();
-  return <PageHeader className="mb-1" title={getRouterDisplayName(pathname)} />;
+  const route = getRouter(pathname);
+  return route.hidePageHeader ? null : (
+    <PageHeader className="mb-1" title={route.displayName} />
+  );
 };
 export default PageHeaderC;

@@ -85,6 +85,7 @@ const routes = [
     name: "OrderDetail",
     component: () => getComponent("Order/Detail"),
     displayName: "订单明细",
+    hidePageHeader: true,
   },
   {
     path: "/CryptoWallet",

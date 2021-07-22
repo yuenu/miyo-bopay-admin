@@ -20,6 +20,9 @@ const Edit = () => {
   const history = useHistory();
   const { id } = useParams();
   const [walletId, setWalletId] = useState(Number(id));
+  useEffect(() => {
+    setWalletId(Number(id));
+  }, [id]);
   const [form] = Form.useForm();
   const { currentRow, loading, handleEdit } = useDetail(
     { action: getCryptoWallet, id: walletId },
