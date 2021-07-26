@@ -60,7 +60,11 @@ const SidebarView = () => {
           {Item("/CryptoAcct")}
           {Item("/CryptoAcctLog")}
         </SubMenu>
-        {Item("/Card", <CreditCardOutlined />)}
+        <SubMenu key="Cards" icon={<CreditCardOutlined />} title="银行卡">
+          {Item("/Card")}
+          {Item("/CardAcct")}
+          {Item("/CardAcctLog")}
+        </SubMenu>
         {Item("/Agent", <UserSwitchOutlined />)}
         {Item("/LoginLog", <LoginOutlined />)}
         {Item("/Audit", <TableOutlined />)}

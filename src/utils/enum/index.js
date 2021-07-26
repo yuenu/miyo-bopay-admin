@@ -643,3 +643,10 @@ export const transferStatus = {
   16: "出款回调失败",
   17: "第三方代付失败",
 };
+
+export const CardStatus = {
+  0: "审核中",
+  1: "启用中",
+  2: "冻结",
+  3: "已达到当日上限制",
+};

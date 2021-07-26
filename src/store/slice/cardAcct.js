@@ -2,35 +2,35 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
 import { metaToPagin } from "@/utils/format";
 
-export const getCards = createAsyncThunk(
-  "card/getList",
+export const getCardAccts = createAsyncThunk(
+  "cardAcct/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/cards",
+      url: "/api/card_accts",
       method: "get",
       params,
     });
     return res;
   },
 );
-export const getCard = createAsyncThunk("card/getDetail", async id => {
+export const getCardAcct = createAsyncThunk("cardAcct/getDetail", async id => {
   const res = await request({
-    url: `/api/cards/${id}`,
+    url: `/api/card_accts/${id}`,
     method: "get",
   });
   return res;
 });
-export const addCard = async params => {
+export const addCardAcct = async params => {
   const res = await request({
-    url: `/api/cards`,
+    url: `/api/card_accts`,
     method: "post",
     data: params,
   });
   return res;
 };
-export const editCard = async params => {
+export const editCardAcct = async params => {
   const res = await request({
-    url: `/api/cards/${params.id}`,
+    url: `/api/card_accts/${params.id}`,
     method: "post",
     data: params.formModel,
   });
@@ -38,7 +38,7 @@ export const editCard = async params => {
 };
 
 export const slice = createSlice({
-  name: "card",
+  name: "cardAcct",
   initialState: {
     list: [],
     meta: {},
@@ -50,19 +50,19 @@ export const slice = createSlice({
     },
   },
   extraReducers: {
-    [getCards.fulfilled]: (state, action) => {
+    [getCardAccts.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      state.list = data.data;
-      state.meta = metaToPagin(data.meta);
+      // state.list = data.data;
+      // state.meta = metaToPagin(data.meta);
     },
-    [getCard.fulfilled]: (state, action) => {
+    [getCardAcct.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.currentRow = data;
     },
   },
 });
-export const { setCards } = slice.actions;
-export const selectCard = state => state.card;
+export const { setCardAccts } = slice.actions;
+export const selectCardAcct = state => state.cardAcct;
 export default slice.reducer;

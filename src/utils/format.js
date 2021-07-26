@@ -1,5 +1,6 @@
 import moment from "moment";
 import { CurrencyFormat, Perms } from "@/utils/enum";
+import Area from "@/utils/enum/area";
 import router from "@/router";
 
 export const dateFormat = date => {
@@ -100,4 +101,10 @@ export const getColumns = () => {
   return JSON.parse(localStorage.getItem("columns") || "{}")[
     window.location.pathname
   ];
+};
+export const getCityArr = prov => {
+  const cityItem = Object.entries(Area).filter(
+    item => item[0].replace("省", "") === prov.replace("省", ""),
+  );
+  return prov && cityItem.length > 0 ? Object.keys(cityItem[0][1].items) : [];
 };

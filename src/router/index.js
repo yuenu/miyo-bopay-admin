@@ -118,6 +118,18 @@ const routes = [
     displayName: "银行卡管理",
   },
   {
+    path: "/CardAcct",
+    name: "CardAcct",
+    component: () => getComponent("CardAcct"),
+    displayName: "银行卡账户管理",
+  },
+  {
+    path: "/CardAcctLog",
+    name: "CardAcctLog",
+    component: () => getComponent("CardAcct/CardAcctLog"),
+    displayName: "银行卡账变日志",
+  },
+  {
     path: "/Agent",
     name: "Agent",
     component: () => getComponent("Agent"),

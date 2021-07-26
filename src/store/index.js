@@ -10,6 +10,8 @@ import cryptoWalletReducer from "./slice/cryptoWallet";
 import cryptoAcctReducer from "./slice/cryptoAcct";
 import cryptoAcctLogReducer from "./slice/cryptoAcctLog";
 import cardReducer from "./slice/card";
+import cardAcctReducer from "./slice/cardAcct";
+import cardAcctLogReducer from "./slice/cardAcctLog";
 import agentReducer from "./slice/agent";
 import loginLogReducer from "./slice/loginLog";
 import appReducer from "./slice/app";
@@ -35,6 +37,8 @@ export default configureStore({
     cryptoAcct: cryptoAcctReducer,
     cryptoAcctLog: cryptoAcctLogReducer,
     card: cardReducer,
+    cardAcct: cardAcctReducer,
+    cardAcctLog: cardAcctLogReducer,
     agent: agentReducer,
     loginLog: loginLogReducer,
     app: appReducer,

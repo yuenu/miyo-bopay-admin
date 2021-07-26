@@ -1,33 +1,26 @@
 import { useState } from "react";
-import { Button, Space, Switch } from "antd";
+import { Button, Space } from "antd";
 import {
-  selectCard,
-  getCards,
-  getCard,
-  addCard,
-  editCard,
-} from "@/store/slice/card";
-import { PlusOutlined } from "@ant-design/icons";
+  selectCardAcct,
+  getCardAccts,
+  getCardAcct,
+  editCardAcct,
+} from "@/store/slice/cardAcct";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
-import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
-import { IsBoolEnum, CardStatus } from "@/utils/enum";
+import { Currency, IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
-const Card = () => {
+const CardAcct = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
-    alias__k: { type: "string", label: "账户名" },
+    wallet_id__in: { type: "string", label: "钱包ID" },
     name__k: { type: "string", label: "名称" },
-    status: {
-      type: "select",
-      label: "状态",
-      options: CardStatus,
-    },
+    currency: { type: "select", label: "货币", options: Currency },
     is_active: {
       type: "select",
       label: "是否启用",
@@ -44,25 +37,14 @@ const Card = () => {
     handleGetList,
     handleChangePage,
     handleChange,
-    handleAdd: handleAddHook,
-    setLoading: setListLoading,
-  } = useList(getCards, selectCard);
-
-  const [addVisible, setAddVisible] = useState(false);
-  const handleAddClick = () => {
-    setAddVisible(true);
-  };
-  const handleAdd = async formModel => {
-    handleAddHook({ action: addCard, ...formModel });
-    setAddVisible(false);
-  };
+  } = useList(getCardAccts, selectCardAcct);
 
   const [detailId, setDetailId] = useState(null);
   const {
     currentRow,
     loading: detailLoading,
     handleEdit: handleEditHook,
-  } = useDetail({ action: getCard, id: detailId }, selectCard);
+  } = useDetail({ action: getCardAcct, id: detailId }, selectCardAcct);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -82,131 +64,51 @@ const Card = () => {
   };
   const handleEdit = async formModel => {
     const { status } = await handleEditHook({
-      action: editCard,
+      action: editCardAcct,
       id: currentRow.id,
       ...formModel,
     });
     if (status !== 200) return;
     setEditVisible(false);
     setDetailId(null);
-    handleGetList({ page: meta.current });
+    handleGetList({ page: meta.page });
   };
   const handleRowEditSubmit = async ({ id, ...params }) => {
-    await handleEditHook({ action: editCard, id, ...params });
+    await handleEditHook({ action: editCardAcct, id, ...params });
     handleGetList({ page: meta.current });
   };
-
-  const handleChangeIsActive = async (checked, { id, ...params }) => {
-    setListLoading(true);
-    await handleEditHook({
-      action: editCard,
-      id,
-      ...params,
-      is_active: checked,
-    });
-    handleGetList({ page: meta.current });
-  };
-
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
-      title: "别名",
-      dataIndex: "alias",
-      editable: true,
-      inputType: "string",
+      title: "总余额",
+      dataIndex: "balance",
       sorter: true,
     },
     {
-      title: "账户名",
-      dataIndex: "name",
-      editable: true,
-      inputType: "string",
+      title: "冻结金额",
+      dataIndex: "freezes",
       sorter: true,
     },
     {
-      title: "银行账号",
-      dataIndex: "account",
-      editable: true,
-      inputType: "string",
+      title: "当前上分数",
+      dataIndex: "points",
       sorter: true,
     },
     {
-      title: "开户行中文名",
-      dataIndex: "bank_name",
-    },
-    {
-      title: "开户行代码",
-      dataIndex: "bank_code",
+      title: "信用分",
+      dataIndex: "credits",
       sorter: true,
     },
+
     {
-      title: "支行名称",
-      dataIndex: "sub_bank",
-    },
-    {
-      title: "省",
-      dataIndex: "prov",
-    },
-    {
-      title: "市",
-      dataIndex: "city",
-    },
-    {
-      title: "手机号",
-      dataIndex: "phone",
-    },
-    {
-      title: "身份证",
-      dataIndex: "idcard",
-    },
-    {
-      title: "单笔转账上限",
-      dataIndex: "per_trans_limit",
+      title: "银行卡ID",
+      dataIndex: "card_id",
       sorter: true,
     },
+
     {
-      title: "每日转账上限",
-      dataIndex: "per_day_limit",
-      sorter: true,
-    },
-    {
-      title: "当日累计转账金额",
-      dataIndex: "cur_day_trans",
-      sorter: true,
-    },
-    {
-      title: "是否开启转账限额",
-      dataIndex: "has_limit",
-      render: val => <Tag val={val} />,
-    },
-    {
-      title: "rating",
-      dataIndex: "rating",
-    },
-    {
-      title: "状态",
-      dataIndex: "status",
-      render: val => CardStatus[val] || "",
-    },
-    {
-      title: "支持入款",
-      dataIndex: "deposit_on",
-      render: val => <Tag val={val} />,
-    },
-    {
-      title: "支持出款",
-      dataIndex: "withdraw_on",
-      render: val => <Tag val={val} />,
-    },
-    {
-      title: "用户ID(代理)",
-      dataIndex: "agent_id",
-      sorter: true,
-    },
-    {
-      title: "代理名称",
-      dataIndex: "agent_name",
-      sorter: true,
+      title: "银行卡名字",
+      dataIndex: "card_name",
     },
     {
       title: "创建日期",
@@ -219,18 +121,6 @@ const Card = () => {
       dataIndex: "updated",
       render: val => dateFormat(val),
       sorter: true,
-    },
-    { title: "备注", dataIndex: "note" },
-    {
-      title: "启用",
-      dataIndex: "is_active",
-      dRender: val => <Tag val={val} />,
-      render: (val, record) => (
-        <Switch
-          checked={val}
-          onChange={checked => handleChangeIsActive(checked, record)}
-        />
-      ),
     },
     {
       title: "动作",
@@ -262,36 +152,25 @@ const Card = () => {
   ];
   const defaultColumns = [
     "id",
-    "alias",
-    "name",
-    "status",
-    "bank_name",
-    "is_active",
+    "balance",
+    "freezes",
+    "card_id",
+    "card_name",
     "action",
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
-      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
-        添加
-      </Button>
       <EditableTable
         allColumns={columns}
         defaultColumns={defaultColumns}
         dataSource={list}
+        meta={meta}
         loading={listLoading}
         onChangePage={handleChangePage}
         onChange={handleChange}
-        onRowEditSubmit={handleRowEditSubmit}
         onShowSizeChange={handleChangePage}
-        meta={meta}
-      />
-      <AddEdit
-        visible={addVisible}
-        onOk={handleAdd}
-        onCancel={() => setAddVisible(false)}
-        loading={listLoading}
-        mode="add"
+        onRowEditSubmit={handleRowEditSubmit}
       />
       <JsonModal
         visible={jsonVisible}
@@ -300,7 +179,7 @@ const Card = () => {
         loading={detailLoading}
       />
       <Detail
-        title="App明细"
+        title="收款地址明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
@@ -318,4 +197,4 @@ const Card = () => {
     </Space>
   );
 };
-export default Card;
+export default CardAcct;
