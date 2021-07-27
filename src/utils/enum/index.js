@@ -650,3 +650,5 @@ export const CardStatus = {
   2: "冻结",
   3: "已达到当日上限制",
 };
+
+export const CardDirection = { 0: "收入", 1: "支出" };

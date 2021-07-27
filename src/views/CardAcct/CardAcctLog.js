@@ -4,40 +4,29 @@ import { selectCardAcctLog, getCardAcctLogs } from "@/store/slice/cardAcctLog";
 import {
   Currency,
   CryptoAcctLogsType,
-  ContentType,
   DirType,
-  CryptoAcctLogsStatus,
+  CardDirection,
 } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import JsonModal from "@/components/JsonModal";
-import Tag from "@/components/Tag";
 import { NormalTable } from "@/components/factory/TableFactory";
 
 const CardAcctLog = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
-    status__in: {
-      type: "select",
-      label: "状态",
-      options: CryptoAcctLogsStatus,
-    },
+    card_acct_id__in: { type: "string", label: "银行卡账户ID" },
+    card_id__in: { type: "string", label: "银行卡ID" },
+    user_id__in: { type: "string", label: "操作人ID" },
     order_no__in: { type: "string", label: "订单号" },
     trans_no__in: { type: "string", label: "第三方订单号" },
-    content_id__in: { type: "string", label: "关联对象ID" },
-    content_type: {
+    direction: {
       type: "select",
-      label: "关联对象类型",
-      options: ContentType,
+      label: "转账方向",
+      options: CardDirection,
     },
-    type: { type: "select", label: "交易类型", options: CryptoAcctLogsType },
-    dir: { type: "select", label: "方向", options: DirType },
-    currency: { type: "select", label: "货币", options: Currency },
-    crypto_acct_id__in: { type: "string", label: "收款地址ID" },
-    crypto_acct_name__k: { type: "string", label: "收款地址名称" },
-    crypto_wallet_id__in: { type: "string", label: "加密钱包ID" },
-    channel__k: { type: "string", label: "支付商户" },
+    channel__k: { type: "string", label: "交易渠道" },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
@@ -58,53 +47,37 @@ const CardAcctLog = () => {
 
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "订单号", dataIndex: "order_no" },
-
+    { title: "银行卡账户ID", dataIndex: "card_acct_id" },
+    { title: "银行卡ID", dataIndex: "card_id" },
+    { title: "银行卡账号", dataIndex: "card_no" },
+    { title: "操作人ID", dataIndex: "user_id" },
+    { title: "操作人姓名", dataIndex: "username" },
     {
-      title: "交易金额",
+      title: "转账前余额",
+      dataIndex: "b1",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+    {
+      title: "转账后余额",
+      dataIndex: "b2",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+    {
+      title: "转账金额",
       dataIndex: "amount",
-      render: (val, record) => priceFormat({ val, currency: record.currency }),
-      sorter: true,
-    },
-
-    { title: "收款地址ID", dataIndex: "crypto_acct_id", sorter: true },
-    { title: "收款地址名称", dataIndex: "crypto_acct_name", sorter: true },
-    { title: "加密钱包ID", dataIndex: "crypto_wallet_id", sorter: true },
-    {
-      title: "货币",
-      dataIndex: "currency",
-      render: val => Currency[val] || "",
-    },
-    { title: "变动前余额", dataIndex: "b1", sorter: true },
-    { title: "变动后余额", dataIndex: "b2", sorter: true },
-    { title: "区块高度", dataIndex: "block" },
-    { title: "支付商户", dataIndex: "channel" },
-    { title: "客户IP", dataIndex: "client_ip" },
-    { title: "关联对象ID", dataIndex: "content_id", sorter: true },
-    {
-      title: "关联对象类型",
-      dataIndex: "content_type",
-      render: val => ContentType[val] || "",
+      render: val => priceFormat({ val, currency: 0 }),
     },
     {
-      title: "方向",
-      dataIndex: "dir",
-      render: val => (
-        <Tag val={val === 0} falseColor="red">
-          {DirType[val]}
-        </Tag>
-      ),
+      title: "转账方向",
+      dataIndex: "direction",
+      render: val => CardDirection[val] || "",
     },
-    { title: "转入地址", dataIndex: "from_addr" },
-    {
-      title: "状态",
-      dataIndex: "status",
-      render: val => CryptoAcctLogsStatus[val] || "",
-    },
+    { title: "开发者订单号", dataIndex: "order_no" },
+    { title: "第三方订单号", dataIndex: "trans_no" },
+    { title: "交易账户", dataIndex: "account" },
+    { title: "客户端IP", dataIndex: "client_ip" },
     { title: "交易内容", dataIndex: "subject" },
-    { title: "转出地址", dataIndex: "to_addr" },
-    { title: "交易时间", dataIndex: "trans_time", sorter: true },
-
+    { title: "交易渠道", dataIndex: "channel" },
     {
       title: "创建日期",
       dataIndex: "created",
@@ -140,10 +113,11 @@ const CardAcctLog = () => {
   ];
   const defaultColumns = [
     "id",
-    "order_no",
-    "trans_no",
+    "card_acct_id",
+    "card_id",
+    "username",
     "amount",
-    "currency",
+    "direction",
     "note",
     "action",
   ];
