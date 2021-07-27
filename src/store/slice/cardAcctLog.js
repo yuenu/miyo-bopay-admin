@@ -6,7 +6,7 @@ export const getCardAcctLogs = createAsyncThunk(
   "cardAcctLog/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/card_acct_logs",
+      url: "/api/cardacctlogs",
       method: "get",
       params,
     });
@@ -29,8 +29,8 @@ export const slice = createSlice({
     [getCardAcctLogs.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      // state.list = data.data;
-      // state.meta = metaToPagin(data.meta);
+      state.list = data.data;
+      state.meta = metaToPagin(data.meta);
     },
   },
 });

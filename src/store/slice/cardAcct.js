@@ -6,7 +6,7 @@ export const getCardAccts = createAsyncThunk(
   "cardAcct/getList",
   async (params = {}) => {
     const res = await request({
-      url: "/api/card_accts",
+      url: "/api/cardaccts",
       method: "get",
       params,
     });
@@ -15,24 +15,24 @@ export const getCardAccts = createAsyncThunk(
 );
 export const getCardAcct = createAsyncThunk("cardAcct/getDetail", async id => {
   const res = await request({
-    url: `/api/card_accts/${id}`,
+    url: `/api/cardaccts/${id}`,
     method: "get",
   });
   return res;
 });
-export const addCardAcct = async params => {
+export const editCardAcct = async params => {
   const res = await request({
-    url: `/api/card_accts`,
+    url: `/api/cardaccts/${params.id}`,
     method: "post",
-    data: params,
+    data: params.formModel,
   });
   return res;
 };
-export const editCardAcct = async params => {
+export const balanceCardAcct = async ({ id, formModel }) => {
   const res = await request({
-    url: `/api/card_accts/${params.id}`,
+    url: `/api/cardaccts/${id}/balance`,
     method: "post",
-    data: params.formModel,
+    data: { id, ...formModel },
   });
   return res;
 };
@@ -53,8 +53,8 @@ export const slice = createSlice({
     [getCardAccts.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;
-      // state.list = data.data;
-      // state.meta = metaToPagin(data.meta);
+      state.list = data.data;
+      state.meta = metaToPagin(data.meta);
     },
     [getCardAcct.fulfilled]: (state, action) => {
       const { status, data } = action.payload;

@@ -1,32 +1,30 @@
 import { useState } from "react";
-import { Button, Space } from "antd";
+import { Button, Space, message } from "antd";
 import {
   selectCardAcct,
   getCardAccts,
   getCardAcct,
   editCardAcct,
+  balanceCardAcct,
 } from "@/store/slice/cardAcct";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
-import { Currency, IsBoolEnum } from "@/utils/enum";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+import EditableConfirm from "@/components/EditableConfirm";
+import { useSelector } from "react-redux";
+import { selectAuth } from "@/store/slice/auth";
 
 const CardAcct = () => {
+  const { user } = useSelector(selectAuth);
+
   const searchFields = {
     id__in: { type: "string", label: "ID" },
-    wallet_id__in: { type: "string", label: "钱包ID" },
-    name__k: { type: "string", label: "名称" },
-    currency: { type: "select", label: "货币", options: Currency },
-    is_active: {
-      type: "select",
-      label: "是否启用",
-      options: IsBoolEnum,
-      isBool: true,
-    },
+    card_id__in: { type: "string", label: "银行卡ID" },
+    card_name__k: { type: "string", label: "银行卡名称" },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
@@ -73,6 +71,37 @@ const CardAcct = () => {
     setDetailId(null);
     handleGetList({ page: meta.page });
   };
+  const fields = [
+    {
+      label: "金額",
+      name: "amount",
+      inputType: "price",
+      required: true,
+    },
+    {
+      label: "备注",
+      name: "note",
+      inputType: "string",
+    },
+  ];
+  const [balanceVisible, setBalanceVisible] = useState(false);
+  const [balanceLoading, setBalanceLoading] = useState(false);
+  const handleBalanceClick = record => {
+    setDetailId(record.id);
+    setBalanceVisible(true);
+  };
+  const handleBalance = async formModel => {
+    setBalanceLoading(true);
+    const { status } = await balanceCardAcct({
+      id: currentRow.id,
+      formModel: { ...formModel, user_id: user.id },
+    });
+    setBalanceLoading(false);
+    if (status !== 200) return;
+    setBalanceVisible(false);
+    message.success(`已更新余额`);
+    handleGetList({ page: meta.current });
+  };
   const handleRowEditSubmit = async ({ id, ...params }) => {
     await handleEditHook({ action: editCardAcct, id, ...params });
     handleGetList({ page: meta.current });
@@ -82,11 +111,13 @@ const CardAcct = () => {
     {
       title: "总余额",
       dataIndex: "balance",
+      render: val => priceFormat({ val, currency: 0 }),
       sorter: true,
     },
     {
       title: "冻结金额",
       dataIndex: "freezes",
+      render: val => priceFormat({ val, currency: 0 }),
       sorter: true,
     },
     {
@@ -146,6 +177,9 @@ const CardAcct = () => {
           <Button size="small" onClick={() => handleEditClick(record.id)}>
             编辑
           </Button>
+          <Button size="small" onClick={() => handleBalanceClick(record)}>
+            更新余额
+          </Button>
         </Space>
       ),
     },
@@ -179,7 +213,7 @@ const CardAcct = () => {
         loading={detailLoading}
       />
       <Detail
-        title="收款地址明细"
+        title="银行卡账户明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
@@ -193,6 +227,15 @@ const CardAcct = () => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
+      />
+      <EditableConfirm
+        title="更新余额"
+        fields={fields}
+        visible={balanceVisible}
+        data={{ ...currentRow, currency: 0 }}
+        onCancel={() => setBalanceVisible(false)}
+        loading={balanceLoading}
+        onOk={handleBalance}
       />
     </Space>
   );

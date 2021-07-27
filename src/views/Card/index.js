@@ -15,7 +15,7 @@ import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
 import { IsBoolEnum, CardStatus } from "@/utils/enum";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
 const Card = () => {
@@ -172,6 +172,7 @@ const Card = () => {
     {
       title: "当日累计转账金额",
       dataIndex: "cur_day_trans",
+      render: val => priceFormat({ val, currency: 0 }),
       sorter: true,
     },
     {
@@ -300,7 +301,7 @@ const Card = () => {
         loading={detailLoading}
       />
       <Detail
-        title="App明细"
+        title="银行卡明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}

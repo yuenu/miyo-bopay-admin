@@ -70,11 +70,12 @@ export const CurrencyHelpTextFormItemFactory = ({
   defaultValKey,
   label,
   row,
+  ...rest
 }) => {
   const [value, setValue] = useState(null);
   const helpText = useCallback(() => {
     return `数量：${priceFormat({
-      val: value || row[defaultValKey] || row[name],
+      val: value || row[defaultValKey] || row[name] || 0,
       currency: row.currency,
     })}`;
     // eslint-disable-next-line
@@ -85,6 +86,7 @@ export const CurrencyHelpTextFormItemFactory = ({
   };
   return (
     <Form.Item
+      {...rest}
       name={name}
       label={label}
       validateStatus="warning"

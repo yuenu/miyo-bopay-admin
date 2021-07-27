@@ -40,6 +40,11 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title, fields }) => {
                 row={data}
                 defaultValKey={i.name}
                 key={i.name}
+                rules={
+                  i.required
+                    ? [{ required: true, message: `请输入${i.label}` }]
+                    : []
+                }
               />
             ) : (
               <Form.Item
