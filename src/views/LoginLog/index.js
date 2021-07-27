@@ -53,7 +53,9 @@ const LoginLog = () => {
       render: val => dateFormat(val),
       sorter: true,
     },
-    { title: "country", dataIndex: "country" },
+    { title: "国家", dataIndex: "country" },
+    { title: "省份", dataIndex: "prov" },
+    { title: "城市", dataIndex: "city" },
     {
       title: "创建日期",
       dataIndex: "created",
