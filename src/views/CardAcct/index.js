@@ -9,7 +9,7 @@ import {
 } from "@/store/slice/cardAcct";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
-import { EditableTable } from "@/components/factory/TableFactory";
+import { NormalTable } from "@/components/factory/TableFactory";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
 import { dateFormat, priceFormat } from "@/utils/format";
@@ -41,6 +41,7 @@ const CardAcct = () => {
   const {
     currentRow,
     loading: detailLoading,
+    setLoading: setDetailLoading,
     handleEdit: handleEditHook,
   } = useDetail({ action: getCardAcct, id: detailId }, selectCardAcct);
   const [detailVisible, setDetailVisible] = useState(false);
@@ -85,27 +86,27 @@ const CardAcct = () => {
     },
   ];
   const [balanceVisible, setBalanceVisible] = useState(false);
-  const [balanceLoading, setBalanceLoading] = useState(false);
   const handleBalanceClick = record => {
     setDetailId(record.id);
     setBalanceVisible(true);
   };
+  const handleCancelBalance = () => {
+    setBalanceVisible(false);
+    setDetailId(null);
+  };
   const handleBalance = async formModel => {
-    setBalanceLoading(true);
+    setDetailLoading(true);
     const { status } = await balanceCardAcct({
       id: currentRow.id,
       formModel: { ...formModel, user_id: user.id },
     });
-    setBalanceLoading(false);
+    setDetailLoading(false);
     if (status !== 200) return;
-    setBalanceVisible(false);
+    handleCancelBalance();
     message.success(`已更新余额`);
     handleGetList({ page: meta.current });
   };
-  const handleRowEditSubmit = async ({ id, ...params }) => {
-    await handleEditHook({ action: editCardAcct, id, ...params });
-    handleGetList({ page: meta.current });
-  };
+
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
@@ -195,7 +196,7 @@ const CardAcct = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
-      <EditableTable
+      <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}
         dataSource={list}
@@ -204,7 +205,6 @@ const CardAcct = () => {
         onChangePage={handleChangePage}
         onChange={handleChange}
         onShowSizeChange={handleChangePage}
-        onRowEditSubmit={handleRowEditSubmit}
       />
       <JsonModal
         visible={jsonVisible}
@@ -233,8 +233,8 @@ const CardAcct = () => {
         fields={fields}
         visible={balanceVisible}
         data={{ ...currentRow, currency: 0 }}
-        onCancel={() => setBalanceVisible(false)}
-        loading={balanceLoading}
+        onCancel={handleCancelBalance}
+        loading={detailLoading}
         onOk={handleBalance}
       />
     </Space>

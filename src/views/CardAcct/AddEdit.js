@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Modal, Form, InputNumber } from "antd";
 import { formLayout, mode as Mode } from "@/utils/enum";
-import { dateFormat } from "@/utils/format";
+import { dateFormat, priceFormat } from "@/utils/format";
 import Spin from "@/components/Spin";
 import SearchSelect from "@/components/SearchSelect";
 import { selectCard, getCards } from "@/store/slice/card";
@@ -51,7 +51,9 @@ const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
               label={i => `${i.id} ${i.name}`}
             />
           </Form.Item>
-          <Form.Item label="总余额">{data.balance}</Form.Item>
+          <Form.Item label="总余额">
+            {priceFormat({ val: data.balance, currency: 0 })}
+          </Form.Item>
           <CurrencyHelpTextFormItemFactory
             name="freezes"
             label="冻结金额"
