@@ -6,6 +6,7 @@ import {
   selectCryptoWallet,
   getCryptoWallets,
 } from "@/store/slice/cryptoWallet";
+import { selectCard, getCards } from "@/store/slice/card";
 import { selectApp, getApps } from "@/store/slice/app";
 import SearchSelect from "@/components/SearchSelect";
 const { Option } = Select;
@@ -102,6 +103,15 @@ const AddEdit = props => {
             <SearchSelect
               action={getCryptoWallets}
               selector={selectCryptoWallet}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
+          </Form.Item>
+          <Form.Item name="card_id" label="银行卡ID">
+            <SearchSelect
+              action={getCards}
+              selector={selectCard}
               searchKey="name"
               val="id"
               label={i => `${i.id} ${i.name}`}

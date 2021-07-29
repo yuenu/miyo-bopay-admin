@@ -129,10 +129,8 @@ const GatewayTypes = ({ params }) => {
 
   const history = useHistory();
 
-  const handleToWallet = crypto_wallet_id => {
-    history.push(
-      generatePath("/CryptoWalletEdit/:id", { id: crypto_wallet_id }),
-    );
+  const handleToModuleDetail = ({ id, route }) => {
+    history.push(generatePath(`/${route}/:id`, { id }));
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
@@ -195,10 +193,20 @@ const GatewayTypes = ({ params }) => {
       title: "加密钱包ID",
       dataIndex: "crypto_wallet_id",
       render: val => (
-        <Button type="link" onClick={() => handleToWallet(val)}>
+        <Button
+          type="link"
+          onClick={() =>
+            handleToModuleDetail({ id: val, route: "CryptoWalletEdit" })
+          }
+        >
           {val}
         </Button>
       ),
+      sorter: true,
+    },
+    {
+      title: "银行卡ID",
+      dataIndex: "card_id",
       sorter: true,
     },
     {
