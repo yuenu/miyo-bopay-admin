@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { Space, Button } from "antd";
 import { selectCardAcctLog, getCardAcctLogs } from "@/store/slice/cardAcctLog";
-import {
-  Currency,
-  CryptoAcctLogsType,
-  DirType,
-  CardDirection,
-} from "@/utils/enum";
+import { CardDirection } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";

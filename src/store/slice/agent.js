@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
+import { metaToPagin } from "@/utils/format";
 
 export const getAgents = createAsyncThunk(
   "agent/getList",
@@ -36,14 +37,6 @@ export const editAgent = async params => {
   return res;
 };
 
-export const deleteAgent = async id => {
-  const res = await request({
-    url: `/api/agents/${id}`,
-    method: "delete",
-  });
-  return res;
-};
-
 export const slice = createSlice({
   name: "agent",
   initialState: {
@@ -58,14 +51,10 @@ export const slice = createSlice({
   },
   extraReducers: {
     [getAgents.fulfilled]: (state, action) => {
-      const { status } = action.payload;
+      const { status, data } = action.payload;
       if (status !== 200) return;
-      // state.list = data.data;
-      // state.meta = {
-      //   pageSize: data.meta.per_page,
-      //   current: data.meta.page,
-      //   total: data.meta.total,
-      // };
+      state.list = data.data;
+      state.meta = metaToPagin(data.meta);
     },
     [getAgent.fulfilled]: (state, action) => {
       const { status, data } = action.payload;

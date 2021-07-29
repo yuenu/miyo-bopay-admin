@@ -1,78 +1,67 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Checkbox } from "antd";
+import { Modal, Form, Input, Switch } from "antd";
+import { formLayout, mode as Mode } from "@/utils/enum";
+import { selectUser, getUsers } from "@/store/slice/user";
+import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
+import { useSelector } from "react-redux";
 
-import { formLayout, mode } from "@/utils/enum";
-const AddEdit = props => {
+const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
+  const { list: users } = useSelector(selectUser);
   const [form] = Form.useForm();
   const handleOk = async () => {
-    await props.onOk(form.getFieldsValue());
-    form.resetFields();
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      await onOk({
+        ...formModel,
+        username: users.find(i => i.id === formModel.user_id)?.name,
+      });
+      form.resetFields();
+    });
   };
   useEffect(() => {
-    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+    visible && mode === "edit" && form.setFieldsValue(data);
   });
+
   return (
     <Modal
-      title={`${mode[props.mode]}代理`}
-      visible={props.visible}
+      destroyOnClose={true}
+      title={`${Mode[mode]}代理`}
+      visible={visible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       cancelText="取消"
       okText="送出"
-      confirmLoading={props.loading}
+      confirmLoading={loading}
     >
-      <Spin spinning={props.loading}>
+      <Spin spinning={loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item name="name" label="姓名">
-            <Input />
-          </Form.Item>
-          <Form.Item name="phone" label="电话">
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="email">
-            <Input />
-          </Form.Item>
-          <Form.Item name="username" label="username">
-            <Input />
-          </Form.Item>
-          <Form.Item name="password" label="password">
-            <Input />
+          {mode === "edit" && <Form.Item label="ID">{data.id}</Form.Item>}
+          <Form.Item
+            name="user_id"
+            label="用户ID"
+            rules={[{ required: true, message: "请输入用户ID" }]}
+          >
+            <SearchSelect
+              action={getUsers}
+              selector={selectUser}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
           </Form.Item>
           <Form.Item
-            name="is_active"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
+            name="name"
+            label="姓名"
+            rules={[{ required: true, message: "请输入姓名" }]}
           >
-            <Checkbox>isActive</Checkbox>
+            <Input />
           </Form.Item>
-          <Form.Item
-            name="is_admin"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAdmin</Checkbox>
+          <Form.Item name="is_active" label="是否启用" valuePropName="checked">
+            <Switch />
           </Form.Item>
-          <Form.Item
-            name="is_agent"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isAgent</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_developer"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isDeveloper</Checkbox>
-          </Form.Item>
-          <Form.Item
-            name="is_staff"
-            wrapperCol={{ offset: 4, span: 20 }}
-            valuePropName="checked"
-          >
-            <Checkbox>isStaff</Checkbox>
+          <Form.Item name="note" label="备注">
+            <Input />
           </Form.Item>
         </Form>
       </Spin>
