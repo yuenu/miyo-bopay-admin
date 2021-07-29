@@ -108,14 +108,23 @@ const AddEdit = props => {
               label={i => `${i.id} ${i.name}`}
             />
           </Form.Item>
-          <Form.Item name="card_id" label="银行卡ID">
-            <SearchSelect
-              action={getCards}
-              selector={selectCard}
-              searchKey="name"
-              val="id"
-              label={i => `${i.id} ${i.name}`}
-            />
+          <Form.Item
+            noStyle
+            shouldUpdate={(prev, now) => prev.currency !== now.currency}
+          >
+            {({ getFieldValue }) =>
+              getFieldValue("currency") === 0 ? (
+                <Form.Item name="card_id" label="银行卡ID">
+                  <SearchSelect
+                    action={getCards}
+                    selector={selectCard}
+                    searchKey="name"
+                    val="id"
+                    label={i => `${i.id} ${i.name}`}
+                  />
+                </Form.Item>
+              ) : null
+            }
           </Form.Item>
           <Form.Item
             name="currency"
