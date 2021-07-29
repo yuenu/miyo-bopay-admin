@@ -36,7 +36,17 @@ export const editCard = async params => {
   });
   return res;
 };
-
+export const activeCard = async params => {
+  const res = await request({
+    url: `/api/cards/set-active`,
+    method: "post",
+    data: {
+      id: params.id,
+      ...params.formModel,
+    },
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "card",
   initialState: {

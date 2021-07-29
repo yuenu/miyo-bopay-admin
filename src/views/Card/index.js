@@ -6,6 +6,7 @@ import {
   getCard,
   addCard,
   editCard,
+  activeCard,
 } from "@/store/slice/card";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -96,14 +97,15 @@ const Card = () => {
     handleGetList({ page: meta.current });
   };
 
-  const handleChangeIsActive = async (checked, { id, ...params }) => {
+  const handleChangeIsActive = async (checked, { id }) => {
     setListLoading(true);
     await handleEditHook({
-      action: editCard,
+      action: activeCard,
       id,
-      ...params,
       is_active: checked,
     });
+    setDetailId(null);
+    setDetailId(id);
     handleGetList({ page: meta.current });
   };
 
@@ -315,6 +317,7 @@ const Card = () => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
+        onSetActive={handleChangeIsActive}
       />
     </Space>
   );

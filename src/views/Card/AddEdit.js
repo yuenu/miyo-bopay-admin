@@ -1,18 +1,26 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
-import { formLayout, mode, CardStatus } from "@/utils/enum";
+import { formLayout, mode as Mode, CardStatus } from "@/utils/enum";
 import { getCityArr } from "@/utils/format";
 import Spin from "@/components/Spin";
 import Banks from "@/utils/enum/bank";
 import Prov from "@/utils/enum/prov";
 const { Option } = Select;
 
-const AddEdit = props => {
+const AddEdit = ({
+  visible,
+  mode,
+  data,
+  onCancel,
+  onOk,
+  loading,
+  onSetActive,
+}) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
-      await props.onOk({
+      await onOk({
         ...formModel,
         bank_name: Banks[formModel.bank_code],
       });
@@ -20,10 +28,10 @@ const AddEdit = props => {
     });
   };
   useEffect(() => {
-    props.visible &&
+    visible &&
       form.setFieldsValue(
-        props.mode === "edit"
-          ? props.data
+        mode === "edit"
+          ? data
           : {
               per_trans_limit: 0,
               per_day_limit: 0,
@@ -37,19 +45,24 @@ const AddEdit = props => {
             },
       );
   });
-
   return (
     <Modal
       destroyOnClose={true}
-      title={`${mode[props.mode]}银行卡`}
-      visible={props.visible}
+      title={`${Mode[mode]}银行卡`}
+      visible={visible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       cancelText="取消"
       okText="送出"
-      confirmLoading={props.loading}
+      confirmLoading={loading}
     >
-      <Spin spinning={props.loading}>
+      <Spin spinning={loading}>
+        <Form.Item {...formLayout} label="启用" valuePropName="checked">
+          <Switch
+            checked={data?.is_active}
+            onChange={checked => onSetActive(checked, { id: data.id })}
+          />
+        </Form.Item>
         <Form {...formLayout} form={form}>
           <Form.Item
             name="alias"
