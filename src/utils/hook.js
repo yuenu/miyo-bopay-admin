@@ -75,13 +75,13 @@ export const useDetail = ({ action, id }, selector) => {
 
   const handleEdit = async ({ action: editAction, id: editId, ...params }) => {
     setLoading(true);
-    const { status } = await editAction({
+    const { status, data } = await editAction({
       id: editId,
       formModel: params,
     });
     status === 200 && message.success("更新成功！");
     setLoading(false);
-    return { status };
+    return { status, data };
   };
   useEffect(() => {
     id && handleGetDetail();

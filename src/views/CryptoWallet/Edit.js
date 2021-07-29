@@ -7,6 +7,7 @@ import {
   editCryptoWallet,
   activeCryptoWallet,
 } from "@/store/slice/cryptoWallet";
+import { selectApp, getApps } from "@/store/slice/app";
 import { selectCryptoAcct, getCryptoAccts } from "@/store/slice/cryptoAcct";
 import { formLayout, Currency, Network } from "@/utils/enum";
 import { priceFormat } from "@/utils/format";
@@ -14,6 +15,8 @@ import { useList, useDetail } from "@/utils/hook";
 import { useHistory } from "react-router-dom";
 import Spin from "@/components/Spin";
 import EditAcctList from "./EditAcctList";
+import SearchSelect from "@/components/SearchSelect";
+
 const { Option } = Select;
 
 const Edit = () => {
@@ -29,7 +32,7 @@ const Edit = () => {
     selectCryptoWallet,
   );
   useEffect(() => {
-    form.setFieldsValue(currentRow);
+    form.setFieldsValue({ ...currentRow, apps: currentRow.apps || [] });
   }, [currentRow, form]);
 
   const handleCancel = () => {
@@ -37,13 +40,14 @@ const Edit = () => {
   };
   const handleSubmit = async () => {
     const formModel = form.getFieldsValue();
-    await handleEdit({
+    const { status, data } = await handleEdit({
       action: editCryptoWallet,
       ...currentRow,
       id,
       ...formModel,
     });
     handleGetList({ wallet_id: walletId });
+    status === 200 && form.setFieldsValue({ ...data, apps: data.apps || [] });
   };
   const handleChangeIsActive = async checked => {
     await handleEdit({
@@ -105,6 +109,16 @@ const Edit = () => {
                   </Option>
                 ))}
               </Select>
+            </Form.Item>
+            <Form.Item name="apps" label="绑定商户">
+              <SearchSelect
+                action={getApps}
+                selector={selectApp}
+                searchKey="name"
+                val="id"
+                label={i => `${i.id} ${i.name}`}
+                mode="multiple"
+              />
             </Form.Item>
             <Form.Item label="备注" name="note">
               <Input />
