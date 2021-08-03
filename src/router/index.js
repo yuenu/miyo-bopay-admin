@@ -166,6 +166,12 @@ const routes = [
     displayName: "订单日报",
   },
   {
+    path: "/AppDaily",
+    name: "AppDaily",
+    component: () => getComponent("Report/AppDaily"),
+    displayName: "商户报表",
+  },
+  {
     path: "/USDTExchange",
     name: "USDTExchange",
     component: () => getComponent("USDTExchange"),

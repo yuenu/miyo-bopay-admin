@@ -21,6 +21,7 @@ import roleReducer from "./slice/role";
 import agentDailyReducer from "./slice/agentDaily";
 import developerDailyReducer from "./slice/developerDaily";
 import orderDailyReducer from "./slice/orderDaily";
+import appDailyReducer from "./slice/appDaily";
 import configReducer from "./slice/config";
 import transferReducer from "./slice/transfer";
 
@@ -48,6 +49,7 @@ export default configureStore({
     agentDaily: agentDailyReducer,
     developerDaily: developerDailyReducer,
     orderDaily: orderDailyReducer,
+    appDaily: appDailyReducer,
     config: configReducer,
     transfer: transferReducer,
   },
