@@ -9,14 +9,21 @@ import {
 import { selectCard, getCards } from "@/store/slice/card";
 import { selectApp, getApps } from "@/store/slice/app";
 import SearchSelect from "@/components/SearchSelect";
+import { useSelector } from "react-redux";
 const { Option } = Select;
 
 const AddEdit = props => {
+  const { list: wallets } = useSelector(selectCryptoWallet);
+  const { list: cards } = useSelector(selectCard);
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
-      await props.onOk(formModel);
+      const acct_name =
+        formModel.currency === 0
+          ? cards.find(i => i.id === formModel.card_id)?.name
+          : wallets.find(i => i.id === formModel.crypto_wallet_id)?.name;
+      await props.onOk({ ...formModel, acct_name });
       form.resetFields();
     });
   };

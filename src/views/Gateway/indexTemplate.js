@@ -166,6 +166,11 @@ const GatewayTypes = ({ params }) => {
       sorter: true,
     },
     {
+      title: "账户名称",
+      dataIndex: "acct_name",
+      sorter: true,
+    },
+    {
       title: "api",
       dataIndex: "api",
       editable: true,
