@@ -234,6 +234,7 @@ const CryptoWallet = () => {
     "order_no",
     "trans_no",
     "amount",
+    "crypto_acct_name",
     "currency",
     "note",
     "action",
