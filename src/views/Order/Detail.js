@@ -149,9 +149,9 @@ const Detail = () => {
                 }
               >
                 {i.dRender
-                  ? i.dRender(currentRow[i.dataIndex], i)
+                  ? i.dRender(currentRow[i.dataIndex], currentRow)
                   : i.render
-                  ? i.render(currentRow[i.dataIndex], i)
+                  ? i.render(currentRow[i.dataIndex], currentRow)
                   : currentRow[i.dataIndex]}
               </Descriptions.Item>
             ))}

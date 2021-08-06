@@ -79,7 +79,7 @@ const columns = [
   { title: "错误代码", dataIndex: "failure_code", width: 100 },
   { title: "错误信息", dataIndex: "failure_msg", width: 100 },
   {
-    title: "订单金额",
+    title: "支付金额",
     dataIndex: "amount",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
     width: 100,
@@ -95,6 +95,13 @@ const columns = [
   {
     title: "赠送金额",
     dataIndex: "bonus",
+    render: (val, record) => priceFormat({ val, currency: record.currency }),
+    width: 100,
+    sorter: true,
+  },
+  {
+    title: "随机金额",
+    dataIndex: "amount_rand",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
     width: 100,
     sorter: true,
