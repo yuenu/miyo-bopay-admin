@@ -50,9 +50,9 @@ const SidebarView = () => {
         <SubMenu key="Pay" icon={<PayCircleOutlined />} title="支付管理">
           {Item("/Gateway")}
           {Item("/Gateway1")}
+          {Item("/Gateway4")}
           {Item("/Gateway2")}
           {Item("/Gateway3")}
-          {Item("/Gateway4")}
         </SubMenu>
         {Item("/Order", <ContainerOutlined />)}
         <SubMenu key="Crypto" icon={<WalletOutlined />} title="加密货币">

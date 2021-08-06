@@ -54,7 +54,7 @@ const routes = [
     path: "/Gateway1",
     name: "Gateway1",
     component: () => getComponent("Gateway/indexType1"),
-    displayName: "银行卡管理",
+    displayName: "银行卡支付",
   },
   {
     path: "/Gateway2",
