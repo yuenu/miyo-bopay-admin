@@ -14,7 +14,13 @@ import { EditableTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
-import { Currency, IsBoolEnum, PayMethod, WXPayType } from "@/utils/enum";
+import {
+  Currency,
+  IsBoolEnum,
+  PayMethod,
+  WXPayType,
+  AmountType,
+} from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 import { useHistory, generatePath } from "react-router-dom";
@@ -36,21 +42,9 @@ const GatewayTypes = ({ params }) => {
       options: IsBoolEnum,
       isBool: true,
     },
-    h5_on: {
-      type: "select",
-      label: "是否开启h5",
-      options: IsBoolEnum,
-      isBool: true,
-    },
     is_3rd: {
       type: "select",
       label: "是否第三方",
-      options: IsBoolEnum,
-      isBool: true,
-    },
-    pc_on: {
-      type: "select",
-      label: "是否开启pc",
       options: IsBoolEnum,
       isBool: true,
     },
@@ -195,6 +189,32 @@ const GatewayTypes = ({ params }) => {
       sorter: true,
     },
     {
+      title: "金额类型",
+      dataIndex: "amount_type",
+      render: val => AmountType[val] || "",
+      sorter: true,
+    },
+    {
+      title: "最小金额",
+      dataIndex: "amount_min",
+      sorter: true,
+    },
+    {
+      title: "最大金额",
+      dataIndex: "amount_max",
+      sorter: true,
+    },
+    {
+      title: "固定金额列表",
+      dataIndex: "amount_fixed",
+      render: val => JSON.stringify(val),
+    },
+    {
+      title: "补充付款信息",
+      dataIndex: "payer_cred",
+      render: val => JSON.stringify(val),
+    },
+    {
       title: "加密钱包ID",
       dataIndex: "crypto_wallet_id",
       render: val => (
@@ -239,10 +259,6 @@ const GatewayTypes = ({ params }) => {
       options: WXPayType,
     },
     {
-      title: "crypt_type",
-      dataIndex: "crypt_type",
-    },
-    {
       title: "decimals",
       dataIndex: "decimals",
       render: val => Number(val).toFixed(2),
@@ -265,17 +281,23 @@ const GatewayTypes = ({ params }) => {
       render: val => JSON.stringify(val),
     },
     {
+      title: "设备类型",
+      dataIndex: "devices",
+      render: val => val?.map(i => <AntTag key={i}>{i}</AntTag>),
+    },
+    {
+      title: "网关代码配置",
+      dataIndex: "spec",
+      render: val => JSON.stringify(val),
+    },
+    {
+      title: "代码内容",
+      dataIndex: "code",
+    },
+    {
       title: "评级",
       dataIndex: "rating",
       sorter: true,
-    },
-    {
-      title: "resp_type",
-      dataIndex: "resp_type",
-    },
-    {
-      title: "sign_type",
-      dataIndex: "sign_type",
     },
     {
       title: "type",
@@ -294,17 +316,6 @@ const GatewayTypes = ({ params }) => {
       inputType: "string",
     },
     {
-      title: "是否开启h5",
-      dataIndex: "h5_on",
-      dRender: val => <Tag val={val} />,
-      render: (val, record) => (
-        <Switch
-          checked={val}
-          onChange={checked => handleChangeSwitch(checked, record, "h5_on")}
-        />
-      ),
-    },
-    {
       title: "是否第三方",
       dataIndex: "is_3rd",
       dRender: val => <Tag val={val} />,
@@ -312,17 +323,6 @@ const GatewayTypes = ({ params }) => {
         <Switch
           checked={val}
           onChange={checked => handleChangeSwitch(checked, record, "is_3rd")}
-        />
-      ),
-    },
-    {
-      title: "是否开启pc",
-      dataIndex: "pc_on",
-      dRender: val => <Tag val={val} />,
-      render: (val, record) => (
-        <Switch
-          checked={val}
-          onChange={checked => handleChangeSwitch(checked, record, "pc_on")}
         />
       ),
     },

@@ -47,6 +47,8 @@ const CardAcctLog = () => {
     { title: "银行卡账号", dataIndex: "card_no" },
     { title: "操作人ID", dataIndex: "user_id" },
     { title: "操作人姓名", dataIndex: "username" },
+    { title: "银行卡备注", dataIndex: "card_note" },
+    { title: "App名称", dataIndex: "app_name" },
     {
       title: "转账前余额",
       dataIndex: "b1",
@@ -108,8 +110,8 @@ const CardAcctLog = () => {
   ];
   const defaultColumns = [
     "id",
-    "card_acct_id",
-    "card_id",
+    "card_note",
+    "app_name",
     "username",
     "amount",
     "direction",

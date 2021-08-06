@@ -652,3 +652,8 @@ export const CardStatus = {
 };
 
 export const CardDirection = { 0: "收入", 1: "支出" };
+
+export const AmountType = {
+  0: "任意金额",
+  1: "固定金额",
+};

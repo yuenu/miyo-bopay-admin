@@ -1,6 +1,13 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
-import { formLayout, mode, Currency, PayMethod, WXPayType } from "@/utils/enum";
+import {
+  formLayout,
+  mode,
+  Currency,
+  PayMethod,
+  WXPayType,
+  AmountType,
+} from "@/utils/enum";
 import Spin from "@/components/Spin";
 import {
   selectCryptoWallet,
@@ -51,7 +58,11 @@ const AddEdit = props => {
         <Form
           {...formLayout}
           form={form}
-          initialValues={{ random_decimals: 0 }}
+          initialValues={{
+            random_decimals: 0,
+            amount_min: 1,
+            amount_max: 9999999,
+          }}
         >
           <Form.Item
             name="name"
@@ -105,6 +116,25 @@ const AddEdit = props => {
           </Form.Item>
           <Form.Item name="callback_url" label="回调网址">
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="amount_type"
+            label="金额类型"
+            rules={[{ required: true, message: "请选择金额类型" }]}
+          >
+            <Select>
+              {Object.keys(AmountType).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {AmountType[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="amount_min" label="最小金额">
+            <InputNumber />
+          </Form.Item>
+          <Form.Item name="amount_max" label="最大金额">
+            <InputNumber />
           </Form.Item>
           <Form.Item name="crypto_wallet_id" label="加密钱包ID">
             <SearchSelect
