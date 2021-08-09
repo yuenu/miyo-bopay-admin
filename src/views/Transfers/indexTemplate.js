@@ -545,7 +545,15 @@ const Transfer = ({ params }) => {
         columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <EditableConfirm
-        title={editMode === "approve" ? "审核通过" : "审核拒绝"}
+        title={
+          editMode === "approve"
+            ? "审核通过"
+            : editMode === "paid"
+            ? "出款成功"
+            : editMode === "failed"
+            ? "出款失败"
+            : "审核拒绝"
+        }
         fields={fields}
         visible={editVisible}
         data={currentRow}
