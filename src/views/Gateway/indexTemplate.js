@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Button, Space, Switch, Tag as AntTag } from "antd";
+import { Button, Space, Switch, Tag as AntTag, message } from "antd";
 import {
   selectGateway,
   getGateways,
   getGateway,
+  getGatewayCode,
   addGateway,
   editGateway,
+  editGatewayCode,
 } from "@/store/slice/gateway";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -14,6 +16,7 @@ import { EditableTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
+import CodeEditor from "@/components/CodeEditor";
 import {
   Currency,
   IsBoolEnum,
@@ -24,6 +27,7 @@ import {
 import { priceFormat, dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 import { useHistory, generatePath } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 const GatewayTypes = ({ params }) => {
   const searchFields = {
@@ -110,6 +114,30 @@ const GatewayTypes = ({ params }) => {
     handleGetList({ page: meta.current });
   };
 
+  const dispatch = useDispatch();
+  const { codeInfo } = useSelector(selectGateway);
+  const [codeId, setCodeId] = useState();
+  const [code, setCode] = useState("");
+  const [codeVisible, setCodeVisible] = useState(false);
+  const [codeLoading, setCodeLoading] = useState(false);
+  const handleEditCodeClick = async id => {
+    setCodeId(id);
+    const { payload } = await dispatch(getGatewayCode(id));
+    if (!payload.data.data) return;
+    setCode(payload.data.data.source);
+    setCodeVisible(true);
+  };
+  const handleEditCodeOk = async () => {
+    setCodeLoading(true);
+    const { status } = await editGatewayCode({
+      id: codeId,
+      formModel: { ...codeInfo, source: code },
+    });
+    setCodeLoading(false);
+    setCodeVisible(false);
+    status === 200 && message.success("更新成功！");
+  };
+
   const handleChangeSwitch = async (checked, { id, ...params }, key) => {
     setListLoading(true);
     await handleEditHook({
@@ -122,7 +150,6 @@ const GatewayTypes = ({ params }) => {
   };
 
   const history = useHistory();
-
   const handleToModuleDetail = ({ id, route }) => {
     history.push(generatePath(`/${route}/:id`, { id }));
   };
@@ -373,6 +400,9 @@ const GatewayTypes = ({ params }) => {
           <Button size="small" onClick={() => handleEditClick(record.id)}>
             编辑
           </Button>
+          <Button size="small" onClick={() => handleEditCodeClick(record.id)}>
+            编辑代码
+          </Button>
         </Space>
       ),
     },
@@ -433,6 +463,14 @@ const GatewayTypes = ({ params }) => {
         loading={detailLoading}
         data={currentRow}
         mode="edit"
+      />
+      <CodeEditor
+        visible={codeVisible}
+        code={code}
+        loading={codeLoading}
+        onOk={handleEditCodeOk}
+        onChange={setCode}
+        onCancel={() => setCodeVisible(false)}
       />
     </Space>
   );

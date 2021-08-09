@@ -21,6 +21,16 @@ export const getGateway = createAsyncThunk("gateway/getDetail", async id => {
   });
   return res;
 });
+export const getGatewayCode = createAsyncThunk(
+  "gateway/getDetailCode",
+  async id => {
+    const res = await request({
+      url: `/api/gateways/${id}/code`,
+      method: "get",
+    });
+    return res;
+  },
+);
 export const addGateway = async params => {
   const res = await request({
     url: `/api/gateways`,
@@ -45,6 +55,14 @@ export const deleteGateway = async id => {
   });
   return res;
 };
+export const editGatewayCode = async params => {
+  const res = await request({
+    url: `/api/gateways/${params.id}/code`,
+    method: "post",
+    data: params.formModel,
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "gateway",
@@ -52,6 +70,7 @@ export const slice = createSlice({
     list: [],
     meta: {},
     currentRow: {},
+    codeInfo: {},
   },
   reducers: {
     setGateways: (state, action) => {
@@ -69,6 +88,10 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.currentRow = data;
+    },
+    [getGatewayCode.fulfilled]: (state, action) => {
+      const { data } = action.payload;
+      state.codeInfo = data?.data;
     },
   },
 });
