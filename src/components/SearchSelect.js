@@ -6,12 +6,13 @@ const { Option } = Select;
 
 const SearchSelect = ({
   action,
-  params = {},
+  params,
   selector,
   searchKey,
   label,
   val,
   onSelect,
+  payloadPos,
   ...rest
 }) => {
   const dispatch = useDispatch();
@@ -25,20 +26,19 @@ const SearchSelect = ({
     setList([]);
     setSearchText(input);
     const { payload } = await dispatch(
-      action({ [`${searchKey}__k`]: input, page }),
+      action({ [`${searchKey}__k`]: input, page, ...params }),
     );
-    setList([...payload?.data?.data]);
+    setList([...(payloadPos ? payload[payloadPos] : payload?.data?.data)]);
   };
-
   const handleInit = useCallback(async () => {
     setLoading(true);
     const { payload } = await dispatch(
       action({ [`${searchKey}__k`]: searchText, page, ...params }),
     );
-    setList([...list, ...payload?.data?.data]);
+    setList([...(payloadPos ? payload[payloadPos] : payload?.data?.data)]);
     setLoading(false);
     // eslint-disable-next-line
-  }, [dispatch, action, searchKey, page]);
+  }, [searchKey, page]);
 
   const handleScroll = e => {
     const isScrollBottom =

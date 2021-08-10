@@ -12,11 +12,6 @@ import {
   failedTransfer,
   notifyTransfer,
 } from "@/store/slice/transfer";
-import {
-  selectCryptoWallet,
-  getCryptoWallets,
-} from "@/store/slice/cryptoWallet";
-import { selectCard, getCards } from "@/store/slice/card";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
@@ -27,9 +22,15 @@ import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
 import EditableConfirm from "@/components/EditableConfirm";
+import Paid from "./Paid";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 
+const TYPE_ENUMS = {
+  approve: "审核通过",
+  deny: "审核拒绝",
+  failed: "出款失败",
+};
 const Transfer = ({ params }) => {
   const { user } = useSelector(selectAuth);
 
@@ -81,31 +82,33 @@ const Transfer = ({ params }) => {
     handleGetList(params);
   };
 
+  const [paidVisible, setPaidVisible] = useState(false);
+  const [paidLoading, setPaidLoading] = useState(false);
+  const handlePaidClick = record => {
+    setCurrentRow(record);
+    setPaidVisible(true);
+  };
+  const handlePaid = async formModel => {
+    setPaidLoading(true);
+    const { status } = await paidTransfer({
+      id: currentRow.id,
+      formModel: {
+        ...formModel,
+        paid_id: user.id,
+      },
+    });
+    setPaidLoading(false);
+    if (status !== 200) return;
+    setPaidVisible(false);
+    message.success("已出款!");
+    await handleGetList(params);
+  };
+
   const [editLoading, setEditLoading] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
   const [editMode, setEditMode] = useState("approve");
   const fields =
-    editMode === "paid"
-      ? [
-          {
-            label: "金額",
-            name: "amount",
-            inputType: "price",
-          },
-          {
-            label: "出款方式",
-            name: currentRow.currency > 0 ? "crypto_wallet_id" : "card_id",
-            inputType: "searchSelect",
-            action: currentRow.currency > 0 ? getCryptoWallets : getCards,
-            selector: currentRow.currency > 0 ? selectCryptoWallet : selectCard,
-          },
-          {
-            label: "备注",
-            name: "comments",
-            inputType: "string",
-          },
-        ]
-      : editMode === "failed"
+    editMode === "failed"
       ? [
           {
             label: "错误码",
@@ -144,34 +147,14 @@ const Transfer = ({ params }) => {
             id: currentRow.id,
             formModel: { ...formModel, approver_id: user.id },
           })
-        : editMode === "failed"
-        ? await failedTransfer({
+        : await failedTransfer({
             id: currentRow.id,
             formModel,
-          })
-        : await paidTransfer({
-            id: currentRow.id,
-            formModel: {
-              amount_paid: formModel.amount,
-              [currentRow.currency > 0 ? "crypto_wallet_id" : "card_id"]:
-                formModel[
-                  currentRow.currency > 0 ? "crypto_wallet_id" : "card_id"
-                ],
-              paid_id: user.id,
-            },
           });
     setEditLoading(false);
     if (status !== 200) return;
     setEditVisible(false);
-    message.success(
-      `已${
-        editMode === "approve"
-          ? "审核通过！"
-          : editMode === "deny"
-          ? "审核拒绝"
-          : "出款"
-      }`,
-    );
+    message.success(`已${TYPE_ENUMS[editMode]}`);
     await handleGetList(params);
   };
   const handlePaidClaimClick = record => {
@@ -464,7 +447,7 @@ const Transfer = ({ params }) => {
               size="small"
               onClick={() => handleEditClick(record, "approve")}
             >
-              审核通过
+              {TYPE_ENUMS.approve}
             </Button>
           )}
           {params?.status === 3 && (
@@ -472,7 +455,7 @@ const Transfer = ({ params }) => {
               size="small"
               onClick={() => handleEditClick(record, "deny")}
             >
-              审核拒绝
+              {TYPE_ENUMS.deny}
             </Button>
           )}
           {params?.status === 5 && (
@@ -481,10 +464,7 @@ const Transfer = ({ params }) => {
             </Button>
           )}
           {params?.status === 7 && (
-            <Button
-              size="small"
-              onClick={() => handleEditClick(record, "paid")}
-            >
+            <Button size="small" onClick={() => handlePaidClick(record)}>
               出款
             </Button>
           )}
@@ -498,7 +478,7 @@ const Transfer = ({ params }) => {
               size="small"
               onClick={() => handleEditClick(record, "failed")}
             >
-              出款失败
+              {TYPE_ENUMS.failed}
             </Button>
           )}
         </Space>
@@ -545,21 +525,20 @@ const Transfer = ({ params }) => {
         columns={columns.filter(i => i.dataIndex !== "action")}
       />
       <EditableConfirm
-        title={
-          editMode === "approve"
-            ? "审核通过"
-            : editMode === "paid"
-            ? "出款成功"
-            : editMode === "failed"
-            ? "出款失败"
-            : "审核拒绝"
-        }
+        title={TYPE_ENUMS[editMode]}
         fields={fields}
         visible={editVisible}
         data={currentRow}
         onCancel={() => setEditVisible(false)}
         loading={editLoading}
         onOk={handleEdit}
+      />
+      <Paid
+        visible={paidVisible}
+        data={currentRow}
+        onCancel={() => setPaidVisible(false)}
+        loading={paidLoading}
+        onOk={handlePaid}
       />
     </Space>
   );

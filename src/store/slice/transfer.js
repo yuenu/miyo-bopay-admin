@@ -13,6 +13,17 @@ export const getTransfers = createAsyncThunk(
     return res;
   },
 );
+export const getTransfersGateways = createAsyncThunk(
+  "tranfser/getGatewayList",
+  async ({ id, ...params }) => {
+    const res = await request({
+      url: `/api/transfers/${id}/gateways`,
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 export const claimTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/claim`,
@@ -83,6 +94,7 @@ export const slice = createSlice({
     list: [],
     meta: {},
     currentRow: {},
+    gateways: [],
   },
   extraReducers: {
     [getTransfers.fulfilled]: (state, action) => {
@@ -90,6 +102,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getTransfersGateways.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.gateways = data;
     },
   },
 });
