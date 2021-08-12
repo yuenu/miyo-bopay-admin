@@ -34,8 +34,10 @@ const GlobalLayout = () => {
         <Layout className="global-layout">
           <Sidebar />
           <Layout className="container">
-            <Header />
-            <RouterTab />
+            <div className="fixed-top">
+              <Header />
+              <RouterTab />
+            </div>
             <Content className="main">
               <PageHeader />
               <Switch>

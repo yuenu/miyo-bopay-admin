@@ -33,6 +33,7 @@ const RouterTab = () => {
   };
   return (
     <Tabs
+      className="router-tabs"
       type="editable-card"
       activeKey={active}
       onChange={handleChange}
