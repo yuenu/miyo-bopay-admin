@@ -143,6 +143,10 @@ const CardAcct = () => {
       dataIndex: "card_name",
     },
     {
+      title: "银行卡备注",
+      dataIndex: "card_note",
+    },
+    {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
