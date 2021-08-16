@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space } from "antd";
 import { selectAppUser, getAppUsers, getAppUser } from "@/store/slice/appUser";
 import { useList, useDetail } from "@/utils/hook";
@@ -43,6 +43,10 @@ const AppUser = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
+
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "会员ID", dataIndex: "userid", sorter: true },

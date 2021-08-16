@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Switch } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
 import { PlusOutlined } from "@ant-design/icons";
@@ -70,6 +70,9 @@ const App = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const [editVisible, setEditVisible] = useState(false);
   const handleEditClick = async id => {

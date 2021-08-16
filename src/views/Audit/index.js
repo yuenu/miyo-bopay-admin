@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Space, Button } from "antd";
 import { selectAudit, getAudits, getAudit } from "@/store/slice/audit";
 import { useList, useDetail } from "@/utils/hook";
@@ -41,6 +41,10 @@ const Audit = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
+
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "帐号", dataIndex: "username", sorter: true },

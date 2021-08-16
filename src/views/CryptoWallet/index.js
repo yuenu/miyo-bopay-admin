@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Switch } from "antd";
 import {
   selectCryptoWallet,
@@ -76,6 +76,9 @@ const CryptoWallet = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const handleEditClick = async id => {
     history.push(generatePath("/CryptoWalletEdit/:id", { id }));

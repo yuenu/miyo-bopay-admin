@@ -82,6 +82,9 @@ const CryptoWallet = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const [form] = Form.useForm();
   const [editVisible, setEditVisible] = useState(false);

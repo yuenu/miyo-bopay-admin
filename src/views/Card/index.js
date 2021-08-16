@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Switch } from "antd";
 import {
   selectCard,
@@ -75,6 +75,9 @@ const Card = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const [editVisible, setEditVisible] = useState(false);
   const handleEditClick = async id => {

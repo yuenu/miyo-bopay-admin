@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Space, Button } from "antd";
 import {
   selectLoginLog,
@@ -39,6 +39,9 @@ const LoginLog = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },

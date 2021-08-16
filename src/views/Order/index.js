@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Space, Modal, message } from "antd";
 import {
   selectOrder,
@@ -70,6 +70,9 @@ const Order = () => {
     setDetailId(id);
     setJsonVisible(true);
   };
+  useEffect(() => {
+    jsonVisible || setDetailId(null);
+  }, [jsonVisible]);
 
   const [editVisible, setEditVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
