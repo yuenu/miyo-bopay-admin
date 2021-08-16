@@ -34,6 +34,7 @@ import {
 import JsonModal from "@/components/JsonModal";
 import Tag from "@/components/Tag";
 import { NormalTable } from "@/components/factory/TableFactory";
+import { useHistory, generatePath } from "react-router-dom";
 
 const { Link, Paragraph, Text } = Typography;
 
@@ -97,11 +98,22 @@ const CryptoWallet = () => {
       currentRow.id &&
       form.setFieldsValue({
         amount_paid: currentRow.amount,
-        order_id: currentRow.content_id,
         note: currentRow.note || "确认交易，资金到帐。",
       });
   }, [editVisible, currentRow, form]);
 
+  const history = useHistory();
+  const handleToOrderDetail = () => {
+    history.push(
+      generatePath("/OrderDetail/:id", { id: currentRow.content_id }),
+    );
+  };
+  const handleSetContentId = () => {
+    form.setFieldsValue({
+      ...form.getFieldsValue(),
+      order_id: currentRow.content_id,
+    });
+  };
   const handleEditOk = async () => {
     const formModel = form.getFieldsValue();
     await handleEdit({ crypto_acct_log_id: currentRow.id, ...formModel });
@@ -263,6 +275,7 @@ const CryptoWallet = () => {
         loading={detailLoading}
       />
       <Modal
+        width="600px"
         title="绑定订单"
         visible={editVisible}
         onOk={handleEditOk}
@@ -274,7 +287,39 @@ const CryptoWallet = () => {
         <Spin spinning={detailLoading}>
           <Form {...formLayout} form={form}>
             <Form.Item label="ID">{currentRow.id}</Form.Item>
-            <Form.Item name="order_id" label="订单ID">
+            <Form.Item
+              name="order_id"
+              label="订单ID"
+              help={
+                currentRow.content_id && (
+                  <div style={{ color: "#444" }}>
+                    检测到订单ID:[{currentRow.content_id}](
+                    {
+                      <Button
+                        style={{ padding: 0 }}
+                        type="link"
+                        size="small"
+                        onClick={handleToOrderDetail}
+                      >
+                        查看订单
+                      </Button>
+                    }
+                    ) 金额一致,[
+                    {
+                      <Button
+                        style={{ padding: 0 }}
+                        type="link"
+                        size="small"
+                        onClick={handleSetContentId}
+                      >
+                        点击绑定
+                      </Button>
+                    }
+                    ]
+                  </div>
+                )
+              }
+            >
               <InputNumber />
             </Form.Item>
             <CurrencyHelpTextFormItemFactory
