@@ -1,12 +1,13 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, Route, Redirect } from "react-router-dom";
 import { Typography, Button, Form, Input, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { login, selectAuth } from "@/store/slice/auth";
+import { login, selectAuth, getOptStatus } from "@/store/slice/auth";
 import { useSelector } from "react-redux";
 const { Title } = Typography;
 const Login = () => {
-  const { user } = useSelector(selectAuth);
+  const { user, isOpt } = useSelector(selectAuth);
 
   const dispatch = useDispatch();
   const [form] = Form.useForm();
@@ -16,6 +17,9 @@ const Login = () => {
     await dispatch(login({ ...form.getFieldValue() }));
     history.push("/");
   };
+  useEffect(() => {
+    dispatch(getOptStatus());
+  });
 
   return (
     <Route path="/Login">
@@ -50,6 +54,17 @@ const Login = () => {
                   placeholder="密碼"
                 />
               </Form.Item>
+              {isOpt && (
+                <Form.Item
+                  name="opt"
+                  rules={[{ required: true, message: "請輸入二步验证码" }]}
+                >
+                  <Input
+                    prefix={<LockOutlined className="site-form-item-icon" />}
+                    placeholder="二步验证码"
+                  />
+                </Form.Item>
+              )}
               <Form.Item>
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox>記住密碼</Checkbox>

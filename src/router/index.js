@@ -213,5 +213,11 @@ const routes = [
     component: () => getComponent("Transfers/indexStatus8"),
     displayName: "我的出款中列表",
   },
+  {
+    path: "/SystemSetting",
+    name: "SystemSetting",
+    component: () => getComponent("SystemSetting"),
+    displayName: "系统设置",
+  },
 ];
 export default routes;

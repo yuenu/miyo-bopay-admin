@@ -80,6 +80,7 @@ const SidebarView = () => {
         </SubMenu>
         <SubMenu key="Config" icon={<SettingOutlined />} title="系统设置">
           {Item("/USDTExchange")}
+          {Item("/SystemSetting")}
         </SubMenu>
         <SubMenu key="Transfer" icon={<SettingOutlined />} title="代付">
           {Item("/Transfers")}

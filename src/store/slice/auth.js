@@ -6,18 +6,34 @@ export const login = createAsyncThunk(
   async (params, thunkAPI) => {
     const { status, data } = await request({
       url: "/auth/login",
-      method: "POST",
+      method: "post",
       data: params,
     });
     if (status !== 200) return;
     return data;
   },
 );
-
+export const getOptStatus = createAsyncThunk("auth/optStatus", async () => {
+  const { status, data } = await request({
+    url: "/auth/opt",
+    method: "get",
+  });
+  if (status !== 200) return;
+  return data;
+});
+export const editOpt = async params => {
+  const res = await request({
+    url: `/api/config/opt`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "user",
   initialState: {
     user: JSON.parse(localStorage.getItem("user")) || null,
+    isOpt: false,
   },
   reducers: {
     setUser: (state, action) => {
@@ -33,6 +49,9 @@ export const slice = createSlice({
       action.payload && (state.user = action.payload);
       action.payload &&
         localStorage.setItem("user", JSON.stringify(action.payload));
+    },
+    [getOptStatus.fulfilled]: (state, action) => {
+      state.isOpt = action.payload;
     },
   },
 });
