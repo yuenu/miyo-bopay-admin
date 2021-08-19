@@ -336,8 +336,7 @@ const GatewayTypes = ({ params }) => {
     {
       title: "白名单",
       dataIndex: "whitelist",
-      editable: true,
-      inputType: "string",
+      render: val => val?.map(i => <AntTag key={i}>{i}</AntTag>),
     },
     {
       title: "备注",

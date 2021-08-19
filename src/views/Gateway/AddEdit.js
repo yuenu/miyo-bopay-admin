@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import {
   formLayout,
-  mode,
+  mode as Mode,
   Currency,
   PayMethod,
   WXPayType,
@@ -19,7 +19,7 @@ import SearchSelect from "@/components/SearchSelect";
 import { useSelector } from "react-redux";
 const { Option } = Select;
 
-const AddEdit = props => {
+const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
   const { list: wallets } = useSelector(selectCryptoWallet);
   const { list: cards } = useSelector(selectCard);
   const [form] = Form.useForm();
@@ -30,31 +30,38 @@ const AddEdit = props => {
         formModel.currency === 0
           ? cards.find(i => i.id === formModel.card_id)?.name
           : wallets.find(i => i.id === formModel.crypto_wallet_id)?.name;
-      await props.onOk({ ...formModel, acct_name });
+      await onOk({
+        ...formModel,
+        acct_name,
+        whitelist: formModel.whitelist ? formModel.whitelist.split(",") : [],
+      });
       form.resetFields();
     });
   };
   useEffect(() => {
-    props.visible &&
-      props.mode === "edit" &&
+    visible &&
+      mode === "edit" &&
       form.setFieldsValue({
-        ...props.data,
-        extra: JSON.stringify(props.data.extra),
-        apps: props.data.apps || [],
+        ...data,
+        extra: JSON.stringify(data.extra),
+        apps: data.apps || [],
+        whitelist: Array.isArray(data.whitelist)
+          ? data.whitelist.join(",")
+          : "",
       });
   });
 
   return (
     <Modal
-      title={`${mode[props.mode]}支付网关`}
-      visible={props.visible}
+      title={`${Mode[mode]}支付网关`}
+      visible={visible}
       onOk={handleOk}
-      onCancel={props.onCancel}
+      onCancel={onCancel}
       cancelText="取消"
       okText="送出"
-      confirmLoading={props.loading}
+      confirmLoading={loading}
     >
-      <Spin spinning={props.loading}>
+      <Spin spinning={loading}>
         <Form
           {...formLayout}
           form={form}
