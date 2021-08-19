@@ -18,6 +18,7 @@ import { selectApp, getApps } from "@/store/slice/app";
 import SearchSelect from "@/components/SearchSelect";
 import { useSelector } from "react-redux";
 const { Option } = Select;
+const { TextArea } = Input;
 
 const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
   const { list: wallets } = useSelector(selectCryptoWallet);
@@ -33,7 +34,9 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
       await onOk({
         ...formModel,
         acct_name,
-        whitelist: formModel.whitelist ? formModel.whitelist.split(",") : [],
+        whitelist: formModel.whitelist
+          ? formModel.whitelist.replace(/(\r\n|\n|\r)/gm, "").split(",")
+          : [],
       });
       form.resetFields();
     });
@@ -223,7 +226,7 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
             <Input />
           </Form.Item>
           <Form.Item name="whitelist" label="白名单">
-            <Input />
+            <TextArea />
           </Form.Item>
           <Form.Item name="h5_on" label="是否开启h5" valuePropName="checked">
             <Switch />
