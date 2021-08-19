@@ -131,8 +131,10 @@ export const CryptoAcctLogsType = {
   4: "其它",
 };
 export const CryptoAcctLogsStatus = {
-  0: "未确认",
-  1: "已确认",
+  0: "交易未确认",
+  1: "交易已确认",
+  2: "待绑定",
+  3: "已绑定订单",
 };
 
 export const ContentType = {
