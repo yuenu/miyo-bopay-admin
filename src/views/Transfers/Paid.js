@@ -1,18 +1,14 @@
-import { useEffect } from "react";
-import { Modal, Form } from "antd";
+import React, { useEffect } from "react";
+import { Modal, Form, Input } from "antd";
 import { formLayout } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
 import SearchSelect from "@/components/SearchSelect";
 import { selectTransfer, getTransfersGateways } from "@/store/slice/transfer";
-import {
-  selectCryptoWallet,
-  getCryptoWallets,
-} from "@/store/slice/cryptoWallet";
+
 import { selectCryptoAcct, getCryptoAccts } from "@/store/slice/cryptoAcct";
-import { useSelector } from "react-redux";
-const Edit = ({ visible, data, onCancel, onOk, loading, title }) => {
-  const { gateways } = useSelector(selectTransfer);
+
+const Edit = ({ visible, data, onCancel, onOk, loading }) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
@@ -25,6 +21,9 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title }) => {
   useEffect(() => {
     visible && form.setFieldsValue(data);
   });
+  const handleOnSelectGateways = val => {
+    form.setFieldsValue({ crypto_wallet_id: val.crypto_wallet_id });
+  };
   return (
     <Modal
       title="出款"
@@ -52,26 +51,21 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title }) => {
               searchKey="name"
               val="id"
               label={j => `${j.id} ${j.name}`}
+              onSelect={handleOnSelectGateways}
             />
           </Form.Item>
           <Form.Item
             noStyle
             shouldUpdate={(prev, now) => prev.gateway_id !== now.gateway_id}
           >
-            {({ getFieldValue, resetFields }) => {
-              resetFields(["crypto_wallet_id"]);
-              return gateways.find(i => i.id === getFieldValue("gateway_id"))
-                ?.currency > 0 ? (
-                <Form.Item name="crypto_wallet_id" label="钱包ID">
-                  <SearchSelect
-                    action={getCryptoWallets}
-                    selector={selectCryptoWallet}
-                    searchKey="name"
-                    val="id"
-                    label={i => `${i.id} ${i.name}`}
-                  />
-                </Form.Item>
-              ) : null;
+            {({ getFieldValue }) => {
+              return (
+                getFieldValue("gateway_id") && (
+                  <Form.Item name="crypto_wallet_id" label="錢包ID">
+                    <Input disabled />
+                  </Form.Item>
+                )
+              );
             }}
           </Form.Item>
           <Form.Item
@@ -108,4 +102,7 @@ const Edit = ({ visible, data, onCancel, onOk, loading, title }) => {
     </Modal>
   );
 };
-export default Edit;
+
+export default React.memo(Edit, (prev, next) => {
+  return prev.visible === next.visible;
+});
