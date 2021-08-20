@@ -48,7 +48,7 @@ const USDTExchange = () => {
           <Form.Item {...formLayout} label="当前兑人民币实时汇率">
             {exchange.price}
             <Text type="secondary" className="ml-1">
-              <small>数据来源: 非小号</small>
+              <small>数据来源: <a href="https://www.feixiaohao.cc/currencies/tether/" target="_blank">非小号</a></small>
             </Text>
             <Button
               className="ml-1"
