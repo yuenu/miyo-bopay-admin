@@ -46,9 +46,18 @@ const USDTExchange = () => {
       <Card>
         <Spin spinning={loading}>
           <Form.Item {...formLayout} label="当前兑人民币实时汇率">
-            {exchange.price}
+            {exchange.otc_price}
             <Text type="secondary" className="ml-1">
-              <small>数据来源: <a href="https://www.feixiaohao.cc/currencies/tether/" target="_blank">非小号</a></small>
+              <small>
+                数据来源:{" "}
+                <a
+                  href="https://www.feixiaohao.cc/currencies/tether/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  非小号
+                </a>
+              </small>
             </Text>
             <Button
               className="ml-1"
