@@ -19,7 +19,7 @@ import JsonModal from "@/components/JsonModal";
 import ListColumns from "./Columns";
 import { useHistory, generatePath } from "react-router-dom";
 
-const Order = () => {
+const Order = ({ params }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     order_no__in: { type: "string", label: "订单号" },
@@ -43,7 +43,6 @@ const Order = () => {
     created__btw: { type: "rangeDate", label: "创建日期" },
     paid_at__btw: { type: "rangeDate", label: "支付时间" },
   };
-
   const {
     res: { list, meta },
     loading: listLoading,
@@ -51,7 +50,7 @@ const Order = () => {
     handleGetList,
     handleChangePage,
     handleChange,
-  } = useList(getOrders, selectOrder);
+  } = useList(getOrders, selectOrder, params);
 
   const [detailId, setDetailId] = useState(null);
   const {

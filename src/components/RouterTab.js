@@ -9,13 +9,12 @@ import {
 } from "@/utils/format";
 import { useHistory, useLocation } from "react-router-dom";
 const { TabPane } = Tabs;
-const RouterTab = () => {
+const RouterTab = ({ routes }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { routerTabs } = useSelector(selectRouterTab);
-  const [active, setActive] = useState(getRouter(pathname).name);
-
+  const [active, setActive] = useState(getRouter(pathname, routes)?.name);
   useEffect(() => {
     setActive(pathname);
   }, [pathname]);
@@ -42,7 +41,9 @@ const RouterTab = () => {
     >
       {routerTabs.map(path => (
         <TabPane
-          tab={getRouterDisplayName(path) + getRouterParam(path)}
+          tab={`${getRouterDisplayName(path, routes) || ""}${getRouterParam(
+            path,
+          )}`}
           key={path}
           closable={routerTabs.length > 1}
         />

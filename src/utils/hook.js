@@ -16,9 +16,9 @@ export const useList = (action, selector, originParams = {}) => {
       setLoading(true);
       await dispatch(
         action({
-          ...originParams,
           page: current,
           per_page: pageSize,
+          ...originParams,
           ...searchParams,
           ...sortParams,
           ...params,

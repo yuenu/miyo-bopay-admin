@@ -15,13 +15,17 @@ import {
   SettingOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { selectApp } from "@/store/slice/app";
+
 import { setRouterTabs } from "@/store/slice/routerTab";
+
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
-const SidebarView = () => {
+const SidebarView = ({ routes }) => {
   const { pathname } = useLocation();
+  const { list } = useSelector(selectApp);
   const dispatch = useDispatch();
   const [selectedKey, setSelectedKey] = useState(pathname);
   const handleSetRouterTab = key => {
@@ -33,7 +37,7 @@ const SidebarView = () => {
   const Item = (key, icon = null) => (
     <Menu.Item key={key} icon={icon}>
       <Link to={key} onClick={() => handleSetRouterTab(pathname)}>
-        {getRouterDisplayName(key)}
+        {getRouterDisplayName(key, routes)}
       </Link>
     </Menu.Item>
   );
@@ -54,7 +58,10 @@ const SidebarView = () => {
           {Item("/Gateway2")}
           {Item("/Gateway3")}
         </SubMenu>
-        {Item("/Order", <ContainerOutlined />)}
+        <SubMenu key="Order" icon={<ContainerOutlined />} title="订单中心">
+          {list.map(i => Item(`/Order${i.id}`))}
+          {Item("/Order")}
+        </SubMenu>
         <SubMenu key="Crypto" icon={<WalletOutlined />} title="加密货币">
           {Item("/CryptoWallet")}
           {Item("/CryptoAcct")}

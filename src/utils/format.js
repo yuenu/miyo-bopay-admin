@@ -1,7 +1,6 @@
 import moment from "moment";
 import { CurrencyFormat, Perms } from "@/utils/enum";
 import Area from "@/utils/enum/area";
-import router from "@/router";
 
 export const dateFormat = date => {
   return date && moment(date)._isValid && typeof date === "string"
@@ -68,11 +67,11 @@ export const getDefaultCheckKeys = perms => {
   }
 };
 
-export const getRouterDisplayName = path =>
+export const getRouterDisplayName = (path, router = []) =>
   router.find(i => i.path === path)?.displayName ||
   router.find(i => i.name === path.split("/")[1])?.displayName;
 
-export const getRouter = path =>
+export const getRouter = (path, router = []) =>
   router.find(i => i.path === path) ||
   router.find(i => i.name === path.split("/")[1]);
 

@@ -1,3 +1,4 @@
+import Order from "@/views/Order";
 const getComponent = name => {
   try {
     let cpn = require(`@/views/${name}`);
@@ -77,7 +78,8 @@ const routes = [
   {
     path: "/Order",
     name: "Order",
-    component: () => getComponent("Order"),
+    // component: () => getComponent("Order"),
+    component: () => <Order />,
     displayName: "支付订单",
   },
   {
