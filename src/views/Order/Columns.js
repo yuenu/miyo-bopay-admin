@@ -37,7 +37,12 @@ const columns = [
     render: val => PayMethod[val] || "",
   },
   { title: "付款人姓名", dataIndex: "payer_name", width: 100 },
-  { title: "付款人信息", dataIndex: "payer_cred", width: 100 },
+  {
+    title: "付款人信息",
+    dataIndex: "payer_cred",
+    width: 100,
+    render: val => JSON.stringify(val),
+  },
   { title: "设备类型", dataIndex: "device_type", width: 100 },
   {
     title: "支付状态",
