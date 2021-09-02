@@ -87,7 +87,7 @@ def pipeline() {
 
 def failure(e) {
     echo "error ${e}"
-    telegramSend(message: "${env.JOB_NAME} has failed because ${e}\nSee ${env.BUILD_URL}console", chatId: "${env.TG_CHAT_ID}")
+    telegramSend(message: "${env.JOB_NAME} has failed because ${e}\nSee ${env.BUILD_URL}console", chatId: "-1164232969")
 }
 
 def success() {
