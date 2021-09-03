@@ -80,7 +80,7 @@ const routes = [
     name: "Order",
     // component: () => getComponent("Order"),
     component: () => <Order />,
-    displayName: "支付订单",
+    displayName: "全部订单",
   },
   {
     path: "/OrderDetail/:id",

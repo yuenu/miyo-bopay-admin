@@ -47,7 +47,7 @@ const columns = [
   {
     title: "支付状态",
     dataIndex: "pay_status",
-    render: val => PayStatus[val] || "",
+    render: val => OrderStatus[val] || "",
     width: 100,
   },
   {
@@ -60,7 +60,7 @@ const columns = [
   {
     title: "审核状态",
     dataIndex: "approval_status",
-    render: val => ApprovalStatus[val] || "",
+    render: val => OrderStatus[val] || "",
     width: 100,
   },
   {
@@ -70,7 +70,7 @@ const columns = [
   {
     title: "通知状态",
     dataIndex: "notify_status",
-    render: val => NotifyStatus[val] || "",
+    render: val => OrderStatus[val] || "",
     width: 100,
   },
   {
