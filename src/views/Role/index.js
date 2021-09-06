@@ -182,12 +182,14 @@ const Role = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "动作",
@@ -199,24 +201,41 @@ const Role = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>
-          <Button size="small" onClick={() => handleEditClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleEditClick(record.id)}
+          >
             编辑
           </Button>
-          <Button size="small" onClick={() => handleEditUsersClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleEditUsersClick(record.id)}
+          >
             职员管理
           </Button>
-          <Button size="small" onClick={() => handleEditPermClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleEditPermClick(record.id)}
+          >
             编辑权限
           </Button>
         </Space>

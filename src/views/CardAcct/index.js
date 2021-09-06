@@ -117,12 +117,14 @@ const CardAcct = () => {
       dataIndex: "balance",
       render: val => priceFormat({ val, currency: 0 }),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "冻结金额",
       dataIndex: "freezes",
       render: val => priceFormat({ val, currency: 0 }),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "当前上分数",
@@ -154,12 +156,14 @@ const CardAcct = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "动作",
@@ -171,21 +175,33 @@ const CardAcct = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>
-          <Button size="small" onClick={() => handleEditClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleEditClick(record.id)}
+          >
             编辑
           </Button>
-          <Button size="small" onClick={() => handleBalanceClick(record)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleBalanceClick(record)}
+          >
             更新余额
           </Button>
         </Space>

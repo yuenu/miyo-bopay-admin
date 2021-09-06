@@ -23,7 +23,7 @@ const ColumnsSelect = ({ columns, value, onChange }) => {
     <>
       自订列表：
       <Select
-        size="large"
+        size="middle"
         mode="multiple"
         filterOption={false}
         value={value.map(i => i.dataIndex)}

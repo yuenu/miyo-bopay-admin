@@ -165,14 +165,14 @@ const User = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
-      width: 120,
+      className: "text-nowrap",
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
-      width: 120,
+      className: "text-nowrap",
       sorter: true,
     },
     {
@@ -216,21 +216,33 @@ const User = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>
-          <Button size="small" onClick={() => handleResetPswClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleResetPswClick(record.id)}
+          >
             重置密码
           </Button>
-          <Button size="small" onClick={() => handleEditClick(record.id)}>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            onClick={() => handleEditClick(record.id)}
+          >
             编辑
           </Button>
         </Space>

@@ -65,12 +65,14 @@ const Audit = () => {
       dataIndex: "created",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "动作",
@@ -82,14 +84,16 @@ const Audit = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>

@@ -64,13 +64,14 @@ const AppUser = () => {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
-      width: 120,
+      className: "text-nowrap",
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
       render: val => dateFormat(val),
+      className: "text-nowrap",
       sorter: true,
     },
     {
@@ -83,14 +84,16 @@ const AppUser = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>

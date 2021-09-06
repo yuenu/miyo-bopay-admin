@@ -29,7 +29,7 @@ const AgentDaily = () => {
     {
       title: "报表时间",
       dataIndex: "created",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -37,21 +37,21 @@ const AgentDaily = () => {
       title: "累计金额",
       dataIndex: "total_amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
-      width: 100,
+      className: "text-nowrap",
       sorter: true,
     },
     {
       title: "累计赠金金额",
       dataIndex: "total_bonus",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
-      width: 100,
+      className: "text-nowrap",
       sorter: true,
     },
     {
       title: "累计成功金额",
       dataIndex: "total_succeeded_amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
-      width: 100,
+      className: "text-nowrap",
       sorter: true,
     },
     {
@@ -63,7 +63,7 @@ const AgentDaily = () => {
       title: "货币类型",
       dataIndex: "currency",
       render: val => Currency[val] || "",
-      width: 100,
+      className: "text-nowrap",
     },
     {
       title: "累计成功次数",

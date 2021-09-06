@@ -225,18 +225,21 @@ const Transfer = ({ params }) => {
       dataIndex: "amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "实际出款金额",
       dataIndex: "amount_paid",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "出款货币类型",
       dataIndex: "currency",
       render: val => Currency[val] || "",
       sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "支付网关类名",
@@ -251,14 +254,14 @@ const Transfer = ({ params }) => {
     {
       title: "创建时间",
       dataIndex: "created",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -270,14 +273,14 @@ const Transfer = ({ params }) => {
     {
       title: "取消时间",
       dataIndex: "canceled_at",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
     {
       title: "过期时间",
       dataIndex: "expired_at",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -324,7 +327,7 @@ const Transfer = ({ params }) => {
     {
       title: "付款时间",
       dataIndex: "paid_at",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -354,7 +357,7 @@ const Transfer = ({ params }) => {
     {
       title: "回调时间",
       dataIndex: "notified_at",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -421,30 +424,44 @@ const Transfer = ({ params }) => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>
           {!params && record.status === 16 && (
-            <Button size="small" onClick={() => handleNotifyClick(record)}>
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleNotifyClick(record)}
+            >
               回调
             </Button>
           )}
           {params?.status === 2 && (
-            <Button size="small" onClick={() => handleClaimClick(record)}>
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleClaimClick(record)}
+            >
               认领
             </Button>
           )}
           {params?.status === 3 && (
             <Button
               size="small"
+              type="text"
+              className="p-0"
               onClick={() => handleEditClick(record, "approve")}
             >
               {TYPE_ENUMS.approve}
@@ -453,29 +470,48 @@ const Transfer = ({ params }) => {
           {params?.status === 3 && (
             <Button
               size="small"
+              type="text"
+              className="p-0"
               onClick={() => handleEditClick(record, "deny")}
             >
               {TYPE_ENUMS.deny}
             </Button>
           )}
           {params?.status === 5 && (
-            <Button size="small" onClick={() => handlePaidClaimClick(record)}>
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handlePaidClaimClick(record)}
+            >
               认领
             </Button>
           )}
           {params?.status === 7 && (
-            <Button size="small" onClick={() => handlePaidClick(record)}>
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handlePaidClick(record)}
+            >
               出款
             </Button>
           )}
           {params?.status === 8 && (
-            <Button size="small" onClick={() => handleSucceededClick(record)}>
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleSucceededClick(record)}
+            >
               出款成功
             </Button>
           )}
           {params?.status === 8 && (
             <Button
               size="small"
+              type="text"
+              className="p-0"
               onClick={() => handleEditClick(record, "failed")}
             >
               {TYPE_ENUMS.failed}

@@ -52,7 +52,7 @@ const LoginLog = () => {
     {
       title: "登入时间",
       dataIndex: "login_time",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -62,14 +62,14 @@ const LoginLog = () => {
     {
       title: "创建日期",
       dataIndex: "created",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -83,7 +83,8 @@ const LoginLog = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>

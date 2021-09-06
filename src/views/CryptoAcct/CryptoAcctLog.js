@@ -202,19 +202,24 @@ const CryptoWallet = () => {
     },
     { title: "交易内容", dataIndex: "subject" },
     { title: "转出地址", dataIndex: "to_addr" },
-    { title: "交易时间", dataIndex: "trans_time", sorter: true },
+    {
+      title: "交易时间",
+      dataIndex: "trans_time",
+      sorter: true,
+      className: "text-nowrap",
+    },
 
     {
       title: "创建日期",
       dataIndex: "created",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -229,13 +234,15 @@ const CryptoWallet = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
-            type="primary"
+            type="link"
+            className="p-0"
             onClick={() => handleEditClick(record.id)}
           >
             绑定订单

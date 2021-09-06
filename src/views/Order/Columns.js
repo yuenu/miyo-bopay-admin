@@ -1,12 +1,4 @@
-import {
-  OrderStatus,
-  WXPayType,
-  PayMethod,
-  PayStatus,
-  Currency,
-  NotifyStatus,
-  ApprovalStatus,
-} from "@/utils/enum";
+import { OrderStatus, WXPayType, PayMethod, Currency } from "@/utils/enum";
 import { priceFormat, dateFormat } from "@/utils/format";
 import Tag from "@/components/Tag";
 const columns = [
@@ -33,7 +25,7 @@ const columns = [
   {
     title: "付款方式",
     dataIndex: "pay_method",
-    width: 170,
+    className: "text-nowrap",
     render: val => PayMethod[val] || "",
   },
   { title: "付款人姓名", dataIndex: "payer_name", width: 100 },
@@ -53,7 +45,7 @@ const columns = [
   {
     title: "支付时间",
     dataIndex: "paid_at",
-    width: 150,
+    className: "text-nowrap",
     render: val => dateFormat(val),
     sorter: true,
   },
@@ -61,7 +53,6 @@ const columns = [
     title: "审核状态",
     dataIndex: "approval_status",
     render: val => OrderStatus[val] || "",
-    width: 100,
   },
   {
     title: "审核人员",
@@ -71,12 +62,11 @@ const columns = [
     title: "通知状态",
     dataIndex: "notify_status",
     render: val => OrderStatus[val] || "",
-    width: 100,
   },
   {
     title: "通知时间",
     dataIndex: "notified_at",
-    width: 170,
+    className: "text-nowrap",
     render: val => dateFormat(val),
     sorter: true,
   },
@@ -87,77 +77,73 @@ const columns = [
     title: "支付金额",
     dataIndex: "amount",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
-    width: 100,
+    className: "text-nowrap",
     sorter: true,
   },
   {
     title: "实际付款金额",
     dataIndex: "amount_paid",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
-    width: 100,
+    className: "text-nowrap",
     sorter: true,
   },
   {
     title: "赠送金额",
     dataIndex: "bonus",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
-    width: 100,
+    className: "text-nowrap",
     sorter: true,
   },
   {
     title: "随机金额",
     dataIndex: "amount_rand",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
-    width: 100,
+    className: "text-nowrap",
     sorter: true,
   },
   {
     title: "货币类型",
     dataIndex: "currency",
     render: val => Currency[val] || "",
-    width: 100,
+    className: "text-nowrap",
   },
   {
     title: "付款成功",
     dataIndex: "paid",
     render: val => <Tag val={val} />,
-    width: 100,
   },
   {
     title: "审核通过",
     dataIndex: "approved",
     render: val => <Tag val={val} />,
-    width: 100,
   },
   {
     title: "是否加密货币",
     dataIndex: "is_crypto",
     render: val => <Tag val={val} />,
-    width: 100,
   },
   {
     title: "是否在线订单",
     dataIndex: "is_online",
     render: val => <Tag val={val} />,
-    width: 100,
   },
   {
     title: "清算成功",
     dataIndex: "settled",
     render: val => <Tag val={val} />,
-    width: 100,
   },
   {
     title: "创建日期",
     dataIndex: "created",
     render: val => dateFormat(val),
-    width: 120,
+    className: "text-nowrap",
     sorter: true,
   },
   {
     title: "更新日期",
     dataIndex: "updated",
     render: val => dateFormat(val),
+    className: "text-nowrap",
     sorter: true,
   },
 ];

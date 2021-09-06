@@ -137,14 +137,16 @@ const Order = ({ params }) => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
           <Button
             size="small"
             onClick={() => handleDetailClick(record.id)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             查看
           </Button>
@@ -152,28 +154,39 @@ const Order = ({ params }) => {
             <>
               <Button
                 size="small"
+                type="text"
                 onClick={() => handleEditClick(record, "approve")}
+                className="p-0"
               >
                 审核
               </Button>
               <Button
                 size="small"
                 onClick={() => handleEditClick(record, "deny")}
-                type="danger"
+                type="text"
+                danger
+                className="p-0"
               >
                 拒绝
               </Button>
               <Button
                 size="small"
                 onClick={() => handleCancelClick(record.id)}
-                type="danger"
+                type="text"
+                danger
+                className="p-0"
               >
                 取消
               </Button>
             </>
           )}
           {record.paid && (
-            <Button size="small" onClick={() => handleNotifyClick(record.id)}>
+            <Button
+              size="small"
+              type="text"
+              onClick={() => handleNotifyClick(record.id)}
+              className="p-0"
+            >
               通知
             </Button>
           )}

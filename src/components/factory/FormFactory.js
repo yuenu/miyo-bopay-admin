@@ -29,7 +29,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
   const valuePropName = type =>
     type === "checkbox" || type === "switch" ? "checked" : "value";
   return (
-    <Card>
+    <Card size="small">
       <Form form={form} {...formLayout}>
         <Row gutter={24}>
           {Object.keys(fields).map(i => {

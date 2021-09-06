@@ -6,7 +6,7 @@ const PageHeaderC = ({ routes }) => {
   const { pathname } = useLocation();
   const route = getRouter(pathname, routes);
   return route?.hidePageHeader ? null : (
-    <PageHeader className="mb-1" title={route?.displayName} />
+    <PageHeader className="" title={route?.displayName} />
   );
 };
 export default PageHeaderC;

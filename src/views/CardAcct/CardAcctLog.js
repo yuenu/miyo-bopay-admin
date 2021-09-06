@@ -53,16 +53,19 @@ const CardAcctLog = () => {
       title: "转账前余额",
       dataIndex: "b1",
       render: val => priceFormat({ val, currency: 0 }),
+      className: "text-nowrap",
     },
     {
       title: "转账后余额",
       dataIndex: "b2",
       render: val => priceFormat({ val, currency: 0 }),
+      className: "text-nowrap",
     },
     {
       title: "转账金额",
       dataIndex: "amount",
       render: val => priceFormat({ val, currency: 0 }),
+      className: "text-nowrap",
     },
     {
       title: "转账方向",
@@ -78,14 +81,14 @@ const CardAcctLog = () => {
     {
       title: "创建日期",
       dataIndex: "created",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
     {
       title: "更新日期",
       dataIndex: "updated",
-      width: 120,
+      className: "text-nowrap",
       render: val => dateFormat(val),
       sorter: true,
     },
@@ -100,7 +103,8 @@ const CardAcctLog = () => {
           <Button
             size="small"
             onClick={() => handleJsonClick(record)}
-            type="primary"
+            type="link"
+            className="p-0"
           >
             json
           </Button>
