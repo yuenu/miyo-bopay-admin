@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode as Mode, CardStatus } from "@/utils/enum";
+import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
 import { getCityArr } from "@/utils/format";
 import Spin from "@/components/Spin";
 import Banks from "@/utils/enum/bank";
@@ -132,15 +133,27 @@ const AddEdit = ({
           <Form.Item name="idcard" label="身份证">
             <Input />
           </Form.Item>
-          <Form.Item name="per_trans_limit" label="单笔转账上限">
-            <InputNumber />
-          </Form.Item>
-          <Form.Item name="per_day_limit" label="每日转账上限">
-            <InputNumber />
-          </Form.Item>
-          <Form.Item name="cur_day_trans" label="当日累计转账金额">
-            <InputNumber />
-          </Form.Item>
+          <CurrencyHelpTextFormItemFactory
+            name="per_trans_limit"
+            label="单笔转账上限"
+            row={{ ...data, currency: 0 }}
+            defaultValKey="per_trans_limit"
+            key="per_trans_limit"
+          />
+          <CurrencyHelpTextFormItemFactory
+            name="per_day_limit"
+            label="每日转账上限"
+            row={{ ...data, currency: 0 }}
+            defaultValKey="per_day_limit"
+            key="per_day_limit"
+          />
+          <CurrencyHelpTextFormItemFactory
+            name="cur_day_trans"
+            label="当日累计转账金额"
+            row={{ ...data, currency: 0 }}
+            defaultValKey="cur_day_trans"
+            key="cur_day_trans"
+          />
           <Form.Item
             name="has_limit"
             label="是否开启转账限额"
