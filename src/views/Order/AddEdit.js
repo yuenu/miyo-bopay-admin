@@ -73,7 +73,7 @@ const AddEdit = props => {
               label={i => `${i.id} ${i.username}`}
             />
           </Form.Item>
-          <Form.Item name="name" label="会员姓名">
+          <Form.Item name="payer_name" label="会员姓名">
             <Input />
           </Form.Item>
           <Form.Item name="status" label="订单状态">

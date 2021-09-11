@@ -8,7 +8,7 @@ const columns = [
   { title: "AppID", dataIndex: "app_id", sorter: true },
   { title: "商戶ID", dataIndex: "developer_id", sorter: true },
   { title: "会员ID", dataIndex: "userid", sorter: true },
-  { title: "会员姓名", dataIndex: "name", width: 100 },
+  { title: "会员姓名", dataIndex: "payer_name", width: 100 },
   { title: "帐户名称", dataIndex: "acct_name" },
   {
     title: "订单状态",
