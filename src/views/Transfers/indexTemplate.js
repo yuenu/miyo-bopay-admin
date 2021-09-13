@@ -75,7 +75,7 @@ const Transfer = ({ params }) => {
   const handleClaim = async (close, record) => {
     const { status } = await claimTransfer({
       id: record.id,
-      formModel: { approver_id: user.id },
+      formModel: { paid_id: user.id },
     });
     close();
     if (status !== 200) return;

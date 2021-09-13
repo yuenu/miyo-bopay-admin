@@ -92,8 +92,8 @@ const SidebarView = ({ routes }) => {
         <SubMenu key="Transfer" icon={<SettingOutlined />} title="代付">
           {Item("/Transfers")}
           {Item("/TransfersStatus2")}
-          {Item("/TransfersStatus3")}
-          {Item("/TransfersStatus5")}
+          {/* {Item("/TransfersStatus3")} */}
+          {/* {Item("/TransfersStatus5")} */}
           {Item("/TransfersStatus7")}
           {Item("/TransfersStatus8")}
         </SubMenu>

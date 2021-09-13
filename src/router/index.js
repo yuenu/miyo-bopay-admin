@@ -191,18 +191,18 @@ const routes = [
     component: () => getComponent("Transfers/indexStatus2"),
     displayName: "申请中的代付",
   },
-  {
-    path: "/TransfersStatus3",
-    name: "TransfersStatus3",
-    component: () => getComponent("Transfers/indexStatus3"),
-    displayName: "我的审核认领",
-  },
-  {
-    path: "/TransfersStatus5",
-    name: "TransfersStatus5",
-    component: () => getComponent("Transfers/indexStatus5"),
-    displayName: "待认领汇款",
-  },
+  // {
+  //   path: "/TransfersStatus3",
+  //   name: "TransfersStatus3",
+  //   component: () => getComponent("Transfers/indexStatus3"),
+  //   displayName: "我的审核认领",
+  // },
+  // {
+  //   path: "/TransfersStatus5",
+  //   name: "TransfersStatus5",
+  //   component: () => getComponent("Transfers/indexStatus5"),
+  //   displayName: "待认领汇款",
+  // },
   {
     path: "/TransfersStatus7",
     name: "TransfersStatus7",
