@@ -174,6 +174,12 @@ const routes = [
     displayName: "商户报表",
   },
   {
+    path: "/TransferAppDaily",
+    name: "TransferAppDaily",
+    component: () => getComponent("Report/TransferAppDaily"),
+    displayName: "代付商户报表",
+  },
+  {
     path: "/USDTExchange",
     name: "USDTExchange",
     component: () => getComponent("USDTExchange"),

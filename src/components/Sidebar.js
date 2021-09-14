@@ -84,6 +84,7 @@ const SidebarView = ({ routes }) => {
           {Item("/DeveloperDaily")}
           {Item("/OrderDaily")}
           {Item("/AppDaily")}
+          {Item("/TransferAppDaily")}
         </SubMenu>
         <SubMenu key="Config" icon={<SettingOutlined />} title="系统设置">
           {Item("/USDTExchange")}
