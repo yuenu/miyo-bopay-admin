@@ -11,6 +11,7 @@ import {
   succeededTransfer,
   failedTransfer,
   notifyTransfer,
+  cancelTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -209,7 +210,23 @@ const Transfer = ({ params }) => {
     const { status } = await notifyTransfer({ id: record.id });
     close();
     if (status !== 200) return;
-    handleGetList();
+    handleGetList(params);
+  };
+  const handleCancelClick = record => {
+    Modal.confirm({
+      title: "是否取消认领",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将取消认领 ${record.id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleCancel(close, record),
+    });
+  };
+  const handleCancel = async (close, record) => {
+    const { status } = await cancelTransfer({ id: record.id });
+    close();
+    if (status !== 200) return;
+    handleGetList(params);
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
@@ -495,6 +512,16 @@ const Transfer = ({ params }) => {
               onClick={() => handlePaidClick(record)}
             >
               出款
+            </Button>
+          )}
+          {params?.status === 7 && (
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleCancelClick(record)}
+            >
+              取消认领
             </Button>
           )}
           {params?.status === 8 && (

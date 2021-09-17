@@ -87,6 +87,13 @@ export const notifyTransfer = async ({ id }) => {
   });
   return res;
 };
+export const cancelTransfer = async ({ id }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/paid/cancel`,
+    method: "post",
+  });
+  return res;
+};
 
 export const slice = createSlice({
   name: "transfer",
