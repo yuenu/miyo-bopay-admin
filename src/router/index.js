@@ -78,7 +78,6 @@ const routes = [
   {
     path: "/Order",
     name: "Order",
-    // component: () => getComponent("Order"),
     component: () => <Order />,
     displayName: "全部订单",
   },
