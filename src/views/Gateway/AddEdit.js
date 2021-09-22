@@ -37,6 +37,7 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
         whitelist: formModel.whitelist
           ? formModel.whitelist.replace(/(\r\n|\n|\r)/gm, "").split(",")
           : [],
+        extra: JSON.parse(formModel.extra || "{}"),
       });
       form.resetFields();
     });
