@@ -26,7 +26,7 @@ const Detail = ({
       {...rest}
     >
       <Spin spinning={loading}>
-        <Descriptions column={1} bordered>
+        <Descriptions column={1} bordered size="small">
           {columns.map(i => (
             <Descriptions.Item label={i.title} key={i.dataIndex}>
               {i.dRender

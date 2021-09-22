@@ -34,7 +34,7 @@ const Detail = ({ visible, loading, data, onCancel, onDelete }) => {
       ]}
     >
       <Spin spinning={loading}>
-        <Descriptions column={1} bordered>
+        <Descriptions column={1} bordered size="small">
           <Descriptions.Item label="ID">{id}</Descriptions.Item>
           <Descriptions.Item label="名称">{name}</Descriptions.Item>
           <Descriptions.Item label="职员数量">{total}</Descriptions.Item>

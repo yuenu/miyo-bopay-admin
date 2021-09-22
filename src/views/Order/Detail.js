@@ -137,6 +137,7 @@ const Detail = () => {
             column={{ xs: 1, sm: 1, md: 2 }}
             bordered
             className="bg-white"
+            size="small"
           >
             {Colums.map(i => (
               <Descriptions.Item
