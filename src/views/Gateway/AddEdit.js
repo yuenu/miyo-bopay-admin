@@ -115,6 +115,9 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
           >
             <Input />
           </Form.Item>
+          <Form.Item name="extra" label="extra">
+            <TextArea />
+          </Form.Item>
           <Form.Item name="api" label="api">
             <Input />
           </Form.Item>
