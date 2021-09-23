@@ -7,7 +7,7 @@ export const columns = [
   { title: "第三方订单号", dataIndex: "trans_no" },
   { title: "AppID", dataIndex: "app_id", sorter: true },
   { title: "App用户ID", dataIndex: "app_user_id", sorter: true },
-  { title: "开发者ID", dataIndex: "developer_id", sorter: true },
+  { title: "app管理-姓名", dataIndex: "app_name_cn", sorter: true },
   { title: "代理ID", dataIndex: "agent_id" },
   { title: "代理姓名", dataIndex: "agent_name" },
   {
