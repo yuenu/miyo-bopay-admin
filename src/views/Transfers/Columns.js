@@ -31,31 +31,6 @@ export const columns = [
     dataIndex: "name",
   },
   {
-    title: "是否通过审核",
-    dataIndex: "approved",
-    render: val => <Tag val={val} />,
-  },
-  {
-    title: "审核状态",
-    dataIndex: "approval_status",
-    render: val => transferStatus[val],
-  },
-  {
-    title: "审核人ID",
-    dataIndex: "approver_id",
-  },
-  {
-    title: "审核通过时间",
-    dataIndex: "approved_at",
-    width: 120,
-    render: val => dateFormat(val),
-    sorter: true,
-  },
-  {
-    title: "审核备注",
-    dataIndex: "comments",
-  },
-  {
     title: "出款金额",
     dataIndex: "amount",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
@@ -80,6 +55,31 @@ export const columns = [
     title: "支付网关类名",
     dataIndex: "gateway",
     sorter: true,
+  },
+  {
+    title: "是否通过审核",
+    dataIndex: "approved",
+    render: val => <Tag val={val} />,
+  },
+  {
+    title: "审核状态",
+    dataIndex: "approval_status",
+    render: val => transferStatus[val],
+  },
+  {
+    title: "审核人ID",
+    dataIndex: "approver_id",
+  },
+  {
+    title: "审核通过时间",
+    dataIndex: "approved_at",
+    width: 120,
+    render: val => dateFormat(val),
+    sorter: true,
+  },
+  {
+    title: "审核备注",
+    dataIndex: "comments",
   },
   {
     title: "网关ID",
@@ -207,7 +207,7 @@ export const columns = [
     sorter: true,
   },
 ];
-const detailColumnsArr = [
+const detailColumnsCardArr = [
   "account",
   "name",
   "bank_name",
@@ -217,6 +217,16 @@ const detailColumnsArr = [
   "updated",
   "comments",
 ];
-export const detailColumns = columns.filter(
-  i => detailColumnsArr.indexOf(i.dataIndex) >= 0,
-);
+const detailColumnsUSDTArr = [
+  "account",
+  "currency",
+  "bank_name",
+  "amount",
+  "amount_paid",
+  "approver_id",
+  "updated",
+  "comments",
+];
+const formatColumn = arr => columns.filter(i => arr.indexOf(i.dataIndex) >= 0);
+export const detailColumnsCard = formatColumn(detailColumnsCardArr);
+export const detailColumnsUSDT = formatColumn(detailColumnsUSDTArr);

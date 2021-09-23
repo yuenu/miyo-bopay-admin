@@ -24,7 +24,11 @@ import EditableConfirm from "@/components/EditableConfirm";
 import Paid from "./Paid";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
-import { columns as ListColumns, detailColumns } from "./Columns";
+import {
+  columns as ListColumns,
+  detailColumnsCard,
+  detailColumnsUSDT,
+} from "./Columns";
 const TYPE_ENUMS = {
   approve: "审核通过",
   deny: "审核拒绝",
@@ -347,15 +351,17 @@ const Transfer = ({ params }) => {
   ];
 
   const defaultColumns = [
+    "id",
     "order_no",
-    "app_user_id",
+    "app_name_cn",
     "name",
-    "approver_id",
     "amount",
     "amount_paid",
+    "currency",
+    "gateway",
     "created",
+    "succeeded",
     "status",
-    "comments",
     "action",
   ];
   return (
@@ -384,7 +390,9 @@ const Transfer = ({ params }) => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={false}
-        columns={detailColumns}
+        columns={
+          currentRow.currency === 0 ? detailColumnsCard : detailColumnsUSDT
+        }
       />
       <EditableConfirm
         title={TYPE_ENUMS[editMode]}
