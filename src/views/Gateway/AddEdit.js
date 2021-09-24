@@ -38,6 +38,7 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
           ? formModel.whitelist.replace(/(\r\n|\n|\r)/gm, "").split(",")
           : [],
         extra: JSON.parse(formModel.extra || "{}"),
+        payer_cred: JSON.parse(formModel.payer_cred || "{}"),
       });
       form.resetFields();
     });
