@@ -11,7 +11,7 @@ import { setModalDiscSpan } from "@/store/slice/layout";
 import Order from "@/views/Order";
 import routes from "@/router";
 import { setRouterTabs } from "@/store/slice/routerTab";
-import { selectTransfer, getTransfers } from "@/store/slice/transfer";
+import { selectTransfer, getTransfers2Total } from "@/store/slice/transfer";
 import { selectApp, getApps } from "@/store/slice/app";
 import { useList } from "@/utils/hook";
 import TransferAlertMp3 from "@/assets/dongdong.mp3";
@@ -21,13 +21,13 @@ const audio = new Audio(TransferAlertMp3);
 const GlobalLayout = () => {
   const { pathname } = useLocation();
   const { user } = useSelector(selectAuth);
-  const { meta } = useSelector(selectTransfer);
+  const { status2Total } = useSelector(selectTransfer);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setRouterTabs(pathname));
   });
   useEffect(() => {
-    dispatch(getTransfers({ status: 2 }));
+    dispatch(getTransfers2Total());
     // eslint-disable-next-line
   }, []);
 
@@ -44,10 +44,10 @@ const GlobalLayout = () => {
     }, 5000);
   };
   useEffect(() => {
-    meta.total > 0 && PlayTransferAlertMp3();
-    meta.total === 0 && clearInterval(PlayTransferAlertMp3Interval);
+    status2Total > 0 && PlayTransferAlertMp3();
+    status2Total === 0 && clearInterval(PlayTransferAlertMp3Interval);
     // eslint-disable-next-line
-  }, [meta.total]);
+  }, [status2Total]);
 
   useEffect(() => {
     const handleWindowResize = e => {
