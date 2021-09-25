@@ -5,10 +5,11 @@ import Spin from "@/components/Spin";
 import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
 import SearchSelect from "@/components/SearchSelect";
 import { selectTransfer, getTransfersGateways } from "@/store/slice/transfer";
-
 import { selectCryptoAcct, getCryptoAccts } from "@/store/slice/cryptoAcct";
+import { useSelector } from "react-redux";
 
-const Edit = ({ visible, data, onCancel, onOk, loading }) => {
+const Paid = ({ visible, data, onCancel, onOk, loading }) => {
+  const { gateways } = useSelector(selectTransfer);
   const [form] = Form.useForm();
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
@@ -19,7 +20,13 @@ const Edit = ({ visible, data, onCancel, onOk, loading }) => {
     });
   };
   useEffect(() => {
-    visible && form.setFieldsValue(data);
+    if (visible) {
+      const obj = gateways.find(i => i.id === data.gateway_id);
+      form.setFieldsValue({
+        ...data,
+        crypto_wallet_id: obj?.crypto_wallet_id || null,
+      });
+    }
   });
   const handleOnSelectGateways = val => {
     form.setFieldsValue({ crypto_wallet_id: val.crypto_wallet_id });
@@ -103,6 +110,6 @@ const Edit = ({ visible, data, onCancel, onOk, loading }) => {
   );
 };
 
-export default React.memo(Edit, (prev, next) => {
+export default React.memo(Paid, (prev, next) => {
   return prev.visible === next.visible;
 });
