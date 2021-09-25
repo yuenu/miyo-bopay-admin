@@ -88,7 +88,7 @@ const Paid = ({ visible, data, onCancel, onOk, loading }) => {
                 <Form.Item name="crypto_acct_id" label="出款账户">
                   <SearchSelect
                     action={getCryptoAccts}
-                    params={{ wallet_id }}
+                    params={{ wallet_id, is_active: true }}
                     selector={selectCryptoAcct}
                     searchKey="name"
                     val="id"
