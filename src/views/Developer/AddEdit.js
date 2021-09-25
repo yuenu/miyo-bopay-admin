@@ -16,7 +16,9 @@ const AddEdit = props => {
       if (!formModel) return;
       await props.onOk({
         ...formModel,
-        username: users.find(i => i.id === formModel.user_id).username,
+        username:
+          users.find(i => i.id === formModel.user_id)?.username ||
+          props.data.username,
       });
       form.resetFields();
     });
