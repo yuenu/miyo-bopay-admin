@@ -87,6 +87,11 @@ export const columns = [
     sorter: true,
   },
   {
+    title: "网关名称",
+    dataIndex: "gateway_name",
+    sorter: true,
+  },
+  {
     title: "创建时间",
     dataIndex: "created",
     className: "text-nowrap",

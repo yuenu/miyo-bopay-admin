@@ -359,6 +359,7 @@ const Transfer = ({ params }) => {
     "amount_paid",
     "currency",
     "gateway",
+    "gateway_name",
     "created",
     "succeeded",
     "status",
