@@ -179,6 +179,12 @@ const routes = [
     displayName: "代付商户报表",
   },
   {
+    path: "/GatewayDaily",
+    name: "GatewayDaily",
+    component: () => getComponent("Report/GatewayDaily"),
+    displayName: "支付商户渠道报表",
+  },
+  {
     path: "/USDTExchange",
     name: "USDTExchange",
     component: () => getComponent("USDTExchange"),

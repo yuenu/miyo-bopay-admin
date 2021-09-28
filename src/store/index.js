@@ -23,6 +23,7 @@ import developerDailyReducer from "./slice/developerDaily";
 import orderDailyReducer from "./slice/orderDaily";
 import appDailyReducer from "./slice/appDaily";
 import transferAppDailyReducer from "./slice/transferAppDaily";
+import gatewayDailyReducer from "./slice/gatewayDaily";
 import configReducer from "./slice/config";
 import transferReducer from "./slice/transfer";
 
@@ -52,6 +53,7 @@ export default configureStore({
     orderDaily: orderDailyReducer,
     appDaily: appDailyReducer,
     transferAppDaily: transferAppDailyReducer,
+    gatewayDaily: gatewayDailyReducer,
     config: configReducer,
     transfer: transferReducer,
   },
