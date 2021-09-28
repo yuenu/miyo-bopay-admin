@@ -81,6 +81,21 @@ const TransferAppDaily = () => {
       dataIndex: "total_succeeded_times",
       sorter: true,
     },
+    {
+      title: "失败数量",
+      dataIndex: "failed_count",
+      render: (val, scope) => scope.total_times - scope.total_succeeded_times,
+      sorter: true,
+    },
+    {
+      title: "成功率",
+      dataIndex: "succeeded_rate",
+      render: (val, scope) =>
+        `${
+          (scope.total_succeeded_times / scope.total_times).toFixed(4) * 100
+        }%`,
+      sorter: true,
+    },
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
