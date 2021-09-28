@@ -2,6 +2,7 @@ import axios from "axios";
 import { errorCodeMessage } from "@/utils/enum";
 import Notification from "@/components/factory/NotifFactory";
 import { logout } from "@/store/slice/auth";
+import router from "@/router";
 export const interceptor = store => {
   axios.interceptors.request.use(
     config => {
@@ -28,6 +29,7 @@ export const interceptor = store => {
       const status = error.response.status;
       if (status === 401) {
         store.dispatch(logout());
+        router.push({ name: "Login" });
         Notification({
           title: errorCodeMessage[status] ?? error.message,
           message: error.response?.data?.err,
