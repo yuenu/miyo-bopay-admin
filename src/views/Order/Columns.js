@@ -28,7 +28,6 @@ const columns = [
     className: "text-nowrap",
     render: val => PayMethod[val] || "",
   },
-  { title: "付款人姓名", dataIndex: "payer_name", width: 100 },
   {
     title: "付款人信息",
     dataIndex: "payer_cred",
