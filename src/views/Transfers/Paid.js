@@ -47,7 +47,7 @@ const Paid = ({ visible, data, onCancel, onOk, loading }) => {
           <Form.Item label="ID">{data.id}</Form.Item>
           <Form.Item
             name="gateway_id"
-            label="gateway"
+            label="选择出款网关"
             rules={[{ required: true, message: `请输入gateway` }]}
           >
             <SearchSelect
