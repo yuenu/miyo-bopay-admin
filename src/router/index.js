@@ -52,6 +52,12 @@ const routes = [
     displayName: "商户账户",
   },
   {
+    path: "/AppAcctLog",
+    name: "AppAcctLog",
+    component: () => getComponent("AppAcct/AppAcctLog"),
+    displayName: "商户资金记录",
+  },
+  {
     path: "/Gateway",
     name: "Gateway",
     component: () => getComponent("Gateway"),

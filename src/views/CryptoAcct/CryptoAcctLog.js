@@ -38,7 +38,7 @@ import { useHistory, generatePath } from "react-router-dom";
 
 const { Link, Paragraph, Text } = Typography;
 
-const CryptoWallet = () => {
+const CryptoAcctLog = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     status__in: {
@@ -344,4 +344,4 @@ const CryptoWallet = () => {
     </Space>
   );
 };
-export default CryptoWallet;
+export default CryptoAcctLog;

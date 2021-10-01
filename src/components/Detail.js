@@ -28,7 +28,6 @@ const Detail = ({
       <Spin spinning={loading}>
         <Descriptions column={1} bordered size="small">
           {columns.map(i => {
-            console.log(data);
             return (
               <Descriptions.Item label={i.title} key={i.dataIndex}>
                 {i.dRender

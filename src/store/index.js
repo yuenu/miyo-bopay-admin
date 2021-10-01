@@ -16,6 +16,7 @@ import agentReducer from "./slice/agent";
 import loginLogReducer from "./slice/loginLog";
 import appReducer from "./slice/app";
 import appAcctReducer from "./slice/appAcct";
+import appAcctLogReducer from "./slice/appAcctLog";
 import gatewayReducer from "./slice/gateway";
 import auditReducer from "./slice/audit";
 import roleReducer from "./slice/role";
@@ -47,6 +48,7 @@ export default configureStore({
     loginLog: loginLogReducer,
     app: appReducer,
     appAcct: appAcctReducer,
+    appAcctLog: appAcctLogReducer,
     gateway: gatewayReducer,
     audit: auditReducer,
     role: roleReducer,

@@ -51,6 +51,7 @@ const SidebarView = ({ routes }) => {
           {Item("/App")}
           {Item("/AppUser")}
           {Item("/AppAcct")}
+          {Item("/AppAcctLog")}
         </SubMenu>
         <SubMenu key="Pay" icon={<PayCircleOutlined />} title="支付管理">
           {Item("/Gateway")}

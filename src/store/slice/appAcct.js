@@ -21,27 +21,11 @@ export const getAppAcct = createAsyncThunk("appAcct/getDetail", async id => {
   });
   return res;
 });
-export const addAppAcct = async params => {
+export const balanceAppAcct = async ({ id, formModel }) => {
   const res = await request({
-    url: `/api/appaccts`,
+    url: `/api/appaccts/${id}/balance`,
     method: "post",
-    data: params,
-  });
-  return res;
-};
-export const editAppAcct = async params => {
-  const res = await request({
-    url: `/api/appaccts/${params.id}`,
-    method: "post",
-    data: params.formModel,
-  });
-  return res;
-};
-
-export const deleteAppAcct = async id => {
-  const res = await request({
-    url: `/api/appaccts/${id}`,
-    method: "delete",
+    data: { ...formModel },
   });
   return res;
 };
