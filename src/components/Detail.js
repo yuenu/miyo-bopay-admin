@@ -27,15 +27,18 @@ const Detail = ({
     >
       <Spin spinning={loading}>
         <Descriptions column={1} bordered size="small">
-          {columns.map(i => (
-            <Descriptions.Item label={i.title} key={i.dataIndex}>
-              {i.dRender
-                ? i.dRender(data[i.dataIndex], i)
-                : i.render
-                ? i.render(data[i.dataIndex], i)
-                : data[i.dataIndex]}
-            </Descriptions.Item>
-          ))}
+          {columns.map(i => {
+            console.log(data);
+            return (
+              <Descriptions.Item label={i.title} key={i.dataIndex}>
+                {i.dRender
+                  ? i.dRender(data[i.dataIndex], data)
+                  : i.render
+                  ? i.render(data[i.dataIndex], data)
+                  : data[i.dataIndex]}
+              </Descriptions.Item>
+            );
+          })}
         </Descriptions>
       </Spin>
     </Modal>

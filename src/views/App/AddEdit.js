@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Switch, Select } from "antd";
+import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
 import { selectUser, getUsers } from "@/store/slice/user";
 import SearchSelect from "@/components/SearchSelect";
@@ -67,6 +67,9 @@ const AddEdit = props => {
             rules={[{ required: true, message: "请输入回调网址" }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item name="fee" label="商户费率">
+            <InputNumber step="0.01" />
           </Form.Item>
           <Form.Item name="info" label="info">
             <Input />

@@ -139,6 +139,11 @@ const App = () => {
       inputType: "string",
     },
     {
+      title: "商户费率",
+      dataIndex: "fee",
+      render: val => `${val}%`,
+    },
+    {
       title: "info",
       dataIndex: "info",
       editable: true,

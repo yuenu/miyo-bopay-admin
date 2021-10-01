@@ -46,6 +46,12 @@ const routes = [
     displayName: "App管理",
   },
   {
+    path: "/AppAcct",
+    name: "AppAcct",
+    component: () => getComponent("AppAcct"),
+    displayName: "商户账户",
+  },
+  {
     path: "/Gateway",
     name: "Gateway",
     component: () => getComponent("Gateway"),
