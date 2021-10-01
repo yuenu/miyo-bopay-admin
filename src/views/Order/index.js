@@ -27,6 +27,7 @@ const Order = ({ params }) => {
     currency: { type: "select", label: "货币类型", options: Currency },
     userid__in: { type: "string", label: "会员ID" },
     app_id__in: { type: "string", label: "AppID" },
+    gateway__k: { type: "string", label: "通道名称" },
     paid: {
       type: "select",
       label: "付款成功",
@@ -197,6 +198,7 @@ const Order = ({ params }) => {
   const defaultColumns = [
     "id",
     "order_no",
+    "gateway",
     "userid",
     "name",
     "status",

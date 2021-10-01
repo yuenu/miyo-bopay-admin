@@ -11,6 +11,10 @@ const columns = [
   { title: "会员姓名", dataIndex: "payer_name", width: 100 },
   { title: "帐户名称", dataIndex: "acct_name" },
   {
+    title: "通道名称",
+    dataIndex: "gateway",
+  },
+  {
     title: "订单状态",
     dataIndex: "status",
     render: val => OrderStatus[val] || "",
