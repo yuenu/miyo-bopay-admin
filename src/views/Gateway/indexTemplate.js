@@ -28,7 +28,15 @@ import { priceFormat, dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 import { useHistory, generatePath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+const SwitchRender = (val, record, onChange) => {
+  const { meta } = useSelector(selectGateway);
+  return (
+    <Switch
+      checked={val}
+      onChange={checked => onChange(checked, record, "is_active", meta)}
+    />
+  );
+};
 const GatewayTypes = ({ params }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -141,7 +149,7 @@ const GatewayTypes = ({ params }) => {
     status === 200 && message.success("更新成功！");
   };
 
-  const handleChangeSwitch = async (checked, { id, ...params }, key) => {
+  const handleChangeSwitch = async (checked, { id, ...params }, key, mt) => {
     setListLoading(true);
     await handleEditHook({
       action: editGateway,
@@ -149,14 +157,15 @@ const GatewayTypes = ({ params }) => {
       ...params,
       [key]: checked,
     });
-    handleGetList({ page: meta.current });
+    handleGetList({ page: mt.current });
   };
 
   const history = useHistory();
   const handleToModuleDetail = ({ id, route }) => {
     history.push(generatePath(`/${route}/:id`, { id }));
   };
-  const columns = [
+
+  const columns = () => [
     { title: "ID", dataIndex: "id", sorter: true },
     {
       title: "名称",
@@ -359,12 +368,7 @@ const GatewayTypes = ({ params }) => {
       title: "启用",
       dataIndex: "is_active",
       dRender: val => <Tag val={val} />,
-      render: (val, record) => (
-        <Switch
-          checked={val}
-          onChange={checked => handleChangeSwitch(checked, record, "is_active")}
-        />
-      ),
+      render: (val, record) => SwitchRender(val, record, handleChangeSwitch),
     },
     {
       title: "创建日期",
@@ -439,7 +443,7 @@ const GatewayTypes = ({ params }) => {
         添加
       </Button>
       <EditableTable
-        allColumns={columns}
+        allColumns={columns()}
         defaultColumns={defaultColumns}
         dataSource={list}
         meta={meta}
@@ -470,7 +474,7 @@ const GatewayTypes = ({ params }) => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={detailLoading}
-        columns={columns.filter(i => i.dataIndex !== "action")}
+        columns={columns().filter(i => i.dataIndex !== "action")}
       />
       <AddEdit
         visible={editVisible}
