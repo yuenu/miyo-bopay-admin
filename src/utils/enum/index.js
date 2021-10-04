@@ -425,6 +425,72 @@ export const Perms = [
     ],
   },
   {
+    title: "代付",
+    key: "transfer",
+    children: [
+      {
+        title: "创建代付",
+        key: "transfer.Create",
+      },
+      {
+        title: "查看代付列表",
+        key: "transfer.List",
+      },
+      {
+        title: "查看商户提款列表",
+        key: "transfer.ListApp",
+      },
+      {
+        title: "查看代付",
+        key: "transfer.Get",
+      },
+      {
+        title: "删除代付",
+        key: "transfer.Delete",
+      },
+      {
+        title: "更新代付",
+        key: "transfer.Update",
+      },
+      {
+        title: "认领代付/提款",
+        key: "transfer.PaidClaim",
+      },
+      {
+        title: "取消认领代付/提款",
+        key: "transfer.PaidCancel",
+      },
+      {
+        title: "出款",
+        key: "transfer.Paid",
+      },
+      {
+        title: "出款成功",
+        key: "transfer.Succeeded",
+      },
+      {
+        title: "出款失败",
+        key: "transfer.Failed",
+      },
+      {
+        title: "拒绝出款",
+        key: "transfer.Deny",
+      },
+      {
+        title: "回调出款",
+        key: "transfer.Notify",
+      },
+      {
+        title: "查看出款网关",
+        key: "transfer.Gateway",
+      },
+      {
+        title: "查询出款",
+        key: "transfer.Query",
+      },
+    ],
+  },
+  {
     title: "代理管理",
     key: "agent",
     children: [
