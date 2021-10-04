@@ -55,7 +55,7 @@ export const denyTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/deny`,
     method: "post",
-    data: { id, ...formModel },
+    data: formModel,
   });
   return res;
 };

@@ -13,6 +13,7 @@ import {
   BarChartOutlined,
   PayCircleOutlined,
   SettingOutlined,
+  InteractionOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
 import { useDispatch, useSelector } from "react-redux";
@@ -93,13 +94,21 @@ const SidebarView = ({ routes }) => {
           {Item("/USDTExchange")}
           {Item("/SystemSetting")}
         </SubMenu>
-        <SubMenu key="Transfer" icon={<SettingOutlined />} title="代付">
+        <SubMenu key="Transfer" icon={<InteractionOutlined />} title="代付">
           {Item("/Transfers")}
           {Item("/TransfersStatus2")}
-          {/* {Item("/TransfersStatus3")} */}
-          {/* {Item("/TransfersStatus5")} */}
           {Item("/TransfersStatus7")}
           {Item("/TransfersStatus8")}
+        </SubMenu>
+        <SubMenu
+          key="TransfersApp"
+          icon={<InteractionOutlined />}
+          title="商户提款"
+        >
+          {Item("/TransfersApp")}
+          {Item("/TransfersAppStatus2")}
+          {Item("/TransfersAppStatus7")}
+          {Item("/TransfersAppStatus8")}
         </SubMenu>
       </Menu>
     </Sider>

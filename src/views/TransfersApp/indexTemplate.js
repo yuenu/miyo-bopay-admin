@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { Space, Button, Modal, message } from "antd";
 import {
-  selectTransfer,
-  getTransfers,
+  selectTransfersApp,
+  getTransfersApp,
+} from "@/store/slice/transfersApp";
+import {
   claimTransfer,
-  approveTransfer,
   denyTransfer,
   paidTransfer,
   succeededTransfer,
   failedTransfer,
-  notifyTransfer,
   cancelTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
-
 import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
@@ -23,12 +22,9 @@ import EditableConfirm from "@/components/EditableConfirm";
 import Paid from "./Paid";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
-import {
-  columns as ListColumns,
-  detailColumnsCard,
-  detailColumnsUSDT,
-} from "./Columns";
+import { columns as ListColumns } from "./Columns";
 const TYPE_ENUMS = {
+  deny: "审核拒绝",
   failed: "出款失败",
 };
 const Transfer = ({ params }) => {
@@ -47,7 +43,7 @@ const Transfer = ({ params }) => {
     handleGetList,
     handleChangePage,
     handleChange,
-  } = useList(getTransfers, selectTransfer, params);
+  } = useList(getTransfersApp, selectTransfersApp, params);
 
   const [jsonVisible, setJsonVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState({});
@@ -106,7 +102,7 @@ const Transfer = ({ params }) => {
 
   const [editLoading, setEditLoading] = useState(false);
   const [editVisible, setEditVisible] = useState(false);
-  const [editMode, setEditMode] = useState("approve");
+  const [editMode, setEditMode] = useState("deny");
   const fields =
     editMode === "failed"
       ? [
@@ -125,7 +121,7 @@ const Transfer = ({ params }) => {
       : [
           {
             label: "备注",
-            name: "comments",
+            name: "note",
             inputType: "string",
           },
         ];
@@ -137,15 +133,10 @@ const Transfer = ({ params }) => {
   const handleEdit = async formModel => {
     setEditLoading(true);
     const { status } =
-      editMode === "approve"
-        ? await approveTransfer({
-            id: currentRow.id,
-            formModel: { ...formModel, approver_id: user.id },
-          })
-        : editMode === "deny"
+      editMode === "deny"
         ? await denyTransfer({
             id: currentRow.id,
-            formModel: { ...formModel, approver_id: user.id },
+            formModel,
           })
         : await failedTransfer({
             id: currentRow.id,
@@ -176,22 +167,6 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
-  const handleNotifyClick = record => {
-    Modal.confirm({
-      title: "是否手动回调",
-      icon: <ExclamationCircleOutlined />,
-      content: `即将手动回调 ${record.id}，是否继续？`,
-      okText: "确认",
-      cancelText: "取消",
-      onOk: close => handleNotify(close, record),
-    });
-  };
-  const handleNotify = async (close, record) => {
-    const { status } = await notifyTransfer({ id: record.id });
-    close();
-    if (status !== 200) return;
-    handleGetList(params);
-  };
   const handleCancelClick = record => {
     Modal.confirm({
       title: "是否取消认领",
@@ -208,6 +183,7 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
+
   const columns = [
     ...ListColumns,
     {
@@ -233,16 +209,6 @@ const Transfer = ({ params }) => {
           >
             查看
           </Button>
-          {!params && record.status === 16 && (
-            <Button
-              size="small"
-              type="text"
-              className="p-0"
-              onClick={() => handleNotifyClick(record)}
-            >
-              回调
-            </Button>
-          )}
           {params?.status === 2 && (
             <Button
               size="small"
@@ -271,6 +237,16 @@ const Transfer = ({ params }) => {
               onClick={() => handleCancelClick(record)}
             >
               取消认领
+            </Button>
+          )}
+          {params?.status === 7 && (
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleEditClick(record, "deny")}
+            >
+              审核拒绝
             </Button>
           )}
           {params?.status === 8 && (
@@ -339,9 +315,7 @@ const Transfer = ({ params }) => {
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
         loading={false}
-        columns={
-          currentRow.currency === 0 ? detailColumnsCard : detailColumnsUSDT
-        }
+        columns={columns}
       />
       <EditableConfirm
         title={TYPE_ENUMS[editMode]}

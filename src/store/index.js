@@ -28,6 +28,7 @@ import transferAppDailyReducer from "./slice/transferAppDaily";
 import gatewayDailyReducer from "./slice/gatewayDaily";
 import configReducer from "./slice/config";
 import transferReducer from "./slice/transfer";
+import transfersAppReducer from "./slice/transfersApp";
 
 export default configureStore({
   reducer: {
@@ -60,5 +61,6 @@ export default configureStore({
     gatewayDaily: gatewayDailyReducer,
     config: configReducer,
     transfer: transferReducer,
+    transfersApp: transfersAppReducer,
   },
 });

@@ -1,6 +1,5 @@
 import TransferTypes from "./indexTemplate";
-
 const Transfer = () => {
-  return <TransferTypes params={{ status: 5 }} />;
+  return <TransferTypes />;
 };
 export default Transfer;

@@ -214,18 +214,6 @@ const routes = [
     component: () => getComponent("Transfers/indexStatus2"),
     displayName: "申请中的代付",
   },
-  // {
-  //   path: "/TransfersStatus3",
-  //   name: "TransfersStatus3",
-  //   component: () => getComponent("Transfers/indexStatus3"),
-  //   displayName: "我的审核认领",
-  // },
-  // {
-  //   path: "/TransfersStatus5",
-  //   name: "TransfersStatus5",
-  //   component: () => getComponent("Transfers/indexStatus5"),
-  //   displayName: "待认领汇款",
-  // },
   {
     path: "/TransfersStatus7",
     name: "TransfersStatus7",
@@ -243,6 +231,30 @@ const routes = [
     name: "SystemSetting",
     component: () => getComponent("SystemSetting"),
     displayName: "系统设置",
+  },
+  {
+    path: "/TransfersApp",
+    name: "TransfersApp",
+    component: () => getComponent("TransfersApp"),
+    displayName: "查看商户提款",
+  },
+  {
+    path: "/TransfersAppStatus2",
+    name: "TransfersAppStatus2",
+    component: () => getComponent("TransfersApp/indexStatus2"),
+    displayName: "申请中的商户提款",
+  },
+  {
+    path: "/TransfersAppStatus7",
+    name: "TransfersAppStatus7",
+    component: () => getComponent("TransfersApp/indexStatus7"),
+    displayName: "我认领的商户汇款",
+  },
+  {
+    path: "/TransfersAppStatus8",
+    name: "TransfersAppStatus8",
+    component: () => getComponent("TransfersApp/indexStatus8"),
+    displayName: "我的出款中列表",
   },
 ];
 export default routes;
