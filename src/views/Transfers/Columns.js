@@ -1,5 +1,5 @@
 import { dateFormat, priceFormat } from "@/utils/format";
-import { Currency, transferStatus } from "@/utils/enum";
+import { Currency, transferStatus, TransfersCategory } from "@/utils/enum";
 import Tag from "@/components/Tag";
 export const columns = [
   { title: "ID", dataIndex: "id", sorter: true },
@@ -29,6 +29,11 @@ export const columns = [
   {
     title: "真实姓名",
     dataIndex: "name",
+  },
+  {
+    title: "category",
+    dataIndex: "category",
+    render: val => TransfersCategory[val],
   },
   {
     title: "出款金额",

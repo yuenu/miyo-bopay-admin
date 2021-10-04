@@ -734,3 +734,7 @@ export const AmountType = {
   0: "任意金额",
   1: "固定金额",
 };
+export const TransfersCategory = {
+  0: "用户代付订单",
+  1: "商户提款订单",
+};
