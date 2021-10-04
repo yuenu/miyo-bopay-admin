@@ -72,6 +72,20 @@ const AppAcctLog = () => {
     { title: "操作人ID", dataIndex: "op_user_id" },
     { title: "操作人", dataIndex: "op_username" },
     {
+      title: "订单金额",
+      dataIndex: "order_amount",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
+      className: "text-nowrap",
+    },
+    {
+      title: "手续费",
+      dataIndex: "fee",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
+      className: "text-nowrap",
+    },
+    {
       title: "创建日期",
       dataIndex: "created",
       className: "text-nowrap",
