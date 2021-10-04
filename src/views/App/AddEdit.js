@@ -37,7 +37,7 @@ const AddEdit = props => {
       confirmLoading={props.loading}
     >
       <Spin spinning={props.loading}>
-        <Form {...formLayout} form={form}>
+        <Form {...formLayout} form={form} initialValues={{ status: 0 }}>
           <Form.Item
             name="name"
             label="名称"

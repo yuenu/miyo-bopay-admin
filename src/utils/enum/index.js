@@ -127,7 +127,9 @@ export const DeveloperStatus = {
 
 export const AppStatus = {
   0: "开发中",
-  1: "上线",
+  1: "提审中",
+  2: "上线运营",
+  3: "停用",
 };
 
 export const CryptoAcctLogsType = {
