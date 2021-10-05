@@ -105,13 +105,6 @@ const columns = [
     sorter: true,
   },
   {
-    title: "扣除费率后金额",
-    dataIndex: "amount_gateway",
-    render: (val, record) => priceFormat({ val, currency: record.currency }),
-    className: "text-nowrap",
-    sorter: true,
-  },
-  {
     title: "货币类型",
     dataIndex: "currency",
     render: val => Currency[val] || "",
