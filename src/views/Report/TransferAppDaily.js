@@ -66,30 +66,6 @@ const TransferAppDaily = () => {
       dataIndex: "total_succeeded_times",
       sorter: true,
     },
-    {
-      title: "扣除通道费后金额汇总",
-      dataIndex: "total_amount_gateway",
-      render: (val, record) =>
-        priceFormat({ val: val || 0, currency: record.currency }),
-      className: "text-nowrap",
-      sorter: true,
-    },
-    {
-      title: "扣除商户费(商户+通道)后金额汇总",
-      dataIndex: "total_amount_app",
-      render: (val, record) =>
-        priceFormat({ val: val || 0, currency: record.currency }),
-      className: "text-nowrap",
-      sorter: true,
-    },
-    {
-      title: "累计盈利金额",
-      dataIndex: "total_profit_amount",
-      render: (val, record) =>
-        priceFormat({ val: val || 0, currency: record.currency }),
-      className: "text-nowrap",
-      sorter: true,
-    },
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
