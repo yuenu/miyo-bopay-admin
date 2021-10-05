@@ -222,9 +222,9 @@ const GatewayTypes = ({ params }) => {
       dataIndex: "callback_url",
     },
     {
-      title: "fee",
+      title: "通道费率",
       dataIndex: "fee",
-      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      render: val => `${val}%`,
       sorter: true,
     },
     {
