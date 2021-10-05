@@ -28,6 +28,11 @@ const Order = ({ params }) => {
     userid__in: { type: "string", label: "会员ID" },
     app_id__in: { type: "string", label: "AppID" },
     gateway__k: { type: "string", label: "通道名称" },
+    is_online: {
+      type: "select",
+      label: "是否在线订单",
+      options: IsBoolEnum,
+    },
     paid: {
       type: "select",
       label: "付款成功",
@@ -202,6 +207,7 @@ const Order = ({ params }) => {
     "userid",
     "name",
     "status",
+    "is_online",
     "device_type",
     "pay_status",
     "paid_at",
