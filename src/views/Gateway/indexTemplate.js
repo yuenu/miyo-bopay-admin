@@ -24,7 +24,7 @@ import {
   WXPayType,
   AmountType,
 } from "@/utils/enum";
-import { priceFormat, dateFormat } from "@/utils/format";
+import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 import { useHistory, generatePath } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

@@ -3,8 +3,9 @@ import { selectAgentDaily, getAgentDaily } from "@/store/slice/agentDaily";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
-import { Currency } from "@/utils/enum";
+import { Currency, IsBoolEnum } from "@/utils/enum";
 import { NormalTable } from "@/components/factory/TableFactory";
+import Tag from "@/components/Tag";
 
 const AgentDaily = () => {
   const searchFields = {
@@ -13,6 +14,11 @@ const AgentDaily = () => {
     agent_name__k: { type: "string", label: "代理名称" },
     created__btw: { type: "rangeDate", label: "报表时间" },
     currency: { type: "select", label: "货币类型", options: Currency },
+    is_online: {
+      type: "select",
+      label: "是否线上渠道",
+      options: IsBoolEnum,
+    },
   };
   const {
     res: { list, meta },
@@ -68,6 +74,12 @@ const AgentDaily = () => {
     {
       title: "累计成功次数",
       dataIndex: "total_succeeded_times",
+      sorter: true,
+    },
+    {
+      title: "是否线上渠道",
+      dataIndex: "is_online",
+      render: val => <Tag val={val} />,
       sorter: true,
     },
   ];

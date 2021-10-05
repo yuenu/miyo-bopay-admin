@@ -152,7 +152,7 @@ const columns = [
     render: (val, record) => priceFormat({ val, currency: record.currency }),
   },
   {
-    title: "商户费率金额（盈利金额)",
+    title: "商户费率金额(盈利金额)",
     dataIndex: "amount_app_fee",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
   },
