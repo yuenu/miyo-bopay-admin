@@ -12,7 +12,7 @@ const columns = [
   { title: "帐户名称", dataIndex: "acct_name" },
   {
     title: "通道名称",
-    dataIndex: "gateway",
+    dataIndex: "gateway_name",
   },
   {
     title: "订单状态",
@@ -136,27 +136,18 @@ const columns = [
     render: val => <Tag val={val} />,
   },
   {
-    title: "通道名称",
-    dataIndex: "gateway_name",
-  },
-  {
-    title: "通道费率后金额",
-    dataIndex: "amount_gateway_fee",
-    render: (val, record) => priceFormat({ val, currency: record.currency }),
-  },
-  {
-    title: "商户费率金额(盈利金额)",
-    dataIndex: "amount_app_fee",
-    render: (val, record) => priceFormat({ val, currency: record.currency }),
-  },
-  {
-    title: "扣除通道费率后金额",
+    title: "扣除通道费后金额汇总",
     dataIndex: "amount_gateway",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
   },
   {
-    title: "扣除商户费率后金额",
+    title: "扣除商户费(商户+通道)后金额汇总",
     dataIndex: "amount_app",
+    render: (val, record) => priceFormat({ val, currency: record.currency }),
+  },
+  {
+    title: "累计盈利金额",
+    dataIndex: "amount_app_fee",
     render: (val, record) => priceFormat({ val, currency: record.currency }),
   },
   {

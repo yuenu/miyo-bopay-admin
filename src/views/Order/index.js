@@ -203,7 +203,7 @@ const Order = ({ params }) => {
   const defaultColumns = [
     "id",
     "order_no",
-    "gateway",
+    "gateway_name",
     "userid",
     "name",
     "status",
