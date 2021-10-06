@@ -77,6 +77,30 @@ const AppDaily = () => {
       sorter: true,
     },
     {
+      title: "扣除通道费后金额汇总",
+      dataIndex: "total_amount_gateway",
+      render: (val, record) =>
+        priceFormat({ val: val || 0, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
+      title: "扣除商户费(商户+通道)后金额汇总",
+      dataIndex: "total_amount_app",
+      render: (val, record) =>
+        priceFormat({ val: val || 0, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
+      title: "累计盈利金额",
+      dataIndex: "total_profit_amount",
+      render: (val, record) =>
+        priceFormat({ val: val || 0, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
       title: "是否线上渠道",
       dataIndex: "is_online",
       render: val => <Tag val={val} />,
