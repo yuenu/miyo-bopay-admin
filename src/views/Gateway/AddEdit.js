@@ -90,6 +90,7 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
   });
   useEffect(() => {
     visible && mode === "add" && form.resetFields();
+    // eslint-disable-next-line
   }, [visible]);
 
   return (

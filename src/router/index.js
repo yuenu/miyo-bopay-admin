@@ -197,6 +197,12 @@ const routes = [
     displayName: "支付商户渠道报表",
   },
   {
+    path: "/TransferAppGatewayDaily",
+    name: "TransferAppGatewayDaily",
+    component: () => getComponent("Report/TransferAppGatewayDaily"),
+    displayName: "代付商户渠道报表",
+  },
+  {
     path: "/USDTExchange",
     name: "USDTExchange",
     component: () => getComponent("USDTExchange"),

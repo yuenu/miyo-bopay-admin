@@ -89,6 +89,7 @@ const SidebarView = ({ routes }) => {
           {Item("/AppDaily")}
           {Item("/TransferAppDaily")}
           {Item("/GatewayDaily")}
+          {Item("/TransferAppGatewayDaily")}
         </SubMenu>
         <SubMenu key="Config" icon={<SettingOutlined />} title="系统设置">
           {Item("/USDTExchange")}
