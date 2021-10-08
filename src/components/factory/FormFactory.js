@@ -1,8 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card, Form, Row, Col, Space, Button, InputNumber } from "antd";
 import InputFactory from "./InputFactory";
 import { formLayout } from "@/utils/enum";
 import { searchFieldsFormat, priceFormat } from "@/utils/format";
+import { useSearchCache } from "@/utils/hook";
+import { useLocation } from "react-router-dom";
 
 /**
  * fields
@@ -17,15 +19,25 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
   const [form] = Form.useForm();
   const handleReset = () => {
     form.resetFields();
+    handleResetSearchCache({ pathname });
   };
-  const handleSearchClick = () => {
+  const { pathname } = useLocation();
+  const { handleGetSearchCache, handleSetSearchCache, handleResetSearchCache } =
+    useSearchCache();
+  const handleSearchClick = useCallback(() => {
     const formModel = form.getFieldsValue();
     Object.keys(formModel).forEach(i => {
       formModel[i] === undefined && delete formModel[i];
     });
     const params = searchFieldsFormat({ fields, formModel });
     handleSubmit(params);
-  };
+    handleSetSearchCache({ pathname, formModel: params });
+  }, [fields, form, handleSetSearchCache, handleSubmit, pathname]);
+  useEffect(() => {
+    if (handleGetSearchCache()[pathname]) {
+      form.setFieldsValue({ ...handleGetSearchCache()[pathname] });
+    }
+  });
   const valuePropName = type =>
     type === "checkbox" || type === "switch" ? "checked" : "value";
   return (

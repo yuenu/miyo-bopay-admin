@@ -113,3 +113,24 @@ export const useColumnsSelect = ({ columns, defaultColumns }) => {
   };
   return { selectedColumns, handleSelectedColumnsChange };
 };
+
+export const useSearchCache = () => {
+  const handleGetSearchCache = () =>
+    JSON.parse(localStorage.getItem("searchCache") || "{}") || {};
+  const handleSetSearchCache = ({ pathname, formModel }) => {
+    const storageSearchCache = handleGetSearchCache();
+    localStorage.setItem(
+      "searchCache",
+      JSON.stringify({
+        ...storageSearchCache,
+        [pathname]: formModel,
+      }),
+    );
+  };
+  const handleResetSearchCache = ({ pathname }) => {
+    const storageSearchCache = handleGetSearchCache();
+    delete storageSearchCache[pathname];
+    localStorage.setItem("searchCache", JSON.stringify(storageSearchCache));
+  };
+  return { handleGetSearchCache, handleSetSearchCache, handleResetSearchCache };
+};
