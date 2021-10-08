@@ -5,6 +5,7 @@ import { formLayout } from "@/utils/enum";
 import { searchFieldsFormat, priceFormat } from "@/utils/format";
 import { useSearchCache } from "@/utils/hook";
 import { useLocation } from "react-router-dom";
+import moment from "moment";
 
 /**
  * fields
@@ -33,9 +34,17 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
     handleSubmit(params);
     handleSetSearchCache({ pathname, formModel: params });
   }, [fields, form, handleSetSearchCache, handleSubmit, pathname]);
+
   useEffect(() => {
-    if (handleGetSearchCache()[pathname]) {
-      form.setFieldsValue({ ...handleGetSearchCache()[pathname] });
+    const obj = handleGetSearchCache()[pathname];
+    if (obj) {
+      Object.keys(obj).forEach(i => {
+        if (i.indexOf("__btw") !== -1) {
+          obj[i] = obj[i].split("~").map(j => moment(j));
+        }
+      });
+      console.log(obj);
+      form.setFieldsValue({ ...obj });
     }
   });
   const valuePropName = type =>
