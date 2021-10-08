@@ -738,3 +738,11 @@ export const TransfersCategory = {
   0: "用户代付订单",
   1: "商户提款订单",
 };
+
+export const AppAcctLogType = {
+  0: "用户存款",
+  1: "申请提款",
+  2: "提款成功",
+  3: "提款失败",
+  4: "其他",
+};

@@ -1,7 +1,7 @@
 import React from "react";
 import { Space } from "antd";
 import { selectAppAcctLog, getAppAcctLogs } from "@/store/slice/appAcctLog";
-import { CryptoAcctLogsType, Currency } from "@/utils/enum";
+import { CryptoAcctLogsType, Currency, AppAcctLogType } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { useList } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -32,8 +32,15 @@ const AppAcctLog = () => {
     {
       title: "交易类型",
       dataIndex: "type",
-      render: val => CryptoAcctLogsType[val],
+      render: val => AppAcctLogType[val],
       sorter: true,
+    },
+    {
+      title: "金额",
+      dataIndex: "amount",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      sorter: true,
+      className: "text-nowrap",
     },
     {
       title: "变动前金额",
@@ -43,15 +50,15 @@ const AppAcctLog = () => {
       className: "text-nowrap",
     },
     {
-      title: "变动后余额",
-      dataIndex: "b2",
+      title: "订单金额",
+      dataIndex: "order_amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       sorter: true,
       className: "text-nowrap",
     },
     {
-      title: "金额",
-      dataIndex: "amount",
+      title: "变动后余额",
+      dataIndex: "b2",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       sorter: true,
       className: "text-nowrap",
@@ -67,17 +74,15 @@ const AppAcctLog = () => {
     { title: "客户端IP", dataIndex: "client_ip" },
     { title: "交易内容", dataIndex: "subject" },
     { title: "交易渠道，网关名称", dataIndex: "channel" },
-    { title: "账变日志关联的对象类型", dataIndex: "content_type" },
+    {
+      title: "账变日志关联的对象类型",
+      dataIndex: "content_type",
+      render: val => CryptoAcctLogsType[val],
+    },
     { title: "账变日志关联的对象ID", dataIndex: "content_id" },
     { title: "操作人ID", dataIndex: "op_user_id" },
     { title: "操作人", dataIndex: "op_username" },
-    {
-      title: "订单金额",
-      dataIndex: "order_amount",
-      render: (val, record) => priceFormat({ val, currency: record.currency }),
-      sorter: true,
-      className: "text-nowrap",
-    },
+
     {
       title: "手续费",
       dataIndex: "fee",
@@ -109,8 +114,9 @@ const AppAcctLog = () => {
     "b1",
     "b2",
     "amount",
-    "order_no",
-    "trans_no",
+    "order_amount",
+    "created",
+    "content_type",
     "action",
   ];
   return (

@@ -119,7 +119,7 @@ const AppAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
-    { title: "关联APPID", dataIndex: "app_id", sorter: true },
+    { title: "APP名称", dataIndex: "app_id", sorter: true },
     {
       title: "创建日期",
       dataIndex: "created",
