@@ -106,6 +106,7 @@ const AppAcct = () => {
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
+    { title: "APP名称", dataIndex: "app_name", sorter: true },
     {
       title: "余额",
       dataIndex: "balance",
@@ -171,6 +172,7 @@ const AppAcct = () => {
   ];
   const defaultColumns = [
     "id",
+    "app_name",
     "balance",
     "currency",
     "app_id",
