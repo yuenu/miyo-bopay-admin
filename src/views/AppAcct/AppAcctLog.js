@@ -27,8 +27,7 @@ const AppAcctLog = () => {
 
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "商户账户ID", dataIndex: "app_acct_id", sorter: true },
-    { title: "商户用户ID", dataIndex: "app_user_id", sorter: true },
+    { title: "商户名称/APP名称", dataIndex: "app_name", sorter: true },
     {
       title: "交易类型",
       dataIndex: "type",
@@ -108,8 +107,7 @@ const AppAcctLog = () => {
   ];
   const defaultColumns = [
     "id",
-    "app_acct_id",
-    "app_user_id",
+    "app_name",
     "type",
     "b1",
     "b2",
