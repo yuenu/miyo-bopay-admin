@@ -208,7 +208,6 @@ const Order = ({ params }) => {
     "name",
     "status",
     "is_online",
-    "device_type",
     "pay_status",
     "paid_at",
     "approval_status",
