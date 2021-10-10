@@ -35,6 +35,13 @@ export const getTransfersGateways = createAsyncThunk(
     return res;
   },
 );
+export const queryTransfer = async id => {
+  const res = await request({
+    url: `/api/transfers/${id}/query`,
+    method: "post",
+  });
+  return res;
+};
 export const claimTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/paid/claim`,

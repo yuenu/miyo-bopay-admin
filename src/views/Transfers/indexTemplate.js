@@ -11,6 +11,7 @@ import {
   failedTransfer,
   notifyTransfer,
   cancelTransfer,
+  queryTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
@@ -208,6 +209,11 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
+  const handleQuery = async record => {
+    const { status } = await queryTransfer(record.id);
+    if (status !== 200) return;
+    handleGetList(params);
+  };
   const columns = [
     ...ListColumns,
     {
@@ -291,6 +297,16 @@ const Transfer = ({ params }) => {
               onClick={() => handleEditClick(record, "failed")}
             >
               {TYPE_ENUMS.failed}
+            </Button>
+          )}
+          {params?.status === 8 && (
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleQuery(record)}
+            >
+              查询
             </Button>
           )}
         </Space>
