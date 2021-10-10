@@ -51,6 +51,8 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
       extra: JSON.stringify(val.extra),
       apps: val.apps || [],
       whitelist: Array.isArray(val.whitelist) ? val.whitelist.join(",") : "",
+      amount_fixed: Array.isArray(val.amount_fixed) ? val.amount_fixed.join(",")
+          : ""
     });
   };
 
@@ -72,6 +74,11 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
           : [],
         extra: JSON.parse(formModel.extra || "{}"),
         payer_cred: JSON.parse(formModel.payer_cred || "{}"),
+        amount_fixed: formModel.amount_fixed
+            ? formModel.amount_fixed.replace(/(\r\n|\n|\r)/gm, "").split(",").map(function (data){
+              return +data
+            })
+            : [],
       });
       form.resetFields();
     });
@@ -86,6 +93,8 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
         whitelist: Array.isArray(data.whitelist)
           ? data.whitelist.join(",")
           : "",
+        amount_fixed: Array.isArray(data.amount_fixed) ? data.amount_fixed.join(",")
+            : ""
       });
   });
   useEffect(() => {
@@ -196,6 +205,9 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
             </Form.Item>
             <Form.Item name="amount_max" label="最大金额">
               <InputNumber />
+            </Form.Item>
+            <Form.Item name="amount_fixed" label="固定金额">
+              <TextArea />
             </Form.Item>
             <Form.Item name="crypto_wallet_id" label="加密钱包ID">
               <SearchSelect
