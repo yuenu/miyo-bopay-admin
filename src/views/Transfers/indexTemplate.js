@@ -39,7 +39,7 @@ const Transfer = ({ params }) => {
     id__in: { type: "string", label: "ID" },
     app_id__in: { type: "string", label: "AppID" },
     app_user_id__in: { type: "string", label: "App用户ID" },
-    order_no__k: { type: "string", label: "开发者订单号" },
+    order_no__in: { type: "string", label: "开发者订单号" },
     created__btw: { type: "rangeDate", label: "创建时间" },
   };
   const {
