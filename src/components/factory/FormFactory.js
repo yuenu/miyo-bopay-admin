@@ -43,10 +43,11 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
           obj[i] = obj[i].split("~").map(j => moment(j));
         }
       });
-      console.log(obj);
       form.setFieldsValue({ ...obj });
+      handleSubmit(obj);
     }
-  });
+    // eslint-disable-next-line
+  }, [pathname]);
   const valuePropName = type =>
     type === "checkbox" || type === "switch" ? "checked" : "value";
   return (
