@@ -27,9 +27,13 @@ export const searchFieldsFormat = ({ fields, formModel }) => {
   let params = {};
   Object.keys(fields).forEach(i => {
     if (fields[i].type === "rangeDate") {
-      formModel[i] !== undefined && (params[i] = rangeDateFormat(formModel[i]));
+      formModel[i] !== undefined &&
+        formModel[i] !== "" &&
+        (params[i] = rangeDateFormat(formModel[i]));
     } else {
-      formModel[i] !== undefined && (params[i] = formModel[i]);
+      formModel[i] !== undefined &&
+        formModel[i] !== "" &&
+        (params[i] = formModel[i]);
     }
   });
   return params;
