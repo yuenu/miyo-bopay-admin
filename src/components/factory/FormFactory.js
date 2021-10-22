@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Card, Form, Row, Col, Space, Button, InputNumber } from "antd";
 import InputFactory from "./InputFactory";
+import SearchSelect from "@/components/SearchSelect";
 import { formLayout } from "@/utils/enum";
 import { searchFieldsFormat, priceFormat } from "@/utils/format";
 import { useSearchCache } from "@/utils/hook";
@@ -63,10 +64,19 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
                   label={fields[i].label}
                   valuePropName={valuePropName(fields[i].type)}
                 >
-                  <InputFactory
-                    {...inputFactoryProps}
-                    id={`search_${fields[i].label}`}
-                  />
+                  {inputFactoryProps.type === "searchSelect" ? (
+                    <SearchSelect
+                      {...inputFactoryProps}
+                      searchKey={inputFactoryProps.searchKey || "name"}
+                      val={inputFactoryProps.val || "id"}
+                      label={inputFactoryProps.optionLabel}
+                    />
+                  ) : (
+                    <InputFactory
+                      {...inputFactoryProps}
+                      id={`search_${fields[i].label}`}
+                    />
+                  )}
                 </Form.Item>
               </Col>
             );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Space, Button, Modal, message } from "antd";
 import {
   selectTransfer,
@@ -24,6 +24,7 @@ import EditableConfirm from "@/components/EditableConfirm";
 import Paid from "./Paid";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
+import { selectApp, getApps } from "@/store/slice/app";
 import {
   columns as ListColumns,
   detailColumnsCard,
@@ -34,12 +35,20 @@ const TYPE_ENUMS = {
 };
 const Transfer = ({ params }) => {
   const { user } = useSelector(selectAuth);
-
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     app_id__in: { type: "string", label: "AppID" },
     app_user_id__in: { type: "string", label: "App用户ID" },
     order_no__in: { type: "string", label: "开发者订单号" },
+    app_id: {
+      type: "searchSelect",
+      label: "App姓名",
+      action: getApps,
+      selector: selectApp,
+      searchKey: "name",
+      val: "id",
+      optionLabel: i => `${i.id} ${i.name}`,
+    },
     created__btw: { type: "rangeDate", label: "创建时间" },
   };
   const {
