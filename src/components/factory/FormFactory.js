@@ -69,7 +69,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
                       {...inputFactoryProps}
                       searchKey={inputFactoryProps.searchKey || "name"}
                       val={inputFactoryProps.val || "id"}
-                      label={inputFactoryProps.optionLabel}
+                      label={inputFactoryProps.optionLabel || ""}
                     />
                   ) : (
                     <InputFactory

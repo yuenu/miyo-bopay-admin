@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Space, Button, Modal, message } from "antd";
 import {
   selectTransfer,

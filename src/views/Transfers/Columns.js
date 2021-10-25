@@ -1,6 +1,9 @@
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency, transferStatus, TransfersCategory } from "@/utils/enum";
 import Tag from "@/components/Tag";
+import { Typography } from "antd";
+const { Text } = Typography;
+
 export const columns = [
   { title: "ID", dataIndex: "id", sorter: true },
   { title: "开发者订单号", dataIndex: "order_no" },
@@ -59,6 +62,7 @@ export const columns = [
   {
     title: "支付网关类名",
     dataIndex: "gateway",
+
     sorter: true,
   },
   {
@@ -94,6 +98,8 @@ export const columns = [
   {
     title: "网关名称",
     dataIndex: "gateway_name",
+    render: (val, record) =>
+      record.is_online ? val : <Text type="danger">{val}</Text>,
     sorter: true,
   },
   {
