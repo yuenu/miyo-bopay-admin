@@ -57,6 +57,7 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
         <Row gutter={24}>
           {Object.keys(fields).map(i => {
             const inputFactoryProps = fields[i];
+            const { optionLabel, ...rest } = inputFactoryProps;
             return (
               <Col xs={24} md={12} xl={8} key={i}>
                 <Form.Item
@@ -66,10 +67,10 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
                 >
                   {inputFactoryProps.type === "searchSelect" ? (
                     <SearchSelect
-                      {...inputFactoryProps}
+                      {...rest}
                       searchKey={inputFactoryProps.searchKey || "name"}
                       val={inputFactoryProps.val || "id"}
-                      label={inputFactoryProps.optionLabel || ""}
+                      label={optionLabel}
                     />
                   ) : (
                     <InputFactory

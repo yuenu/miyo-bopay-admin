@@ -28,16 +28,16 @@ const SearchSelect = ({
     const { payload } = await dispatch(
       action({ [`${searchKey}__k`]: input, page, ...params }),
     );
-    payloadPos &&
-      setList([...(payloadPos ? payload?.[payloadPos] : payload?.data?.data)]);
+    payloadPos && setList(payload?.[payloadPos]);
+    payloadPos || setList(payload?.data?.data);
   };
   const handleInit = useCallback(async () => {
     setLoading(true);
     const { payload } = await dispatch(
       action({ [`${searchKey}__k`]: searchText, page, ...params }),
     );
-    payloadPos &&
-      setList([...(payloadPos ? payload?.[payloadPos] : payload?.data?.data)]);
+    payloadPos && setList(payload?.[payloadPos]);
+    payloadPos || setList(payload?.data?.data);
     setLoading(false);
     // eslint-disable-next-line
   }, [searchKey, page]);
