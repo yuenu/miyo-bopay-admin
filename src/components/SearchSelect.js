@@ -66,11 +66,12 @@ const SearchSelect = ({
       onSelect={val => handleSelect(val)}
       {...rest}
     >
-      {list.map(i => (
-        <Option value={i[val]} key={i[val]}>
-          {label(i)}
-        </Option>
-      ))}
+      {list &&
+        list.map(i => (
+          <Option value={i[val]} key={i[val]}>
+            {label(i)}
+          </Option>
+        ))}
     </Select>
   );
 };

@@ -16,7 +16,7 @@ import {
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
-
+import { transferStatus } from "@/utils/enum";
 import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
@@ -49,6 +49,7 @@ const Transfer = ({ params }) => {
       val: "id",
       optionLabel: i => `${i.id} ${i.name}`,
     },
+    status: { type: "select", label: "订单状态", options: transferStatus },
     created__btw: { type: "rangeDate", label: "创建时间" },
   };
   const {

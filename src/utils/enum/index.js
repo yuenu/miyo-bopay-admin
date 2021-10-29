@@ -702,7 +702,7 @@ export const Perms = [
 
 export const transferStatus = {
   0: "初始化代付",
-  1: "新建代付",
+  1: "下单失败",
   2: "待认领",
   3: "已认领待审核",
   4: "代付审核中",
