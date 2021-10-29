@@ -40,7 +40,7 @@ const Transfer = ({ params }) => {
     app_id__in: { type: "string", label: "AppID" },
     app_user_id__in: { type: "string", label: "App用户ID" },
     order_no__in: { type: "string", label: "开发者订单号" },
-    app_id: {
+    app_name: {
       type: "searchSelect",
       label: "App姓名",
       action: getApps,
@@ -48,6 +48,15 @@ const Transfer = ({ params }) => {
       searchKey: "name",
       val: "id",
       optionLabel: i => `${i.id} ${i.name}`,
+    },
+    app_cn: {
+      type: "searchSelect",
+      label: "商户列表",
+      action: getApps,
+      selector: selectApp,
+      searchKey: "name_cn",
+      val: "id",
+      optionLabel: i => `${i.id} ${i.name_cn}`,
     },
     status: { type: "select", label: "订单状态", options: transferStatus },
     created__btw: { type: "rangeDate", label: "创建时间" },
@@ -60,7 +69,11 @@ const Transfer = ({ params }) => {
     handleChangePage,
     handleChange,
   } = useList(getTransfers, selectTransfer, params);
-
+  const handleCustomSearch = formModel => {
+    const { app_cn, app_name, app_id__in, ...rest } = formModel;
+    const allAppId = `${app_name},${app_cn},${app_id__in}`;
+    handleSearch({ app_id__in: allAppId, ...rest });
+  };
   const [jsonVisible, setJsonVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState({});
   const handleJsonClick = record => {
@@ -342,7 +355,10 @@ const Transfer = ({ params }) => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SearchFormFactory
+        fields={searchFields}
+        handleSubmit={handleCustomSearch}
+      />
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}
