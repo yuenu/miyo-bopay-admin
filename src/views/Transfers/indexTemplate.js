@@ -56,6 +56,7 @@ const Transfer = ({ params }) => {
       selector: selectApp,
       searchKey: "name_cn",
       val: "id",
+      mode: "multiple",
       optionLabel: i => `${i.id} ${i.name_cn}`,
     },
     status: { type: "select", label: "订单状态", options: transferStatus },
