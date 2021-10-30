@@ -45,7 +45,8 @@ export const SearchFormFactory = ({ fields, handleSubmit }) => {
         }
       });
       form.setFieldsValue({ ...obj });
-      handleSubmit(obj);
+      const params = searchFieldsFormat({ fields, formModel: obj });
+      handleSubmit(params);
     }
     // eslint-disable-next-line
   }, [pathname]);
