@@ -72,8 +72,22 @@ const Transfer = ({ params }) => {
   } = useList(getTransfers, selectTransfer, params);
   const handleCustomSearch = formModel => {
     const { app_cn, app_name, app_id__in, ...rest } = formModel;
-    const allAppId = `${app_name},${app_cn},${app_id__in}`;
-    handleSearch({ app_id__in: allAppId, ...rest });
+    let allAppIds = [];
+    // const allAppId = `${app_name},${app_cn},${app_id__in}`;
+
+    if (app_name) {
+      allAppIds.push(app_name);
+    }
+    if (app_cn) {
+      allAppIds = [...allAppIds, ...app_cn];
+    }
+    if (app_id__in) {
+      allAppIds = [...allAppIds, ...app_id__in.split(",")];
+    }
+    handleSearch({
+      ...(allAppIds.join(",") && { app_id__in: allAppIds.join(",") }),
+      ...rest,
+    });
   };
   const [jsonVisible, setJsonVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState({});
