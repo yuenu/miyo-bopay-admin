@@ -35,6 +35,16 @@ export const getTransfersGateways = createAsyncThunk(
     return res;
   },
 );
+export const getTransfersOfflineGateways = createAsyncThunk(
+  "tranfser/getOfflineGatewayList",
+  async ({ id }) => {
+    const res = await request({
+      url: `/api/transfers/${id}/offline/gateways`,
+      method: "get",
+    });
+    return res;
+  },
+);
 export const queryTransfer = async id => {
   const res = await request({
     url: `/api/transfers/${id}/query`,
@@ -112,7 +122,14 @@ export const cancelTransfer = async ({ id }) => {
   });
   return res;
 };
-
+export const repaidTransfer = async ({ id, formModel }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/repaid`,
+    method: "post",
+    data: { id, ...formModel },
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "transfer",
   initialState: {
@@ -120,6 +137,7 @@ export const slice = createSlice({
     meta: {},
     currentRow: {},
     gateways: [],
+    offlineGateways: [],
     status2Total: 0,
   },
   extraReducers: {
@@ -138,6 +156,11 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.gateways = data;
+    },
+    [getTransfersOfflineGateways.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.offlineGateways = data;
     },
   },
 });

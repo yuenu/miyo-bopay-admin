@@ -12,16 +12,18 @@ import {
   notifyTransfer,
   cancelTransfer,
   queryTransfer,
+  repaidTransfer,
 } from "@/store/slice/transfer";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList } from "@/utils/hook";
-import { transferStatus } from "@/utils/enum";
+import { transferStatus, IsBoolEnum } from "@/utils/enum";
 import JsonModal from "@/components/JsonModal";
 import Detail from "@/components/Detail";
 import { NormalTable } from "@/components/factory/TableFactory";
 import EditableConfirm from "@/components/EditableConfirm";
 import Paid from "./Paid";
+import Repaid from "./Repaid";
 import { useSelector } from "react-redux";
 import { selectAuth } from "@/store/slice/auth";
 import { selectApp, getApps } from "@/store/slice/app";
@@ -59,6 +61,11 @@ const Transfer = ({ params }) => {
       mode: "multiple",
       optionLabel: i => `${i.id} ${i.name_cn}`,
     },
+    is_online: {
+      type: "select",
+      label: "是否在线订单",
+      options: IsBoolEnum,
+    },
     status: { type: "select", label: "订单状态", options: transferStatus },
     created__btw: { type: "rangeDate", label: "创建时间" },
   };
@@ -73,8 +80,6 @@ const Transfer = ({ params }) => {
   const handleCustomSearch = formModel => {
     const { app_cn, app_name, app_id__in, ...rest } = formModel;
     let allAppIds = [];
-    // const allAppId = `${app_name},${app_cn},${app_id__in}`;
-
     if (app_name) {
       allAppIds.push(app_name);
     }
@@ -253,6 +258,28 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
+  const [repaidVisible, setRepaidVisible] = useState(false);
+  const [repaidLoading, setRepaidLoading] = useState(false);
+  const handleRepaidClick = record => {
+    setCurrentRow(record);
+    setRepaidVisible(true);
+  };
+  const handleRepaid = async formModel => {
+    setRepaidLoading(true);
+    const { status } = await repaidTransfer({
+      id: currentRow.id,
+      formModel: {
+        ...formModel,
+        paid_id: user.id,
+      },
+    });
+    setRepaidLoading(false);
+    if (status !== 200) return;
+    setRepaidVisible(false);
+    message.success("已重新出款!");
+    await handleGetList(params);
+  };
+
   const columns = [
     ...ListColumns,
     {
@@ -318,7 +345,7 @@ const Transfer = ({ params }) => {
               取消认领
             </Button>
           )}
-          {params?.status === 8 && (
+          {params?.status__in === "8,18" && (
             <Button
               size="small"
               type="text"
@@ -328,7 +355,7 @@ const Transfer = ({ params }) => {
               出款成功
             </Button>
           )}
-          {params?.status === 8 && (
+          {params?.status__in === "8,18" && (
             <Button
               size="small"
               type="text"
@@ -338,7 +365,7 @@ const Transfer = ({ params }) => {
               {TYPE_ENUMS.failed}
             </Button>
           )}
-          {params?.status === 8 && (
+          {params?.status__in === "8,18" && (
             <Button
               size="small"
               type="text"
@@ -346,6 +373,16 @@ const Transfer = ({ params }) => {
               onClick={() => handleQuery(record)}
             >
               查询
+            </Button>
+          )}
+          {params?.status__in === "8,18" && (
+            <Button
+              size="small"
+              type="text"
+              className="p-0"
+              onClick={() => handleRepaidClick(record)}
+            >
+              重新出款
             </Button>
           )}
         </Space>
@@ -416,6 +453,13 @@ const Transfer = ({ params }) => {
         onCancel={() => setPaidVisible(false)}
         loading={paidLoading}
         onOk={handlePaid}
+      />
+      <Repaid
+        visible={repaidVisible}
+        data={currentRow}
+        onCancel={() => setRepaidVisible(false)}
+        loading={repaidLoading}
+        onOk={handleRepaid}
       />
     </Space>
   );

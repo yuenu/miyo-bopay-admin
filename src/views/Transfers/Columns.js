@@ -11,6 +11,7 @@ export const columns = [
   { title: "AppID", dataIndex: "app_id", sorter: true },
   { title: "App用户ID", dataIndex: "app_user_id", sorter: true },
   { title: "app管理-姓名", dataIndex: "app_name_cn", sorter: true },
+  { title: "用戶ID", dataIndex: "user_id", sorter: true },
   { title: "代理ID", dataIndex: "agent_id" },
   { title: "代理姓名", dataIndex: "agent_name" },
   {
@@ -216,7 +217,6 @@ export const columns = [
     dataIndex: "settled",
     render: val => <Tag val={val} />,
   },
-
   {
     title: "备注",
     dataIndex: "note",

@@ -5,6 +5,6 @@ import { selectAuth } from "@/store/slice/auth";
 const Transfer = () => {
   const { user } = useSelector(selectAuth);
 
-  return <TransferTypes params={{ status: 8, paid_id: user.id }} />;
+  return <TransferTypes params={{ status__in: "8,18", paid_id: user.id }} />;
 };
 export default Transfer;

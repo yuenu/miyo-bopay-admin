@@ -18,7 +18,7 @@ import Edit from "./Edit";
 import JsonModal from "@/components/JsonModal";
 import ListColumns from "./Columns";
 import { useHistory, generatePath } from "react-router-dom";
-
+import { selectApp, getApps } from "@/store/slice/app";
 const Order = ({ params }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -27,6 +27,16 @@ const Order = ({ params }) => {
     currency: { type: "select", label: "货币类型", options: Currency },
     userid__in: { type: "string", label: "会员ID" },
     app_id__in: { type: "string", label: "AppID" },
+    app_cn: {
+      type: "searchSelect",
+      label: "商户列表",
+      action: getApps,
+      selector: selectApp,
+      searchKey: "name_cn",
+      val: "id",
+      mode: "multiple",
+      optionLabel: i => `${i.id} ${i.name_cn}`,
+    },
     gateway__k: { type: "string", label: "通道名称" },
     is_online: {
       type: "select",
@@ -57,7 +67,20 @@ const Order = ({ params }) => {
     handleChangePage,
     handleChange,
   } = useList(getOrders, selectOrder, params);
-
+  const handleCustomSearch = formModel => {
+    const { app_cn, app_name, app_id__in, ...rest } = formModel;
+    let allAppIds = [];
+    if (app_cn) {
+      allAppIds = [...allAppIds, ...app_cn];
+    }
+    if (app_id__in) {
+      allAppIds = [...allAppIds, ...app_id__in.split(",")];
+    }
+    handleSearch({
+      ...(allAppIds.join(",") && { app_id__in: allAppIds.join(",") }),
+      ...rest,
+    });
+  };
   const [detailId, setDetailId] = useState(null);
   const {
     currentRow,
@@ -223,7 +246,10 @@ const Order = ({ params }) => {
   };
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SearchFormFactory
+        fields={searchFields}
+        handleSubmit={handleCustomSearch}
+      />
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}

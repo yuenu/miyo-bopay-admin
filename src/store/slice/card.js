@@ -47,6 +47,13 @@ export const activeCard = async params => {
   });
   return res;
 };
+export const deleteCard = async id => {
+  const res = await request({
+    url: `/api/cards/${id}`,
+    method: "delete",
+  });
+  return res;
+};
 export const slice = createSlice({
   name: "card",
   initialState: {

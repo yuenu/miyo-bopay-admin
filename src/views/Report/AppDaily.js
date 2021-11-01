@@ -106,6 +106,58 @@ const AppDaily = () => {
       render: val => <Tag val={val} />,
       sorter: true,
     },
+    {
+      title: "提交代付金额",
+      dataIndex: "transfer_amount",
+      render: (val, record) =>
+        priceFormat({ val: val || 0, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
+      title: "成功代付金额",
+      dataIndex: "transfer_succeeded_amount",
+      render: (val, record) =>
+        priceFormat({ val: val || 0, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
+      title: "提交代付笔数",
+      dataIndex: "transfer_times",
+      sorter: true,
+    },
+    {
+      title: "成功代付笔数",
+      dataIndex: "transfer_succeeded_times",
+      sorter: true,
+    },
+    {
+      title: "提交代付人数",
+      dataIndex: "transfer_users",
+      sorter: true,
+    },
+    {
+      title: "成功代付人数",
+      dataIndex: "transfer_succeeded_users",
+      sorter: true,
+    },
+    {
+      title: "提交存款人数",
+      dataIndex: "order_users",
+      sorter: true,
+    },
+    {
+      title: "成功存款人数",
+      dataIndex: "order_succeeded_users",
+      sorter: true,
+    },
+    {
+      title: "存提差",
+      dataIndex: "total_succeeded_amount",
+      render: (val, record) => val - record.transfer_succeeded_amount,
+      sorter: true,
+    },
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Space, Switch } from "antd";
+import { Button, Space, Switch, Modal } from "antd";
 import {
   selectCard,
   getCards,
@@ -7,8 +7,9 @@ import {
   addCard,
   editCard,
   activeCard,
+  deleteCard,
 } from "@/store/slice/card";
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
@@ -111,7 +112,22 @@ const Card = () => {
     setDetailId(id);
     handleGetList({ page: meta.current });
   };
-
+  const handleDeleteClick = id => {
+    Modal.confirm({
+      title: "是否删除",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将删除 ${id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleDelete(close, id),
+    });
+  };
+  const handleDelete = async (close, id) => {
+    const { status } = await deleteCard(id);
+    close();
+    if (status !== 200) return;
+    handleGetList({ page: meta.current });
+  };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
@@ -271,6 +287,15 @@ const Card = () => {
             onClick={() => handleEditClick(record.id)}
           >
             编辑
+          </Button>
+          <Button
+            size="small"
+            type="text"
+            className="p-0"
+            danger
+            onClick={() => handleDeleteClick(record.id)}
+          >
+            删除
           </Button>
         </Space>
       ),
