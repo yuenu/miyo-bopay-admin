@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Space, Modal, message } from "antd";
 import {
   selectOrder,
@@ -19,6 +19,7 @@ import JsonModal from "@/components/JsonModal";
 import ListColumns from "./Columns";
 import { useHistory, generatePath } from "react-router-dom";
 import { selectApp, getApps } from "@/store/slice/app";
+
 const Order = ({ params }) => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -59,6 +60,7 @@ const Order = ({ params }) => {
     created__btw: { type: "rangeDate", label: "创建日期" },
     paid_at__btw: { type: "rangeDate", label: "支付时间" },
   };
+  params && delete searchFields.app_cn;
   const {
     res: { list, meta },
     loading: listLoading,
@@ -68,7 +70,7 @@ const Order = ({ params }) => {
     handleChange,
   } = useList(getOrders, selectOrder, params);
   const handleCustomSearch = formModel => {
-    const { app_cn, app_name, app_id__in, ...rest } = formModel;
+    const { app_cn, app_id__in, ...rest } = formModel;
     let allAppIds = [];
     if (app_cn) {
       allAppIds = [...allAppIds, ...app_cn];
@@ -284,3 +286,8 @@ const Order = ({ params }) => {
   );
 };
 export default Order;
+// function spinPropsAreEqual(prev, next) {
+//   console.log("prev", prev);
+//   return prev.params.app_id !== next.params.app_id;
+// }
+// export default React.memo(Order, spinPropsAreEqual);
