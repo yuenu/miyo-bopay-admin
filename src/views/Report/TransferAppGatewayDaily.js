@@ -33,6 +33,10 @@ const TransferAppGatewayDaily = () => {
     dispatch(getTransferAppGatewayDailySum());
     // eslint-disable-next-line
   }, []);
+  const handleSearchClick = params => {
+    handleSearch(params);
+    dispatch(getTransferAppGatewayDailySum(params));
+  };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
@@ -107,7 +111,10 @@ const TransferAppGatewayDaily = () => {
   ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SearchFormFactory
+        fields={searchFields}
+        handleSubmit={handleSearchClick}
+      />
       <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}

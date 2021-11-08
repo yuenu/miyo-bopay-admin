@@ -39,6 +39,10 @@ const AppDaily = () => {
     dispatch(getAppDailySum());
     // eslint-disable-next-line
   }, []);
+  const handleSearchClick = params => {
+    handleSearch(params);
+    dispatch(getAppDailySum(params));
+  };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
@@ -165,8 +169,9 @@ const AppDaily = () => {
     },
     {
       title: "存提差",
-      dataIndex: "total_succeeded_amount",
-      render: (val, record) => val - record.transfer_succeeded_amount,
+      dataIndex: "total_succeeded_amount2",
+      render: (val, record) =>
+        record.total_succeeded_amount - record.transfer_succeeded_amount,
       sorter: true,
     },
   ];
@@ -198,9 +203,25 @@ const AppDaily = () => {
       render: val => priceFormat({ val, currency: 0 }),
     },
   ];
+  const statisticsColumns = columns.filter(
+    i =>
+      [
+        "total_times",
+        "total_succeeded_times",
+        "transfer_times",
+        "transfer_succeeded_times",
+        "transfer_users",
+        "transfer_succeeded_users",
+        "order_users",
+        "order_succeeded_users",
+      ].indexOf(i.dataIndex) !== -1,
+  );
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SearchFormFactory
+        fields={searchFields}
+        handleSubmit={handleSearchClick}
+      />
       <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
@@ -211,6 +232,7 @@ const AppDaily = () => {
         onChange={handleChange}
         loading={listLoading}
         onShowSizeChange={handleChangePage}
+        statisticsColumns={statisticsColumns}
       />
     </Space>
   );

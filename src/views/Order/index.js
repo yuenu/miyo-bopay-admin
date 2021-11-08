@@ -86,10 +86,12 @@ const Order = ({ params }) => {
     if (app_id__in) {
       allAppIds = [...allAppIds, ...app_id__in.split(",")];
     }
-    handleSearch({
+    const params = {
       ...(allAppIds.join(",") && { app_id__in: allAppIds.join(",") }),
       ...rest,
-    });
+    };
+    handleSearch(params);
+    dispatch(getOrdersSum(params));
   };
   const [detailId, setDetailId] = useState(null);
   const {

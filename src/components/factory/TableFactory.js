@@ -184,12 +184,38 @@ const NormalTable = ({
   meta,
   allColumns,
   defaultColumns,
+  statisticsColumns,
   ...props
 }) => {
   const { selectedColumns, handleSelectedColumnsChange } = useColumnsSelect({
     columns: allColumns,
     defaultColumns,
   });
+  const handleRenderSummery = pageData => {
+    let statistics = statisticsColumns.reduce((a, v) => {
+      return { ...a, [v.dataIndex]: 0 };
+    }, {});
+    pageData.forEach(i => {
+      statisticsColumns.forEach(j => {
+        statistics[j.dataIndex] += i[j.dataIndex];
+      });
+    });
+    return (
+      <Table.Summary.Row>
+        {selectedColumns.map((i, index) => {
+          return (
+            <Table.Summary.Cell index={i.dataIndex} key={i.dataIndex}>
+              {index === 0
+                ? "总计"
+                : statistics[i.dataIndex] !== undefined
+                ? statistics[i.dataIndex]
+                : ""}
+            </Table.Summary.Cell>
+          );
+        })}
+      </Table.Summary.Row>
+    );
+  };
   return (
     <Space direction="vertical" className="w-100">
       <ColumnsSelect
@@ -203,6 +229,9 @@ const NormalTable = ({
         scroll={{ x: "auto" }}
         pagination={false}
         columns={selectedColumns}
+        summary={pageData =>
+          statisticsColumns && handleRenderSummery(pageData, statisticsColumns)
+        }
         {...props}
       />
       <Pagination
