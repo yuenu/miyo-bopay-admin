@@ -180,4 +180,5 @@ export const sumColumns = [
     render: val => priceFormat({ val, currency: 0 }),
   },
 ];
+
 export default columns;

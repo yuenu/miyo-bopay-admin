@@ -113,6 +113,9 @@ const AgentDaily = () => {
       render: val => priceFormat({ val, currency: 0 }),
     },
   ];
+  const statisticsColumns = columns.filter(
+    i => ["total_times", "total_succeeded_times"].indexOf(i.dataIndex) !== -1,
+  );
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory
@@ -129,6 +132,7 @@ const AgentDaily = () => {
         onChange={handleChange}
         loading={listLoading}
         onShowSizeChange={handleChangePage}
+        statisticsColumns={statisticsColumns}
       />
     </Space>
   );
