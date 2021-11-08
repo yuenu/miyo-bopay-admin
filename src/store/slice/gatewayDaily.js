@@ -14,7 +14,7 @@ export const getGatewayDaily = createAsyncThunk(
   },
 );
 export const getGatewayDailySum = createAsyncThunk(
-  "report/getDaily",
+  "report/getDailySum",
   async params => {
     const res = await request({
       url: "/api/report/app/gateway/daily/sum",
