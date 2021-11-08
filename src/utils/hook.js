@@ -5,11 +5,11 @@ import { getColumns } from "@/utils/format";
 
 export const useList = (action, selector, originParams = {}) => {
   const dispatch = useDispatch();
-  const { list, currentRow, meta } = useSelector(selector);
+  const states = useSelector(selector);
   const [searchParams, setSearchParams] = useState(null);
   const [sortParams, setSortParams] = useState(null);
-  const [pageSize, setPageSize] = useState(meta.pageSize);
-  const [current, setCurrent] = useState(meta.current);
+  const [pageSize, setPageSize] = useState(states.meta.pageSize);
+  const [current, setCurrent] = useState(states.meta.current);
   const [loading, setLoading] = useState(false);
   const handleGetList = useCallback(
     async (params = {}) => {
@@ -52,7 +52,7 @@ export const useList = (action, selector, originParams = {}) => {
     handleGetList();
   }, [handleGetList]);
   return {
-    res: { list, currentRow, meta },
+    res: { ...states },
     loading,
     handleSearch,
     handleGetList,

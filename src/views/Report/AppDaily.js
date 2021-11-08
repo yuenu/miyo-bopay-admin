@@ -1,11 +1,18 @@
 import { Space } from "antd";
-import { selectAppDaily, getAppDaily } from "@/store/slice/appDaily";
+import {
+  selectAppDaily,
+  getAppDaily,
+  getAppDailySum,
+} from "@/store/slice/appDaily";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency, IsBoolEnum } from "@/utils/enum";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import SumTable from "@/components/SumTable";
 
 const AppDaily = () => {
   const searchFields = {
@@ -21,13 +28,17 @@ const AppDaily = () => {
     },
   };
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleChangePage,
     handleChange,
   } = useList(getAppDaily, selectAppDaily);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAppDailySum());
+    // eslint-disable-next-line
+  }, []);
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
@@ -159,9 +170,38 @@ const AppDaily = () => {
       sorter: true,
     },
   ];
+  const sumColumns = [
+    {
+      title: "订单次数",
+      dataIndex: "order_times",
+    },
+    {
+      title: "订单成功此时",
+      dataIndex: "order_succeeded_times",
+    },
+    {
+      title: "订单成功金额",
+      dataIndex: "order_succeeded_amount",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+    {
+      title: "代付次数",
+      dataIndex: "transfer_times",
+    },
+    {
+      title: "代付成功次数",
+      dataIndex: "transfer_succeeded_times",
+    },
+    {
+      title: "代付成功金额",
+      dataIndex: "transfer_succeeded_amount",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+  ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={columns.map(i => i.dataIndex)}

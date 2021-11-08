@@ -13,6 +13,17 @@ export const getTransfers = createAsyncThunk(
     return res;
   },
 );
+export const getTransfersSum = createAsyncThunk(
+  "tranfser/getListSum",
+  async (params = {}) => {
+    const res = await request({
+      url: "/api/transfers/sum",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 export const getTransfers2Total = createAsyncThunk(
   "tranfser/getStatus2List",
   async () => {
@@ -139,6 +150,7 @@ export const slice = createSlice({
     gateways: [],
     offlineGateways: [],
     status2Total: 0,
+    sum: {},
   },
   extraReducers: {
     [getTransfers.fulfilled]: (state, action) => {
@@ -146,6 +158,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getTransfersSum.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.sum = data;
     },
     [getTransfers2Total.fulfilled]: (state, action) => {
       const { status, data } = action.payload;

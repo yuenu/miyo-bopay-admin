@@ -13,6 +13,17 @@ export const getOrders = createAsyncThunk(
     return res;
   },
 );
+export const getOrdersSum = createAsyncThunk(
+  "order/getListSum",
+  async (params = {}) => {
+    const res = await request({
+      url: "/api/orders/sum",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 export const getOrder = createAsyncThunk("order/getDetail", async id => {
   const res = await request({
     url: `/api/orders/${id}`,
@@ -87,6 +98,7 @@ export const slice = createSlice({
     list: [],
     meta: {},
     currentRow: {},
+    sum: {},
   },
   reducers: {
     setOrders: (state, action) => {
@@ -104,6 +116,11 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.currentRow = data;
+    },
+    [getOrdersSum.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.sum = data;
     },
   },
 });

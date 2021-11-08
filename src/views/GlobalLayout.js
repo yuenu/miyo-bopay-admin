@@ -22,12 +22,14 @@ const GlobalLayout = () => {
   const { pathname } = useLocation();
   const { user } = useSelector(selectAuth);
   const { status2Total } = useSelector(selectTransfer);
+  const { list } = useSelector(selectApp);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setRouterTabs(pathname));
   });
   useEffect(() => {
     dispatch(getTransfers2Total());
+    // dispatch(getApps({ page: 1, per_page: 10 }));
     // eslint-disable-next-line
   }, []);
 
@@ -58,14 +60,12 @@ const GlobalLayout = () => {
       window.removeEventListener("resize", handleWindowResize);
     };
   });
-  const {
-    res: { list },
-  } = useList(getApps, selectApp, { page: 1, per_page: 10 });
   const appRoutes = list.map(i => {
     return {
       path: `/Order${i.id}`,
       name: `/Order${i.id}`,
       component: () => <Order params={{ app_id: i.id }} />,
+
       displayName: `${i.name}`,
     };
   });

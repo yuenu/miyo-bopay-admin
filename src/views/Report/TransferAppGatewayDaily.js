@@ -2,12 +2,16 @@ import { Space } from "antd";
 import {
   selectTransferAppGatewayDaily,
   getTransferAppGatewayDaily,
+  getTransferAppGatewayDailySum,
 } from "@/store/slice/transferAppGatewayDaily";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency } from "@/utils/enum";
 import { NormalTable } from "@/components/factory/TableFactory";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import SumTable from "@/components/SumTable";
 
 const TransferAppGatewayDaily = () => {
   const searchFields = {
@@ -18,13 +22,17 @@ const TransferAppGatewayDaily = () => {
     currency: { type: "select", label: "货币类型", options: Currency },
   };
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleChangePage,
     handleChange,
   } = useList(getTransferAppGatewayDaily, selectTransferAppGatewayDaily);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTransferAppGatewayDailySum());
+    // eslint-disable-next-line
+  }, []);
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
@@ -82,9 +90,25 @@ const TransferAppGatewayDaily = () => {
       sorter: true,
     },
   ];
+  const sumColumns = [
+    {
+      title: "代付次数",
+      dataIndex: "total_times",
+    },
+    {
+      title: "代付成功次数",
+      dataIndex: "total_succeeded_times",
+    },
+    {
+      title: "代付成功金额",
+      dataIndex: "total_succeeded_amount",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+  ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={columns.map(i => i.dataIndex)}

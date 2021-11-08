@@ -13,12 +13,24 @@ export const getAppDaily = createAsyncThunk(
     return res;
   },
 );
+export const getAppDailySum = createAsyncThunk(
+  "report/getAppDailySum",
+  async params => {
+    const res = await request({
+      url: "/api/report/app/daily/sum",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 
 export const slice = createSlice({
   name: "appDaily",
   initialState: {
     list: [],
     meta: {},
+    sum: {},
   },
   extraReducers: {
     [getAppDaily.fulfilled]: (state, action) => {
@@ -26,6 +38,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getAppDailySum.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.sum = data;
     },
   },
 });

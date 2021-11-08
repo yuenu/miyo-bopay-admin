@@ -243,6 +243,21 @@ const detailColumnsUSDTArr = [
   "updated",
   "comments",
 ];
+export const sumColumns = [
+  {
+    title: "订单次数",
+    dataIndex: "total_times",
+  },
+  {
+    title: "订单成功次数",
+    dataIndex: "total_succeeded_times",
+  },
+  {
+    title: "订单成功金额",
+    dataIndex: "total_succeeded_amount",
+    render: val => priceFormat({ val, currency: 0 }),
+  },
+];
 const formatColumn = arr => columns.filter(i => arr.indexOf(i.dataIndex) >= 0);
 export const detailColumnsCard = formatColumn(detailColumnsCardArr);
 export const detailColumnsUSDT = formatColumn(detailColumnsUSDTArr);

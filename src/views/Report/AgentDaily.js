@@ -1,12 +1,18 @@
 import { Space } from "antd";
-import { selectAgentDaily, getAgentDaily } from "@/store/slice/agentDaily";
+import {
+  selectAgentDaily,
+  getAgentDaily,
+  getAgentDailySum,
+} from "@/store/slice/agentDaily";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency, IsBoolEnum } from "@/utils/enum";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
-
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import SumTable from "@/components/SumTable";
 const AgentDaily = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
@@ -21,13 +27,17 @@ const AgentDaily = () => {
     },
   };
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleChangePage,
     handleChange,
   } = useList(getAgentDaily, selectAgentDaily);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAgentDailySum());
+    // eslint-disable-next-line
+  }, []);
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "用户ID", dataIndex: "agent_id", sorter: true },
@@ -83,9 +93,26 @@ const AgentDaily = () => {
       sorter: true,
     },
   ];
+
+  const sumColumns = [
+    {
+      title: "订单次数",
+      dataIndex: "total_times",
+    },
+    {
+      title: "订单成功次数",
+      dataIndex: "total_succeeded_times",
+    },
+    {
+      title: "订单成功金额",
+      dataIndex: "total_succeeded_amount",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+  ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={columns.map(i => i.dataIndex)}

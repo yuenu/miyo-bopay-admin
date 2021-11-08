@@ -2,6 +2,7 @@ import { Space } from "antd";
 import {
   selectDeveloperDaily,
   getDeveloperDaily,
+  getDeveloperDailySum,
 } from "@/store/slice/developerDaily";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { useList } from "@/utils/hook";
@@ -9,6 +10,9 @@ import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency, IsBoolEnum } from "@/utils/enum";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Tag from "@/components/Tag";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import SumTable from "@/components/SumTable";
 
 const DeveloperDaily = () => {
   const searchFields = {
@@ -23,13 +27,17 @@ const DeveloperDaily = () => {
     },
   };
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleChangePage,
     handleChange,
   } = useList(getDeveloperDaily, selectDeveloperDaily);
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getDeveloperDailySum());
+    // eslint-disable-next-line
+  }, []);
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
     { title: "用户ID", dataIndex: "developer_id", sorter: true },
@@ -84,9 +92,25 @@ const DeveloperDaily = () => {
       sorter: true,
     },
   ];
+  const sumColumns = [
+    {
+      title: "订单次数",
+      dataIndex: "total_times",
+    },
+    {
+      title: "订单成功次数",
+      dataIndex: "total_succeeded_times",
+    },
+    {
+      title: "订单成功金额",
+      dataIndex: "total_succeeded_amount",
+      render: val => priceFormat({ val, currency: 0 }),
+    },
+  ];
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={columns.map(i => i.dataIndex)}

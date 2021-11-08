@@ -13,12 +13,24 @@ export const getGatewayDaily = createAsyncThunk(
     return res;
   },
 );
+export const getGatewayDailySum = createAsyncThunk(
+  "report/getDaily",
+  async params => {
+    const res = await request({
+      url: "/api/report/app/gateway/daily/sum",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 
 export const slice = createSlice({
   name: "GatewayDaily",
   initialState: {
     list: [],
     meta: {},
+    sum: {},
   },
   extraReducers: {
     [getGatewayDaily.fulfilled]: (state, action) => {
@@ -26,6 +38,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getGatewayDailySum.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.sum = data;
     },
   },
 });

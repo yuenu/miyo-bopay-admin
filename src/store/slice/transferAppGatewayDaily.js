@@ -13,12 +13,24 @@ export const getTransferAppGatewayDaily = createAsyncThunk(
     return res;
   },
 );
+export const getTransferAppGatewayDailySum = createAsyncThunk(
+  "report/getTransferAppGatewayAppDailySum",
+  async params => {
+    const res = await request({
+      url: "/api/report/transfer/app/gateway/daily/sum",
+      method: "get",
+      params,
+    });
+    return res;
+  },
+);
 
 export const slice = createSlice({
   name: "TransferAppGatewayDaily",
   initialState: {
     list: [],
     meta: {},
+    sum: {},
   },
   extraReducers: {
     [getTransferAppGatewayDaily.fulfilled]: (state, action) => {
@@ -26,6 +38,11 @@ export const slice = createSlice({
       if (status !== 200) return;
       state.list = data.data;
       state.meta = metaToPagin(data.meta);
+    },
+    [getTransferAppGatewayDailySum.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.sum = data;
     },
   },
 });

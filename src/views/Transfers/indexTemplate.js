@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Space, Button, Modal, message } from "antd";
 import {
   selectTransfer,
   getTransfers,
+  getTransfersSum,
   claimTransfer,
   approveTransfer,
   denyTransfer,
@@ -31,7 +32,10 @@ import {
   columns as ListColumns,
   detailColumnsCard,
   detailColumnsUSDT,
+  sumColumns,
 } from "./Columns";
+import { useDispatch } from "react-redux";
+import SumTable from "@/components/SumTable";
 const TYPE_ENUMS = {
   failed: "出款失败",
 };
@@ -70,13 +74,18 @@ const Transfer = ({ params }) => {
     created__btw: { type: "rangeDate", label: "创建时间" },
   };
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleGetList,
     handleChangePage,
     handleChange,
   } = useList(getTransfers, selectTransfer, params);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getTransfersSum());
+    // eslint-disable-next-line
+  }, []);
   const handleCustomSearch = formModel => {
     const { app_cn, app_name, app_id__in, ...rest } = formModel;
     let allAppIds = [];
@@ -405,12 +414,14 @@ const Transfer = ({ params }) => {
     "status",
     "action",
   ];
+
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory
         fields={searchFields}
         handleSubmit={handleCustomSearch}
       />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}

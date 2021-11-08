@@ -3,6 +3,7 @@ import { Button, Space, Modal, message } from "antd";
 import {
   selectOrder,
   getOrders,
+  getOrdersSum,
   getOrder,
   approveOrder,
   denyOrder,
@@ -16,9 +17,11 @@ import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { NormalTable } from "@/components/factory/TableFactory";
 import Edit from "./Edit";
 import JsonModal from "@/components/JsonModal";
-import ListColumns from "./Columns";
+import ListColumns, { sumColumns } from "./Columns";
 import { useHistory, generatePath } from "react-router-dom";
 import { selectApp, getApps } from "@/store/slice/app";
+import { useDispatch } from "react-redux";
+import SumTable from "@/components/SumTable";
 
 const Order = ({ params }) => {
   const searchFields = {
@@ -62,13 +65,18 @@ const Order = ({ params }) => {
   };
   params && delete searchFields.app_cn;
   const {
-    res: { list, meta },
+    res: { list, meta, sum },
     loading: listLoading,
     handleSearch,
     handleGetList,
     handleChangePage,
     handleChange,
   } = useList(getOrders, selectOrder, params);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getOrdersSum());
+    // eslint-disable-next-line
+  }, []);
   const handleCustomSearch = formModel => {
     const { app_cn, app_id__in, ...rest } = formModel;
     let allAppIds = [];
@@ -252,6 +260,7 @@ const Order = ({ params }) => {
         fields={searchFields}
         handleSubmit={handleCustomSearch}
       />
+      <SumTable data={sum} labels={sumColumns} />
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}
@@ -286,8 +295,3 @@ const Order = ({ params }) => {
   );
 };
 export default Order;
-// function spinPropsAreEqual(prev, next) {
-//   console.log("prev", prev);
-//   return prev.params.app_id !== next.params.app_id;
-// }
-// export default React.memo(Order, spinPropsAreEqual);
