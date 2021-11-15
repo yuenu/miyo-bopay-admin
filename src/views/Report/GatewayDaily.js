@@ -13,12 +13,21 @@ import Tag from "@/components/Tag";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import SumTable from "@/components/SumTable";
+import { selectApp, getApps } from "@/store/slice/app";
 
 const TransferAppDaily = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     app_id__in: { type: "string", label: "商户ID" },
-    app_name__k: { type: "string", label: "商户名称" },
+    app_name: {
+      type: "searchSelect",
+      label: "商户名称",
+      action: getApps,
+      selector: selectApp,
+      searchKey: "name",
+      val: "name",
+      optionLabel: i => `${i.id} ${i.name}`,
+    },
     created__btw: { type: "rangeDate", label: "报表时间" },
     currency: { type: "select", label: "货币类型", options: Currency },
     is_online: {
@@ -109,9 +118,9 @@ const TransferAppDaily = () => {
       title: "成功率",
       dataIndex: "succeeded_rate",
       render: (val, scope) =>
-        `${
-          (scope.total_succeeded_times / scope.total_times).toFixed(4) * 100
-        }%`,
+        `${((scope.total_succeeded_times / scope.total_times) * 100).toFixed(
+          2,
+        )}%`,
       sorter: true,
     },
     {

@@ -65,6 +65,7 @@ const Transfer = ({ params }) => {
       mode: "multiple",
       optionLabel: i => `${i.id} ${i.name_cn}`,
     },
+    gateway_name__k: { type: "string", label: "网关名称" },
     is_online: {
       type: "select",
       label: "是否在线订单",
