@@ -53,8 +53,8 @@ const SearchSelect = ({
     handleInit();
   }, [handleInit]);
 
-  const handleSelect = val => {
-    onSelect && onSelect(list.find(i => i.id === val));
+  const handleSelect = value => {
+    onSelect && onSelect(list.find(i => i.id === value));
   };
   return (
     <Select
@@ -63,7 +63,7 @@ const SearchSelect = ({
       onSearch={handleSearch}
       onPopupScroll={handleScroll}
       notFoundContent={loading ? <Spin spinning={loading} /> : null}
-      onSelect={val => handleSelect(val)}
+      onSelect={value => handleSelect(value)}
       {...rest}
     >
       {list &&

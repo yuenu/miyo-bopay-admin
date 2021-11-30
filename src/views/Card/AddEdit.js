@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode as Mode, CardStatus } from "@/utils/enum";
 import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
 import { getCityArr } from "@/utils/format";
 import Spin from "@/components/Spin";
 import Banks from "@/utils/enum/bank";
+import SearchSelect from "@/components/SearchSelect";
 import Prov from "@/utils/enum/prov";
-const { Option } = Select;
+import { selectUser, getUsers } from "@/store/slice/user";
 
+const { Option } = Select;
 const AddEdit = ({
   visible,
   mode,
@@ -18,16 +20,19 @@ const AddEdit = ({
   onSetActive,
 }) => {
   const [form] = Form.useForm();
+  const [selectedAgent, setSelectedAgent] = useState(null);
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
       await onOk({
         ...formModel,
         bank_name: Banks[formModel.bank_code],
+        ...(selectedAgent && { agent_name: selectedAgent.name }),
       });
       form.resetFields();
     });
   };
+
   useEffect(() => {
     visible &&
       form.setFieldsValue(
@@ -132,6 +137,17 @@ const AddEdit = ({
           </Form.Item>
           <Form.Item name="idcard" label="身份证">
             <Input />
+          </Form.Item>
+          <Form.Item name="agent_id" label="代理">
+            <SearchSelect
+              action={getUsers}
+              selector={selectUser}
+              searchKey="name"
+              val="id"
+              params={{ is_agent: 1 }}
+              label={i => `${i.id} ${i.name}`}
+              onSelect={setSelectedAgent}
+            />
           </Form.Item>
           <CurrencyHelpTextFormItemFactory
             name="per_trans_limit"
