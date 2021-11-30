@@ -126,6 +126,18 @@ const Agent = () => {
       sorter: true,
     },
     {
+      title: "代收費率",
+      dataIndex: "recharge_rate",
+      inputType: "string",
+      sorter: true,
+    },
+    {
+      title: "代付費率",
+      dataIndex: "withdraw_rate",
+      inputType: "string",
+      sorter: true,
+    },
+    {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Modal, Form, Input, Switch } from "antd";
+import { Modal, Form, Input, Switch, InputNumber } from "antd";
 import { formLayout, mode as Mode } from "@/utils/enum";
 import { selectUser, getUsers } from "@/store/slice/user";
 import SearchSelect from "@/components/SearchSelect";
@@ -56,6 +56,12 @@ const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
             rules={[{ required: true, message: "请输入姓名" }]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item name="recharge_rate" label="代收費率">
+            <InputNumber step="1" />
+          </Form.Item>
+          <Form.Item name="withdraw_rate" label="代付費率">
+            <InputNumber step="1" />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />
