@@ -232,6 +232,11 @@ const Card = () => {
       sorter: true,
     },
     {
+      title: "创建人",
+      dataIndex: "create_name",
+      sorter: true,
+    },
+    {
       title: "创建日期",
       dataIndex: "created",
       render: val => dateFormat(val),
@@ -307,6 +312,8 @@ const Card = () => {
     "name",
     "status",
     "bank_name",
+    "agent_name",
+    "create_name",
     "is_active",
     "action",
   ];
