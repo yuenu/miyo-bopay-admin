@@ -21,9 +21,7 @@ let orderInfoDefault = {
 };
 async function handleGetInfo() {
   const order_no = new URL(window.location).searchParams.get("order_no");
-  const res = await fetch(
-    "https://bopay.iyes.dev/payments/orders?order_no=" + order_no,
-  );
+  const res = await fetch("/payments/orders?order_no=" + order_no);
   return await res.json();
 }
 function paddedFormat(num) {
