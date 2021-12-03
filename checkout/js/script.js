@@ -21,12 +21,38 @@ let orderInfoDefault = {
 };
 async function handleGetInfo() {
   const order_no = new URL(window.location).searchParams.get("order_no");
-  const res = await fetch("/payments/orders?order_no=" + order_no);
-  console.log(res);
-  return res.json();
+  const res = await fetch(
+    "https://bopay.iyes.dev/payments/orders?order_no=" + order_no,
+  );
+  return await res.json();
+}
+function paddedFormat(num) {
+  return num < 10 ? "0" + num : num;
+}
+function countDown() {
+  let time_minutes = 15; // Value in minutes
+  let time_seconds = 0; // Value in seconds
+
+  let duration = time_minutes * 60 + time_seconds;
+  let secondsRemaining = duration;
+  let min = 0;
+  let sec = 0;
+
+  let countInterval = setInterval(function () {
+    min = parseInt(secondsRemaining / 60);
+    sec = parseInt(secondsRemaining % 60);
+
+    document.getElementById("min").innerHTML = paddedFormat(min);
+    document.getElementById("second").innerHTML = paddedFormat(sec);
+    secondsRemaining = secondsRemaining - 1;
+    if (secondsRemaining < 0) {
+      clearInterval(countInterval);
+    }
+  }, 1000);
 }
 async function init() {
-  const orderInfo = handleGetInfo() || orderInfoDefault;
+  countDown();
+  const orderInfo = (await handleGetInfo()) || orderInfoDefault;
   document.getElementById("bank-amount").innerHTML = orderInfo.amount;
   document.getElementById("bank-order_no").innerHTML = orderInfo.order_no;
   document.getElementById("bank-name").innerHTML =
@@ -47,7 +73,8 @@ function copyText(id) {
   const elm = document.getElementById(id);
   navigator.clipboard.writeText(elm.innerHTML);
   document.querySelector(".alert").classList.toggle("active");
-  setTimeout(() => {
+  let timeout = setTimeout(() => {
     document.querySelector(".alert").classList.toggle("active");
+    clearTimeout(timeout);
   }, 2000);
 }
