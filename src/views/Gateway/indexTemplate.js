@@ -189,6 +189,16 @@ const GatewayTypes = ({ params }) => {
       sorter: true,
     },
     {
+      title: "用户ID(代理)",
+      dataIndex: "agent_id",
+      sorter: true,
+    },
+    {
+      title: "代理名称",
+      dataIndex: "agent_name",
+      sorter: true,
+    },
+    {
       title: "Apps",
       dataIndex: "apps",
       render: val => val?.map(i => <AntTag key={i}>{i}</AntTag>),

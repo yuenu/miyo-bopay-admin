@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Modal,
   Form,
@@ -25,8 +25,10 @@ import {
 import { selectGateway, getGateways } from "@/store/slice/gateway";
 import { selectCard, getCards } from "@/store/slice/card";
 import { selectApp, getApps } from "@/store/slice/app";
+import { selectUser, getUsers } from "@/store/slice/user";
 import SearchSelect from "@/components/SearchSelect";
 import { useSelector } from "react-redux";
+
 const { Option } = Select;
 const { TextArea } = Input;
 const SelectOne = ({ onChange }) => {
@@ -51,14 +53,16 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
       extra: JSON.stringify(val.extra),
       apps: val.apps || [],
       whitelist: Array.isArray(val.whitelist) ? val.whitelist.join(",") : "",
-      amount_fixed: Array.isArray(val.amount_fixed) ? val.amount_fixed.join(",")
-          : ""
+      amount_fixed: Array.isArray(val.amount_fixed)
+        ? val.amount_fixed.join(",")
+        : "",
     });
   };
 
   const { list: wallets } = useSelector(selectCryptoWallet);
   const { list: cards } = useSelector(selectCard);
   const [form] = Form.useForm();
+  const [selectedAgent, setSelectedAgent] = useState(null);
   const handleOk = async () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
@@ -75,15 +79,20 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
         extra: JSON.parse(formModel.extra || "{}"),
         payer_cred: JSON.parse(formModel.payer_cred || "{}"),
         amount_fixed: formModel.amount_fixed
-            ? formModel.amount_fixed.replace(/(\r\n|\n|\r)/gm, "").split(",").map(function (data){
-              return +data
-            })
-            : [],
+          ? formModel.amount_fixed
+              .replace(/(\r\n|\n|\r)/gm, "")
+              .split(",")
+              .map(function (data) {
+                return +data;
+              })
+          : [],
+        ...(selectedAgent && { agent_name: selectedAgent.name }),
       });
       form.resetFields();
     });
   };
   useEffect(() => {
+    console.log(selectedAgent);
     visible &&
       mode === "edit" &&
       form.setFieldsValue({
@@ -93,8 +102,11 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
         whitelist: Array.isArray(data.whitelist)
           ? data.whitelist.join(",")
           : "",
-        amount_fixed: Array.isArray(data.amount_fixed) ? data.amount_fixed.join(",")
-            : ""
+        amount_fixed: Array.isArray(data.amount_fixed)
+          ? data.amount_fixed.join(",")
+          : "",
+        ...(selectedAgent && { agent_name: selectedAgent.name }),
+        ...(selectedAgent && { agent_id: selectedAgent.id }),
       });
   });
   useEffect(() => {
@@ -147,6 +159,17 @@ const AddEdit = ({ visible, loading, data, mode, onOk, onCancel }) => {
               rules={[{ required: true, message: "请输入别名" }]}
             >
               <Input />
+            </Form.Item>
+            <Form.Item name="agent_id" label="代理">
+              <SearchSelect
+                action={getUsers}
+                selector={selectUser}
+                searchKey="name"
+                val="id"
+                params={{ is_agent: 1 }}
+                label={i => `${i.id} ${i.name}`}
+                onSelect={setSelectedAgent}
+              />
             </Form.Item>
             <Form.Item name="apps" label="Apps">
               <SearchSelect
