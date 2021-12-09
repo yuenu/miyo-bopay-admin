@@ -698,6 +698,36 @@ export const Perms = [
       },
     ],
   },
+  {
+    title: "白名单管理",
+    key: "whitelist",
+    children: [
+      {
+        title: "新增代理白名单",
+        key: "agentwhitelist.Create",
+      },
+      {
+        title: "查看代理白名单列表",
+        key: "agentwhitelist.List",
+      },
+      {
+        title: "删除代理白名单",
+        key: "agentwhitelist.Delete",
+      },
+      {
+        title: "新增商户白名单",
+        key: "developerwhitelist.Create",
+      },
+      {
+        title: "查看商户白名单列表",
+        key: "developerwhitelist.List",
+      },
+      {
+        title: "删除商户白名单",
+        key: "developerwhitelist.Delete",
+      },
+    ],
+  },
 ];
 
 export const transferStatus = {

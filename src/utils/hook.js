@@ -47,6 +47,12 @@ export const useList = (action, selector, originParams = {}) => {
     status === 200 && message.success("新增成功！");
     handleGetList();
   };
+  const handleDelete = async ({ action: deleteAction, ...params }) => {
+    setLoading(true);
+    const { status } = await deleteAction(params);
+    status === 200 && message.success("刪除成功！");
+    handleGetList();
+  };
 
   useEffect(() => {
     handleGetList();
@@ -59,6 +65,7 @@ export const useList = (action, selector, originParams = {}) => {
     handleChangePage,
     handleChange,
     handleAdd,
+    handleDelete,
     setLoading,
   };
 };

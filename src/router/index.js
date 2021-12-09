@@ -262,5 +262,17 @@ const routes = [
     component: () => getComponent("TransfersApp/indexStatus8"),
     displayName: "我的出款中列表",
   },
+  {
+    path: "/AgentWhitelist",
+    name: "AgentWhitelist",
+    component: () => getComponent("Whitelist/AgentWhitelist"),
+    displayName: "代理白名单",
+  },
+  {
+    path: "/DeveloperWhitelist",
+    name: "DeveloperWhitelist",
+    component: () => getComponent("Whitelist/DeveloperWhitelist"),
+    displayName: "商户白名单",
+  },
 ];
 export default routes;

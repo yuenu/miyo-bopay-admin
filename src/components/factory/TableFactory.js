@@ -234,13 +234,15 @@ const NormalTable = ({
         }
         {...props}
       />
-      <Pagination
-        className="text-right"
-        showSizeChanger
-        onShowSizeChange={onShowSizeChange}
-        onChange={onChangePage}
-        {...meta}
-      />
+      {meta && (
+        <Pagination
+          className="text-right"
+          showSizeChanger
+          onShowSizeChange={onShowSizeChange}
+          onChange={onChangePage}
+          {...meta}
+        />
+      )}
     </Space>
   );
 };

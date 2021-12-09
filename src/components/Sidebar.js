@@ -14,6 +14,8 @@ import {
   PayCircleOutlined,
   SettingOutlined,
   InteractionOutlined,
+  UnorderedListOutlined,
+  MoneyCollectOutlined,
 } from "@ant-design/icons";
 import { getRouterDisplayName } from "@/utils/format";
 import { useDispatch, useSelector } from "react-redux";
@@ -103,13 +105,21 @@ const SidebarView = ({ routes }) => {
         </SubMenu>
         <SubMenu
           key="TransfersApp"
-          icon={<InteractionOutlined />}
+          icon={<MoneyCollectOutlined />}
           title="商户提款"
         >
           {Item("/TransfersApp")}
           {Item("/TransfersAppStatus2")}
           {Item("/TransfersAppStatus7")}
           {Item("/TransfersAppStatus8")}
+        </SubMenu>
+        <SubMenu
+          key="Whitelist"
+          icon={<UnorderedListOutlined />}
+          title="白名单管理"
+        >
+          {Item("/AgentWhitelist")}
+          {Item("/DeveloperWhitelist")}
         </SubMenu>
       </Menu>
     </Sider>

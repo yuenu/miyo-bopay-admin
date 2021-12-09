@@ -30,6 +30,8 @@ import transferAppGatewayDailyReducer from "./slice/transferAppGatewayDaily";
 import configReducer from "./slice/config";
 import transferReducer from "./slice/transfer";
 import transfersAppReducer from "./slice/transfersApp";
+import agentWhitelistReducer from "./slice/agentWhitelist";
+import developerWhitelistReducer from "./slice/developerWhitelist";
 
 export default configureStore({
   reducer: {
@@ -64,5 +66,7 @@ export default configureStore({
     config: configReducer,
     transfer: transferReducer,
     transfersApp: transfersAppReducer,
+    agentWhitelist: agentWhitelistReducer,
+    developerWhitelist: developerWhitelistReducer,
   },
 });
