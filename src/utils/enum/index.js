@@ -59,6 +59,7 @@ export const PayMethod = {
   0: "redirect 跳转收银台",
   1: "qrcode 二维码",
   2: "转账 ",
+  3: "表单提交 ",
 };
 
 export const PayStatus = {
