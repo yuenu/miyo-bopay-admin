@@ -155,6 +155,12 @@ const routes = [
     displayName: "代理帐户",
   },
   {
+    path: "/AgentAcctLog",
+    name: "AgentAcctLog",
+    component: () => getComponent("AgentAcct/AgentAcctLog"),
+    displayName: "代理帳戶資金紀錄",
+  },
+  {
     path: "/LoginLog",
     name: "LoginLog",
     component: () => getComponent("LoginLog"),

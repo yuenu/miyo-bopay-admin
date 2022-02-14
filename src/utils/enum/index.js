@@ -777,3 +777,13 @@ export const AppAcctLogType = {
   3: "提款失败",
   4: "其他",
 };
+
+export const AgentAcctLogType = {
+  0: "其他",
+  1: "代付出帐",
+  2: "代付入帐",
+  3: "代付手续费",
+  4: "代收入帐",
+  5: "代收出帐",
+  6: "代收分润",
+};
