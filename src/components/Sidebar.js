@@ -77,7 +77,10 @@ const SidebarView = ({ routes }) => {
           {Item("/CardAcct")}
           {Item("/CardAcctLog")}
         </SubMenu>
-        {Item("/Agent", <UserSwitchOutlined />)}
+        <SubMenu key="Agents" icon={<UserSwitchOutlined />} title="代理管理">
+          {Item("/Agent")}
+          {Item("/AgentAcct")}
+        </SubMenu>
         {Item("/LoginLog", <LoginOutlined />)}
         {Item("/Audit", <TableOutlined />)}
         <SubMenu key="Users" icon={<UserOutlined />} title="用户管理">

@@ -1,12 +1,12 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Space, message } from "antd";
 import {
-  selectAppAcct,
-  getAppAccts,
-  getAppAcct,
-  balanceAppAcct,
-} from "@/store/slice/appAcct";
+  selectAgentAcct,
+  getAgentAccts,
+  getAgentAcct,
+  balanceAgentAcct,
+} from "@/store/slice/agentAcct";
 import { selectAuth } from "@/store/slice/auth";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { NormalTable } from "@/components/factory/TableFactory";
@@ -14,32 +14,15 @@ import EditableConfirm from "@/components/EditableConfirm";
 import Detail from "@/components/Detail";
 import JsonModal from "@/components/JsonModal";
 import { useList, useDetail } from "@/utils/hook";
-import { IsBoolEnum, AppStatus } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency } from "@/utils/enum";
 
-const AppAcct = () => {
+const AgentAcct = () => {
   const { user } = useSelector(selectAuth);
   const searchFields = {
     id__in: { type: "string", label: "ID" },
-    name__k: { type: "string", label: "名称" },
-    name_cn__k: { type: "string", label: "姓名" },
-    developer_id__in: { type: "string", label: "开发者ID" },
-    developer_name__k: { type: "string", label: "开发者姓名" },
-    status: {
-      type: "select",
-      label: "状态",
-      options: AppStatus,
-    },
-    is_active: {
-      type: "select",
-      label: "是否启用",
-      options: IsBoolEnum,
-      isBool: true,
-    },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
-
   const {
     res: { list, meta },
     loading: listLoading,
@@ -47,14 +30,14 @@ const AppAcct = () => {
     handleChangePage,
     handleChange,
     handleGetList,
-  } = useList(getAppAccts, selectAppAcct);
+  } = useList(getAgentAccts, selectAgentAcct);
 
   const [detailId, setDetailId] = useState(null);
   const {
     currentRow,
     loading: detailLoading,
     setLoading: setDetailLoading,
-  } = useDetail({ action: getAppAcct, id: detailId }, selectAppAcct);
+  } = useDetail({ action: getAgentAcct, id: detailId }, selectAgentAcct);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
     setDetailId(id);
@@ -94,7 +77,7 @@ const AppAcct = () => {
   };
   const handleBalance = async formModel => {
     setDetailLoading(true);
-    const { status } = await balanceAppAcct({
+    const { status } = await balanceAgentAcct({
       id: currentRow.id,
       formModel: { ...formModel, user_id: user.id, username: user.username },
     });
@@ -104,9 +87,13 @@ const AppAcct = () => {
     message.success(`已更新余额`);
     handleGetList({ page: meta.current });
   };
+
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "APP名称", dataIndex: "app_name", sorter: true },
+    { title: "用户id", dataIndex: "agent_user_id", sorter: true },
+    { title: "用户名称", dataIndex: "agent_user_name", sorter: true },
+    { title: "代理商id", dataIndex: "agent_id", sorter: true },
+    { title: "代理商名称", dataIndex: "agent_name", sorter: true },
     {
       title: "余额",
       dataIndex: "balance",
@@ -120,7 +107,7 @@ const AppAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
-    { title: "APP名称", dataIndex: "app_id", sorter: true },
+    { title: "创建者用戶id", dataIndex: "userid", sorter: true },
     {
       title: "创建日期",
       dataIndex: "created",
@@ -170,15 +157,20 @@ const AppAcct = () => {
       ),
     },
   ];
+
   const defaultColumns = [
     "id",
-    "app_name",
+    "agent_user_id",
+    "agent_user_name",
+    "agent_id",
+    "agent_name",
     "balance",
     "currency",
-    "app_id",
     "created",
+    "updated",
     "action",
   ];
+
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
@@ -218,4 +210,5 @@ const AppAcct = () => {
     </Space>
   );
 };
-export default AppAcct;
+
+export default AgentAcct;

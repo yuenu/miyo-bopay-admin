@@ -13,6 +13,7 @@ import cardReducer from "./slice/card";
 import cardAcctReducer from "./slice/cardAcct";
 import cardAcctLogReducer from "./slice/cardAcctLog";
 import agentReducer from "./slice/agent";
+import agentAcctReducer from "./slice/agentAcct";
 import loginLogReducer from "./slice/loginLog";
 import appReducer from "./slice/app";
 import appAcctReducer from "./slice/appAcct";
@@ -49,6 +50,7 @@ export default configureStore({
     cardAcct: cardAcctReducer,
     cardAcctLog: cardAcctLogReducer,
     agent: agentReducer,
+    agentAcct: agentAcctReducer,
     loginLog: loginLogReducer,
     app: appReducer,
     appAcct: appAcctReducer,

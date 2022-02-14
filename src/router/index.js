@@ -149,6 +149,12 @@ const routes = [
     displayName: "代理管理",
   },
   {
+    path: "/AgentAcct",
+    name: "AgentAcct",
+    component: () => getComponent("AgentAcct"),
+    displayName: "代理帐户",
+  },
+  {
     path: "/LoginLog",
     name: "LoginLog",
     component: () => getComponent("LoginLog"),
