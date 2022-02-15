@@ -21,6 +21,13 @@ const AgentAcct = () => {
   const { user } = useSelector(selectAuth);
   const searchFields = {
     id__in: { type: "string", label: "ID" },
+    agent_id__in: { type: "string", label: "代理商ID" },
+    agent_name__k: { type: "string", label: "代理商名称" },
+    currency: {
+      type: "select",
+      label: "币种",
+      options: Currency,
+    },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
   const {

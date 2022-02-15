@@ -14,9 +14,8 @@ const AgentAcctLog = () => {
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     agent_acct_id__in: { type: "string", label: "商户账户ID" },
-    app_user_id__in: { type: "string", label: "商户用户ID" },
+    agent_user_id__in: { type: "string", label: "商户用户ID" },
     order_no__in: { type: "string", label: "订单号" },
-    trans_no__in: { type: "string", label: "第三方订单号" },
     created__btw: { type: "rangeDate", label: "创建日期" },
   };
 
