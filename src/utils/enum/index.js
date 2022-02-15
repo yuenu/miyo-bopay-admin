@@ -518,6 +518,58 @@ export const Perms = [
     ],
   },
   {
+    title: "代理帳戶管理",
+    key: "agentacct",
+    children: [
+      {
+        title: "新增代理帳戶",
+        key: "agentacct.Create",
+      },
+      {
+        title: "查看代理帳戶列表",
+        key: "agentacct.List",
+      },
+      {
+        title: "编辑代理帳戶",
+        key: "agentacct.Get",
+      },
+      {
+        title: "删除代理帳戶",
+        key: "agentacct.Delete",
+      },
+      {
+        title: "更新代理帳戶",
+        key: "agentacct.Update",
+      },
+    ],
+  },
+  {
+    title: "代理帐户资金纪录管理",
+    key: "agentacctlog",
+    children: [
+      {
+        title: "新增代理帐户资金纪录",
+        key: "agentacctlog.Create",
+      },
+      {
+        title: "查看代理帐户资金纪录列表",
+        key: "agentacctlog.List",
+      },
+      {
+        title: "编辑代理帐户资金纪录",
+        key: "agentacctlog.Get",
+      },
+      {
+        title: "删除代理帐户资金纪录",
+        key: "agentacctlog.Delete",
+      },
+      {
+        title: "更新代理帐户资金纪录",
+        key: "agentacctlog.Update",
+      },
+    ],
+  },
+  {
     title: "银行卡帐户管理",
     key: "cardacct",
     children: [
