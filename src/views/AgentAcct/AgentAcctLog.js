@@ -22,7 +22,7 @@ const AgentAcctLog = () => {
   const {
     res: { list, meta },
     loading: listLoading,
-    handleGetList,
+    handleSearch,
     handleChangePage,
     handleChange,
   } = useList(getAgentAcctLogs, selectAgentAcctLog);
@@ -94,6 +94,7 @@ const AgentAcctLog = () => {
       sorter: true,
     },
   ];
+
   const defaultColumns = [
     "id",
     "agent_acct_id",
@@ -112,7 +113,7 @@ const AgentAcctLog = () => {
 
   return (
     <Space direction="vertical" size="middle" className="w-100">
-      <SearchFormFactory fields={searchFields} handleSubmit={handleGetList} />
+      <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}
