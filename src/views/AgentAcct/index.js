@@ -90,9 +90,9 @@ const AgentAcct = () => {
 
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "用户id", dataIndex: "agent_user_id", sorter: true },
+    { title: "用户ID", dataIndex: "agent_user_id", sorter: true },
     { title: "用户名称", dataIndex: "agent_user_name", sorter: true },
-    { title: "代理商id", dataIndex: "agent_id", sorter: true },
+    { title: "代理商ID", dataIndex: "agent_id", sorter: true },
     { title: "代理商名称", dataIndex: "agent_name", sorter: true },
     {
       title: "余额",
@@ -107,7 +107,7 @@ const AgentAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
-    { title: "创建者用戶id", dataIndex: "userid", sorter: true },
+    { title: "创建者用戶ID", dataIndex: "userid", sorter: true },
     {
       title: "创建日期",
       dataIndex: "created",
