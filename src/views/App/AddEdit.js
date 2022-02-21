@@ -97,6 +97,12 @@ const AddEdit = props => {
               ))}
             </Select>
           </Form.Item>
+          <Form.Item name="recharge_rate" label="代收費率">
+            <InputNumber step="1" />
+          </Form.Item>
+          <Form.Item name="withdraw_rate" label="代付費率">
+            <InputNumber step="1" />
+          </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />
           </Form.Item>
