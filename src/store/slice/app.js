@@ -2,14 +2,25 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import request from "@/utils/request";
 import { metaToPagin } from "@/utils/format";
 
-export const getApps = createAsyncThunk("app/getList", async (params = {}) => {
+export const getAppsList = async (params = {}) => {
   const res = await request({
     url: "/api/apps",
     method: "get",
     params,
   });
   return res;
+};
+
+export const getApps = createAsyncThunk("app/getList", async (params = {}) => {
+  return await getAppsList(params);
 });
+
+export const getAppsSearch = createAsyncThunk(
+  "app/getListSearch",
+  async (params = {}) => {
+    return await getAppsList(params);
+  },
+);
 
 export const getApp = createAsyncThunk("app/getDetail", async id => {
   const res = await request({
@@ -48,6 +59,7 @@ export const slice = createSlice({
   initialState: {
     list: [],
     meta: {},
+    searchMeta: {},
     currentRow: {},
   },
   reducers: {
@@ -56,6 +68,11 @@ export const slice = createSlice({
     },
   },
   extraReducers: {
+    [getAppsSearch.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.searchMeta = metaToPagin(data.meta);
+    },
     [getApps.fulfilled]: (state, action) => {
       const { status, data } = action.payload;
       if (status !== 200) return;

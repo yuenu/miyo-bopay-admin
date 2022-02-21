@@ -13,12 +13,13 @@ const SearchSelect = ({
   val,
   onSelect,
   payloadPos,
+  selectorMetaKey = "meta",
   ...rest
 }) => {
   const dispatch = useDispatch();
+  const selectorObj = useSelector(selector);
   const [list, setList] = useState([]);
   const [searchText, setSearchText] = useState([]);
-  const { meta } = useSelector(selector);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const handleSearch = async input => {
@@ -37,7 +38,7 @@ const SearchSelect = ({
       action({ [`${searchKey}__k`]: searchText, page, ...params }),
     );
     payloadPos && setList(payload?.[payloadPos]);
-    payloadPos || setList(payload?.data?.data);
+    payloadPos || setList([...list, ...payload?.data?.data]);
     setLoading(false);
     // eslint-disable-next-line
   }, [searchKey, page]);
@@ -46,9 +47,10 @@ const SearchSelect = ({
     const isScrollBottom =
       e.target.scrollHeight - e.target.clientHeight === e.target.scrollTop;
     if (isScrollBottom) {
-      meta.pages > page && setPage(page + 1);
+      selectorObj[selectorMetaKey].pages > page && setPage(page + 1);
     }
   };
+
   useEffect(() => {
     handleInit();
   }, [handleInit]);
