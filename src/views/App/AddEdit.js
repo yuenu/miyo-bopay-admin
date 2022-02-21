@@ -17,7 +17,7 @@ const AddEdit = props => {
       await props.onOk({
         ...formModel,
         developer_name: users.find(i => i.id === formModel.developer_id)?.name,
-        fee: formModel.fee ? formModel.fee.toString() : "",
+        fee: formModel.fee ? formModel.fee.toString() : "0",
       });
       form.resetFields();
     });
@@ -39,7 +39,7 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form} initialValues={{ status: 0 }}>
-          {mode === "add" && (
+          {props.mode === "add" && (
             <Form.Item name="upper_layer_id" label="上級App">
               <SearchSelect
                 action={getAppsSearch}
@@ -65,7 +65,11 @@ const AddEdit = props => {
           >
             <Input />
           </Form.Item>
-          <Form.Item name="developer_id" label="开发者ID">
+          <Form.Item
+            name="developer_id"
+            label="开发者ID"
+            rules={[{ required: true, message: "请输入开发者ID" }]}
+          >
             <SearchSelect
               action={getUsers}
               params={{ is_developer: 1 }}
