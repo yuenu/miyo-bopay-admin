@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Modal, Form, Input, Switch, Select, InputNumber } from "antd";
 import { formLayout, mode, AppStatus } from "@/utils/enum";
 import { selectUser, getUsers } from "@/store/slice/user";
+import { getAppsSearch, selectApp } from "@/store/slice/app";
 import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
 import { useSelector } from "react-redux";
@@ -16,7 +17,7 @@ const AddEdit = props => {
       await props.onOk({
         ...formModel,
         developer_name: users.find(i => i.id === formModel.developer_id)?.name,
-        fee: formModel.fee.toString(),
+        fee: formModel.fee ? formModel.fee.toString() : "",
       });
       form.resetFields();
     });
@@ -38,6 +39,18 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form} initialValues={{ status: 0 }}>
+          {mode === "add" && (
+            <Form.Item name="upper_layer_id" label="上級App">
+              <SearchSelect
+                action={getAppsSearch}
+                selector={selectApp}
+                selectorMetaKey="searchMeta"
+                searchKey="name"
+                val="id"
+                label={i => `${i.id} ${i.name}`}
+              />
+            </Form.Item>
+          )}
           <Form.Item
             name="name"
             label="名称"
@@ -83,6 +96,12 @@ const AddEdit = props => {
                 </Option>
               ))}
             </Select>
+          </Form.Item>
+          <Form.Item name="recharge_rate" label="代收費率">
+            <InputNumber step="1" />
+          </Form.Item>
+          <Form.Item name="withdraw_rate" label="代付費率">
+            <InputNumber step="1" />
           </Form.Item>
           <Form.Item name="is_active" label="是否启用" valuePropName="checked">
             <Switch />
