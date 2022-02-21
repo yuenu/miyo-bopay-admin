@@ -37,6 +37,18 @@ const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
       <Spin spinning={loading}>
         <Form {...formLayout} form={form}>
           {mode === "edit" && <Form.Item label="ID">{data.id}</Form.Item>}
+          {mode === "add" && (
+            <Form.Item name="upper_layer_id" label="上級代理">
+              <SearchSelect
+                action={getUsers}
+                selector={selectUser}
+                searchKey="name"
+                val="id"
+                label={i => `${i.id} ${i.name}`}
+              />
+            </Form.Item>
+          )}
+
           <Form.Item
             name="user_id"
             label="用户ID"
