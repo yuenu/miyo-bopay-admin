@@ -31,19 +31,19 @@ const routes = [
     path: "/Developer",
     name: "Developer",
     component: () => getComponent("Developer"),
-    displayName: "商户管理",
+    displayName: "开发商管理",
   },
   {
     path: "/AppUser",
     name: "AppUser",
     component: () => getComponent("AppUser"),
-    displayName: "App用户管理",
+    displayName: "商户用户管理",
   },
   {
     path: "/App",
     name: "App",
     component: () => getComponent("App"),
-    displayName: "App管理",
+    displayName: "商户管理",
   },
   {
     path: "/AppAcct",
