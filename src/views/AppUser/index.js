@@ -130,7 +130,7 @@ const AppUser = () => {
         loading={detailLoading}
       />
       <Detail
-        title="App用戶明細"
+        title="商戶用戶明細"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
