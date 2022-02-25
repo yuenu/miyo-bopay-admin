@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { ConfigProvider } from "antd";
-import zhTW from "antd/lib/locale/zh_TW";
+import zh_CN from "antd/lib/locale/zh_CN";
 
 import MainRoute from "@/views/MainRoute";
 import store from "@/store";
@@ -10,7 +10,7 @@ import { interceptor } from "@/utils/request";
 interceptor(store);
 function App() {
   return (
-    <ConfigProvider locale={zhTW}>
+    <ConfigProvider locale={zh_CN}>
       <Provider store={store}>
         <MainRoute />
       </Provider>

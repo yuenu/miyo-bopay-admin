@@ -518,27 +518,27 @@ export const Perms = [
     ],
   },
   {
-    title: "代理帳戶管理",
+    title: "代理帐户管理",
     key: "agentacct",
     children: [
       {
-        title: "新增代理帳戶",
+        title: "新增代理帐户",
         key: "agentacct.Create",
       },
       {
-        title: "查看代理帳戶列表",
+        title: "查看代理帐户列表",
         key: "agentacct.List",
       },
       {
-        title: "编辑代理帳戶",
+        title: "编辑代理帐户",
         key: "agentacct.Get",
       },
       {
-        title: "删除代理帳戶",
+        title: "删除代理帐户",
         key: "agentacct.Delete",
       },
       {
-        title: "更新代理帳戶",
+        title: "更新代理帐户",
         key: "agentacct.Update",
       },
     ],

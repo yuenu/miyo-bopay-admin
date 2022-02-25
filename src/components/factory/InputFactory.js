@@ -1,4 +1,5 @@
 import { Input, Select, Switch, Checkbox, DatePicker } from "antd";
+import zhCN from "antd/es/date-picker/locale/zh_CN";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
@@ -21,7 +22,7 @@ const InputFactory = props => {
     select: <SelectC />,
     switch: <Switch {...rest} />,
     checkbox: <Checkbox {...rest} />,
-    rangeDate: <RangePicker showTime={true} {...rest} />,
+    rangeDate: <RangePicker locale={zhCN} showTime={true} {...rest} />,
   };
   return types[type] || types.string;
 };

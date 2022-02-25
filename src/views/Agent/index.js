@@ -126,13 +126,13 @@ const Agent = () => {
       sorter: true,
     },
     {
-      title: "代收費率",
+      title: "代收费率",
       dataIndex: "recharge_rate",
       inputType: "string",
       sorter: true,
     },
     {
-      title: "代付費率",
+      title: "代付费率",
       dataIndex: "withdraw_rate",
       inputType: "string",
       sorter: true,
