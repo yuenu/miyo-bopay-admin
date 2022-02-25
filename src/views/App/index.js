@@ -255,7 +255,7 @@ const App = () => {
         loading={detailLoading}
       />
       <Detail
-        title="App明细"
+        title="商户管理明细"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}

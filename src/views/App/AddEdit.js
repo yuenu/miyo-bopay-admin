@@ -29,7 +29,7 @@ const AddEdit = props => {
   return (
     <Modal
       destroyOnClose={true}
-      title={`${mode[props.mode]}App`}
+      title={`${mode[props.mode]}商户管理`}
       visible={props.visible}
       onOk={handleOk}
       onCancel={props.onCancel}

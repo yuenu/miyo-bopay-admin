@@ -228,7 +228,7 @@ const User = () => {
         loading={detailLoading}
       />
       <Detail
-        title="开发者明細"
+        title="开发商明細"
         visible={detailVisible}
         data={currentRow}
         onCancel={() => setDetailVisible(false)}
