@@ -106,7 +106,7 @@ const AppAcct = () => {
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "APP名称", dataIndex: "app_name", sorter: true },
+    { title: "商户名称", dataIndex: "app_name", sorter: true },
     {
       title: "余额",
       dataIndex: "balance",
@@ -120,7 +120,7 @@ const AppAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
-    { title: "APP名称", dataIndex: "app_id", sorter: true },
+    { title: "商户ID", dataIndex: "app_id", sorter: true },
     {
       title: "创建日期",
       dataIndex: "created",
