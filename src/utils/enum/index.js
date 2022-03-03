@@ -66,14 +66,7 @@ export const PayStatus = {
   3: "待付款",
   4: "已支付",
 };
-export const Currency = {
-  0: "RMB",
-  1: "USDT_ERC20",
-  2: "USDT_TRC20",
-  3: "USDT_OMNI",
-  4: "BTC",
-  5: "ETH",
-};
+
 export const AddrRedirect = {
   0: "",
   1: "https://etherscan.io/address",
@@ -90,6 +83,17 @@ export const TransRedirect = {
   4: "",
   5: "",
 };
+
+export const Currency = {
+  0: "RMB",
+  1: "USDT_ERC20",
+  2: "USDT_TRC20",
+  3: "USDT_OMNI",
+  4: "BTC",
+  5: "ETH",
+  6: "TRX",
+};
+
 export const CurrencyFormat = [
   { key: 0, unit: "¥", rate: 100, tofix: 2 },
   { key: 1, unit: "$", rate: 1000000, tofix: 6 },
@@ -97,7 +101,9 @@ export const CurrencyFormat = [
   { key: 3, unit: "$", rate: 1000000, tofix: 6 },
   { key: 4, unit: "", rate: 0, tofix: 0 },
   { key: 5, unit: "", rate: 0, tofix: 0 },
+  { key: 6, unit: "", rate: 0, tofix: 0 },
 ];
+
 export const IsBoolEnum = {
   1: "是",
   0: "否",
