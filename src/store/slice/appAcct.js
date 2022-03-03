@@ -21,6 +21,16 @@ export const getAppAcct = createAsyncThunk("appAcct/getDetail", async id => {
   });
   return res;
 });
+
+export const addAppAcct = async params => {
+  const res = await request({
+    url: `/api/appaccts`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
+
 export const balanceAppAcct = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/appaccts/${id}/balance`,

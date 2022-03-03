@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Space, message } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   selectAppAcct,
   getAppAccts,
   getAppAcct,
+  addAppAcct,
   balanceAppAcct,
 } from "@/store/slice/appAcct";
 import { selectAuth } from "@/store/slice/auth";
@@ -17,6 +19,7 @@ import { useList, useDetail } from "@/utils/hook";
 import { IsBoolEnum, AppStatus } from "@/utils/enum";
 import { dateFormat, priceFormat } from "@/utils/format";
 import { Currency } from "@/utils/enum";
+import AddEdit from "./AddEdit";
 
 const AppAcct = () => {
   const { user } = useSelector(selectAuth);
@@ -47,7 +50,17 @@ const AppAcct = () => {
     handleChangePage,
     handleChange,
     handleGetList,
+    handleAdd: handleAddHook,
   } = useList(getAppAccts, selectAppAcct);
+
+  const [addVisible, setAddVisible] = useState(false);
+  const handleAddClick = () => {
+    setAddVisible(true);
+  };
+  const handleAdd = async formModel => {
+    handleAddHook({ action: addAppAcct, ...formModel });
+    setAddVisible(false);
+  };
 
   const [detailId, setDetailId] = useState(null);
   const {
@@ -106,7 +119,7 @@ const AppAcct = () => {
   };
   const columns = [
     { title: "ID", dataIndex: "id", sorter: true },
-    { title: "APP名称", dataIndex: "app_name", sorter: true },
+    { title: "App名称", dataIndex: "app_name", sorter: true },
     {
       title: "余额",
       dataIndex: "balance",
@@ -120,7 +133,7 @@ const AppAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
-    { title: "APP名称", dataIndex: "app_id", sorter: true },
+    { title: "AppID", dataIndex: "app_id", sorter: true },
     {
       title: "创建日期",
       dataIndex: "created",
@@ -182,6 +195,9 @@ const AppAcct = () => {
   return (
     <Space direction="vertical" size="middle" className="w-100">
       <SearchFormFactory fields={searchFields} handleSubmit={handleSearch} />
+      <Button type="primary" icon={<PlusOutlined />} onClick={handleAddClick}>
+        添加
+      </Button>
       <NormalTable
         allColumns={columns}
         defaultColumns={defaultColumns}
@@ -191,6 +207,13 @@ const AppAcct = () => {
         onChange={handleChange}
         loading={listLoading}
         onShowSizeChange={handleChangePage}
+      />
+      <AddEdit
+        visible={addVisible}
+        onOk={handleAdd}
+        onCancel={() => setAddVisible(false)}
+        loading={listLoading}
+        mode="add"
       />
       <JsonModal
         visible={jsonVisible}

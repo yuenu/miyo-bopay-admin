@@ -1,0 +1,73 @@
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Modal, Form, Select, InputNumber } from "antd";
+import { formLayout, mode, Currency } from "@/utils/enum";
+import Spin from "@/components/Spin";
+import { selectApp, getApps } from "@/store/slice/app";
+import SearchSelect from "@/components/SearchSelect";
+
+const { Option } = Select;
+
+const AddEdit = props => {
+  const { list: appList } = useSelector(selectApp);
+
+  const [form] = Form.useForm();
+  const handleOk = () => {
+    form.validateFields().then(async formModel => {
+      if (!formModel) return;
+      const params = {
+        ...formModel,
+        userid:
+          appList.find(i => i.id === formModel.app_id)?.developer_id || null,
+      };
+      params.userid = String(params.userid);
+      await props.onOk(params);
+      form.resetFields();
+    });
+  };
+  useEffect(() => {
+    props.visible && props.mode === "edit" && form.setFieldsValue(props.data);
+  });
+  return (
+    <Modal
+      title={`${mode[props.mode]}开发者`}
+      visible={props.visible}
+      onOk={handleOk}
+      onCancel={props.onCancel}
+      cancelText="取消"
+      okText="送出"
+      confirmLoading={props.loading}
+    >
+      <Spin spinning={props.loading}>
+        <Form {...formLayout} form={form}>
+          <Form.Item
+            name="app_id"
+            label="商户ID"
+            rules={[{ required: true, message: "请选择商户" }]}
+          >
+            <SearchSelect
+              action={getApps}
+              selector={selectApp}
+              searchKey="name"
+              val="id"
+              label={i => `${i.id} ${i.name}`}
+            />
+          </Form.Item>
+          <Form.Item name="currency" label="货币">
+            <Select>
+              {Object.keys(Currency).map(i => (
+                <Option value={Number(i)} key={i}>
+                  {Currency[i]}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name="balance" label="余额">
+            <InputNumber />
+          </Form.Item>
+        </Form>
+      </Spin>
+    </Modal>
+  );
+};
+export default AddEdit;

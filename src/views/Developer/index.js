@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Space } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 import {
   selectDeveloper,
   getDevelopers,
@@ -8,7 +9,6 @@ import {
   editDeveloper,
 } from "@/store/slice/developer";
 import { useList, useDetail } from "@/utils/hook";
-import { PlusOutlined } from "@ant-design/icons";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
 import AddEdit from "./AddEdit";
