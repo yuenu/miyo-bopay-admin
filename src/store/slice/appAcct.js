@@ -31,6 +31,15 @@ export const addAppAcct = async params => {
   return res;
 };
 
+export const editAppAcct = async params => {
+  const res = await request({
+    url: `/api/appaccts/${params.id}`,
+    method: "post",
+    data: params.formModel,
+  });
+  return res;
+};
+
 export const balanceAppAcct = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/appaccts/${id}/balance`,

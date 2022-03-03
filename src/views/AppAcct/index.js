@@ -7,6 +7,7 @@ import {
   getAppAccts,
   getAppAcct,
   addAppAcct,
+  editAppAcct,
   balanceAppAcct,
 } from "@/store/slice/appAcct";
 import { useList, useDetail } from "@/utils/hook";
@@ -67,6 +68,7 @@ const AppAcct = () => {
     currentRow,
     loading: detailLoading,
     setLoading: setDetailLoading,
+    handleEdit: handleEditHook,
   } = useDetail({ action: getAppAcct, id: detailId }, selectAppAcct);
   const [detailVisible, setDetailVisible] = useState(false);
   const handleDetailClick = async id => {
@@ -82,6 +84,23 @@ const AppAcct = () => {
   useEffect(() => {
     jsonVisible || setDetailId(null);
   }, [jsonVisible]);
+
+  const [editVisible, setEditVisible] = useState(false);
+  const handleEditClick = async id => {
+    setDetailId(id);
+    setEditVisible(true);
+  };
+  const handleEdit = async formModel => {
+    const { status } = await handleEditHook({
+      action: editAppAcct,
+      id: currentRow.id,
+      ...formModel,
+    });
+    if (status !== 200) return;
+    setEditVisible(false);
+    setDetailId(null);
+    handleGetList({ page: meta.current });
+  };
 
   const fields = [
     {
@@ -179,6 +198,14 @@ const AppAcct = () => {
           >
             修改余额
           </Button>
+          <Button
+            size="small"
+            onClick={() => handleEditClick(record.id)}
+            type="text"
+            className="p-0"
+          >
+            编辑
+          </Button>
         </Space>
       ),
     },
@@ -237,6 +264,14 @@ const AppAcct = () => {
         onCancel={handleCancelBalance}
         loading={detailLoading}
         onOk={handleBalance}
+      />
+      <AddEdit
+        visible={editVisible}
+        onOk={handleEdit}
+        onCancel={() => setEditVisible(false)}
+        loading={detailLoading}
+        data={currentRow}
+        mode="edit"
       />
     </Space>
   );

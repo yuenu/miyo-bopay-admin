@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Modal, Form, Select, InputNumber } from "antd";
+import { Modal, Form, Select, InputNumber, Input } from "antd";
 import { formLayout, mode, Currency } from "@/utils/enum";
 import Spin from "@/components/Spin";
 import { selectApp, getApps } from "@/store/slice/app";
@@ -18,8 +18,10 @@ const AddEdit = props => {
       const appData = appList.find(i => i.id === formModel.app_id) || {};
       const params = {
         ...formModel,
-        app_name: appData.name,
-        userid: appData.developer_id ? String(appData.developer_id) : null,
+        ...(props.mode === "add" && {
+          app_name: appData.name,
+          userid: appData.developer_id ? String(appData.developer_id) : null,
+        }),
       };
       await props.onOk(params);
       form.resetFields();
@@ -40,29 +42,39 @@ const AddEdit = props => {
     >
       <Spin spinning={props.loading}>
         <Form {...formLayout} form={form}>
-          <Form.Item
-            name="app_id"
-            label="商户ID"
-            rules={[{ required: true, message: "请选择商户" }]}
-          >
-            <SearchSelect
-              action={getApps}
-              selector={selectApp}
-              searchKey="name"
-              val="id"
-              label={i => `${i.id} ${i.name}`}
-            />
+          {props.mode === "add" && (
+            <>
+              <Form.Item
+                name="app_id"
+                label="商户ID"
+                rules={[{ required: true, message: "请选择商户" }]}
+              >
+                <SearchSelect
+                  action={getApps}
+                  selector={selectApp}
+                  searchKey="name"
+                  val="id"
+                  label={i => `${i.id} ${i.name}`}
+                />
+              </Form.Item>
+              <Form.Item name="currency" label="货币">
+                <Select>
+                  {Object.keys(Currency).map(i => (
+                    <Option value={Number(i)} key={i}>
+                      {Currency[i]}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item name="balance" label="余额">
+                <InputNumber />
+              </Form.Item>
+            </>
+          )}
+          <Form.Item hidden name="app_name" label="商户名称">
+            <Input type="hidden" />
           </Form.Item>
-          <Form.Item name="currency" label="货币">
-            <Select>
-              {Object.keys(Currency).map(i => (
-                <Option value={Number(i)} key={i}>
-                  {Currency[i]}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="balance" label="余额">
+          <Form.Item name="agent_fee" label="商户帐户支付代理手续费">
             <InputNumber />
           </Form.Item>
         </Form>
