@@ -15,12 +15,12 @@ const AddEdit = props => {
   const handleOk = () => {
     form.validateFields().then(async formModel => {
       if (!formModel) return;
+      const appData = appList.find(i => i.id === formModel.app_id) || {};
       const params = {
         ...formModel,
-        userid:
-          appList.find(i => i.id === formModel.app_id)?.developer_id || null,
+        app_name: appData.name,
+        userid: appData.developer_id ? String(appData.developer_id) : null,
       };
-      params.userid = String(params.userid);
       await props.onOk(params);
       form.resetFields();
     });
