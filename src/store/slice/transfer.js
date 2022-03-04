@@ -79,6 +79,8 @@ export const approveTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+
+// 拒絕
 export const denyTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/deny`,
@@ -103,6 +105,8 @@ export const paidTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+
+// 成功
 export const succeededTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/succeeded`,
@@ -111,6 +115,8 @@ export const succeededTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+
+// 失敗
 export const failedTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/failed`,
@@ -119,6 +125,8 @@ export const failedTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+
+// 通知
 export const notifyTransfer = async ({ id }) => {
   const res = await request({
     url: `/api/transfers/${id}/notify`,
@@ -126,6 +134,8 @@ export const notifyTransfer = async ({ id }) => {
   });
   return res;
 };
+
+// 取消
 export const cancelTransfer = async ({ id }) => {
   const res = await request({
     url: `/api/transfers/${id}/paid/cancel`,
@@ -133,6 +143,16 @@ export const cancelTransfer = async ({ id }) => {
   });
   return res;
 };
+
+// 收回
+export const recycleTransfer = async ({ id }) => {
+  const res = await request({
+    url: `/api/transfers/${id}/recycle`,
+    method: "get",
+  });
+  return res;
+};
+
 export const repaidTransfer = async ({ id, formModel }) => {
   const res = await request({
     url: `/api/transfers/${id}/repaid`,
@@ -141,6 +161,7 @@ export const repaidTransfer = async ({ id, formModel }) => {
   });
   return res;
 };
+
 export const slice = createSlice({
   name: "transfer",
   initialState: {

@@ -77,15 +77,6 @@ export const cancelOrder = async id => {
   return res;
 };
 
-// 回收
-export const recycleOrder = async id => {
-  const res = await request({
-    url: `/api/orders/${id}/recycle`,
-    method: "get",
-  });
-  return res;
-};
-
 // 通知
 export const notifyOrder = async id => {
   const res = await request({
@@ -94,6 +85,16 @@ export const notifyOrder = async id => {
   });
   return res;
 };
+
+// 收回
+export const recycleOrder = async id => {
+  const res = await request({
+    url: `/api/orders/${id}/recycle`,
+    method: "get",
+  });
+  return res;
+};
+
 export const deleteOrder = async id => {
   const res = await request({
     url: `/api/orders/${id}`,
