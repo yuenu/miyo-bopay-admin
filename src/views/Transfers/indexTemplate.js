@@ -12,6 +12,7 @@ import {
   failedTransfer,
   notifyTransfer,
   cancelTransfer,
+  recycleTransfer,
   queryTransfer,
   repaidTransfer,
 } from "@/store/slice/transfer";
@@ -265,6 +266,25 @@ const Transfer = ({ params }) => {
     if (status !== 200) return;
     handleGetList(params);
   };
+
+  const handleRecycleClick = id => {
+    Modal.confirm({
+      title: "是否收回订单",
+      icon: <ExclamationCircleOutlined />,
+      content: `即将收回订单 ${id}，是否继续？`,
+      okText: "确认",
+      cancelText: "取消",
+      onOk: close => handleRecycleTransfer(close, id),
+    });
+  };
+  const handleRecycleTransfer = async (close, id) => {
+    const { status } = await recycleTransfer(id);
+    close();
+    if (status !== 200) return;
+    message.success("訂單已收回！");
+    await handleGetList({ page: meta.page });
+  };
+
   const handleQuery = async record => {
     const { status } = await queryTransfer(record.id);
     if (status !== 200) return;
@@ -326,6 +346,19 @@ const Transfer = ({ params }) => {
             >
               回调
             </Button>
+          )}
+          {record.transfer_status === 9 && (
+            <>
+              <Button
+                size="small"
+                onClick={() => handleRecycleClick(record.id)}
+                type="text"
+                className="p-0"
+                disabled={record.is_recycle}
+              >
+                {record.is_recycle ? "已收回" : "收回"}
+              </Button>
+            </>
           )}
           {params?.status === 2 && (
             <Button
