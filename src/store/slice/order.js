@@ -47,6 +47,8 @@ export const editOrder = async params => {
   });
   return res;
 };
+
+// 審核
 export const approveOrder = async params => {
   const res = await request({
     url: `/api/orders/approve`,
@@ -55,6 +57,8 @@ export const approveOrder = async params => {
   });
   return res;
 };
+
+// 拒絕
 export const denyOrder = async params => {
   const res = await request({
     url: `/api/orders/deny`,
@@ -63,6 +67,8 @@ export const denyOrder = async params => {
   });
   return res;
 };
+
+// 取消
 export const cancelOrder = async id => {
   const res = await request({
     url: `/api/orders/${id}/cancel`,
@@ -70,6 +76,17 @@ export const cancelOrder = async id => {
   });
   return res;
 };
+
+// 回收
+export const recycleOrder = async id => {
+  const res = await request({
+    url: `/api/orders/${id}/recycle`,
+    method: "get",
+  });
+  return res;
+};
+
+// 通知
 export const notifyOrder = async id => {
   const res = await request({
     url: `/api/orders/${id}/notify`,
