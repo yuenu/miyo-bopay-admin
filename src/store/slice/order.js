@@ -90,7 +90,7 @@ export const notifyOrder = async id => {
 export const recycleOrder = async id => {
   const res = await request({
     url: `/api/orders/${id}/recycle`,
-    method: "get",
+    method: "post",
   });
   return res;
 };

@@ -145,10 +145,10 @@ export const cancelTransfer = async ({ id }) => {
 };
 
 // 收回
-export const recycleTransfer = async ({ id }) => {
+export const recycleTransfer = async id => {
   const res = await request({
     url: `/api/transfers/${id}/recycle`,
-    method: "get",
+    method: "post",
   });
   return res;
 };
