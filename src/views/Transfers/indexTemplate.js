@@ -347,7 +347,7 @@ const Transfer = ({ params }) => {
               回调
             </Button>
           )}
-          {record.transfer_status === 9 && (
+          {[9, 15, 16].includes(record.transfer_status) && (
             <>
               <Button
                 size="small"

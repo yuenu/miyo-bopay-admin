@@ -240,7 +240,7 @@ const Order = ({ params }) => {
               </Button>
             </>
           )}
-          {record.status === 15 && (
+          {[13, 14, 15].includes(record.status) && (
             <>
               <Button
                 size="small"
