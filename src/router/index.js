@@ -37,7 +37,7 @@ const routes = [
     path: "/AppUser",
     name: "AppUser",
     component: () => getComponent("AppUser"),
-    displayName: "商户用户管理",
+    displayName: "商户用户",
   },
   {
     path: "/App",
