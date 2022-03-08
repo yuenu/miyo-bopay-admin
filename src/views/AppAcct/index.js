@@ -157,6 +157,7 @@ const AppAcct = () => {
       dataIndex: "block_amount",
       render: val => val,
       className: "text-nowrap",
+      sorter: true,
     },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
     {

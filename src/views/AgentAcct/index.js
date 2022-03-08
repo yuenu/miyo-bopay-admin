@@ -113,6 +113,7 @@ const AgentAcct = () => {
       dataIndex: "block_amount",
       render: (val, record) => priceFormat({ val, currency: record.currency }),
       className: "text-nowrap",
+      sorter: true,
     },
     {
       title: "币种",
