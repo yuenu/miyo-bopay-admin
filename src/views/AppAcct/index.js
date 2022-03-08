@@ -147,17 +147,17 @@ const AppAcct = () => {
       sorter: true,
     },
     {
+      title: "圈存金额",
+      dataIndex: "block_amount",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      className: "text-nowrap",
+      sorter: true,
+    },
+    {
       title: "币种",
       dataIndex: "currency",
       render: val => Currency[val] || "",
       className: "text-nowrap",
-    },
-    {
-      title: "圈存金额",
-      dataIndex: "block_amount",
-      render: val => val,
-      className: "text-nowrap",
-      sorter: true,
     },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
     {
