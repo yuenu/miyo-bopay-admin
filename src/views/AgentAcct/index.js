@@ -109,6 +109,12 @@ const AgentAcct = () => {
       sorter: true,
     },
     {
+      title: "圈存金额",
+      dataIndex: "block_amount",
+      render: (val, record) => priceFormat({ val, currency: record.currency }),
+      className: "text-nowrap",
+    },
+    {
       title: "币种",
       dataIndex: "currency",
       render: val => Currency[val] || "",
@@ -172,6 +178,7 @@ const AgentAcct = () => {
     "agent_id",
     "agent_name",
     "balance",
+    "block_amount",
     "currency",
     "created",
     "updated",

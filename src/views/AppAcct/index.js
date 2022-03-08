@@ -152,6 +152,12 @@ const AppAcct = () => {
       render: val => Currency[val] || "",
       className: "text-nowrap",
     },
+    {
+      title: "圈存金额",
+      dataIndex: "block_amount",
+      render: val => val,
+      className: "text-nowrap",
+    },
     { title: "商户ID", dataIndex: "app_id", sorter: true },
     {
       title: "创建日期",
@@ -214,6 +220,7 @@ const AppAcct = () => {
     "id",
     "app_name",
     "balance",
+    "block_amount",
     "currency",
     "app_id",
     "created",
