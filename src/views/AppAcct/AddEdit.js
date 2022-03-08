@@ -71,8 +71,12 @@ const AddEdit = props => {
               </Form.Item>
             </>
           )}
-          <Form.Item hidden name="app_name" label="商户名称">
-            <Input type="hidden" />
+          <Form.Item
+            hidden={props.mode === "add"}
+            name="app_name"
+            label="商户名称"
+          >
+            <Input type={props.mode === "add" ? "hidden" : "input"} />
           </Form.Item>
           <Form.Item name="agent_fee" label="商户帐户支付代理手续费">
             <InputNumber />
