@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Modal, Form, Input } from "antd";
 import { mode as Mode, formLayout } from "@/utils/enum";
 import Spin from "@/components/Spin";
-import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
+// import { CurrencyHelpTextFormItemFactory } from "@/components/factory/FormFactory";
 const Edit = ({ visible, mode, data, onCancel, onOk, loading }) => {
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -29,14 +29,14 @@ const Edit = ({ visible, mode, data, onCancel, onOk, loading }) => {
       <Spin spinning={loading}>
         <Form {...formLayout} form={form}>
           <Form.Item label="ID">{data.id}</Form.Item>
-          {mode === "approve" && (
+          {/* {mode === "approve" && (
             <CurrencyHelpTextFormItemFactory
               name="amount_paid"
               label="实际付款金额"
               row={data}
               defaultValKey="amount"
             />
-          )}
+          )} */}
           <Form.Item name="comments" label="备注">
             <Input />
           </Form.Item>
