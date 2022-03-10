@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Button, Space, Switch } from "antd";
 import { selectApp, getApps, getApp, addApp, editApp } from "@/store/slice/app";
+import { selectAuth } from "@/store/slice/auth";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
@@ -13,6 +15,8 @@ import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
 const App = () => {
+  const { user } = useSelector(selectAuth);
+  console.log("user", user);
   const searchFields = {
     id__in: { type: "string", label: "ID" },
     name__k: { type: "string", label: "名称" },
@@ -133,6 +137,19 @@ const App = () => {
       sorter: true,
     },
     {
+      title: "上級代理ID",
+      dataIndex: "upper_layer_id",
+      render: val => (val && val !== user.id ? `${val}` : ``),
+      sorter: true,
+    },
+    {
+      title: "上級代理姓名",
+      dataIndex: "upper_layer_name",
+      render: (val, record) =>
+        val && record.upper_layer_id !== user.id ? `${val}` : ``,
+      sorter: true,
+    },
+    {
       title: "回调网址",
       dataIndex: "callback_url",
       editable: true,
@@ -220,6 +237,7 @@ const App = () => {
     "id",
     "name",
     "name_cn",
+    "upper_layer_name",
     "status",
     "is_active",
     "action",
