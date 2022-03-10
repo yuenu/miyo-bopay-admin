@@ -20,6 +20,7 @@ export const getAgent = createAsyncThunk("agent/getDetail", async id => {
   });
   return res;
 });
+
 export const addAgent = async params => {
   const res = await request({
     url: `/api/agents`,
@@ -37,12 +38,33 @@ export const editAgent = async params => {
   return res;
 };
 
+// 預設代理處理
+export const getConfigAgent = createAsyncThunk(
+  "agent/getConfigAgent",
+  async () => {
+    const res = await request({
+      url: `/api/config/agent`,
+      method: "get",
+    });
+    return res;
+  },
+);
+export const configAgent = async params => {
+  const res = await request({
+    url: `/api/config/agent`,
+    method: "post",
+    data: params,
+  });
+  return res;
+};
+
 export const slice = createSlice({
   name: "agent",
   initialState: {
     list: [],
     meta: {},
     currentRow: {},
+    configAgentData: {},
   },
   reducers: {
     setAgents: (state, action) => {
@@ -60,6 +82,11 @@ export const slice = createSlice({
       const { status, data } = action.payload;
       if (status !== 200) return;
       state.currentRow = data;
+    },
+    [getConfigAgent.fulfilled]: (state, action) => {
+      const { status, data } = action.payload;
+      if (status !== 200) return;
+      state.configAgentData = data;
     },
   },
 });

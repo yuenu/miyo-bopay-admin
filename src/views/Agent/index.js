@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Button, Space, Switch } from "antd";
 import {
   selectAgent,
@@ -6,6 +7,7 @@ import {
   getAgent,
   addAgent,
   editAgent,
+  getConfigAgent,
 } from "@/store/slice/agent";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
@@ -44,8 +46,11 @@ const Agent = () => {
     setLoading: setListLoading,
   } = useList(getAgents, selectAgent);
 
+  const dispatch = useDispatch();
+  const { configAgentData } = useSelector(selectAgent);
   const [addVisible, setAddVisible] = useState(false);
-  const handleAddClick = () => {
+  const handleAddClick = async () => {
+    await dispatch(getConfigAgent());
     setAddVisible(true);
   };
   const handleAdd = async formModel => {
@@ -228,6 +233,7 @@ const Agent = () => {
         onOk={handleAdd}
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
+        initData={{ upper_layer_id: configAgentData.user_id }}
         mode="add"
       />
       <JsonModal

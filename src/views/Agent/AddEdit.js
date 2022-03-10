@@ -6,7 +6,15 @@ import SearchSelect from "@/components/SearchSelect";
 import Spin from "@/components/Spin";
 import { useSelector } from "react-redux";
 
-const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
+const AddEdit = ({
+  visible,
+  mode,
+  initData = {},
+  data,
+  onOk,
+  onCancel,
+  loading,
+}) => {
   const { list: users } = useSelector(selectUser);
   const [form] = Form.useForm();
   const handleOk = async () => {
@@ -20,7 +28,10 @@ const AddEdit = ({ visible, mode, data, onOk, onCancel, loading }) => {
     });
   };
   useEffect(() => {
-    visible && mode === "edit" && form.setFieldsValue(data);
+    if (visible) {
+      mode === "add" && form.setFieldsValue(initData);
+      mode === "edit" && form.setFieldsValue(data);
+    }
   });
 
   return (

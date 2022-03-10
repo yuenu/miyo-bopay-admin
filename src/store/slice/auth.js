@@ -21,7 +21,7 @@ export const getOptStatus = createAsyncThunk("auth/optStatus", async () => {
   if (status !== 200) return;
   return data;
 });
-export const editOpt = async params => {
+export const configOpt = async params => {
   const res = await request({
     url: `/api/config/opt`,
     method: "post",
