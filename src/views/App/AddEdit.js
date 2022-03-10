@@ -65,20 +65,22 @@ const AddEdit = props => {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name="developer_id"
-            label="开发者ID"
-            rules={[{ required: true, message: "请输入开发者ID" }]}
-          >
-            <SearchSelect
-              action={getUsers}
-              params={{ is_developer: 1 }}
-              selector={selectUser}
-              searchKey="name"
-              val="id"
-              label={i => `${i.id} ${i.name}`}
-            />
-          </Form.Item>
+          {props.mode === "add" && (
+            <Form.Item
+              name="developer_id"
+              label="开发者ID"
+              rules={[{ required: true, message: "请输入开发者ID" }]}
+            >
+              <SearchSelect
+                action={getUsers}
+                params={{ is_developer: 1 }}
+                selector={selectUser}
+                searchKey="name"
+                val="id"
+                label={i => `${i.id} ${i.name}`}
+              />
+            </Form.Item>
+          )}
           <Form.Item
             name="callback_url"
             label="回调网址"
