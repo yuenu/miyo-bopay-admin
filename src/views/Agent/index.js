@@ -6,17 +6,87 @@ import {
   getAgent,
   addAgent,
   editAgent,
+  selectUpperLayerAgentList,
+  getUpperLayerAgentList,
 } from "@/store/slice/agent";
 import { PlusOutlined } from "@ant-design/icons";
 import { useList, useDetail } from "@/utils/hook";
 import { SearchFormFactory } from "@/components/factory/FormFactory";
 import { EditableTable } from "@/components/factory/TableFactory";
+import NormalTableModal from "@/components/NormalTableModal";
 import Tag from "@/components/Tag";
 import AddEdit from "./AddEdit";
 import Detail from "@/components/Detail";
 import { IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
+
+const UpperLayerAgentListModal = (props) => {
+  const defaultColumns = [
+    "id",
+    "user_id",
+    "username",
+    "name",
+    "is_active",
+    "action",
+  ];
+  const columns = [
+    { title: "ID", dataIndex: "id", sorter: true },
+    {
+      title: "用户ID",
+      dataIndex: "user_id",
+      sorter: true,
+    },
+    {
+      title: "用户名",
+      dataIndex: "username",
+      sorter: true,
+    },
+    {
+      title: "姓名",
+      dataIndex: "name",
+      editable: true,
+      inputType: "string",
+      sorter: true,
+    },
+    {
+      title: "代收费率",
+      dataIndex: "recharge_rate",
+      inputType: "string",
+      sorter: true,
+    },
+    {
+      title: "代付费率",
+      dataIndex: "withdraw_rate",
+      inputType: "string",
+      sorter: true,
+    },
+    {
+      title: "创建日期",
+      dataIndex: "created",
+      render: val => dateFormat(val),
+      sorter: true,
+      className: "text-nowrap",
+    },
+    {
+      title: "更新日期",
+      dataIndex: "updated",
+      render: val => dateFormat(val),
+      sorter: true,
+      className: "text-nowrap",
+    },
+    { title: "备注", dataIndex: "note" },
+  ];
+  return (<NormalTableModal
+    title="上级代理"
+    width={1200}
+    columns={columns}
+    defaultColumns={defaultColumns}
+    asyncThunk={getUpperLayerAgentList}
+    selector={selectUpperLayerAgentList}
+    {...props}
+  />)
+}
 
 const Agent = () => {
   const searchFields = {
@@ -51,6 +121,13 @@ const Agent = () => {
   const handleAdd = async formModel => {
     handleAddHook({ action: addAgent, ...formModel });
     setAddVisible(false);
+  };
+
+  const [upperLayerId, setUpperLayerId] = useState(null);
+  const [upperLayerAgentListVisible, setUpperLayerAgentListVisible] = useState(false)
+  const handleUpperLayerAgentListClick = async id => {
+    setUpperLayerId(id);
+    setUpperLayerAgentListVisible(true);
   };
 
   const [detailId, setDetailId] = useState(null);
@@ -164,6 +241,24 @@ const Agent = () => {
       ),
     },
     {
+      title: "查看上级代理",
+      dataIndex: "action-look-up-upper-layer-list",
+      align: "center",
+      fixed: "right",
+      render: (_, record) => (
+        <Space>
+          <Button
+            size="small"
+            onClick={() => handleUpperLayerAgentListClick(record.id)}
+            type="link"
+            className="p-0"
+          >
+            查看
+          </Button>
+        </Space>
+      ),
+    },
+    {
       title: "动作",
       dataIndex: "action",
       align: "center",
@@ -203,6 +298,7 @@ const Agent = () => {
     "user_id",
     "username",
     "name",
+    "action-look-up-upper-layer-list",
     "is_active",
     "action",
   ];
@@ -229,6 +325,11 @@ const Agent = () => {
         onCancel={() => setAddVisible(false)}
         loading={listLoading}
         mode="add"
+      /> 
+      <UpperLayerAgentListModal
+        visible={upperLayerAgentListVisible}
+        onCancel={() => setUpperLayerAgentListVisible(false)}
+        params={{ id: upperLayerId }}
       />
       <JsonModal
         visible={jsonVisible}
