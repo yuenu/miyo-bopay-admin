@@ -27,8 +27,8 @@ node('web-builder') {
 def pipeline() {
     def images = [:]
     def GIT_CRED = "bitbucket_robot"
-    def registry = env.DOCKER_REGISTRY
-    def registryCred = env.DOCKER_REGISTRY_CREDS
+    def REGISTRY_URL = "https://spinach.azurecr.io"
+    def REGISTRY_CRED = "acr-poweruser"
     def tag = "1.0.${env.BUILD_NUMBER}-pre"
 
     stage('checkout') {
@@ -59,7 +59,7 @@ def pipeline() {
     }
 
     stage('pull spinach/web/server') {
-        docker.withRegistry(registry, registryCred) {
+        docker.withRegistry(REGISTRY_URL, REGISTRY_CRED) {
             image = docker.image('spinach.azurecr.io/spinach/web/server:latest')
             image.pull()
         }
@@ -70,7 +70,7 @@ def pipeline() {
     }
 
     stage('push bopay-admin image') {
-        docker.withRegistry(registry, registryCred) {
+        docker.withRegistry(REGISTRY_URL, REGISTRY_CRED) {
             for (name in images.keySet()) {
                 images[name].push(tag)
             }
