@@ -27,6 +27,7 @@ const AddEdit = ({
       form.resetFields();
     });
   };
+
   useEffect(() => {
     if (visible) {
       mode === "add" && form.setFieldsValue(initData);
