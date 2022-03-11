@@ -23,7 +23,7 @@ import { IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
-const UpperLayerAgentListModal = (props) => {
+const UpperLayerAgentListModal = props => {
   const defaultColumns = [
     "id",
     "user_id",
@@ -79,16 +79,18 @@ const UpperLayerAgentListModal = (props) => {
     },
     { title: "备注", dataIndex: "note" },
   ];
-  return (<NormalTableModal
-    title="上级代理"
-    width={1200}
-    columns={columns}
-    defaultColumns={defaultColumns}
-    asyncThunk={getUpperLayerAgentList}
-    selector={selectUpperLayerAgentList}
-    {...props}
-  />)
-}
+  return (
+    <NormalTableModal
+      title="上级代理"
+      width={1200}
+      columns={columns}
+      defaultColumns={defaultColumns}
+      asyncThunk={getUpperLayerAgentList}
+      selector={selectUpperLayerAgentList}
+      {...props}
+    />
+  );
+};
 
 const Agent = () => {
   const searchFields = {
@@ -129,7 +131,8 @@ const Agent = () => {
   };
 
   const [upperLayerId, setUpperLayerId] = useState(null);
-  const [upperLayerAgentListVisible, setUpperLayerAgentListVisible] = useState(false)
+  const [upperLayerAgentListVisible, setUpperLayerAgentListVisible] =
+    useState(false);
   const handleUpperLayerAgentListClick = async id => {
     setUpperLayerId(id);
     setUpperLayerAgentListVisible(true);
@@ -248,8 +251,6 @@ const Agent = () => {
     {
       title: "查看上级代理",
       dataIndex: "action-look-up-upper-layer-list",
-      align: "center",
-      fixed: "right",
       render: (_, record) => (
         <Space>
           <Button
@@ -331,7 +332,7 @@ const Agent = () => {
         loading={listLoading}
         initData={{ upper_layer_id: configAgentData.user_id }}
         mode="add"
-      /> 
+      />
       <UpperLayerAgentListModal
         visible={upperLayerAgentListVisible}
         onCancel={() => setUpperLayerAgentListVisible(false)}
