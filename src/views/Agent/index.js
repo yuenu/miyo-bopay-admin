@@ -251,6 +251,7 @@ const Agent = () => {
     {
       title: "查看上级代理",
       dataIndex: "action-look-up-upper-layer-list",
+      align: "center",
       render: (_, record) => (
         <Space>
           <Button
