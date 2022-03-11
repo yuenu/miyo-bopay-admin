@@ -3,33 +3,32 @@ import { NormalTable } from "@/components/factory/TableFactory";
 import { useList } from "@/utils/hook";
 
 const Table = ({
-  columns,
-  defaultColumns,
   asyncThunk,
   selector,
-  params = {},
+  originParams = {},
+  ...normalTableConfig
 }) => {
   const {
-    res: { list },
+    res: { list, meta },
     loading,
-  } = useList(asyncThunk, selector, params);
+  } = useList(asyncThunk, selector, originParams);
 
   return (
     <NormalTable
-      allColumns={columns}
-      defaultColumns={defaultColumns}
-      dataSource={list}
       loading={loading}
+      dataSource={list}
+      meta={meta}
+      {...normalTableConfig}
     />
-  )
-}
+  );
+};
 
 const NormalTableModal = ({
-  visible,
-  title,
-  width = 700,
-  onCancel,
-  ...rest
+  modalVisible: visible = false,
+  modalTitle: title = "default title",
+  modalVidth: width = 700,
+  onModalCancel: onCancel = () => {},
+  tableConfig = {},
 }) => {
   return (
     <Modal
@@ -40,9 +39,9 @@ const NormalTableModal = ({
       footer={false}
       destroyOnClose={true}
     >
-      {visible ? <Table {...rest} /> : null}
+      {visible ? <Table {...tableConfig} /> : null}
     </Modal>
-  )
-}
+  );
+};
 
 export default NormalTableModal;

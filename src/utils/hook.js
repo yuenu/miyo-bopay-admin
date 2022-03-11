@@ -8,8 +8,8 @@ export const useList = (action, selector, originParams = {}) => {
   const states = useSelector(selector);
   const [searchParams, setSearchParams] = useState(null);
   const [sortParams, setSortParams] = useState(null);
-  const [pageSize, setPageSize] = useState(states.meta.pageSize);
-  const [current, setCurrent] = useState(states.meta.current);
+  const [pageSize, setPageSize] = useState(states.meta?.pageSize);
+  const [current, setCurrent] = useState(states.meta?.current);
   const [loading, setLoading] = useState(false);
   const handleGetList = useCallback(
     async (params = {}) => {

@@ -23,16 +23,12 @@ import { IsBoolEnum } from "@/utils/enum";
 import { dateFormat } from "@/utils/format";
 import JsonModal from "@/components/JsonModal";
 
-const UpperLayerAgentListModal = props => {
-  const defaultColumns = [
-    "id",
-    "user_id",
-    "username",
-    "name",
-    "is_active",
-    "action",
-  ];
-  const columns = [
+const UpperLayerAgentListModal = ({
+  modalVisible = false,
+  onModalCancel = () => {},
+  originParams = {},
+}) => {
+  const allColumns = [
     { title: "ID", dataIndex: "id", sorter: true },
     {
       title: "用户ID",
@@ -79,15 +75,27 @@ const UpperLayerAgentListModal = props => {
     },
     { title: "备注", dataIndex: "note" },
   ];
+  const defaultColumns = [
+    "id",
+    "user_id",
+    "username",
+    "name",
+    "is_active",
+    "action",
+  ];
   return (
     <NormalTableModal
-      title="上级代理"
-      width={1200}
-      columns={columns}
-      defaultColumns={defaultColumns}
-      asyncThunk={getUpperLayerAgentList}
-      selector={selectUpperLayerAgentList}
-      {...props}
+      modalVisible={modalVisible}
+      modalTitle="上级代理"
+      modalWidth={1200}
+      onModalCancel={onModalCancel}
+      tableConfig={{
+        allColumns,
+        defaultColumns,
+        asyncThunk: getUpperLayerAgentList,
+        selector: selectUpperLayerAgentList,
+        originParams,
+      }}
     />
   );
 };
@@ -335,9 +343,9 @@ const Agent = () => {
         mode="add"
       />
       <UpperLayerAgentListModal
-        visible={upperLayerAgentListVisible}
-        onCancel={() => setUpperLayerAgentListVisible(false)}
-        params={{ id: upperLayerId }}
+        modalVisible={upperLayerAgentListVisible}
+        onModalCancel={() => setUpperLayerAgentListVisible(false)}
+        originParams={{ id: upperLayerId }}
       />
       <JsonModal
         visible={jsonVisible}
