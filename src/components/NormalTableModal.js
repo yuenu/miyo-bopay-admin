@@ -11,6 +11,8 @@ const Table = ({
   const {
     res: { list, meta },
     loading,
+    handleChangePage,
+    handleChange,
   } = useList(asyncThunk, selector, originParams);
 
   return (
@@ -18,6 +20,9 @@ const Table = ({
       loading={loading}
       dataSource={list}
       meta={meta}
+      onChangePage={handleChangePage}
+      onChange={handleChange}
+      onShowSizeChange={handleChangePage}
       {...normalTableConfig}
     />
   );
